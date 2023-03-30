@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
         height: 55,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent:'space-between',
         position: 'absolute',
         zIndex: 999,
         bottom: 10,
@@ -45,9 +46,12 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     botao: {
-        marginHorizontal: 8,
+        margin: 5,
+        height:45,
+        width:45,
+        alignItems:'center',
+        justifyContent:'center',
         zIndex: 9,
-        padding: 8,
         borderRadius: 26,
         elevation:5
     },

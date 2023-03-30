@@ -30,7 +30,7 @@ export default function Loja() {
                 activeOpacity={.9}
                 onPress={() => navigation.navigate("Mapa", infoLoja)}>
 
-                    <Icon name='google-maps' size={30} color={colors.background} />
+                    <Icon name='google-maps' size={30} color={'#fff'} />
                 </TouchableOpacity>
 
         })

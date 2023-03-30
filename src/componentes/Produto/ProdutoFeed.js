@@ -102,6 +102,7 @@ export default function ProdutoFeed({ item }) {
 const styles = StyleSheet.create({
   containerproduct: {
     flex: 1,
+    padding:2,
     backgroundColor: "#fff",
     elevation: 1,
     borderRadius: 6,
@@ -131,8 +132,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   real: {
-    color: '#222',
-    fontSize: 20,
+    color: '#000',
+    fontSize: 18,
     marginTop: -2,
     fontFamily: "Roboto-Bold",
   },
@@ -143,10 +144,13 @@ const styles = StyleSheet.create({
   },
   nome: {
     color: '#000',
+    fontFamily: 'Roboto-Light',
   },
   nomeloja: {
+    marginTop:5,
     fontSize: 13,
-    fontFamily: 'Roboto-Regular'
+    fontFamily: 'Roboto-Light',
+    color:'#000'
   }
 
 });

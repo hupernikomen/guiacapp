@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
             setConectado(state.isConnected)
         });
         unsubscribe();
+
     })
 
     return (

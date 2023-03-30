@@ -5,7 +5,7 @@ import Rotas from './src/rotas';
 import { StatusBar } from 'react-native';
 
 
-import { AuthProvider } from './src/context/relacao';
+import { AuthProvider } from './src/context';
 const MyTheme = {
   dark: false,
   colors: {
@@ -13,7 +13,6 @@ const MyTheme = {
     vartema: '#c83c32',
     secundario: '#3c3c3d',
     destaque: '#e6b800',
-    background: '#f5f2ee',
   },
   font: {
     gfp: "Roboto-Regular"

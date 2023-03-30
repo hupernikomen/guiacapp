@@ -1,33 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Dimensions, ActivityIndicator, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
+import { View, FlatList, ActivityIndicator, RefreshControl, Text, TextInput, TouchableOpacity } from 'react-native';
 
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
+
 import ProdutoFeed from '../../componentes/Produto/ProdutoFeed';
-import api from '../../servicos/api';
-export default function Search() {
-  const route =useRoute()
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-  console.log(route.params);
+import api from '../../servicos/api';
+
+export default function Search() {
 
   const navigation = useNavigation()
 
+  const [listaProdutos, setListaProdutos] = useState([])
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(false)
-  const [busca, setBusca] = useState(route.params)
+  const [busca, setBusca] = useState('')
 
-  const [titulo, setTitulo] = useState("")
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
-      title: titulo,
-      headerTitleStyle: {
-        fontSize: 20
-      }
+      headerSearchBarOptions: {
+        onChangeText: (event) => {
+          setBusca(event.nativeEvent.text)
+
+        },
+        headerIconColor: '#fff',
+        textColor:'#fff',
+        autoFocus: true,
+
+      },
     })
 
-    BuscaProdutos()
-
-  }, [titulo])
+    CarregaProdutos()
+  }, [navigation])
 
 
   if (carregando) {
@@ -38,71 +43,77 @@ export default function Search() {
     )
   }
 
-  async function BuscaProdutos() {
+  useEffect(() => {
+    const listafiltrada = busca != "" && listaProdutos.filter((item) => {
 
-    if (busca == "") return
+      const produtos = item.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const descricao = item.descricao.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const pesquisa = busca.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
-    setCarregando(true)
+      if (produtos.indexOf(pesquisa) > -1) {
+        return produtos.indexOf(pesquisa) > -1
 
-    await api.get('/produtos')
-      .then((response) => {
+      } else {
+        return descricao.indexOf(pesquisa) > -1
 
-        const listafiltrada = response.data.filter((item) => {
+      }
 
-          const produtos = item.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-          const descricao = item.descricao.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-          const pesquisa = busca.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    });
 
-          if (produtos.indexOf(pesquisa) > -1) {
-            return produtos.indexOf(pesquisa) > -1
 
-          } else {
-            return descricao.indexOf(pesquisa) > -1
+    setProdutos(listafiltrada)
+    setCarregando(false)
+  }, [busca])
 
-          }
+  async function CarregaProdutos() {
+    const response = await api.get('/produtos')
+    setListaProdutos(response.data)
 
-        });
-
-        setProdutos(listafiltrada)
-        setTitulo(`Encontramos ${listafiltrada.length} produto${listafiltrada.length > 1 ? "s" : ""}...`)
-        setCarregando(false)
-      })
   }
 
-  function Vazio() {
-    const { heigth } = Dimensions.get('window')
-    return (
-      <View
-        style={{
-          height: heigth,
-          alignItems: "center",
-          justifyContent: "center",
-          margin: 20
-        }}
-      >
 
-        <Text style={{ fontSize: 18, textAlign: "center", color: "#222" }}>Infelizmente não encontramos nenhum item com esse nome...</Text>
-      </View>
-    )
-  }
+  // async function BuscaProdutos() {
+
+  //   setCarregando(true)
+
+  //   try {
+
+  //     const listafiltrada = listaProdutos.filter((item) => {
+
+  //       const produtos = item.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  //       const descricao = item.descricao.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  //       const pesquisa = busca.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+  //       if (produtos.indexOf(pesquisa) > -1) {
+  //         return produtos.indexOf(pesquisa) > -1
+
+  //       } else {
+  //         return descricao.indexOf(pesquisa) > -1
+
+  //       }
+
+  //     });
+
+  //     setProdutos(listafiltrada)
+  //     setTitulo(`Encontramos ${listafiltrada.length} produto${listafiltrada.length > 1 ? "s" : ""}...`)
+  //     setCarregando(false)
+
+  //   } catch (error) {
+
+  //   }
+
+
+  // }
+
+
 
   return (
-    <>
-
-      <TextInput onChangeText={setBusca} value={busca} placeholder='Oque vocêprocura?' />
-      <TouchableOpacity
-        onPress={BuscaProdutos}>
-        <Text>Pesquisar</Text>
-      </TouchableOpacity>
-      
-        <FlatList
-        ListEmptyComponent={Vazio}
-        showsVerticalScrollIndicator={false}
-        data={produtos}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => <ProdutoFeed item={item} />}
-        numColumns={2}
-        />
-    </>
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      columnWrapperStyle={{ margin: 4 }}
+      data={produtos}
+      renderItem={({ item }) => <ProdutoFeed item={item} />}
+      numColumns={2}
+    />
   );
 }

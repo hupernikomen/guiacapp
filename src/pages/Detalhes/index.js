@@ -67,43 +67,55 @@ export default function Detalhes() {
     return valueFormattedWithSymbol
   }
 
-  
+
 
   return (
     <ScrollView style={styles.tela}>
 
-
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        data={produto.imagens}
-        snapToInterval={width}
-        horizontal
-        renderItem={({ item, index }) =>
-          <View
-            style={{
-              width: width,
-              overflow: "hidden",
-            }}
-          >
-            <PinchGestureHandler
-              onGestureEvent={pinaEscala}
-              onHandlerStateChange={PinchChange}
+      <>
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            zIndex: 9999,
+            padding: 5,
+            margin: 5,
+          }}
+          onPress={() => navigation.goBack()}>
+          <Material name='arrow-left-circle' size={40} color={colors.tema} />
+        </TouchableOpacity>
+        
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          data={produto.imagens}
+          snapToInterval={width}
+          horizontal
+          renderItem={({ item, index }) =>
+            <View
+              style={{
+                width: width,
+                overflow: "hidden",
+              }}
             >
-              <Animated.Image
-                style={{
-                  width: width,
-                  height: width,
-                  transform: [
-                    { scale: escala }
-                  ]
-                }}
-                source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.filename}` }}
-              />
-            </PinchGestureHandler>
+              <PinchGestureHandler
+                onGestureEvent={pinaEscala}
+                onHandlerStateChange={PinchChange}
+              >
+                <Animated.Image
+                  style={{
+                    width: width,
+                    height: width,
+                    transform: [
+                      { scale: escala }
+                    ]
+                  }}
+                  source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.filename}` }}
+                />
+              </PinchGestureHandler>
 
-          </View>
-        } />
+            </View>
+          } />
 
+      </>
 
       <View style={styles.container}>
 
@@ -113,13 +125,15 @@ export default function Detalhes() {
           onPress={() =>
             navigation.navigate('Loja', loja)}>
 
-          <Text style={[styles.secao, {
-            color: colors.tema, position: 'absolute', backgroundColor: colors.tema, color: '#fff', paddingVertical: 5,
-            paddingHorizontal: 20, borderRadius: 20
-          }]}>{loja.nome}</Text>
+          <Text style={styles.nomeloja}>{loja.nome}</Text>
         </TouchableOpacity>
 
-        <Text style={[styles.nomeproduto, { fontFamily: font.gfp }]}>{produto.nome}</Text>
+        <Text style={styles.nomeproduto}>{produto.nome}</Text>
+
+
+        <Text style={styles.descricao}>
+          {produto.descricao}
+        </Text>
 
         {!!produto.oferta ?
           <Text style={[styles.preco, { fontFamily: font.gfp }]}>{Preco(produto.oferta)}
@@ -142,15 +156,12 @@ export default function Detalhes() {
           </View>
         }
 
-        <Text style={[styles.descricao, styles.secao]}>
-          {produto.descricao}
-        </Text>
 
         <View style={styles.secao}>
-          <Text style={{ color: "#aaa" }}>postagem: {converteData(produto.createdAt)}</Text>
+          <Text style={styles.tempo}>postagem: {converteData(produto.createdAt)}</Text>
 
           {converteData(produto.createdAt) != converteData(produto.updatedAt) &&
-            <Text style={{ color: "#aaa" }}>última atualização: {converteData(produto.updatedAt)}</Text>
+            <Text style={styles.tempo}>última atualização: {converteData(produto.updatedAt)}</Text>
           }
         </View>
       </View>
@@ -168,12 +179,15 @@ const styles = StyleSheet.create({
   },
   nomeproduto: {
     fontSize: 24,
+    fontFamily: 'Roboto-Bold',
     color: '#000',
+    marginTop: 20
   },
   preco: {
     color: '#000',
-    fontSize: 26,
-    fontFamily: 'Roboto-Bold'
+    fontSize: 24,
+    fontFamily: 'Roboto-Bold',
+    marginTop: 20
 
   },
   precoantigo: {
@@ -181,11 +195,20 @@ const styles = StyleSheet.create({
     textDecorationLine: 'line-through'
   },
   descricao: {
-    color: "#222",
-    fontSize: 16
+    color: "#000",
+    fontSize: 16,
+    fontFamily: 'Roboto-Light'
   },
-  btnloja: {
-    height: 50
+  nomeloja: {
+    color: "#000",
+    fontSize: 16,
+    fontFamily: 'Roboto-Light'
   },
+  tempo: {
+    color: "#000",
+    fontSize: 16,
+    fontFamily: 'Roboto-Light',
+    marginTop: 20
+  }
 
 })

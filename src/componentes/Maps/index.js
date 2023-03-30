@@ -6,7 +6,7 @@ export default function Maps({carrega,width,height,region,marker}) {
         <MapView
             onMapReady={carrega} // função chamada quando todo omapa esta carregado
             maxZoomLevel={19}
-            minZoomLevel={13}
+            minZoomLevel={11}
             style={{ width, height }}
             region={region}>
             {marker &&

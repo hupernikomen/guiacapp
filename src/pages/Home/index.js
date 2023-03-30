@@ -1,23 +1,19 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { FlatList, View, TextInput, RefreshControl, } from 'react-native';
+import { FlatList, Text, TouchableOpacity, RefreshControl } from 'react-native';
 
-
+import InputSearch from '../../componentes/InputSearch';
 import Produto from '../../componentes/Produto/ProdutoFeed';
 import SldCat from '../../componentes/SldCat';
+
 
 import api from '../../servicos/api';
 
 import Tabbar from '../../componentes/Tabbar';
 
-import { useNavigation, useTheme, useIsFocused } from '@react-navigation/native';
 import Load from '../../componentes/Load';
 
 
 export default function Home() {
-  const { colors } = useTheme()
-  const focus = useIsFocused()
-  const navigation = useNavigation()
-
 
   const [carregando, setCarregando] = useState(false)
   const [produtos, setProdutos] = useState([])
@@ -25,7 +21,7 @@ export default function Home() {
   useEffect(() => {
     CarregaProdutos()
 
-  }, [navigation])
+  }, [])
 
 
   const onRefresh = () => {
@@ -43,10 +39,7 @@ export default function Home() {
       setCarregando(false)
 
     } catch (error) {
-      if (error == "AxiosError: Network Error") {
-        navigation.navigate('ErroConexao')
-        setCarregando(false)
-      }
+      console.log(error);
 
     }
 
@@ -72,7 +65,9 @@ export default function Home() {
       <FlatList
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{ margin: 4 }}
-        ListHeaderComponent={<SldCat />}
+        ListHeaderComponent={
+          <SldCat />
+        }
         data={produtos}
         renderItem={({ item }) => <Produto item={item} />}
         numColumns={2}

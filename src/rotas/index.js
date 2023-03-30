@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TouchableOpacity } from 'react-native'
 
 import Home from '../pages/Home';
 import Detalhes from '../pages/Detalhes';
@@ -11,14 +12,24 @@ import Search from '../pages/Search';
 import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
 
-import Tabbar from '../componentes/Tabbar';
+import { AuthContext } from '../context';
 
-import { useTheme } from '@react-navigation/native';
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+
+import { useTheme, useNavigation } from '@react-navigation/native';
 const Stack = createNativeStackNavigator()
 
 export default function RotasStack() {
 
+  const { conectado } = useContext(AuthContext)
+  const navigation = useNavigation()
   const { colors, font } = useTheme()
+
+  useEffect(() => {
+
+    !conectado ? navigation.navigate("ErroConexao") : navigation.navigate("Home")
+
+  }, [])
 
 
   return (
@@ -29,18 +40,25 @@ export default function RotasStack() {
         headerStyle: {
           backgroundColor: colors.tema,
         },
-        headerTitleStyle: {
-          fontFamily: font.gfp,
-        },
-        headerTintColor: colors.background
+        headerTintColor: "#fff"
 
       }}>
-        
+
 
       <Stack.Screen
         options={{
-          headerShown: false,
-          title: ""
+          title: "Guia Comercial",
+          headerRight: () => {
+            return (
+              <TouchableOpacity
+                style={{
+                  padding: 4
+                }}
+                onPress={() => navigation.navigate("Search")}>
+                <Material name='magnify' size={24} color='#fff' />
+              </TouchableOpacity>
+            )
+          }
         }}
         name='Home'
         component={Home}
@@ -51,7 +69,7 @@ export default function RotasStack() {
         name='Detalhes'
         component={Detalhes}
         options={{
-
+          headerShown: false,
           title: "",
         }} />
 
@@ -82,7 +100,7 @@ export default function RotasStack() {
         }} />
       <Stack.Screen
         options={{
-          title: ""
+          title: "O que você procura?",
         }}
         name='Search'
         component={Search} />
@@ -94,7 +112,7 @@ export default function RotasStack() {
         name='Anuncie'
         component={Anuncie} />
 
-        
+
       <Stack.Screen
         options={{
           headerShown: false,

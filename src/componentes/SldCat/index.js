@@ -4,7 +4,6 @@ import { View, TouchableOpacity, Text, FlatList, TextInput } from 'react-native'
 import { useNavigation, useTheme } from '@react-navigation/native';
 
 import api from '../../servicos/api';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function SldCat() {
 
@@ -12,8 +11,6 @@ export default function SldCat() {
     const { colors } = useTheme()
 
     const [categorias, setCategorias] = useState([])
-
-    const [busca, setBusca] = useState('')
 
     useEffect(() => {
         ListaCategorias()
@@ -46,14 +43,15 @@ export default function SldCat() {
                 onPress={() => navigation.navigate("Categorias", item)}
                 activeOpacity={.9}
                 style={{
-                    height: 55,
+                    height: 50,
                     justifyContent: 'center',
                     paddingHorizontal: 10,
                 }}>
                 <Text style={{
-                    fontSize: 16,
-                    fontFamily: 'Roboto-Regular',
-                    color: '#fff'
+                    fontSize: 14,
+                    fontFamily: 'Roboto-Light',
+                    color: '#fff',
+                    opacity:.95
                 }}>
                     {item.nome}
                 </Text>
@@ -61,67 +59,17 @@ export default function SldCat() {
         )
     }
 
-    function BuscarItem() {
-            navigation.navigate("Search", busca)
-        }
 
-        return (
-            <>
-                <FlatList
-                    style={{ backgroundColor: colors.tema, elevation: 5, marginBottom: 6 }}
-                    ListHeaderComponent={
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate("Search")}
-                            style={{
-                                backgroundColor: colors.tema,
-                                zIndex: 999,
-                                height: 55,
-                                width: 55,
-                                alignItems: "center",
-                                justifyContent: 'center',
-                            }}>
-                            <Icon name='magnify' size={26} color='#fff' />
-                        </TouchableOpacity>
-                    }
-                    ListFooterComponent={<TextInput />}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={categorias}
-                    renderItem={({ item }) => <RenderItem item={item} />}
 
-                />
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        position: 'relative',
-                        marginBottom: 5
-                    }}>
+    return (
+        <FlatList
+            contentContainerStyle={{ paddingHorizontal: 10 }}
+            style={{ backgroundColor: colors.tema }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={categorias}
+            renderItem={({ item }) => <RenderItem item={item} />}
 
-                    <TextInput
-                        value={busca}
-                        onChangeText={setBusca}
-                        style={{
-                            flex: 1,
-                            marginHorizontal: 16,
-                            marginVertical: 5,
-                            paddingHorizontal: 20,
-                            borderRadius: 45 / 2,
-                            height: 45,
-                            elevation: 1,
-                            backgroundColor: "#fff"
-                        }}
-                        placeholder='O que você procura?' />
-                    <TouchableOpacity
-                        onPress={BuscarItem}
-                        style={{
-                            position: 'absolute',
-                            right: 20,
-                            padding: 10,
-                        }}>
-                        <Icon name='magnify' size={26} color='#222'/>
-                    </TouchableOpacity>
-                </View>
-            </>
-        )
-    }
+        />
+    )
+}

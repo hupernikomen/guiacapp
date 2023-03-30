@@ -101,57 +101,55 @@ const width = Dimensions.get('window').width
 const styles = StyleSheet.create({
   containerproduct: {
     flex: 1,
+    padding:2,
     backgroundColor: "#fff",
-    borderRadius: 1,
-    overflow: 'hidden',
+    elevation: 1,
+    borderRadius: 6,
     marginHorizontal: 4,
     maxWidth: (width / 2) - 12,
-    padding: 2
   },
   containerInfo: {
-    paddingHorizontal: 6,
-    paddingTop: 2,
-    paddingBottom: 10,
+    paddingHorizontal: 10,
+    paddingTop: 5,
+    paddingBottom: 15,
   },
   containerImagem: {
     aspectRatio: 1,
   },
-  etiquetas: {
-    position: 'relative',
-  },
   entrega: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    padding: 4,
     borderTopLeftRadius: 4,
-    backgroundColor: "#ffffff"
   },
   imageproduct: {
-    aspectRatio: 1,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
+    aspectRatio: 1,
+  },
+  container_preco: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: "space-between"
   },
   real: {
-    color: '#222',
-    fontSize: 20,
-    marginLeft: 3,
-    fontFamily: "Roboto-Medium",
+    color: '#000',
+    fontSize: 18,
+    marginTop: -2,
+    fontFamily: "Roboto-Bold",
   },
   priceoff: {
     padding: 3,
     color: '#fff',
-    fontSize: 12,
-
+    fontSize: 12
   },
   nome: {
     color: '#000',
-    fontFamily: 'Raleway-Regular',
-    fontSize: 13
+    fontFamily: 'Roboto-Light',
   },
   nomeloja: {
+    marginTop:5,
     fontSize: 13,
-    fontFamily: 'Raleway-Regular'
+    fontFamily: 'Roboto-Light',
+    color:'#000'
   }
 
 });

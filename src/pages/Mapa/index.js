@@ -39,25 +39,27 @@ export default function Mapa() {
                 style={{
                     position: 'absolute',
                     zIndex: 99,
-                    alignSelf:'center',
-                    top:10,
+                    alignSelf: 'center',
+                    top: 10,
                     width: width - 40,
                     borderRadius: 10,
-                    padding: 20,
+                    paddingHorizontal: 20,
+                    paddingVertical:10,
                     elevation: 3,
                     backgroundColor: '#ffffff',
-                    opacity:.9
+                    opacity: .9
                 }}>
                 <Text
-                style={{color:'#000'}}>
+                    style={{ color: '#000' }}>
                     {route.params?.endereco}
                 </Text>
                 <Text
-                style={{color:'#000'}}>
+                    style={{ color: '#000' }}>
                     {route.params?.bairro}
                 </Text>
+                
                 <Text
-                style={{color:'#000'}}>
+                    style={{ color: '#000' }}>
                     {route.params?.referencia}
                 </Text>
             </View>
