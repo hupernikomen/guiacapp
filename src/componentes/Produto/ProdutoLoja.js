@@ -30,11 +30,15 @@ export default function ProdutoLoja({ item }) {
 
 
   async function BuscaLoja() {
-    await api.get(`/usuario?usuarioID=${item.usuarioID}`)
-      .then((response) => {
-        setLoja(response.data);
-      })
+    try {
+      const response = await api.get(`/usuario?usuarioID=${item.usuarioID}`)
+      setLoja(response.data);
+      
+    } catch (error) {
+      
+    }
   }
+
 
   function Preco(preco) {
     if (!preco) return

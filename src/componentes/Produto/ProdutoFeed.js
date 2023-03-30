@@ -31,10 +31,13 @@ export default function ProdutoFeed({ item }) {
   }, [])
 
   async function BuscaLoja() {
-    await api.get(`/usuario?usuarioID=${item.usuarioID}`)
-      .then((response) => {
-        setLoja(response.data);
-      })
+    try {
+      const response = await api.get(`/usuario?usuarioID=${item.usuarioID}`)
+      setLoja(response.data);
+      
+    } catch (error) {
+      
+    }
   }
 
 
@@ -104,7 +107,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding:2,
     backgroundColor: "#fff",
-    elevation: 1,
     borderRadius: 6,
     marginHorizontal: 4,
     maxWidth: (width / 2) - 12,
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
   containerInfo: {
     paddingHorizontal: 10,
     paddingTop: 5,
-    paddingBottom: 15,
+    paddingBottom: 10,
   },
   containerImagem: {
     aspectRatio: 1,

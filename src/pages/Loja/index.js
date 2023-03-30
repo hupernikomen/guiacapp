@@ -19,6 +19,7 @@ export default function Loja() {
     useEffect(() => {
 
         setInfoLoja(route.params)
+        console.log(route.params);
 
     }, [focus])
 

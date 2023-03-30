@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TouchableOpacity } from 'react-native'
 
 import Home from '../pages/Home';
+import Menu from '../pages/Menu';
 import Detalhes from '../pages/Detalhes';
 import Loja from '../pages/Loja';
 import Lojas from '../pages/Lojas';
@@ -12,7 +13,6 @@ import Search from '../pages/Search';
 import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
 
-import { AuthContext } from '../context';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -21,15 +21,8 @@ const Stack = createNativeStackNavigator()
 
 export default function RotasStack() {
 
-  const { conectado } = useContext(AuthContext)
   const navigation = useNavigation()
   const { colors, font } = useTheme()
-
-  useEffect(() => {
-
-    !conectado ? navigation.navigate("ErroConexao") : navigation.navigate("Home")
-
-  }, [])
 
 
   return (
@@ -39,8 +32,10 @@ export default function RotasStack() {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.tema,
+          
         },
-        headerTintColor: "#fff"
+        headerTintColor: "#fff",
+        
 
       }}>
 
@@ -66,6 +61,14 @@ export default function RotasStack() {
 
 
       <Stack.Screen
+        name='Menu'
+        component={Menu}
+        options={{
+          title: "Guia Comercial",
+          headerShadowVisible: false
+        }} />
+
+      <Stack.Screen
         name='Detalhes'
         component={Detalhes}
         options={{
@@ -76,15 +79,12 @@ export default function RotasStack() {
       <Stack.Screen
         name='Loja'
         component={Loja}
-        options={{
-          // headerShadowVisible:false
-        }} />
+      />
+
       <Stack.Screen
         name='Lojas'
         component={Lojas}
-        options={{
-          // headerShadowVisible:false
-        }} />
+      />
 
       <Stack.Screen
         name='Mapa'
@@ -98,17 +98,15 @@ export default function RotasStack() {
         component={Categorias}
         options={{
         }} />
+
       <Stack.Screen
         options={{
-          title: "O que você procura?",
+          title: "",
         }}
         name='Search'
         component={Search} />
 
       <Stack.Screen
-        options={{
-          // headerShown:false,
-        }}
         name='Anuncie'
         component={Anuncie} />
 

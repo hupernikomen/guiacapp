@@ -4,7 +4,6 @@ import { View, FlatList, ActivityIndicator, RefreshControl, Text, TextInput, Tou
 import { useTheme, useNavigation } from '@react-navigation/native';
 
 import ProdutoFeed from '../../componentes/Produto/ProdutoFeed';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import api from '../../servicos/api';
 
@@ -25,7 +24,7 @@ export default function Search() {
 
         },
         headerIconColor: '#fff',
-        textColor:'#fff',
+        textColor: '#fff',
         autoFocus: true,
 
       },
@@ -53,9 +52,11 @@ export default function Search() {
       if (produtos.indexOf(pesquisa) > -1) {
         return produtos.indexOf(pesquisa) > -1
 
-      } else {
+      } else if(descricao.indexOf(pesquisa) > -1) {
         return descricao.indexOf(pesquisa) > -1
 
+      } else {
+        return
       }
 
     });
@@ -71,45 +72,37 @@ export default function Search() {
 
   }
 
+  function ListaVazia() {
+    return (
+      <View style={{
+        marginTop: 15,
+        width: '70%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: "center"
 
-  // async function BuscaProdutos() {
-
-  //   setCarregando(true)
-
-  //   try {
-
-  //     const listafiltrada = listaProdutos.filter((item) => {
-
-  //       const produtos = item.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-  //       const descricao = item.descricao.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-  //       const pesquisa = busca.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-
-  //       if (produtos.indexOf(pesquisa) > -1) {
-  //         return produtos.indexOf(pesquisa) > -1
-
-  //       } else {
-  //         return descricao.indexOf(pesquisa) > -1
-
-  //       }
-
-  //     });
-
-  //     setProdutos(listafiltrada)
-  //     setTitulo(`Encontramos ${listafiltrada.length} produto${listafiltrada.length > 1 ? "s" : ""}...`)
-  //     setCarregando(false)
-
-  //   } catch (error) {
-
-  //   }
-
-
-  // }
-
+      }}>
+        <Text style={{
+          textAlign: 'center',
+          fontSize: 20,
+          fontFamily: "Roboto-Medium",
+          color: '#000'
+        }}>O que você procura?</Text>
+        <Text style={{
+          fontSize: 16,
+          textAlign: 'center',
+          fontFamily: "Roboto-REgular",
+          color: '#000'
+        }}>Nós encontraremos para você...</Text>
+      </View>
+    )
+  }
 
 
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
+      ListEmptyComponent={<ListaVazia />}
       columnWrapperStyle={{ margin: 4 }}
       data={produtos}
       renderItem={({ item }) => <ProdutoFeed item={item} />}

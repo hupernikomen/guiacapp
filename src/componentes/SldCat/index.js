@@ -13,18 +13,23 @@ export default function SldCat() {
     const [categorias, setCategorias] = useState([])
 
     useEffect(() => {
+
+        async function ListaCategorias() {
+            try {
+                const response = await api.get('/categorias')
+                shuffleArray(response.data);
+    
+            } catch (error) {
+                if (error == "AxiosError: Network Error") {
+                    navigation.navigate("ErroConexao")
+                }
+            }
+        }
+        
         ListaCategorias()
+
     }, [])
 
-    async function ListaCategorias() {
-        await api.get('/categorias')
-            .then((response) => {
-                shuffleArray(response.data);
-            })
-            .catch((error) => {
-                console.log(error, "categorias");
-            })
-    }
 
     function shuffleArray(arr) {
 
@@ -51,7 +56,7 @@ export default function SldCat() {
                     fontSize: 14,
                     fontFamily: 'Roboto-Light',
                     color: '#fff',
-                    opacity:.95
+                    opacity: .95
                 }}>
                     {item.nome}
                 </Text>
@@ -64,7 +69,7 @@ export default function SldCat() {
     return (
         <FlatList
             contentContainerStyle={{ paddingHorizontal: 10 }}
-            style={{ backgroundColor: colors.tema }}
+            style={{ backgroundColor: colors.vartema }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={categorias}

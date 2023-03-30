@@ -23,8 +23,7 @@ export default function InputSearch({ navigation }) {
                 placeholderTextColor={'#000'}
                 value={busca}
                 onChangeText={setBusca}
-                style={styles.input}
-                placeholder='O que você procura?' />
+                style={styles.input}/>
 
             <TouchableOpacity
                 onPress={BuscarItem}

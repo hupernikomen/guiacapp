@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -7,14 +7,14 @@ export default function ErroConexao() {
 
     return (
         <View style={styles.tela}>
-            <Material name='wifi-off' size={50} />
+            <Material name='wifi-off' size={60} />
             
             <Text style={styles.info}>
-                {`Ops...\n Parece que estamos sem sinal de internet`}
+                {`Ops...\n Parece que estamos sem internet`}
             </Text>
 
             <Text style={styles.info2}>
-                Assim que normalizar redirecionaremos para o nosso feed
+                Verifique sua conexão!
             </Text>
 
         </View>
@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#000',
         fontFamily: 'Roboto-Bold',
-        marginTop: 20,
+        marginTop: 50,
         fontSize: 20,
-        marginBottom: 50
+        marginBottom: 20
     },
     info2: {
         width: "70%",
