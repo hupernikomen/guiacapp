@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { FlatList, RefreshControl, Animated } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, RefreshControl } from 'react-native';
 
 import Produto from '../../componentes/Produto/ProdutoFeed';
 import SldCat from '../../componentes/SldCat';
@@ -8,12 +8,14 @@ import api from '../../servicos/api';
 
 import Tabbar from '../../componentes/Tabbar';
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useIsFocused } from '@react-navigation/native'
 
 
 export default function Home() {
 
   const navigation = useNavigation()
+  const focus = useIsFocused()
+
   const [carregando, setCarregando] = useState(false)
   const [produtos, setProdutos] = useState([])
 
@@ -21,6 +23,8 @@ export default function Home() {
     onRefresh()
 
   }, [])
+
+  
 
 
   const onRefresh = () => {
@@ -79,7 +83,7 @@ export default function Home() {
 
       />
 
-        <Tabbar />
+      <Tabbar />
     </>
   )
 }

@@ -32,7 +32,7 @@ export default function ProdutoFeed({ item }) {
 
   async function BuscaLoja() {
     try {
-      const response = await api.get(`/usuario?usuarioID=${item.usuarioID}`)
+      const response = await api.get(`/loja?usuarioID=${item.usuarioID}`)
       setLoja(response.data);
       
     } catch (error) {

@@ -87,13 +87,14 @@ export default function Search() {
           fontSize: 20,
           fontFamily: "Roboto-Medium",
           color: '#000'
-        }}>O que você procura?</Text>
+        }}>O que procura?</Text>
+
         <Text style={{
           fontSize: 16,
           textAlign: 'center',
           fontFamily: "Roboto-REgular",
           color: '#000'
-        }}>Nós encontraremos para você...</Text>
+        }}>Nós encontraremos para você</Text>
       </View>
     )
   }

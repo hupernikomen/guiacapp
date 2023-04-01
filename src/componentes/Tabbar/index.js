@@ -1,15 +1,12 @@
 import React, { useEffect,useRef } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet,Animated } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { useTheme, useNavigation, useRoute } from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
-export default function Tabbar({sobeDesce}) {
+export default function Tabbar() {
     const { colors } = useTheme()
     const navigation = useNavigation()
-    const route = useRoute()
-
-
 
     return (
         <View style={styles.tela}>
@@ -25,7 +22,7 @@ export default function Tabbar({sobeDesce}) {
             <TouchableOpacity
                 activeOpacity={.9}
                 style={[styles.botao, { backgroundColor: colors.tema }]}
-                onPress={() => {}}>
+                onPress={() => navigation.navigate("Servicos")}>
                 <Material name='account-outline' size={24} color={'#fff'} />
             </TouchableOpacity>
 

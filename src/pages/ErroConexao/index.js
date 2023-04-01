@@ -1,21 +1,44 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useNavigation } from '@react-navigation/native'
+
+import NetInfo from "@react-native-community/netinfo";
 
 export default function ErroConexao() {
+    const navigation = useNavigation()
+
+    function VerificaConexao() {
+
+        NetInfo.fetch().then(state => {
+            if (state.isConnected) {
+                navigation.navigate("Home")
+            }
+            console.log("Connection type", state.type);
+            console.log("Is connected?", state.isConnected);
+        });
+    }
 
     return (
-        <View style={styles.tela}>
-            <Material name='wifi-off' size={60} />
-            
+        <View
+
+            style={styles.tela}>
+            <Material
+                name='wifi-off' size={60} />
+
             <Text style={styles.info}>
-                {`Ops...\n Parece que estamos sem internet`}
+                {`Humm...\n Parece que estamos sem internet`}
             </Text>
 
-            <Text style={styles.info2}>
-                Verifique sua conexão!
-            </Text>
+            <TouchableOpacity
+                onPress={VerificaConexao}
+            >
+
+                <Text style={styles.info2}>
+                    Verifique sua conexão!
+                </Text>
+            </TouchableOpacity>
 
         </View>
     );

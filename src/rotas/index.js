@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native'
 import Home from '../pages/Home';
 import Menu from '../pages/Menu';
 import Detalhes from '../pages/Detalhes';
+import Servicos from '../pages/Servicos';
 import Loja from '../pages/Loja';
 import Lojas from '../pages/Lojas';
 import Mapa from '../pages/Mapa';
@@ -12,7 +13,6 @@ import Categorias from '../pages/Categorias';
 import Search from '../pages/Search';
 import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
-
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -68,11 +68,17 @@ export default function RotasStack() {
           headerShadowVisible: false
         }} />
 
+
+
+      <Stack.Screen
+        name='Servicos'
+        component={Servicos}
+        />
+
       <Stack.Screen
         name='Detalhes'
         component={Detalhes}
         options={{
-          headerShown: false,
           title: "",
         }} />
 

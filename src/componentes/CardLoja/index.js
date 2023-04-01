@@ -16,16 +16,28 @@ export default function CardLoja({ loja }) {
             style={styles.containerloja}>
             <View style={{
                 backgroundColor: '#ddd',
-                height: 50
+                height: 60
             }}>
                 {/* <Image
                     style={{ height: 50 }}
                     source={{ uri: `` }} /> */}
             </View>
+
+            <Text style={{
+                position:'absolute',
+                right:10,
+                top:55,
+                backgroundColor:'#fff',
+                paddingHorizontal:5,
+                borderRadius:4,
+                fontSize:12,
+                color:'#000'
+            }}>{loja.produtos.length} produtos</Text>
+
             <View style={{
                 position: 'absolute',
                 left: 10,
-                top: 15,
+                top: 25,
 
             }}>
                 <Image
@@ -46,6 +58,7 @@ export default function CardLoja({ loja }) {
                     style={{
                         color: '#000',
                         fontFamily: "Roboto-Medium",
+                        fontSize:17
                     }}
                 >{loja.nome}</Text>
                 <Text
@@ -56,6 +69,8 @@ export default function CardLoja({ loja }) {
                         fontSize: 12
                     }}
                 >{loja.bio}</Text>
+
+   
             </View>
         </TouchableOpacity>
     );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Animated, Dimensions, ScrollView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 
 import { useNavigation, useRoute, useIsFocused, useTheme } from '@react-navigation/native';
-import { PinchGestureHandler, State } from 'react-native-gesture-handler';
+import GestureHandler, { PinchGestureHandler, State, GestureDetector } from 'react-native-gesture-handler';
 import { formatCurrency, getSupportedCurrencies } from "react-native-format-currency";
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -12,6 +12,8 @@ export default function Detalhes() {
   const navigation = useNavigation()
   const route = useRoute()
   const focus = useIsFocused()
+
+  const [estadoDescricao, setestadoDescricao] = useState(false)
 
   const { colors, font } = useTheme()
 
@@ -25,14 +27,7 @@ export default function Detalhes() {
     setProduto(route.params?.item)
     setLoja(route.params?.loja)
 
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          activeOpacity={.9}>
-          <Material name='share-variant' size={28} color='#fff' />
-        </TouchableOpacity>
-      )
-    })
+
   }, [focus])
 
 
@@ -40,11 +35,14 @@ export default function Detalhes() {
 
     const datan = new Date(data)
     return datan.toLocaleDateString('pt-BR')
+
   }
 
-  const escala = new Animated.Value(1)
+  const [escala, setEscala] = useState(new Animated.Value(1))
 
-  const pinaEscala = Animated.event([
+  // var escala = new Animated.Value(1)
+
+  const PinchEscala = Animated.event([
     { nativeEvent: { scale: escala } }
   ], { useNativeDriver: true })
 
@@ -67,148 +65,177 @@ export default function Detalhes() {
     return valueFormattedWithSymbol
   }
 
-
-
   return (
     <ScrollView style={styles.tela}>
-
-      <>
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            zIndex: 9999,
-            padding: 5,
-            margin: 5,
-          }}
-          onPress={() => navigation.goBack()}>
-          <Material name='arrow-left-circle' size={40} color={colors.tema} />
-        </TouchableOpacity>
-        
-        <FlatList
-          showsHorizontalScrollIndicator={false}
-          data={produto.imagens}
-          snapToInterval={width}
-          horizontal
-          renderItem={({ item, index }) =>
-            <View
-              style={{
-                width: width,
-                overflow: "hidden",
-              }}
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        data={produto.imagens}
+        snapToInterval={width}
+        horizontal
+        renderItem={({ item, index }) =>
+          <View
+            style={{
+              width: width,
+              height: width,
+            }}
+          >
+            <PinchGestureHandler
+              onGestureEvent={PinchEscala}
+              onHandlerStateChange={PinchChange}
             >
-              <PinchGestureHandler
-                onGestureEvent={pinaEscala}
-                onHandlerStateChange={PinchChange}
-              >
-                <Animated.Image
-                  style={{
-                    width: width,
-                    height: width,
-                    transform: [
-                      { scale: escala }
-                    ]
-                  }}
-                  source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.filename}` }}
-                />
-              </PinchGestureHandler>
+              <Animated.Image
+                style={{
+                  flex: 1,
+                  transform: [
+                    { scale: 1 }
+                  ]
+                }}
+                resizeMode={'contain'}
+                source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.filename}` }}
+              />
+            </PinchGestureHandler>
 
-            </View>
-          } />
-
-      </>
-
-      <View style={styles.container}>
-
-        <TouchableOpacity
-          style={styles.btnloja}
-          activeOpacity={.9}
-          onPress={() =>
-            navigation.navigate('Loja', loja)}>
-
-          <Text style={styles.nomeloja}>{loja.nome}</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.nomeproduto}>{produto.nome}</Text>
-
-
-        <Text style={styles.descricao}>
-          {produto.descricao}
-        </Text>
-
-        {!!produto.oferta ?
-          <Text style={[styles.preco, { fontFamily: font.gfp }]}>{Preco(produto.oferta)}
-            <Text style={{ fontSize: 16, fontFamily: font.gfp }}>  à vista</Text>
-          </Text>
-          :
-          <Text style={styles.preco}>{Preco(produto.preco)}
-            <Text style={{ fontSize: 16, fontFamily: font.gfp }}>  à vista</Text>
-          </Text>
-        }
-      </View>
-
-
-      <View style={styles.container}>
-
-        {!!produto.oferta &&
-          <View style={[styles.secao, { flexDirection: 'row', alignItems: 'center' }]}>
-            <Text style={{ fontSize: 16 }}>Preço anterior: </Text>
-            <Text style={styles.precoantigo}>{Preco(produto.preco)}</Text>
           </View>
         }
+      />
+
+      <View style={styles.containerInfo}>
 
 
-        <View style={styles.secao}>
-          <Text style={styles.tempo}>postagem: {converteData(produto.createdAt)}</Text>
+        <View style={{
+          flex: 1,
+        }}>
 
-          {converteData(produto.createdAt) != converteData(produto.updatedAt) &&
-            <Text style={styles.tempo}>última atualização: {converteData(produto.updatedAt)}</Text>
-          }
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+          }}>
+            <View>
+
+              <Text style={styles.categoria}>Categoria: {produto.categoria?.nome}</Text>
+              <Text style={styles.loja}>{loja.nome}</Text>
+            </View>
+
+            <View style={{
+              flexDirection: 'row',
+            }}>
+              <TouchableOpacity
+                activeOpacity={.8}
+                onPress={() => navigation.navigate("Loja", loja)}
+                style={{
+                  marginRight: 25,
+                }}>
+                <Material name='storefront-outline' size={28} color='#000' />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                activeOpacity={.8}
+                onPress={() => { }}
+              >
+                <Material name='share-variant-outline' size={28} color='#000' />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View>
+            <Text style={styles.nomeproduto}>{produto.nome}</Text>
+
+            <View>
+              {!!produto.oferta ?
+                <Text style={styles.preco}>{Preco(produto.oferta)}
+                  <Text style={{ fontSize: 16 }}>  à vista</Text>
+                </Text>
+                :
+                <Text style={styles.preco}>{Preco(produto.preco)}
+                  <Text style={{ fontSize: 16 }}>  à vista</Text>
+                </Text>
+              }
+
+              {!!produto.oferta &&
+                <View style={[styles.secao, { flexDirection: 'row', alignItems: 'center' }]}>
+                  <Text>De: </Text>
+                  <Text style={styles.precoantigo}>{Preco(produto.preco)}</Text>
+                </View>
+              }
+
+            </View>
+
+            <View style={styles.descricao}>
+              <Text
+                style={{ color: '#000' }}
+
+              >Tamanhos: {produto.tamanho}</Text>
+
+              <TouchableOpacity
+                activeOpacity={.9}
+                onPress={() => setestadoDescricao(!estadoDescricao)}>
+                <Text
+                  style={{ color: '#000' }}
+                  numberOfLines={estadoDescricao ? 0 : 1}>{produto.descricao}
+                </Text>
+
+              </TouchableOpacity>
+
+            </View>
+          </View>
+        </View>
+
+        <View style={{
+          flex: 1,
+          marginTop: 15
+        }}>
+
+
+          <Text
+            style={{ color: '#000' }}
+
+          >Entrega da Loja: <Text>{loja.entrega ? "Sim" : "Não"}</Text></Text>
+
         </View>
       </View>
+
+
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   tela: {
-    flex: 1
+    flex: 1,
   },
-  container: {
-    paddingHorizontal: 20,
-    marginVertical: 7
+  containerInfo: {
+    margin: 20,
   },
   nomeproduto: {
     fontSize: 24,
     fontFamily: 'Roboto-Bold',
     color: '#000',
-    marginTop: 20
+    marginTop: 15
   },
   preco: {
     color: '#000',
     fontSize: 24,
     fontFamily: 'Roboto-Bold',
-    marginTop: 20
 
   },
+  categoria: {
+    color: '#000',
+    fontFamily: 'Roboto-Regular'
+
+  },
+  loja: {
+    color: '#000',
+    fontFamily: 'Roboto-Regular'
+  },
   precoantigo: {
-    fontSize: 16,
-    textDecorationLine: 'line-through'
+    textDecorationLine: 'line-through',
+    color:'#000'
   },
   descricao: {
+    marginTop: 15,
     color: "#000",
-    fontSize: 16,
     fontFamily: 'Roboto-Light'
   },
-  nomeloja: {
-    color: "#000",
-    fontSize: 16,
-    fontFamily: 'Roboto-Light'
-  },
-  tempo: {
-    color: "#000",
-    fontSize: 16,
-    fontFamily: 'Roboto-Light',
-    marginTop: 20
-  }
+
 
 })

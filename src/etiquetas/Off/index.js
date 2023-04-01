@@ -26,16 +26,20 @@ export default function Off({ valor }) {
             }}>
 
                 <Text style={{
-                    fontFamily: "Roboto-Bold",
+                    fontFamily: "Roboto-Regular",
                     alignSelf:'center',
-                    fontSize: 11,
+                    fontSize: 10,
                     color: '#fff',
+                    marginTop:2
                 }}>
                     {valor + '%'}
                 </Text>
                 <Text style={{
+                    fontFamily: "Roboto-Regular",
                     fontSize: 10,
-                    color: '#fff'
+                    marginTop:-2,
+                    color: '#fff',
+                    alignSelf:'center'
                 }}>OFF</Text>
             </View>
         </View>

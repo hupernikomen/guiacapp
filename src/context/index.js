@@ -6,13 +6,7 @@ export function AuthProvider({ children }) {
 
     const [conectado, setConectado] = useState(true)
 
-    useEffect(() => {
-        const unsubscribe = NetInfo.addEventListener(state => {
-            setConectado(state.isConnected)
-        });
-        unsubscribe();
 
-    })
 
     return (
         <AuthContext.Provider value={{
