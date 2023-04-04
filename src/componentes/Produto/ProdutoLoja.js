@@ -31,7 +31,7 @@ export default function ProdutoLoja({ item }) {
 
   async function BuscaLoja() {
     try {
-      const response = await api.get(`/loja?usuarioID=${item.usuarioID}`)
+      const response = await api.get(`/loja?lojaID=${item.lojaID}`)
       setLoja(response.data);
       
     } catch (error) {
@@ -53,7 +53,7 @@ export default function ProdutoLoja({ item }) {
   return (
     <TouchableOpacity
       style={styles.containerproduct}
-      onPress={() => navigation.navigate("Detalhes", {
+      onPress={() => navigation.navigate("DetalheProduto", {
         item: item,
         loja: loja
       })}
@@ -63,7 +63,6 @@ export default function ProdutoLoja({ item }) {
         <Image
           style={styles.imageproduct}
           source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.imagens[0]?.filename}` }} />
-          {/* source={{ uri: `http://192.168.1.3:3333/files/produtos/${item.imagens[0]?.filename}` }} /> */}
 
       </View>
       <View
@@ -82,18 +81,10 @@ export default function ProdutoLoja({ item }) {
           flexDirection: 'row'
         }}>
 
-          <Text style={styles.real}>{Preco(!!item.oferta ? item.oferta : item.preco)}</Text>
+          <Text style={styles.real}>{Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}</Text>
 
         </View>
 
-        <View style={{
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginTop: 5
-        }}>
-
-        </View>
       </View>
 
     </TouchableOpacity>
@@ -105,17 +96,16 @@ const width = Dimensions.get('window').width
 const styles = StyleSheet.create({
   containerproduct: {
     flex: 1,
-    padding:2,
     backgroundColor: "#fff",
-    elevation: 1,
     borderRadius: 6,
     marginHorizontal: 4,
     maxWidth: (width / 2) - 12,
+    elevation:2
   },
   containerInfo: {
     paddingHorizontal: 10,
     paddingTop: 5,
-    paddingBottom: 15,
+    paddingBottom: 10,
   },
   containerImagem: {
     aspectRatio: 1,
@@ -155,5 +145,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Light',
     color:'#000'
   }
+
 
 });

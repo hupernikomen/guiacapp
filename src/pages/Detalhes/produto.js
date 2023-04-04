@@ -76,7 +76,7 @@ export default function Detalhes() {
           <View
             style={{
               width: width,
-              height: width,
+              height: width+110,
             }}
           >
             <PinchGestureHandler
@@ -90,7 +90,7 @@ export default function Detalhes() {
                     { scale: 1 }
                   ]
                 }}
-                resizeMode={'contain'}
+                resizeMethod={'scale'}
                 source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.filename}` }}
               />
             </PinchGestureHandler>
@@ -142,7 +142,7 @@ export default function Detalhes() {
 
             <View>
               {!!produto.oferta ?
-                <Text style={styles.preco}>{Preco(produto.oferta)}
+                <Text style={styles.preco}>{Preco(parseFloat(produto.oferta).toFixed(2))}
                   <Text style={{ fontSize: 16 }}>  à vista</Text>
                 </Text>
                 :
@@ -154,7 +154,7 @@ export default function Detalhes() {
               {!!produto.oferta &&
                 <View style={[styles.secao, { flexDirection: 'row', alignItems: 'center' }]}>
                   <Text>De: </Text>
-                  <Text style={styles.precoantigo}>{Preco(produto.preco)}</Text>
+                  <Text style={styles.precoantigo}>{Preco(parseFloat(produto.preco).toFixed(2))}</Text>
                 </View>
               }
 
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 24,
     fontFamily: 'Roboto-Bold',
-
+    marginTop:15
   },
   categoria: {
     color: '#000',

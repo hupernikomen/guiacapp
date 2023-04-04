@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -9,22 +9,25 @@ export default function Delivery({ left }) {
 
   const { colors } = useTheme()
   return (
-    <View style={{
-      alignItems: 'center',
-      justifyContent:'center',
-      flexDirection: "row",
-      padding: 4,
-      marginHorizontal: 4,
-      left: left,
-      position: "absolute",
-      top: -5,
-      zIndex: 999,
-    }}>
-      <Material name='truck' size={18} color={'#222'} />
+    <View style={[styles.card, { left }]}>
+      <Material name='truck' size={16} color={'#fff'} />
       <Material style={{
-                position: 'absolute',
-                zIndex:-1,
-            }} name='card' size={35} color={colors.destaque} />
+        position: 'absolute',
+        zIndex: -1,
+      }} name='card' size={30} color={'#FF6D1C'} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: "row",
+    padding: 4,
+    marginHorizontal: 4,
+    position: "absolute",
+    top: -6,
+    zIndex: 9,
+  }
+})

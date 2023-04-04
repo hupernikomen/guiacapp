@@ -4,7 +4,8 @@ import { TouchableOpacity } from 'react-native'
 
 import Home from '../pages/Home';
 import Menu from '../pages/Menu';
-import Detalhes from '../pages/Detalhes';
+import DetalheProduto from '../pages/Detalhes/produto';
+import DetalheServico from '../pages/Detalhes/servico';
 import Servicos from '../pages/Servicos';
 import Loja from '../pages/Loja';
 import Lojas from '../pages/Lojas';
@@ -35,25 +36,17 @@ export default function RotasStack() {
           
         },
         headerTintColor: "#fff",
-        
-
+        headerTitleStyle:{
+          fontFamily:'Roboto-Bold',
+          fontSize:20
+        }
       }}>
 
 
       <Stack.Screen
         options={{
           title: "Guia Comercial",
-          headerRight: () => {
-            return (
-              <TouchableOpacity
-                style={{
-                  padding: 4
-                }}
-                onPress={() => navigation.navigate("Search")}>
-                <Material name='magnify' size={24} color='#fff' />
-              </TouchableOpacity>
-            )
-          }
+          headerShadowVisible:false
         }}
         name='Home'
         component={Home}
@@ -73,11 +66,21 @@ export default function RotasStack() {
       <Stack.Screen
         name='Servicos'
         component={Servicos}
+        options={{
+          title:'Serviços Profissionais'
+        }}
         />
 
       <Stack.Screen
-        name='Detalhes'
-        component={Detalhes}
+        name='DetalheProduto'
+        component={DetalheProduto}
+        options={{
+          title: "",
+        }} />
+
+      <Stack.Screen
+        name='DetalheServico'
+        component={DetalheServico}
         options={{
           title: "",
         }} />

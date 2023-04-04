@@ -10,7 +10,7 @@ const MyTheme = {
   dark: false,
   colors: {
     tema: '#cd362c',
-    vartema: '#c83c32',
+    vartema: '#FF6D1C',
     secundario: '#3c3c3d',
     destaque: '#e6b800',
   },

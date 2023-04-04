@@ -32,7 +32,7 @@ export default function ProdutoFeed({ item }) {
 
   async function BuscaLoja() {
     try {
-      const response = await api.get(`/loja?usuarioID=${item.usuarioID}`)
+      const response = await api.get(`/loja?lojaID=${item.lojaID}`)
       setLoja(response.data);
       
     } catch (error) {
@@ -54,7 +54,7 @@ export default function ProdutoFeed({ item }) {
 
     <TouchableOpacity
       style={styles.containerproduct}
-      onPress={() => navigation.navigate("Detalhes", {
+      onPress={() => navigation.navigate("DetalheProduto", {
         item: item,
         loja: loja
       })}
@@ -83,7 +83,7 @@ export default function ProdutoFeed({ item }) {
           flexDirection: 'row'
         }}>
 
-          <Text style={styles.real}>{Preco(!!item.oferta ? item.oferta : item.preco)}</Text>
+          <Text style={styles.real}>{Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}</Text>
 
         </View>
 
@@ -105,11 +105,11 @@ export default function ProdutoFeed({ item }) {
 const styles = StyleSheet.create({
   containerproduct: {
     flex: 1,
-    padding:2,
     backgroundColor: "#fff",
     borderRadius: 6,
     marginHorizontal: 4,
     maxWidth: (width / 2) - 12,
+    elevation:1
   },
   containerInfo: {
     paddingHorizontal: 10,
@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
   real: {
     color: '#000',
     fontSize: 18,
-    marginTop: -2,
     fontFamily: "Roboto-Bold",
   },
   priceoff: {
@@ -147,9 +146,9 @@ const styles = StyleSheet.create({
   nome: {
     color: '#000',
     fontFamily: 'Roboto-Light',
+    fontSize:13
   },
   nomeloja: {
-    marginTop:5,
     fontSize: 13,
     fontFamily: 'Roboto-Light',
     color:'#000'

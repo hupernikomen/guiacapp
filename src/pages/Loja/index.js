@@ -5,21 +5,20 @@ import Produto from '../../componentes/Produto/ProdutoLoja';
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 
-import { useRoute, useNavigation, useIsFocused,useTheme } from '@react-navigation/native';
+import { useRoute, useNavigation, useIsFocused, useTheme } from '@react-navigation/native';
 
 export default function Loja() {
 
     const navigation = useNavigation()
     const route = useRoute()
     const focus = useIsFocused()
-    const {colors} = useTheme()
+    const { colors } = useTheme()
 
     const [infoLoja, setInfoLoja] = useState([])
 
     useEffect(() => {
 
         setInfoLoja(route.params)
-        console.log(route.params);
 
     }, [focus])
 
@@ -28,8 +27,8 @@ export default function Loja() {
             title: infoLoja.nome,
             headerRight: () =>
                 <TouchableOpacity
-                activeOpacity={.9}
-                onPress={() => navigation.navigate("Mapa", infoLoja)}>
+                    activeOpacity={.9}
+                    onPress={() => navigation.navigate("Mapa", infoLoja)}>
 
                     <Icon name='google-maps' size={30} color={'#fff'} />
                 </TouchableOpacity>
@@ -41,15 +40,9 @@ export default function Loja() {
     return (
         <View style={styles.tela}>
 
-            <TouchableOpacity
-                style={{ marginBottom: 10, alignSelf: 'flex-end' }}
-                activeOpacity={.9}
-                onPress={() => navigation.navigate("Mapa", infoLoja.latlng)}>
-
-            </TouchableOpacity>
 
             <FlatList
-                columnWrapperStyle={{ margin: 4 }}
+                columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 8 }}
                 data={infoLoja.produtos}
                 renderItem={({ item }) => <Produto item={item} />}
                 numColumns={2}
@@ -59,17 +52,16 @@ export default function Loja() {
             <TouchableOpacity
                 onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${infoLoja.telefone}`)}
                 style={{
-                    backgroundColor: colors.tema,
-                    elevation: 5,
-                    height: 55,
+                    backgroundColor: colors.vartema,
+                    position: "absolute",
+                    bottom: 30,
+                    right: 20,
                     width: 55,
-                    alignItems: "center",
-                    justifyContent: 'center',
+                    height: 55,
                     borderRadius: 55 / 2,
-                    position: 'absolute',
-                    zIndex: 999,
-                    right: 10,
-                    bottom: 30
+                    elevation: 5,
+                    alignItems: 'center',
+                    justifyContent: 'center'
                 }}>
                 <Icon name='whatsapp' color='#fff' size={30} />
 
