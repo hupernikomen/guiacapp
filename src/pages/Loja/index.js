@@ -17,7 +17,6 @@ export default function Loja() {
     const [infoLoja, setInfoLoja] = useState([])
 
     useEffect(() => {
-
         setInfoLoja(route.params)
 
     }, [focus])
@@ -30,7 +29,7 @@ export default function Loja() {
                     activeOpacity={.9}
                     onPress={() => navigation.navigate("Mapa", infoLoja)}>
 
-                    <Icon name='google-maps' size={30} color={'#fff'} />
+                    <Icon name='google-maps' size={28} color={'#fff'} />
                 </TouchableOpacity>
 
         })
@@ -42,7 +41,8 @@ export default function Loja() {
 
 
             <FlatList
-                columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 8 }}
+            contentContainerStyle={{marginVertical:6}}
+                columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
                 data={infoLoja.produtos}
                 renderItem={({ item }) => <Produto item={item} />}
                 numColumns={2}
@@ -54,7 +54,7 @@ export default function Loja() {
                 style={{
                     backgroundColor: colors.vartema,
                     position: "absolute",
-                    bottom: 30,
+                    bottom: 20,
                     right: 20,
                     width: 55,
                     height: 55,

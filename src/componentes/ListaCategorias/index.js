@@ -3,30 +3,29 @@ import { TouchableOpacity, Text, FlatList } from 'react-native';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 
-export default function ListaCategorias({data}) {
+
+export default function ListaCategorias({ data }) {
 
     const navigation = useNavigation()
     const { colors } = useTheme()
 
-
-
     const RenderItem = ({ item }) => {
-        if (item._count.produto == 0) return
+        if (item._count.produto === 0) return
 
         return (
             <TouchableOpacity
                 onPress={() => navigation.navigate("Categorias", item)}
                 activeOpacity={.9}
                 style={{
-                    height: 50,
+                    height: 45,
                     justifyContent: 'center',
                     paddingHorizontal: 8,
                 }}>
                 <Text style={{
-                    fontFamily: 'Roboto-Bold',
-                    fontSize: 20,
+                    textTransform:'uppercase',
+                    fontFamily: 'Roboto-Regular',
+                    fontSize:13,
                     color: '#fff',
-                    opacity:.8
                 }}>
                     {item.nome}
                 </Text>
@@ -38,8 +37,8 @@ export default function ListaCategorias({data}) {
 
     return (
         <FlatList
-            contentContainerStyle={{ paddingHorizontal: 10 }}
-            style={{ backgroundColor: colors.tema }}
+            contentContainerStyle={{ paddingHorizontal: 10}}
+            style={{ backgroundColor: colors.tema_2, elevation:15 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={data}

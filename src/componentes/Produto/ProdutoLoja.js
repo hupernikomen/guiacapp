@@ -91,7 +91,7 @@ export default function ProdutoLoja({ item }) {
   );
 }
 
-const width = Dimensions.get('window').width
+const {width} = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   containerproduct: {
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginHorizontal: 4,
     maxWidth: (width / 2) - 12,
-    elevation:2
   },
   containerInfo: {
     paddingHorizontal: 10,

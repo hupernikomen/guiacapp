@@ -1,59 +1,91 @@
-import React, { useEffect,useState } from 'react';
-import { View,Text, FlatList,RefreshControl } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList } from 'react-native';
 
 import CardLoja from '../../componentes/CardLoja';
 
 import api from '../../servicos/api';
 
+import { useNavigation } from '@react-navigation/native';
+
+
 export default function Lojas() {
 
-  const [lojas, setLojas] = useState([])
+  const navigation = useNavigation()
+
+  const [listaLojas, setListaLojas] = useState([])
+  const [lojas, setLojas] = useState([]);
   const [carregando, setCarregando] = useState(false)
+  const [busca, setBusca] = useState('')
 
   useEffect(() => {
-    onRefresh()
-  }, [])
 
-  const onRefresh = () => {
-    BuscaLojas()
-  };
+    const s = listaLojas.length > 1 ? "s" : ""
 
-  async function BuscaLojas() {
-    setCarregando(true)
-    try {
-      const response = await api.get('/lojas')
-      shuffleArray(response.data)
-      setCarregando(false)
+    navigation.setOptions({
+      title: ` Loja${s} Cadastrada${s}`,
+      headerSearchBarOptions: {
+        onChangeText: (event) => {
+          setBusca(event.nativeEvent.text)
 
-    } catch (error) {
+        },
+        headerIconColor: '#fff',
+        textColor: '#fff',
+      },
+    })
 
-    }
+    CarregaLojas()
+  }, [navigation])
+
+
+  if (carregando) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignContent: "center" }}>
+        <ActivityIndicator size={50} />
+      </View>
+    )
   }
 
-  function shuffleArray(arr) {
+  useEffect(() => {
+    const listafiltrada = listaLojas.filter((item) => {
 
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    setLojas(arr);
+      const lojas = item.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const pesquisa = busca.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+      if (lojas.indexOf(pesquisa) > -1) {
+        return lojas.indexOf(pesquisa) > -1
+
+      } else {
+        return
+      }
+
+    });
+
+
+    setLojas(listafiltrada)
+    setCarregando(false)
+  }, [busca])
+
+  async function CarregaLojas() {
+    const response = await api.get('/lojas')
+    setListaLojas(response.data)
+
   }
 
 
   return (
-    <View>
-     <FlatList
+    <FlatList
+    contentContainerStyle={{marginVertical:6}}
       columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
       numColumns={2}
-      data={lojas}
-      renderItem={({item}) =><CardLoja loja={item}/>}
-      refreshControl={
-        <RefreshControl
-          refreshing={carregando}
-          onRefresh={onRefresh}
-        />
-      }
-     />
-    </View>
+      data={busca ? lojas : listaLojas}
+      renderItem={({ item }) => <CardLoja loja={item} />}
+    // refreshControl={
+    //   <RefreshControl
+    //     refreshing={carregando}
+    //     onRefresh={onRefresh}
+    //   />
+    // }
+    />
+
   );
 }

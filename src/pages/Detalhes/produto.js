@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Animated, Dimensions, ScrollView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 
 import { useNavigation, useRoute, useIsFocused, useTheme } from '@react-navigation/native';
-import GestureHandler, { PinchGestureHandler, State, GestureDetector } from 'react-native-gesture-handler';
 import { formatCurrency, getSupportedCurrencies } from "react-native-format-currency";
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -15,7 +14,7 @@ export default function Detalhes() {
 
   const [estadoDescricao, setestadoDescricao] = useState(false)
 
-  const { colors, font } = useTheme()
+  const { colors } = useTheme()
 
   const { width } = Dimensions.get('window')
 
@@ -28,33 +27,9 @@ export default function Detalhes() {
     setLoja(route.params?.loja)
 
 
+
   }, [focus])
 
-
-  function converteData(data) {
-
-    const datan = new Date(data)
-    return datan.toLocaleDateString('pt-BR')
-
-  }
-
-  const [escala, setEscala] = useState(new Animated.Value(1))
-
-  // var escala = new Animated.Value(1)
-
-  const PinchEscala = Animated.event([
-    { nativeEvent: { scale: escala } }
-  ], { useNativeDriver: true })
-
-  function PinchChange({ nativeEvent }) {
-    if (nativeEvent.oldState === State.ACTIVE) {
-      Animated.spring(escala, {
-        toValue: 1,
-        useNativeDriver: true,
-        bounciness: 1
-      }).start()
-    }
-  }
 
   function Preco(preco) {
     if (!preco) return
@@ -76,24 +51,16 @@ export default function Detalhes() {
           <View
             style={{
               width: width,
-              height: width+110,
+              height: width + 100,
             }}
           >
-            <PinchGestureHandler
-              onGestureEvent={PinchEscala}
-              onHandlerStateChange={PinchChange}
-            >
-              <Animated.Image
-                style={{
-                  flex: 1,
-                  transform: [
-                    { scale: 1 }
-                  ]
-                }}
-                resizeMethod={'scale'}
-                source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.filename}` }}
-              />
-            </PinchGestureHandler>
+
+            <Image
+              style={{
+                flex: 1,
+              }}
+              source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.filename}` }}
+            />
 
           </View>
         }
@@ -161,20 +128,39 @@ export default function Detalhes() {
             </View>
 
             <View style={styles.descricao}>
+
+              <Text style={{color:'#000'}}>Tamanhos:</Text>
+              <View style={{ flexDirection: 'row', marginVertical: 10 }}>
+
+
+                {produto.tamanho?.split(",").map((item, index) => {
+                  return (
+
+                    <Text
+                      key={index}
+                      style={{
+                        color: '#000',
+                        padding: 5,
+                        color: '#fff',
+                        borderRadius: 6,
+                        marginRight: 5,
+                        backgroundColor: colors.vartema
+                      }}>
+                      {item ? item : "Unico"}
+                    </Text>
+                  )
+                })}
+              </View>
+
               <Text
-                style={{ color: '#000' }}
-
-              >Tamanhos: {produto.tamanho}</Text>
-
-              <TouchableOpacity
                 activeOpacity={.9}
                 onPress={() => setestadoDescricao(!estadoDescricao)}>
                 <Text
-                  style={{ color: '#000' }}
-                  numberOfLines={estadoDescricao ? 0 : 1}>{produto.descricao}
+                  style={{ color: '#000' }}>
+                  {produto.descricao}
                 </Text>
 
-              </TouchableOpacity>
+              </Text>
 
             </View>
           </View>
@@ -202,6 +188,7 @@ export default function Detalhes() {
 const styles = StyleSheet.create({
   tela: {
     flex: 1,
+    backgroundColor: '#fff'
   },
   containerInfo: {
     margin: 20,
@@ -216,7 +203,7 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 24,
     fontFamily: 'Roboto-Bold',
-    marginTop:15
+    marginTop: 15
   },
   categoria: {
     color: '#000',
@@ -229,10 +216,10 @@ const styles = StyleSheet.create({
   },
   precoantigo: {
     textDecorationLine: 'line-through',
-    color:'#000'
+    color: '#000'
   },
   descricao: {
-    marginTop: 15,
+    marginVertical: 15,
     color: "#000",
     fontFamily: 'Roboto-Light'
   },

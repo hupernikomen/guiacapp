@@ -15,9 +15,9 @@ export default function Menu() {
 
             <View style={styles.secao}>
 
-                <Text style={[styles.item, { margin: 15, textAlign: "center"}]}>
+                <Text style={[styles.item, { margin: 15, textAlign: "center" }]}>
 
-                    Aplicativo de anúncios de mercadorias e serviços com objetivo de aproximar lojistas, profissionais e clientes.
+                    Aplicativo de anúncios de mercadorias e serviços. Aproximando lojistas, profissionais e clientes.
                 </Text>
             </View>
 
@@ -25,7 +25,7 @@ export default function Menu() {
                 onPress={() => navigation.navigate("Anuncie")}
                 style={styles.btnmenu}>
                 <Text style={styles.itemmenu}>Seja um anunciante</Text>
-                <Material name='chevron-right' color={colors.tema} size={25} />
+                <Material name='chevron-right' color={colors.destaque} size={25} />
             </TouchableOpacity>
 
 
@@ -33,20 +33,22 @@ export default function Menu() {
 
                 onPress={() => navigation.navigate("Lojas")}
                 style={styles.btnmenu}>
-                <Text style={styles.itemmenu}>Lojas</Text>
-                <Material name='chevron-right' color={colors.tema} size={25} />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.btnmenu}>
-                <Text style={styles.itemmenu}>Serviços</Text>
-                <Material name='chevron-right' color={colors.tema} size={25} />
+                <Text style={styles.itemmenu}>Encontre Lojas</Text>
+                <Material name='chevron-right' color={colors.destaque} size={25} />
             </TouchableOpacity>
 
             <TouchableOpacity
-             onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
-            style={styles.btnmenuult}>
+                onPress={() => navigation.navigate("Servicos")}
+                style={styles.btnmenu}>
+                <Text style={styles.itemmenu}>Encontre Profissionais</Text>
+                <Material name='chevron-right' color={colors.destaque} size={25} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
+                style={styles.btnmenuult}>
                 <Text style={styles.itemmenu}>Fale com o Guia</Text>
-                <Material name='chevron-right' color={colors.tema} size={25} />
+                <Material name='chevron-right' color={colors.destaque} size={25} />
             </TouchableOpacity>
 
 
@@ -57,7 +59,8 @@ export default function Menu() {
 const styles = StyleSheet.create({
     tela: {
         flex: 1,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        backgroundColor: "#fff"
     },
     secao: {
         borderBottomWidth: .5,
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: "space-between",
-        marginTop: 50,
+        marginTop: 60,
 
     },
     itemdestaque: {
@@ -93,11 +96,11 @@ const styles = StyleSheet.create({
     item: {
         color: '#000',
         fontFamily: 'Roboto-Regular',
-        fontSize:16,
+        fontSize: 16,
     },
     itemmenu: {
         color: '#000',
-        fontSize:16,
+        fontSize: 16,
         fontFamily: 'Roboto-Regular'
     }
 })

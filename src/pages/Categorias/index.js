@@ -30,6 +30,7 @@ export default function Categorias() {
   return (
 
     <FlatList
+    contentContainerStyle={{marginVertical:6}}
       showsVerticalScrollIndicator={false}
       columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 8 }}
       data={produtos}

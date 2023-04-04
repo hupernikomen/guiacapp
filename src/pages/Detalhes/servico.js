@@ -18,7 +18,6 @@ export default function DetalheServico() {
   useEffect(() => {
     setServico(route.params)
 
-    console.log(servico);
   }, [])
 
   return (
@@ -68,8 +67,8 @@ export default function DetalheServico() {
       <TouchableOpacity
         onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${servico.telefone}`)}
         activeOpacity={.9}
-        style={[styles.whatsapp, { backgroundColor: colors.vartema }]}
-      >
+        style={[styles.whatsapp, { backgroundColor: colors.vartema }]}>
+          
         <Material name='whatsapp' size={28} color='#fff' />
       </TouchableOpacity>
     </View>

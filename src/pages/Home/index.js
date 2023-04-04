@@ -6,10 +6,12 @@ import ListaCategorias from '../../componentes/ListaCategorias';
 
 import api from '../../servicos/api';
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import Ico from 'react-native-vector-icons/MaterialCommunityIcons'
+import Ico2 from 'react-native-vector-icons/Ionicons'
 
 import { useNavigation } from '@react-navigation/native'
 import CarrosselServicos from '../../componentes/CarrosselServicos';
+import CarrosselBanners from '../../componentes/CarrosselBanners';
 
 
 export default function Home() {
@@ -21,9 +23,18 @@ export default function Home() {
   const [servico, setServico] = useState([])
   const [categorias, setCategorias] = useState([])
 
-
   function Menu() {
     navigation.setOptions({
+      headerLeft: () =>{
+        return(
+          <TouchableOpacity
+              onPress={() => navigation.navigate("Menu")}
+              activeOpacity={.9}
+              style={styles.botaomenu}>
+              <Ico name='menu' size={22} color={'#fff'} />
+          </TouchableOpacity>
+        )
+      },
       headerRight: () => {
         return (
           <View style={styles.tela}>
@@ -32,22 +43,17 @@ export default function Home() {
               activeOpacity={.9}
               style={styles.botao}
               onPress={() => navigation.navigate("Lojas")}>
-              <Material name='storefront-outline' size={24} color={'#fff'} />
+              <Ico name='storefront-outline' size={20} color={'#fff'} />
           </TouchableOpacity>
 
           <TouchableOpacity
               activeOpacity={.9}
               style={styles.botao}
-              onPress={() => navigation.navigate("Servicos")}>
-              <Material name='account-outline' size={24} color={'#fff'} />
+              onPress={() => navigation.navigate("Search")}>
+              <Ico name='magnify' size={20} color={'#fff'} />
           </TouchableOpacity>
 
-          <TouchableOpacity
-              onPress={() => navigation.navigate("Menu")}
-              activeOpacity={.9}
-              style={styles.botao}>
-              <Material name='dots-vertical' size={24} color={'#fff'} />
-          </TouchableOpacity>
+
 
       </View>
         )
@@ -112,6 +118,11 @@ export default function Home() {
     }
   }
 
+  const [banners,setBanners] = useState([
+    {img:'https://www.designi.com.br/images/preview/10023726.jpg'},
+    {img:'https://www.designi.com.br/images/preview/10046780.jpg'},
+  ])
+
 
 
   function shuffleCategoria(arr) {
@@ -145,14 +156,17 @@ export default function Home() {
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 8 }}
+      columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
       ListHeaderComponent={
         <>
           <ListaCategorias data={categorias} />
+          <CarrosselBanners data={banners}/>
           <CarrosselServicos data={servico} />
         </>
 
       }
+      stickyHeaderHiddenOnScroll={true}
+      StickyHeaderComponent={[0]}
       data={produtos}
       renderItem={({ item }) => <Produto item={item} />}
       numColumns={2}
@@ -178,7 +192,10 @@ const styles = StyleSheet.create({
     
   },
   botao: {
-      marginLeft:25
+      marginLeft:30
+  },
+  botaomenu: {
+      marginRight:25
   }
   
 })

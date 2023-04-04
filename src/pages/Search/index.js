@@ -102,12 +102,13 @@ export default function Search() {
 
   return (
     <FlatList
+    contentContainerStyle={{marginVertical:6}}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={<ListaVazia />}
-      columnWrapperStyle={{ margin: 4 }}
+      columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
       data={produtos}
       renderItem={({ item }) => <ProdutoFeed item={item} />}
       numColumns={2}
-    />
+      />
   );
 }

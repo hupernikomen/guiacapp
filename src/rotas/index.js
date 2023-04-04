@@ -37,7 +37,7 @@ export default function RotasStack() {
         },
         headerTintColor: "#fff",
         headerTitleStyle:{
-          fontFamily:'Roboto-Bold',
+          fontFamily:'Roboto-Medium',
           fontSize:20
         }
       }}>
@@ -46,7 +46,6 @@ export default function RotasStack() {
       <Stack.Screen
         options={{
           title: "Guia Comercial",
-          headerShadowVisible:false
         }}
         name='Home'
         component={Home}

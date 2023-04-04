@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginHorizontal: 4,
     maxWidth: (width / 2) - 12,
-    elevation:1
   },
   containerInfo: {
     paddingHorizontal: 10,

@@ -64,6 +64,7 @@ export default function Mapa() {
                 </Text>
             </View>
             <Maps
+                
                 carrega={CarregaLocUsuario}
                 width={width}
                 height={height}

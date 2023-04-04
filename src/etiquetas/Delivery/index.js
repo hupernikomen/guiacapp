@@ -14,7 +14,7 @@ export default function Delivery({ left }) {
       <Material style={{
         position: 'absolute',
         zIndex: -1,
-      }} name='card' size={30} color={'#FF6D1C'} />
+      }} name='card' size={30} color={colors.vartema} />
     </View>
   );
 }

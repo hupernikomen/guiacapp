@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 import { Dimensions } from 'react-native'
 
@@ -8,7 +8,7 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation, useTheme } from '@react-navigation/native'
 
 const { width } = Dimensions.get('window')
-export default function CarrosselServicos({data}) {
+export default function CarrosselServicos({ data }) {
 
     const navigation = useNavigation()
 
@@ -20,30 +20,36 @@ export default function CarrosselServicos({data}) {
             <TouchableOpacity
                 activeOpacity={.9}
                 onPress={() => navigation.navigate("DetalheServico", data)}
-                style={styles.card}>
+                style={[styles.card, { backgroundColor: colors.tema }]}>
+
+                <Image
+                    style={{ aspectRatio: 1 }}
+                    source={{ uri: `http://192.168.0.103:3333/files/servico/${data?.foto[0]?.filename}` }}
+                />
 
                 <View style={{
-                    flexDirection:"row",
-                    alignItems:'center',
-                    justifyContent:'space-between'
+                    padding: 20
                 }}>
+
+
+                    <View style={{
+                        flexDirection: "row",
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }}>
+                        <Text
+                            lineBreakMode='tail'
+                            style={styles.titulo}>
+                            {data.tipoServico}
+                        </Text>
+                    </View>
+
                     <Text
-                        style={styles.titulo}>
-                        {data.tipoServico}
+                        style={styles.nome}>
+                        {data.nome}
                     </Text>
-                    <Material name='menu-right' size={22} color={colors.vartema}/>
+
                 </View>
-
-                <Text
-                    style={styles.nome}>
-                    {data.nome}
-                </Text>
-
-                <Text
-                    numberOfLines={1}
-                    style={styles.bio}>
-                    {data.bio}
-                </Text>
 
             </TouchableOpacity>
         )
@@ -51,7 +57,9 @@ export default function CarrosselServicos({data}) {
 
     return (
         <View style={{
-            paddingVertical: 20,
+            paddingVertical: 10,
+            marginBottom: 10,
+            backgroundColor: '#fff',
         }}>
             <View style={{
                 paddingHorizontal: 20,
@@ -64,62 +72,68 @@ export default function CarrosselServicos({data}) {
                     flexDirection: 'row',
                 }}>
 
-                    <Material name='room-service-outline' size={28} color={colors.vartema} />
+                    {/* <Material name='account-wrench-outline' size={28} color={colors.vartema} /> */}
                     <Text style={{
-                        marginLeft: 10,
-                        fontFamily: 'Roboto-Medium',
-                        fontSize: 17,
+                        fontFamily: 'Roboto-Bold',
+                        fontSize: 15,
                         color: '#000'
                     }}>
-                        Serviços
+                        SERVIÇOS PROFISSIONAIS
                     </Text>
                 </View>
                 <TouchableOpacity
                     onPress={() => navigation.navigate("Servicos")}>
                     <Text style={{
                         color: '#000',
-                        fontFamily: 'Roboto-Light',
-                        fontSize: 13,
-                        paddingVertical: 5
+                        fontFamily: 'Roboto-Regular',
+                        fontSize: 12,
+                        paddingVertical: 2,
+                        paddingHorizontal: 8,
+                        borderRadius:15,
+                        marginVertical:5,
+                        backgroundColor:colors.destaque
                     }}>
-                        Ver Todos
+                        VER TODOS
                     </Text>
                 </TouchableOpacity>
             </View>
             <FlatList
-                contentContainerStyle={{ padding: 10 }}
+                ItemSeparatorComponent={<View style={{ width: 15 }} />}
+                contentContainerStyle={{ padding: 12 }}
                 showsHorizontalScrollIndicator={false}
-                snapToInterval={width - 70}
+                snapToInterval={width - 65}
                 horizontal
                 data={data}
                 renderItem={({ item }) => <RenderItem data={item} />}
             />
         </View>
+
     );
 }
 
 const styles = StyleSheet.create({
     card: {
-        padding: 20,
         width: width - 80,
-        backgroundColor: '#fff',
-        marginHorizontal: 5,
-        borderRadius: 8,
-        elevation: 1
+
+        // elevation: 1,
+        borderColor: '#ccc',
+        flexDirection: 'row',
+        borderRadius: 10,
+        overflow: 'hidden'
     },
     titulo: {
         fontFamily: 'Roboto-Medium',
-        fontSize: 18,
-        color: "#000",
+        fontSize: 17,
+        color: "#fff",
     },
     nome: {
         fontFamily: 'Roboto-Light',
         fontSize: 13,
-        color: '#000',
+        color: '#fff',
     },
     bio: {
         fontFamily: 'Roboto-Light',
         fontSize: 13,
-        color: '#000'
+        color: '#fff'
     }
 })
