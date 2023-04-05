@@ -45,6 +45,12 @@ export default function Home() {
               onPress={() => navigation.navigate("Lojas")}>
               <Ico name='storefront-outline' size={20} color={'#fff'} />
           </TouchableOpacity>
+          <TouchableOpacity
+              activeOpacity={.9}
+              style={styles.botao}
+              onPress={() => navigation.navigate("Servicos")}>
+              <Ico name='room-service-outline' size={22} color={'#fff'} />
+          </TouchableOpacity>
 
           <TouchableOpacity
               activeOpacity={.9}
@@ -119,8 +125,8 @@ export default function Home() {
   }
 
   const [banners,setBanners] = useState([
-    {img:'https://www.designi.com.br/images/preview/10023726.jpg'},
-    {img:'https://www.designi.com.br/images/preview/10046780.jpg'},
+    'https://www.designi.com.br/images/preview/10023726.jpg',
+    'https://www.designi.com.br/images/preview/10046780.jpg',
   ])
 
 
@@ -192,7 +198,7 @@ const styles = StyleSheet.create({
     
   },
   botao: {
-      marginLeft:30
+      marginLeft:25
   },
   botaomenu: {
       marginRight:25
