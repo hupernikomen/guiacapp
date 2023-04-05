@@ -9,22 +9,20 @@ export default function CarrosselBanners({ data }) {
             <Carousel
                 loop
                 // mode={'parallax'}
+                snapEnabled={false}
                 width={width}
                 height={width / 2}
                 autoPlay={true}
                 data={data}
                 scrollAnimationDuration={1000}
                 autoPlayInterval={5000}
-                onSnapToItem={(index) => 
-                    
-                    console.log('current index:', index)}
-                renderItem={({ item,index }) => (
-                    <Image 
-                    style={{flex:1}}
-                    source={{uri: item}}
-                    
+                // onSnapToItem={(index) =>
+                //     console.log('current index:', index)}
+                renderItem={({ item, index }) => (
+                    <Image
+                        style={{ flex: 1 }}
+                        source={{ uri: item }}
                     />
-                                          
                 )}
             />
         </View>

@@ -82,19 +82,14 @@ export default function Search() {
         alignSelf: "center"
 
       }}>
-        <Text style={{
-          textAlign: 'center',
-          fontSize: 20,
-          fontFamily: "Roboto-Medium",
-          color: '#000'
-        }}>O que procura?</Text>
+
 
         <Text style={{
           fontSize: 16,
           textAlign: 'center',
           fontFamily: "Roboto-REgular",
           color: '#000'
-        }}>Nós encontraremos para você</Text>
+        }}>Nós encontraremos para você...</Text>
       </View>
     )
   }

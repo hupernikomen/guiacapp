@@ -127,6 +127,8 @@ export default function Home() {
   const [banners,setBanners] = useState([
     'https://www.designi.com.br/images/preview/10023726.jpg',
     'https://www.designi.com.br/images/preview/10046780.jpg',
+    'https://www.bioage.com.br/media/slides/Lan_amento_Base_Stick_Marrom_Escuro_Banner_Mobile.png',
+    'https://marketplace.canva.com/EAFSrBoL46o/2/0/1600w/canva-feliz-natal-banner-paisagem-prata-e-vermelho-orpsmHqoWOA.jpg'
   ])
 
 

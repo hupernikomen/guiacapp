@@ -9,23 +9,24 @@ import { AuthProvider } from './src/context';
 const MyTheme = {
   dark: true,
 
-  // BLACKFRIDAY
+  //TEMA BLACKFRIDAY
+
+  // colors: {
+  //   tema: '#111', 
+  //   tema_2: '#222',
+  //   vartema: '#EDAA25',
+  //   destaque: '#EDAA25',
+  //   background:'#f1f1f1'
+  // },
+
+  //TEMA NORMAL
   colors: {
-    tema: '#111', 
-    tema_2: '#222',
-    vartema: '#EDAA25',
+    tema: '#bd2828',
+    tema_2: '#A32222',
+    vartema: '#FF6D1C',
     destaque: '#e6b800',
     background:'#f1f1f1'
   },
-
-  //NORMAL
-  // colors: {
-  //   tema: '#bd2828',
-  //   tema_2: '#A32222',
-  //   vartema: '#FF6D1C',
-  //   destaque: '#e6b800',
-  //   background:'#f1f1f1'
-  // },
   font: {
     gfp: "Roboto-Regular"
   }

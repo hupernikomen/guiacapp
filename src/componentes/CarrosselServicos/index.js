@@ -4,7 +4,7 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react
 import { Dimensions } from 'react-native'
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import Carousel from 'react-native-reanimated-carousel';
 import { useNavigation, useTheme } from '@react-navigation/native'
 
 const { width } = Dimensions.get('window')
@@ -17,6 +17,7 @@ export default function CarrosselServicos({ data }) {
     const RenderItem = ({ data }) => {
 
         return (
+
             <TouchableOpacity
                 activeOpacity={.9}
                 onPress={() => navigation.navigate("DetalheServico", data)}
@@ -30,8 +31,6 @@ export default function CarrosselServicos({ data }) {
                 <View style={{
                     padding: 20
                 }}>
-
-
                     <View style={{
                         flexDirection: "row",
                         alignItems: 'center',
@@ -89,22 +88,27 @@ export default function CarrosselServicos({ data }) {
                         fontSize: 12,
                         paddingVertical: 2,
                         paddingHorizontal: 8,
-                        borderRadius:15,
-                        marginVertical:5,
-                        backgroundColor:colors.destaque
+                        borderRadius: 15,
+                        marginVertical: 5,
+                        backgroundColor: colors.destaque
                     }}>
                         VER TODOS
                     </Text>
                 </TouchableOpacity>
             </View>
-            <FlatList
-                ItemSeparatorComponent={<View style={{ width: 15 }} />}
-                contentContainerStyle={{ padding: 12 }}
-                showsHorizontalScrollIndicator={false}
-                snapToInterval={width - 65}
-                horizontal
+            <Carousel
+                loop
+                mode={'parallax'}
+                snapEnabled={false}
+                width={width}
+                height={100}
+                autoPlay={true}
                 data={data}
-                renderItem={({ item }) => <RenderItem data={item} />}
+                scrollAnimationDuration={3000}
+                autoPlayInterval={1000}
+                // onSnapToItem={(index) =>
+                //     console.log('current index:', index)}
+                renderItem={({ item, index }) => <RenderItem data={item} />}
             />
         </View>
 
@@ -113,8 +117,8 @@ export default function CarrosselServicos({ data }) {
 
 const styles = StyleSheet.create({
     card: {
-        width: width - 80,
-
+        width: width - 20,
+        height: 100,
         // elevation: 1,
         borderColor: '#ccc',
         flexDirection: 'row',
@@ -123,17 +127,11 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontFamily: 'Roboto-Medium',
-        fontSize: 17,
+        fontSize: 18,
         color: "#fff",
     },
     nome: {
         fontFamily: 'Roboto-Light',
-        fontSize: 13,
         color: '#fff',
     },
-    bio: {
-        fontFamily: 'Roboto-Light',
-        fontSize: 13,
-        color: '#fff'
-    }
 })

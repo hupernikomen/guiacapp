@@ -113,7 +113,7 @@ export default function Detalhes() {
                   <Text style={{ fontSize: 16 }}>  à vista</Text>
                 </Text>
                 :
-                <Text style={styles.preco}>{Preco(produto.preco)}
+                <Text style={styles.preco}>{Preco(parseFloat(produto.preco).toFixed(2))}
                   <Text style={{ fontSize: 16 }}>  à vista</Text>
                 </Text>
               }

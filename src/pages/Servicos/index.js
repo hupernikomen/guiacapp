@@ -9,22 +9,110 @@ export default function Servicos() {
 
 const navigation = useNavigation()
 
-  const [servico, setServico] = useState([])
+  const [listaServicos, setListaServicos] = useState([])
+  const [servicos, setServicos] = useState([]);
+  const [carregando, setCarregando] = useState(false)
+  const [busca, setBusca] = useState('')
+
+  const [s,setS] =useState("s")
 
   useEffect(() => {
-    BuscaServicos()
+
+    listaServicos.length == 1 ? "" : "s"
+
+    navigation.setOptions({
+      title: `Serviço${s} Cadastrado${s}`,
+      headerSearchBarOptions: {
+        onChangeText: (event) => {
+          setBusca(event.nativeEvent.text)
+
+        },
+        headerIconColor: '#fff',
+        textColor: '#fff',
+      },
+    })
+
+    CarregaServicos()
   }, [])
 
-  async function BuscaServicos() {
-    try {
-      const response = await api.get("/servicos")
-      setServico(response.data);
 
-    } catch (error) {
+  if (carregando) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignContent: "center" }}>
+        <ActivityIndicator size={50} />
+      </View>
+    )
+  }
 
-    }
+  useEffect(() => {
+    const listafiltrada = listaServicos.filter((item) => {
+
+      const servicos = item.tipoServico.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const pesquisa = busca.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+      if (servicos.indexOf(pesquisa) > -1) {
+        return servicos.indexOf(pesquisa) > -1
+
+      } else {
+        return
+      }
+
+    });
+
+
+    setServicos(listafiltrada)
+    setCarregando(false)
+  }, [busca])
+
+  async function CarregaServicos() {
+    const response = await api.get('/servicos')
+    setListaServicos(response.data)
 
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   BuscaServicos()
+  // }, [])
+
+  // async function BuscaServicos() {
+  //   try {
+  //     const response = await api.get("/servicos")
+  //     setServico(response.data);
+
+  //   } catch (error) {
+
+  //   }
+
+  // }
+
+
 
   const RenderItem = ({ data }) => {
     return (
@@ -70,7 +158,7 @@ const navigation = useNavigation()
     <View style={styles.tela}>
 
     <FlatList
-      data={servico}
+      data={busca ? servicos : listaServicos }
       renderItem={({ item }) => <RenderItem data={item} />}
       />
       </View>
