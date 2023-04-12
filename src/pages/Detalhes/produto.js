@@ -22,7 +22,7 @@ export default function Detalhes() {
   const [loja, setLoja] = useState([])
 
   useEffect(() => {
-
+console.log(route.params);
     setProduto(route.params?.item)
     setLoja(route.params?.loja)
 
@@ -59,7 +59,7 @@ export default function Detalhes() {
               style={{
                 flex: 1,
               }}
-              source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.filename}` }}
+              source={{ uri: item.location }}
             />
 
           </View>
@@ -133,7 +133,7 @@ export default function Detalhes() {
               <View style={{ flexDirection: 'row', marginVertical: 10 }}>
 
 
-                {produto.tamanho?.split(",").map((item, index) => {
+                {produto.tamanho?.map((item, index) => {
                   return (
 
                     <Text

@@ -15,7 +15,7 @@ export default function CarrosselBanners({ data }) {
                 autoPlay={true}
                 data={data}
                 scrollAnimationDuration={1000}
-                autoPlayInterval={5000}
+                autoPlayInterval={6000}
                 // onSnapToItem={(index) =>
                 //     console.log('current index:', index)}
                 renderItem={({ item, index }) => (

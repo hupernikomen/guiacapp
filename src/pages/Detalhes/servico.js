@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Dimensions, TouchableOpacity, Linking, StyleSheet } from 'react-native';
 
-import { useRoute, useTheme, useNavigation } from '@react-navigation/native'
+import {
+  useRoute,
+  useTheme,
+  useNavigation
+} from '@react-navigation/native'
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function DetalheServico() {
-  const { colors } = useTheme()
   const navigation = useNavigation()
-  const { width } = Dimensions.get('window')
-
-
   const route = useRoute()
+
+  const { colors } = useTheme()
+  const { width } = Dimensions.get('window')
 
   const [servico, setServico] = useState([])
 
@@ -44,7 +47,7 @@ export default function DetalheServico() {
       {console.log(servico)}
 
       <Image
-        source={{ uri: `http://192.168.0.103:3333/files/servico/${route.params?.foto[0]?.filename}` }}
+        source={{ uri: `https://deploygc-api.herokuapp.com/files/servico/${route.params?.foto[0]?.filename}` }}
         style={{
           width: width,
           height: 150
@@ -58,19 +61,19 @@ export default function DetalheServico() {
 
         <Text style={styles.bio}>{servico.bio}</Text>
 
-     
+
 
         <View style={styles.endereco}>
           <Text style={styles.tituloendereco}>Atendemos no endereço:</Text>
           <Text style={styles.infoendereco}>{servico.endereco}</Text>
 
           {servico.aDomicilio &&
-          <View style={styles.adomicilio}>
+            <View style={styles.adomicilio}>
 
-            <Material name='truck' size={28} color={colors.vartema} />
-            <Text style={styles.infodomicilio}>Prestamos serviço à domicilio</Text>
-          </View>
-        }
+              <Material name='truck' size={28} color={colors.vartema} />
+              <Text style={styles.infodomicilio}>Prestamos serviço à domicilio</Text>
+            </View>
+          }
 
           {servico.latlng != null &&
             <TouchableOpacity

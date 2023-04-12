@@ -19,10 +19,7 @@ export default function Lojas() {
 
   useEffect(() => {
 
-    const s = listaLojas.length > 1 ? "s" : ""
-
     navigation.setOptions({
-      title: ` Loja${s} Cadastrada${s}`,
       headerSearchBarOptions: {
         onChangeText: (event) => {
           setBusca(event.nativeEvent.text)
@@ -74,9 +71,9 @@ export default function Lojas() {
 
   return (
     <FlatList
-    contentContainerStyle={{marginVertical:6}}
-      columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
-      numColumns={2}
+      contentContainerStyle={{ marginVertical: 6 }}
+      columnWrapperStyle={{ marginHorizontal: 6, marginVertical: 5 }}
+      numColumns={3}
       data={busca ? lojas : listaLojas}
       renderItem={({ item }) => <CardLoja loja={item} />}
     // refreshControl={

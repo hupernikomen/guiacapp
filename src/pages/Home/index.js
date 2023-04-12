@@ -7,7 +7,6 @@ import ListaCategorias from '../../componentes/ListaCategorias';
 import api from '../../servicos/api';
 
 import Ico from 'react-native-vector-icons/MaterialCommunityIcons'
-import Ico2 from 'react-native-vector-icons/Ionicons'
 
 import { useNavigation } from '@react-navigation/native'
 import CarrosselServicos from '../../componentes/CarrosselServicos';
@@ -73,30 +72,32 @@ export default function Home() {
   }, [])
 
   const onRefresh = () => {
-    setCarregando(true)
-
+    
     BuscaProdutos()
     BuscaServicos()
     BuscaCategorias()
   };
-
-
-
+  
+  
+  
   async function BuscaCategorias() {
+    setCarregando(true)
     try {
       const response = await api.get('/categorias')
       shuffleCategoria(response.data);
       setCarregando(false)
-
+      
     } catch (error) {
       if (error == "AxiosError: Network Error") {
         navigation.navigate("ErroConexao")
+        setCarregando(false)
       }
     }
   }
-
+  
   async function BuscaProdutos() {
-
+    setCarregando(true)
+    
     try {
       const response = await api.get('/produtos')
       shuffleProdutos(response.data)
@@ -105,6 +106,7 @@ export default function Home() {
     } catch (error) {
       if (error == "AxiosError: Network Error") {
         navigation.navigate("ErroConexao")
+        setCarregando(false)
       }
     }
   }
@@ -112,14 +114,16 @@ export default function Home() {
   
   
   async function BuscaServicos() {
+    setCarregando(true)
     try {
       const response = await api.get("/servicos")
       shuffleServicos(response.data);
       setCarregando(false)
-
+      
     } catch (error) {
       if (error == "AxiosError: Network Error") {
         navigation.navigate("ErroConexao")
+        setCarregando(false)
       }
     }
   }
@@ -164,12 +168,12 @@ export default function Home() {
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
+      columnWrapperStyle={{ marginHorizontal: 6, marginVertical: 5 }}
       ListHeaderComponent={
         <>
           <ListaCategorias data={categorias} />
-          <CarrosselBanners data={banners}/>
-          <CarrosselServicos data={servico} />
+          {/* <CarrosselBanners data={banners}/> */}
+          {/* <CarrosselServicos data={servico} /> */}
         </>
 
       }

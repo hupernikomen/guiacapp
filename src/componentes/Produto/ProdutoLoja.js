@@ -62,7 +62,7 @@ export default function ProdutoLoja({ item }) {
         {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
         <Image
           style={styles.imageproduct}
-          source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.imagens[0]?.filename}` }} />
+          source={{ uri: item.imagens[0]?.location }} />
 
       </View>
       <View

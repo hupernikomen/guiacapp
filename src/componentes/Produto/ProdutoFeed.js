@@ -8,7 +8,6 @@ import {
   Dimensions,
 } from "react-native";
 
-import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import Delivery from "../../etiquetas/Delivery";
 import Off from "../../etiquetas/Off";
 import { formatCurrency, getSupportedCurrencies } from "react-native-format-currency";
@@ -21,6 +20,8 @@ const width = Dimensions.get('window').width
 
 
 export default function ProdutoFeed({ item }) {
+
+  console.log(item);
 
   const navigation = useNavigation();
 
@@ -64,7 +65,7 @@ export default function ProdutoFeed({ item }) {
         {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
         <Image
           style={styles.imageproduct}
-          source={{ uri: `http://192.168.0.103:3333/files/produtos/${item.imagens[0]?.filename}` }} />
+          source={{ uri: item.imagens[0]?.location }} />
 
       </View>
       <View
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 6,
     marginHorizontal: 4,
-    maxWidth: (width / 2) - 12,
+    maxWidth: (width / 2) - 16,
   },
   containerInfo: {
     paddingHorizontal: 10,

@@ -90,6 +90,9 @@ export default function RotasStack() {
       />
 
       <Stack.Screen
+        options={{
+          title:'Lojas Cadastradas'
+        }}
         name='Lojas'
         component={Lojas}
       />

@@ -16,7 +16,9 @@ export default function Categorias() {
   useEffect(() => {
     navigation.setOptions({
       title: route.params?.nome
+
     })
+    console.log(route.params)
 
     async function PegaCategorias() {
       const response = await api.get(`/porcategoria?categoriaID=${route.params?.id}`)

@@ -25,7 +25,7 @@ export default function CarrosselServicos({ data }) {
 
                 <Image
                     style={{ aspectRatio: 1 }}
-                    source={{ uri: `http://192.168.0.103:3333/files/servico/${data?.foto[0]?.filename}` }}
+                    source={{ uri: `https://deploygc-api.onrender.com/files/servico/${data?.foto[0]?.filename}` }}
                 />
 
                 <View style={{

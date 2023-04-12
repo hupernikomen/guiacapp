@@ -15,13 +15,14 @@ export default function CardLoja({ loja }) {
             style={styles.containerloja}>
 
             <Image
-                source={{ uri: `http://192.168.0.103:3333/files/logo/${loja.logo[0].filename}` }}
+                source={{ uri: loja.logo[0].location }}
                 style={styles.logo} />
 
             <View
                 style={styles.containerinfo}>
 
                 <Text
+                    numberOfLines={2}
                     style={styles.nomeloja}>
                     {loja.nome}
                 </Text>
@@ -43,21 +44,20 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 6,
         marginHorizontal: 4,
-        maxWidth: (width / 2) - 12,
-        overflow:'hidden',
-        padding:5
+        maxWidth: (width / 3) - 12,
+        overflow: 'hidden',
+        padding: 5
     },
     logo: {
         aspectRatio: 1,
         flex: 1,
     },
     containerinfo: {
-        padding:10
+        padding: 10
     },
     nomeloja: {
         color: '#000',
         fontFamily: "Roboto-Medium",
-        fontSize:16
     },
     contagem: {
         fontSize: 12,

@@ -5,7 +5,6 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 
 
 export default function ListaCategorias({ data }) {
-
     const navigation = useNavigation()
     const { colors } = useTheme()
 
@@ -38,7 +37,7 @@ export default function ListaCategorias({ data }) {
     return (
         <FlatList
             contentContainerStyle={{ paddingHorizontal: 10}}
-            style={{ backgroundColor: colors.tema_2, elevation:15 }}
+            style={{ backgroundColor: colors.tema_2, marginBottom:10 }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={data}
