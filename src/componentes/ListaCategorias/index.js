@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, FlatList } from 'react-native';
+import { TouchableOpacity, Text, FlatList, View, StyleSheet } from 'react-native';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 
@@ -11,23 +11,54 @@ export default function ListaCategorias({ data }) {
     const RenderItem = ({ item }) => {
         if (item._count.produto === 0) return
 
+        function ContagemSimbolica({ valor }) {
+
+
+            if (valor > 100 && valor <= 1000) {
+                let result = valor / 100
+                return <Text style={styles.cont}>{"+" + String(result).substring(0, 1) + "00"}</Text>
+
+            } else if (valor > 1000) {
+                let result = valor / 1000
+                return <Text style={styles.cont}>{"+" + String(result).substring(0, 1) + "k"}</Text>
+
+            } else {
+                return <Text style={styles.cont}>{valor}</Text>
+
+
+            }
+        }
+
         return (
             <TouchableOpacity
                 onPress={() => navigation.navigate("Categorias", item)}
                 activeOpacity={.9}
                 style={{
-                    height: 45,
+                    height: 60,
                     justifyContent: 'center',
-                    paddingHorizontal: 8,
+                    paddingHorizontal: 15,
                 }}>
+
+
+
                 <Text style={{
-                    textTransform:'uppercase',
-                    fontFamily: 'Roboto-Regular',
-                    fontSize:13,
+                    textTransform: 'uppercase',
+                    fontFamily: 'Roboto-Bold',
                     color: '#fff',
                 }}>
                     {item.nome}
                 </Text>
+
+                <View style={{
+                    position: 'absolute',
+                    right: 5,
+                    top: 10
+                }}>
+
+                    <ContagemSimbolica valor={item._count.produto} />
+                </View>
+
+
             </TouchableOpacity>
         )
     }
@@ -36,8 +67,7 @@ export default function ListaCategorias({ data }) {
 
     return (
         <FlatList
-            contentContainerStyle={{ paddingHorizontal: 10}}
-            style={{ backgroundColor: colors.tema_2, marginBottom:10 }}
+            style={{ backgroundColor: colors.tema }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={data}
@@ -46,3 +76,13 @@ export default function ListaCategorias({ data }) {
         />
     )
 }
+
+const styles = StyleSheet.create({
+    cont: {
+        fontSize: 10,
+        backgroundColor: '#22222250',
+        paddingHorizontal: 5,
+        borderRadius: 5,
+        color: '#fff'
+    }
+})

@@ -14,7 +14,7 @@ export default function Delivery({ left }) {
       <Material style={{
         position: 'absolute',
         zIndex: -1,
-      }} name='card' size={30} color={colors.vartema} />
+      }} name='card' size={30} color={'#cc9900'} />
     </View>
   );
 }
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     padding: 4,
     marginHorizontal: 4,
     position: "absolute",
-    top: -6,
+    top: -5,
     zIndex: 9,
   }
 })

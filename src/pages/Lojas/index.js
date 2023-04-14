@@ -73,7 +73,7 @@ export default function Lojas() {
     <FlatList
       contentContainerStyle={{ marginVertical: 6 }}
       columnWrapperStyle={{ marginHorizontal: 6, marginVertical: 5 }}
-      numColumns={3}
+      numColumns={2}
       data={busca ? lojas : listaLojas}
       renderItem={({ item }) => <CardLoja loja={item} />}
     // refreshControl={

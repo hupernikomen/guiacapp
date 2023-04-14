@@ -6,6 +6,7 @@ const width = Dimensions.get('window').width
 import { useNavigation, useTheme } from '@react-navigation/native';
 
 export default function CardLoja({ loja }) {
+
     const { colors } = useTheme()
     const navigation = useNavigation()
     return (
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 6,
         marginHorizontal: 4,
-        maxWidth: (width / 3) - 12,
+        maxWidth: (width / 2) - 12,
         overflow: 'hidden',
         padding: 5
     },

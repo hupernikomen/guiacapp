@@ -15,7 +15,7 @@ const MyTheme = {
   //   tema: '#111', 
   //   tema_2: '#222',
   //   vartema: '#EDAA25',
-  //   destaque: '#EDAA25',
+  //   destaque: '#b38f00',
   //   background:'#f1f1f1'
   // },
 
@@ -24,7 +24,7 @@ const MyTheme = {
     tema: '#bd2828',
     tema_2: '#A32222',
     vartema: '#FF6D1C',
-    destaque: '#e6b800',
+    destaque: '#b38f00',
     background:'#f1f1f1'
   },
   font: {

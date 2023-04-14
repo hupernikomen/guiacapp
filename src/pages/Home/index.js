@@ -42,7 +42,7 @@ export default function Home() {
               activeOpacity={.9}
               style={styles.botao}
               onPress={() => navigation.navigate("Lojas")}>
-              <Ico name='storefront-outline' size={20} color={'#fff'} />
+              <Ico name='storefront-outline' size={22} color={'#fff'} />
           </TouchableOpacity>
           <TouchableOpacity
               activeOpacity={.9}
@@ -55,7 +55,7 @@ export default function Home() {
               activeOpacity={.9}
               style={styles.botao}
               onPress={() => navigation.navigate("Search")}>
-              <Ico name='magnify' size={20} color={'#fff'} />
+              <Ico name='magnify' size={22} color={'#fff'} />
           </TouchableOpacity>
 
 
@@ -168,12 +168,12 @@ export default function Home() {
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginHorizontal: 6, marginVertical: 5 }}
+      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
       ListHeaderComponent={
         <>
           <ListaCategorias data={categorias} />
-          {/* <CarrosselBanners data={banners}/> */}
-          {/* <CarrosselServicos data={servico} /> */}
+          <CarrosselBanners data={banners}/>
+          <CarrosselServicos data={servico} />
         </>
 
       }
@@ -204,10 +204,14 @@ const styles = StyleSheet.create({
     
   },
   botao: {
-      marginLeft:25
+      paddingLeft:25,
+      height: 50,
+      justifyContent:'center'
   },
   botaomenu: {
-      marginRight:25
+      paddingRight:25,
+      height: 50,
+      justifyContent:'center'
   }
   
 })

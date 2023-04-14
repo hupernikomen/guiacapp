@@ -12,16 +12,12 @@ import Delivery from "../../etiquetas/Delivery";
 import Off from "../../etiquetas/Off";
 import { formatCurrency, getSupportedCurrencies } from "react-native-format-currency";
 
-
 import api from "../../servicos/api";
 import { useNavigation } from "@react-navigation/native";
 
 const width = Dimensions.get('window').width
 
-
 export default function ProdutoFeed({ item }) {
-
-  console.log(item);
 
   const navigation = useNavigation();
 
@@ -109,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 6,
     marginHorizontal: 4,
-    maxWidth: (width / 2) - 16,
+    maxWidth: (width / 2) - 12,
   },
   containerInfo: {
     paddingHorizontal: 10,

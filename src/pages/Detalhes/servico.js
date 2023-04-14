@@ -16,13 +16,12 @@ export default function DetalheServico() {
   const { colors } = useTheme()
   const { width } = Dimensions.get('window')
 
-  const [servico, setServico] = useState([])
+  const [{ nome, tipoServico, bio, endereco, aDomicilio, latlng, foto }, setServico] = useState([])
 
   useEffect(() => {
     setServico(route.params)
 
     navigation.setOptions({
-      title: route.params?.nome,
       headerRight: () => {
         return (
           <TouchableOpacity
@@ -44,30 +43,32 @@ export default function DetalheServico() {
     <View style={{
       flex: 1
     }}>
-      {console.log(servico)}
 
-      <Image
-        source={{ uri: `https://deploygc-api.herokuapp.com/files/servico/${route.params?.foto[0]?.filename}` }}
-        style={{
-          width: width,
-          height: 150
-        }}
-      />
+      {foto &&
+        <Image
+          source={{ uri: foto[0]?.location }}
+          style={{
+            width: width,
+            height: 150
+          }}
+        />
+      }
 
       <View style={styles.detalhes}>
         <Text style={styles.servico}>
-          {servico.tipoServico}
+          {tipoServico}
         </Text>
+        <Text>{nome}</Text>
 
-        <Text style={styles.bio}>{servico.bio}</Text>
+        <Text style={styles.bio}>{bio}</Text>
 
 
 
         <View style={styles.endereco}>
           <Text style={styles.tituloendereco}>Atendemos no endereço:</Text>
-          <Text style={styles.infoendereco}>{servico.endereco}</Text>
+          <Text style={styles.infoendereco}>{endereco}</Text>
 
-          {servico.aDomicilio &&
+          {aDomicilio &&
             <View style={styles.adomicilio}>
 
               <Material name='truck' size={28} color={colors.vartema} />
@@ -75,7 +76,7 @@ export default function DetalheServico() {
             </View>
           }
 
-          {servico.latlng != null &&
+          {latlng != null &&
             <TouchableOpacity
               style={[styles.btnmapa, { backgroundColor: colors.tema }]}>
               <Text style={styles.txtmapa}>Ver no mapa</Text>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 
 import { useNavigation, useRoute, useIsFocused, useTheme } from '@react-navigation/native';
-import { formatCurrency, getSupportedCurrencies } from "react-native-format-currency";
+import { formatCurrency } from "react-native-format-currency";
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -18,25 +18,21 @@ export default function Detalhes() {
 
   const { width } = Dimensions.get('window')
 
-  const [produto, setProduto] = useState([])
+  const [{ nome, imagens, descricao, preco, oferta, categoria, tamanho }, setProduto] = useState([])
   const [loja, setLoja] = useState([])
 
   useEffect(() => {
-console.log(route.params);
+
     setProduto(route.params?.item)
     setLoja(route.params?.loja)
 
 
-
   }, [focus])
-
 
   function Preco(preco) {
     if (!preco) return
 
-    const [valueFormattedWithSymbol, valueFormattedWithoutSymbol, symbol] =
-      formatCurrency({ amount: preco, code: 'BRL' });
-
+    const [valueFormattedWithSymbol] = formatCurrency({ amount: preco, code: 'BRL' });
     return valueFormattedWithSymbol
   }
 
@@ -44,7 +40,7 @@ console.log(route.params);
     <ScrollView style={styles.tela}>
       <FlatList
         showsHorizontalScrollIndicator={false}
-        data={produto.imagens}
+        data={imagens}
         snapToInterval={width}
         horizontal
         renderItem={({ item, index }) =>
@@ -54,7 +50,6 @@ console.log(route.params);
               height: width + 100,
             }}
           >
-
             <Image
               style={{
                 flex: 1,
@@ -79,7 +74,7 @@ console.log(route.params);
           }}>
             <View>
 
-              <Text style={styles.categoria}>Categoria: {produto.categoria?.nome}</Text>
+
               <Text style={styles.loja}>{loja.nome}</Text>
             </View>
 
@@ -105,35 +100,38 @@ console.log(route.params);
           </View>
 
           <View>
-            <Text style={styles.nomeproduto}>{produto.nome}</Text>
+            <Text style={styles.categoria}>Categoria: {categoria?.nome}</Text>
+            <Text style={styles.nomeproduto}>{nome?.trim()}</Text>
 
             <View>
-              {!!produto.oferta ?
-                <Text style={styles.preco}>{Preco(parseFloat(produto.oferta).toFixed(2))}
+            {!!oferta &&
+                <View style={[styles.secao, { flexDirection: 'row', alignItems: 'center' }]}>
+                
+                  <Text style={styles.precoantigo}>{Preco(parseFloat(preco).toFixed(2))}</Text>
+                </View>
+              }
+              
+              {!!oferta ?
+                <Text style={styles.preco}>{Preco(parseFloat(oferta).toFixed(2))}
                   <Text style={{ fontSize: 16 }}>  à vista</Text>
                 </Text>
                 :
-                <Text style={styles.preco}>{Preco(parseFloat(produto.preco).toFixed(2))}
+                <Text style={styles.preco}>{Preco(parseFloat(preco).toFixed(2))}
                   <Text style={{ fontSize: 16 }}>  à vista</Text>
                 </Text>
               }
 
-              {!!produto.oferta &&
-                <View style={[styles.secao, { flexDirection: 'row', alignItems: 'center' }]}>
-                  <Text>De: </Text>
-                  <Text style={styles.precoantigo}>{Preco(parseFloat(produto.preco).toFixed(2))}</Text>
-                </View>
-              }
+            
 
             </View>
 
             <View style={styles.descricao}>
 
-              <Text style={{color:'#000'}}>Tamanhos:</Text>
+              <Text style={{ color: '#000' }}>Tamanhos:</Text>
               <View style={{ flexDirection: 'row', marginVertical: 10 }}>
 
 
-                {produto.tamanho?.map((item, index) => {
+                {tamanho?.map((item, index) => {
                   return (
 
                     <Text
@@ -157,7 +155,7 @@ console.log(route.params);
                 onPress={() => setestadoDescricao(!estadoDescricao)}>
                 <Text
                   style={{ color: '#000' }}>
-                  {produto.descricao}
+                  {descricao}
                 </Text>
 
               </Text>
@@ -197,13 +195,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Roboto-Bold',
     color: '#000',
-    marginTop: 15
   },
   preco: {
     color: '#000',
     fontSize: 24,
+    marginTop:20,
     fontFamily: 'Roboto-Bold',
-    marginTop: 15
   },
   categoria: {
     color: '#000',
@@ -215,6 +212,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular'
   },
   precoantigo: {
+    marginTop: 16,
     textDecorationLine: 'line-through',
     color: '#000'
   },
