@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View,TouchableOpacity,FlatList, RefreshControl,StyleSheet } from 'react-native';
+import { View, TouchableOpacity, FlatList, RefreshControl, StyleSheet } from 'react-native';
 
 import Produto from '../../componentes/Produto/ProdutoFeed';
 import ListaCategorias from '../../componentes/ListaCategorias';
@@ -24,13 +24,13 @@ export default function Home() {
 
   function Menu() {
     navigation.setOptions({
-      headerLeft: () =>{
-        return(
+      headerLeft: () => {
+        return (
           <TouchableOpacity
-              onPress={() => navigation.navigate("Menu")}
-              activeOpacity={.9}
-              style={styles.botaomenu}>
-              <Ico name='menu' size={22} color={'#fff'} />
+            onPress={() => navigation.navigate("Menu")}
+            activeOpacity={.9}
+            style={styles.botaomenu}>
+            <Ico name='menu' size={22} color={'#fff'} />
           </TouchableOpacity>
         )
       },
@@ -38,29 +38,29 @@ export default function Home() {
         return (
           <View style={styles.tela}>
 
-          <TouchableOpacity
+            <TouchableOpacity
               activeOpacity={.9}
               style={styles.botao}
               onPress={() => navigation.navigate("Lojas")}>
               <Ico name='storefront-outline' size={22} color={'#fff'} />
-          </TouchableOpacity>
-          <TouchableOpacity
+            </TouchableOpacity>
+            <TouchableOpacity
               activeOpacity={.9}
               style={styles.botao}
               onPress={() => navigation.navigate("Servicos")}>
               <Ico name='room-service-outline' size={22} color={'#fff'} />
-          </TouchableOpacity>
+            </TouchableOpacity>
 
-          <TouchableOpacity
+            <TouchableOpacity
               activeOpacity={.9}
               style={styles.botao}
               onPress={() => navigation.navigate("Search")}>
               <Ico name='magnify' size={22} color={'#fff'} />
-          </TouchableOpacity>
+            </TouchableOpacity>
 
 
 
-      </View>
+          </View>
         )
       }
     })
@@ -72,54 +72,21 @@ export default function Home() {
   }, [])
 
   const onRefresh = () => {
-    
+
     BuscaProdutos()
     BuscaServicos()
     BuscaCategorias()
   };
-  
-  
-  
+
+
+
   async function BuscaCategorias() {
     setCarregando(true)
     try {
       const response = await api.get('/categorias')
       shuffleCategoria(response.data);
       setCarregando(false)
-      
-    } catch (error) {
-      if (error == "AxiosError: Network Error") {
-        navigation.navigate("ErroConexao")
-        setCarregando(false)
-      }
-    }
-  }
-  
-  async function BuscaProdutos() {
-    setCarregando(true)
-    
-    try {
-      const response = await api.get('/produtos')
-      shuffleProdutos(response.data)
-      setCarregando(false)
-      
-    } catch (error) {
-      if (error == "AxiosError: Network Error") {
-        navigation.navigate("ErroConexao")
-        setCarregando(false)
-      }
-    }
-  }
-  
-  
-  
-  async function BuscaServicos() {
-    setCarregando(true)
-    try {
-      const response = await api.get("/servicos")
-      shuffleServicos(response.data);
-      setCarregando(false)
-      
+
     } catch (error) {
       if (error == "AxiosError: Network Error") {
         navigation.navigate("ErroConexao")
@@ -128,7 +95,40 @@ export default function Home() {
     }
   }
 
-  const [banners,setBanners] = useState([
+  async function BuscaProdutos() {
+    setCarregando(true)
+
+    try {
+      const response = await api.get('/produtos')
+      shuffleProdutos(response.data)
+      setCarregando(false)
+
+    } catch (error) {
+      if (error == "AxiosError: Network Error") {
+        navigation.navigate("ErroConexao")
+        setCarregando(false)
+      }
+    }
+  }
+
+
+
+  async function BuscaServicos() {
+    setCarregando(true)
+    try {
+      const response = await api.get("/servicos")
+      shuffleServicos(response.data);
+      setCarregando(false)
+
+    } catch (error) {
+      if (error == "AxiosError: Network Error") {
+        navigation.navigate("ErroConexao")
+        setCarregando(false)
+      }
+    }
+  }
+
+  const [banners, setBanners] = useState([
     'https://www.designi.com.br/images/preview/10023726.jpg',
     'https://www.designi.com.br/images/preview/10046780.jpg',
     'https://www.bioage.com.br/media/slides/Lan_amento_Base_Stick_Marrom_Escuro_Banner_Mobile.png',
@@ -172,8 +172,8 @@ export default function Home() {
       ListHeaderComponent={
         <>
           <ListaCategorias data={categorias} />
-          <CarrosselBanners data={banners}/>
-          <CarrosselServicos data={servico} />
+          <CarrosselBanners data={banners} />
+          {servico.length > 0 && <CarrosselServicos data={servico} />}
         </>
 
       }
@@ -198,20 +198,20 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   tela: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
   },
   botao: {
-      paddingLeft:25,
-      height: 50,
-      justifyContent:'center'
+    paddingLeft: 25,
+    height: 50,
+    justifyContent: 'center'
   },
   botaomenu: {
-      paddingRight:25,
-      height: 50,
-      justifyContent:'center'
+    paddingRight: 25,
+    height: 50,
+    justifyContent: 'center'
   }
-  
+
 })

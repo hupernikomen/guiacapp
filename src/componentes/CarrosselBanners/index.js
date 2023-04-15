@@ -1,14 +1,40 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, View, Image, FlatList, Animated } from 'react-native';
 
+
 const WIDTH = Dimensions.get('window').width;
-import { useTheme } from 'react-native-paper';
+const CARD_WIDTH = WIDTH * 0.9;
+
 
 import { ExpandingDot } from "react-native-animated-pagination-dots";
 
 export default function CarrosselBanners({ data }) {
 
-    const { colors } = useTheme()
+    const scrollRef = useRef(null);
+    const timeoutRef = useRef(null);
+    const [index, setIndex] = useState(0);
+
+    function resetTimeout() {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+    }
+
+    useEffect(() => {
+        resetTimeout();
+
+        timeoutRef.current = setTimeout(() => {
+            setIndex(old => (old === data.length - 1 ? 0 : old + 1));
+        }, 8000);
+
+        scrollRef.current?.scrollToIndex({
+            index,
+        });
+
+        return () => {
+            resetTimeout();
+        };
+    }, [index]);
 
     function RenderItem({ img }) {
         return (
@@ -33,8 +59,9 @@ export default function CarrosselBanners({ data }) {
         <View style={{ paddingBottom: 20 }}>
 
             <FlatList
+                ref={scrollRef}
+                decelerationRate={0}
                 pagingEnabled
-                scrollEventThrottle={16}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                     {
@@ -50,14 +77,14 @@ export default function CarrosselBanners({ data }) {
             <ExpandingDot
                 data={data}
 
-                expandingDotWidth={20}
+                expandingDotWidth={10}
                 scrollX={scrollX}
-                inActiveDotOpacity={0.2}
+                inActiveDotOpacity={.1}
                 activeDotColor={'#bd2828'}
                 dotStyle={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: 5,
+                    width: 6,
+                    height: 6,
+                    borderRadius: 3,
                     marginHorizontal: 3
                 }}
                 containerStyle={{

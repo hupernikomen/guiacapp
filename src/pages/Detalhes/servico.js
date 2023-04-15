@@ -7,91 +7,107 @@ import {
   useNavigation
 } from '@react-navigation/native'
 
+const WIDTH = Dimensions.get('window').width
+
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 export default function DetalheServico() {
   const navigation = useNavigation()
   const route = useRoute()
 
-  const { colors } = useTheme()
-  const { width } = Dimensions.get('window')
+  const [{ nome, tipoServico, bio, endereco, aDomicilio, latlng, telefone, foto }, setServico] = useState([])
+  const [preview, setPreview] = useState(route.params.foto[0].location)
 
-  const [{ nome, tipoServico, bio, endereco, aDomicilio, latlng, foto }, setServico] = useState([])
 
   useEffect(() => {
     setServico(route.params)
 
-    navigation.setOptions({
-      headerRight: () => {
-        return (
-          <TouchableOpacity
-            onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${servico.telefone}`)}
-            activeOpacity={.9}>
-
-            <Material name='whatsapp' size={26} color='#fff' />
-          </TouchableOpacity>
-        )
-      }
-
-    })
-
-
-
   }, [])
 
   return (
-    <View style={{
-      flex: 1
-    }}>
+    <ScrollView style={styles.tela}>
 
-      {foto &&
+      <View style={styles.detalheFoto}>
         <Image
-          source={{ uri: foto[0]?.location }}
-          style={{
-            width: width,
-            height: 150
-          }}
+          style={{ width: WIDTH, aspectRatio: 1, resizeMode: 'cover'}}
+          source={{ uri: preview }}
         />
-      }
-
-      <View style={styles.detalhes}>
-        <Text style={styles.servico}>
-          {tipoServico}
-        </Text>
-        <Text>{nome}</Text>
-
-        <Text style={styles.bio}>{bio}</Text>
-
-
-
-        <View style={styles.endereco}>
-          <Text style={styles.tituloendereco}>Atendemos no endereço:</Text>
-          <Text style={styles.infoendereco}>{endereco}</Text>
-
-          {aDomicilio &&
-            <View style={styles.adomicilio}>
-
-              <Material name='truck' size={28} color={colors.vartema} />
-              <Text style={styles.infodomicilio}>Prestamos serviço à domicilio</Text>
-            </View>
-          }
-
-          {latlng != null &&
+    
+          <FlatList
+          horizontal
+          contentContainerStyle={{paddingHorizontal:6}}
+            data={foto}
+            renderItem={({item,index}) =>  
             <TouchableOpacity
-              style={[styles.btnmapa, { backgroundColor: colors.tema }]}>
-              <Text style={styles.txtmapa}>Ver no mapa</Text>
-            </TouchableOpacity>
+            key={index}
+            onPress={() => setPreview(item.location)}
+          >
+
+            <Image
+              style={{ width: 70, height: 70, marginVertical: 4, marginHorizontal: 2, borderRadius: 4, resizeMode: 'contain' }}
+              source={{ uri: item.location }}
+            />
+          </TouchableOpacity>
           }
-        </View>
+          />
+
       </View>
 
-    </View>
+
+
+      <View style={styles.detalhes}>
+        <View>
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }}>
+
+            <Text style={{ fontFamily: 'Roboto-Bold', fontSize: 22, color: '#000' }}>{nome}</Text>
+
+            <View style={{ flexDirection: "row", alignItems: 'center' }}>
+
+
+              {/* {aDomicilio && <Material name='moped' size={28} color='#000' />} */}
+
+              <TouchableOpacity
+                onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${telefone}`)}
+                style={{ padding: 5, backgroundColor: 'green', borderRadius: 4, marginLeft: 20 }}>
+
+                <Material name='whatsapp' size={28} color='#fff' />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>{tipoServico}</Text>
+
+        </View>
+
+        <Text style={{ fontFamily: 'Roboto-Regular', color: '#000', fontSize:16, marginTop: 20 }}>Sobre</Text>
+        <Text style={{fontFamily:'Roboto-Light', color:'#000'}}>{bio}</Text>
+      </View>
+
+      <Text style={{
+        padding:20,
+        height:100,
+        marginVertical:30
+      }}>Footer Guia Comercial</Text>
+
+
+
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  tela: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  detalheFoto: {
+
+    backgroundColor: '#f1f1f1'
+  },
   detalhes: {
-    padding: 20
+    paddingHorizontal: 20,
+    marginTop: 20
   },
   servico: {
     fontFamily: "Roboto-Bold",

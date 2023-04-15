@@ -71,49 +71,6 @@ const navigation = useNavigation()
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // useEffect(() => {
-  //   BuscaServicos()
-  // }, [])
-
-  // async function BuscaServicos() {
-  //   try {
-  //     const response = await api.get("/servicos")
-  //     setServico(response.data);
-
-  //   } catch (error) {
-
-  //   }
-
-  // }
-
-
-
   const RenderItem = ({ data }) => {
     return (
       <TouchableOpacity
@@ -158,6 +115,7 @@ const navigation = useNavigation()
     <View style={styles.tela}>
 
     <FlatList
+    showsVerticalScrollIndicator={false}
       data={busca ? servicos : listaServicos }
       renderItem={({ item }) => <RenderItem data={item} />}
       />

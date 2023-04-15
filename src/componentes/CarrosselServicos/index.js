@@ -10,10 +10,10 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 const { width: WIDTH } = Dimensions.get('window')
 
 export default function CarrosselServicos({ data }) {
+    const { colors } = useTheme()
 
     const navigation = useNavigation()
 
-    const { colors } = useTheme()
 
     const RenderItem = ({ data }) => {
 
@@ -61,38 +61,55 @@ export default function CarrosselServicos({ data }) {
     return (
         <View style={{
             backgroundColor: '#fff',
-            marginBottom: 10,
-            paddingBottom: 15,
+            marginBottom: 6,
+            paddingBottom: 25,
+            borderRadius: 10,
+            elevation: 1
+
         }}>
-            <Text style={{
-                fontFamily: 'Roboto-Bold',
-                marginLeft: 20,
-                fontSize: 18,
-                marginVertical: 15,
-                color: '#000'
-            }}>Serviços Profissionais</Text>
+            <View style={{
+                flexDirection: 'row',
+                alignItems: "center",
+                justifyContent: 'space-between',
+                paddingHorizontal: 20
+            }}>
+
+                <Text style={{
+                    fontFamily: 'Roboto-Bold',
+                    fontSize: 21,
+                    marginVertical: 20,
+                    color: '#000'
+                }}>Serviços Profissionais</Text>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Servicos")}>
+                    <Text style={{
+                        fontFamily: 'Roboto-Regular',
+                        color: colors.tema
+                    }}>Ver Todos</Text>
+                </TouchableOpacity>
+            </View>
             <FlatList
                 style={{ width: WIDTH }}
                 horizontal
-                snapToInterval={147}
+                snapToInterval={146}
                 showsHorizontalScrollIndicator={false}
-                ItemSeparatorComponent={<View style={{ paddingHorizontal: 6 }} />}
-                contentContainerStyle={{ paddingHorizontal: 20 }}
+                ItemSeparatorComponent={<View style={{ paddingHorizontal: 8 }} />}
+                contentContainerStyle={{ paddingHorizontal: 15 }}
                 data={data}
                 renderItem={({ item }) => <RenderItem data={item} />}
             />
         </View>
+
     );
 }
 
 const styles = StyleSheet.create({
     card: {
-        width: 135,
-
+        width: 130,
     },
     titulo: {
-        textTransform: "uppercase",
-        fontFamily: 'Roboto-Bold',
+        fontFamily: 'Roboto-Medium',
+        fontSize: 16,
         color: '#000',
     },
     nome: {
