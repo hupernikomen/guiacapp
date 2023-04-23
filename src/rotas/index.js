@@ -8,6 +8,7 @@ import DetalheProduto from '../pages/Detalhes/produto';
 import DetalheServico from '../pages/Detalhes/servico';
 import Servicos from '../pages/Servicos';
 import Loja from '../pages/Loja';
+import Vendedores from '../pages/Vendedores';
 import Lojas from '../pages/Lojas';
 import Mapa from '../pages/Mapa';
 import Categorias from '../pages/Categorias';
@@ -33,12 +34,12 @@ export default function RotasStack() {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.tema,
-          
+
         },
         headerTintColor: "#fff",
-        headerTitleStyle:{
-          fontFamily:'Roboto-Medium',
-          fontSize:20
+        headerTitleStyle: {
+          fontFamily: 'Roboto-Medium',
+          fontSize: 20
         }
       }}>
 
@@ -66,9 +67,9 @@ export default function RotasStack() {
         name='Servicos'
         component={Servicos}
         options={{
-          title:'Serviços Profissionais'
+          title: 'Serviços Profissionais'
         }}
-        />
+      />
 
       <Stack.Screen
         name='DetalheProduto'
@@ -85,13 +86,24 @@ export default function RotasStack() {
         }} />
 
       <Stack.Screen
+      options={{
+        headerShown:false
+      }}
         name='Loja'
         component={Loja}
       />
 
       <Stack.Screen
         options={{
-          title:'Lojas Cadastradas'
+          title: "Nossos Vendedores"
+        }}
+        name='Vendedores'
+        component={Vendedores}
+      />
+
+      <Stack.Screen
+        options={{
+          title: 'Lojas Cadastradas'
         }}
         name='Lojas'
         component={Lojas}

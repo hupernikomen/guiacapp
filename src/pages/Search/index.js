@@ -3,7 +3,7 @@ import { View, FlatList, ActivityIndicator, RefreshControl, Text, TextInput, Tou
 
 import { useTheme, useNavigation } from '@react-navigation/native';
 
-import ProdutoFeed from '../../componentes/Produto/ProdutoFeed';
+import ProdutoFeed from '../../componentes/Produto';
 
 import api from '../../servicos/api';
 

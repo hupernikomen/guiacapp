@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, FlatList, RefreshControl, StyleSheet } from 'react-native';
 
-import Produto from '../../componentes/Produto/ProdutoFeed';
+import Produto from '../../componentes/Produto';
 import ListaCategorias from '../../componentes/ListaCategorias';
 
 import api from '../../servicos/api';
 
-import Ico from 'react-native-vector-icons/MaterialCommunityIcons'
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useNavigation } from '@react-navigation/native'
 import CarrosselServicos from '../../componentes/CarrosselServicos';
@@ -30,7 +30,7 @@ export default function Home() {
             onPress={() => navigation.navigate("Menu")}
             activeOpacity={.9}
             style={styles.botaomenu}>
-            <Ico name='menu' size={22} color={'#fff'} />
+            <Material name='menu' size={22} color={'#fff'} />
           </TouchableOpacity>
         )
       },
@@ -39,26 +39,24 @@ export default function Home() {
           <View style={styles.tela}>
 
             <TouchableOpacity
-              activeOpacity={.9}
-              style={styles.botao}
-              onPress={() => navigation.navigate("Lojas")}>
-              <Ico name='storefront-outline' size={22} color={'#fff'} />
+            onPress={() => navigation.navigate("Lojas")}
+              style={{ height: 50, aspectRatio: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <Material name='storefront-outline' size={26} color='#fff' />
             </TouchableOpacity>
+{/* 
             <TouchableOpacity
-              activeOpacity={.9}
-              style={styles.botao}
-              onPress={() => navigation.navigate("Servicos")}>
-              <Ico name='room-service-outline' size={22} color={'#fff'} />
-            </TouchableOpacity>
-
+            onPress={() => navigation.navigate("Servicos")}
+              style={{ height: 50, aspectRatio: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <Material name='room-service-outline' size={26} color='#fff' />
+            </TouchableOpacity> */}
+            
             <TouchableOpacity
-              activeOpacity={.9}
-              style={styles.botao}
-              onPress={() => navigation.navigate("Search")}>
-              <Ico name='magnify' size={22} color={'#fff'} />
+            onPress={() => navigation.navigate("Search")}
+              style={{ height: 50, aspectRatio: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <Material name='magnify' size={26} color='#fff' />
             </TouchableOpacity>
 
-
+          
 
           </View>
         )

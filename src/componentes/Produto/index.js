@@ -8,17 +8,19 @@ import {
   Dimensions,
 } from "react-native";
 
-import Off from "../../etiquetas/Off";
-import Delivery from "../../etiquetas/Delivery";
+import Delivery from "../Delivery";
+import Off from "../Off";
+import { formatCurrency } from "react-native-format-currency";
 
 import api from "../../servicos/api";
-import { useNavigation,  useTheme } from "@react-navigation/native";
-import { formatCurrency, getSupportedCurrencies } from "react-native-format-currency";
+import { useNavigation,useRoute } from "@react-navigation/native";
 
-export default function ProdutoLoja({ item }) {
+const { width: WIDTH } = Dimensions.get('window')
+
+export default function ProdutoFeed({ item }) {
 
   const navigation = useNavigation();
-  const { colors } = useTheme()
+  const {name} = useRoute()
 
   const [loja, setLoja] = useState([])
 
@@ -28,14 +30,13 @@ export default function ProdutoLoja({ item }) {
 
   }, [])
 
-
   async function BuscaLoja() {
     try {
-      const response = await api.get(`/loja?lojaID=${item.lojaID}`)
-      setLoja(response.data);
-      
+      const { data } = await api.get(`/loja?lojaID=${item.lojaID}`)
+      setLoja(data);
+
     } catch (error) {
-      
+
     }
   }
 
@@ -43,22 +44,21 @@ export default function ProdutoLoja({ item }) {
   function Preco(preco) {
     if (!preco) return
 
-    const [valueFormattedWithSymbol, valueFormattedWithoutSymbol, symbol] =
-      formatCurrency({ amount: preco, code: 'BRL' });
-
+    const [valueFormattedWithSymbol] = formatCurrency({ amount: preco, code: 'BRL' });
     return valueFormattedWithSymbol
-
   }
 
   return (
+
     <TouchableOpacity
       style={styles.containerproduct}
       onPress={() => navigation.navigate("DetalheProduto", {
-        item: item,
-        loja: loja
+        item,
+        loja
       })}
       activeOpacity={1}>
       <View>
+        {!!loja.entrega && <Delivery left={!!item.oferta ? 35 : 4} />}
         {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
         <Image
           style={styles.imageproduct}
@@ -75,31 +75,23 @@ export default function ProdutoLoja({ item }) {
           {item.nome}
         </Text>
 
-        <View style={{
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexDirection: 'row'
-        }}>
-
-          <Text style={styles.real}>{Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}</Text>
-
-        </View>
-
+        <Text style={styles.real}>{Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}</Text>
+        {name === "Home" &&<Text style={styles.nomeloja}>{loja.nome}</Text>}
       </View>
 
     </TouchableOpacity>
   );
 }
 
-const {width} = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   containerproduct: {
     flex: 1,
     backgroundColor: "#fff",
     borderRadius: 6,
-    marginHorizontal: 6,
-    maxWidth: (width / 2) - 18,
+    marginHorizontal: 4,
+    maxWidth: (WIDTH / 2) - 12,
+    paddingBottom:5
   },
   containerInfo: {
     paddingHorizontal: 10,
@@ -126,7 +118,6 @@ const styles = StyleSheet.create({
   real: {
     color: '#000',
     fontSize: 18,
-    marginTop: -2,
     fontFamily: "Roboto-Bold",
   },
   priceoff: {
@@ -137,13 +128,12 @@ const styles = StyleSheet.create({
   nome: {
     color: '#000',
     fontFamily: 'Roboto-Light',
+    fontSize: 13
   },
   nomeloja: {
-    marginTop:5,
     fontSize: 13,
     fontFamily: 'Roboto-Light',
-    color:'#000'
+    color: '#000'
   }
-
 
 });

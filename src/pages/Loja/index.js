@@ -1,110 +1,79 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Linking, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native';
 
-import Produto from '../../componentes/Produto/ProdutoLoja';
+import Produto from '../../componentes/Produto';
 
 import Material from "react-native-vector-icons/MaterialCommunityIcons"
 
-import { useRoute, useNavigation, useIsFocused, useTheme } from '@react-navigation/native';
+import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 
 export default function Loja() {
 
     const navigation = useNavigation()
     const route = useRoute()
-    const focus = useIsFocused()
     const { colors } = useTheme()
 
-    const [infoLoja, setInfoLoja] = useState([])
 
-    useEffect(() => {
-        setInfoLoja(route.params)
-
-    }, [focus])
-
-    useEffect(() => {
-        navigation.setOptions({
-            title: infoLoja.nome,
-            headerRight: () =>
-                <>
-
-                    <TouchableOpacity
-                        onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${infoLoja.telefone}`)}>
-                        <Material name='whatsapp' color='#fff' size={26} />
-
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={{ marginLeft: 20 }}
-                        activeOpacity={.9}
-                        onPress={() => navigation.navigate("Mapa", infoLoja)}>
-
-                        <Material name='google-maps' size={26} color={'#fff'} />
-                    </TouchableOpacity>
-
-
-                </>
-
-        })
-
-    }, [infoLoja])
-
-    return (
-        <View style={styles.tela}>
-
+    function Header() {
+        return (
             <View style={{
                 backgroundColor: colors.tema,
-                height: 100,
-                paddingHorizontal: 20,
-                paddingVertical: 5
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingVertical: 10,
+                height: 57,
             }}>
-                <View style={{
-                    flexDirection: 'row',
-                    alignItems: "flex-start"
-                }}>
 
-                    <Material name='text' size={20}  color='#ffffff90'/>
-                    <Text style={{
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{ height: 50, aspectRatio: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Material name='arrow-left' size={26} color='#fff' />
+                </TouchableOpacity>
+
+                <Image
+                    style={{ width: 40, aspectRatio: 1, borderRadius: 25 }}
+                    source={{ uri: route.params?.logo[0].location }}
+                />
+
+                <Text
+                    numberOfLines={1}
+                    style={{
+                        flex: 1,
+                        marginLeft: 15,
+                        fontFamily: 'Roboto-Medium',
+                        fontSize: 20,
                         color: '#fff',
-                        marginLeft: 10,
-                        fontFamily: 'Roboto-Light'
-                    }}>
-                        {infoLoja.bio}
-                    </Text>
+                    }}>{route.params?.nome}</Text>
+
+                <View style={{
+                    right: 0,
+                    flexDirection: 'row'
+                }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Vendedores", route.params?.vendedores)}
+                        style={{ height: 50, aspectRatio: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Material name='whatsapp' size={26} color='#fff' />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Mapa", route.params)}
+                        style={{ height: 50, aspectRatio: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Material name='google-maps' size={26} color='#fff' />
+                    </TouchableOpacity>
+
                 </View>
 
-
-
-                {infoLoja.entrega &&
-                    <View style={{
-                        flexDirection: "row"
-                    }}>
-                        <Material name='truck'size={20} color='#ffffff90'/>
-                        <Text style={{
-                            marginLeft: 10,
-                            color: '#fff',
-                            fontFamily: 'Roboto-Light'
-                        }}>Fazemos Entregas</Text>
-                    </View>
-                }
-
             </View>
+        )
 
+    }
 
-            <FlatList
-                contentContainerStyle={{ marginVertical: 6 }}
-                columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
-                data={infoLoja.produtos}
-                renderItem={({ item }) => <Produto item={item} />}
-                numColumns={2}
-
-            />
-
-
-        </View>
+    return (
+        <FlatList
+            ListHeaderComponent={<Header />}
+            data={route.params?.produtos}
+            renderItem={({ item }) => <Produto item={item} />}
+            numColumns={2}
+        />
     );
 }
-
-const styles = StyleSheet.create({
-    tela: {
-        flex: 1
-    }
-})

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList } from 'react-native';
+import { View,Text, FlatList,TouchableOpacity,Image } from 'react-native';
 
 import CardLoja from '../../componentes/CardLoja';
-
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../../servicos/api';
 
 import { useNavigation } from '@react-navigation/native';
@@ -68,14 +68,38 @@ export default function Lojas() {
 
   }
 
+  function RenderItem({ data }) {
+    console.log(data);
+    return (
+        <TouchableOpacity
+        onPress={() => navigation.navigate('Loja', data)}
+            style={{ flexDirection: "row", alignItems: 'center', marginVertical: 2 }}>
+
+            <Image
+            style={{ width: 60, aspectRatio: 1, borderRadius: 30, borderWidth: 3, borderColor: '#ffffff50' }}
+            source={{ uri: data.logo[0].location }}
+            />
+
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, flex: 1, borderRadius: 6 }}>
+
+                <View>
+                    <Text numberOfLines={1} style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>{data.nome}</Text>
+                    <Text style={{ fontFamily: 'Roboto-Light', color: '#000', fontSize:13 }}>{data.produtos.length} produtos </Text>
+                </View>
+
+                    <Material name='chevron-right' size={24} color='#000' />
+            </View>
+        </TouchableOpacity>
+    )
+}
+
 
   return (
     <FlatList
-      contentContainerStyle={{ marginVertical: 6 }}
-      columnWrapperStyle={{ marginHorizontal: 6, marginVertical: 5 }}
-      numColumns={2}
+    ItemSeparatorComponent={<View style={{ borderWidth: .5, borderColor: '#ddd' }} />}
       data={busca ? lojas : listaLojas}
-      renderItem={({ item }) => <CardLoja loja={item} />}
+      renderItem={({ item }) => <RenderItem data={item} />}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
     // refreshControl={
     //   <RefreshControl
     //     refreshing={carregando}

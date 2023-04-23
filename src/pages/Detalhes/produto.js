@@ -16,7 +16,7 @@ export default function Detalhes() {
 
   const { colors } = useTheme()
 
-  const { width } = Dimensions.get('window')
+  const { width: WIDTH } = Dimensions.get('window')
 
   const [{ nome, imagens, descricao, preco, oferta, categoria, tamanho }, setProduto] = useState([])
   const [loja, setLoja] = useState([])
@@ -41,18 +41,20 @@ export default function Detalhes() {
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={imagens}
-        snapToInterval={width}
+        pagingEnabled
         horizontal
         renderItem={({ item, index }) =>
           <View
             style={{
-              width: width,
-              height: width + 100,
+              width: WIDTH,
+              aspectRatio: 1,
+              backgroundColor: '#f1f1f1'
             }}
           >
             <Image
               style={{
                 flex: 1,
+                resizeMode: 'contain',
               }}
               source={{ uri: item.location }}
             />
@@ -61,22 +63,17 @@ export default function Detalhes() {
         }
       />
 
-      <View style={styles.containerInfo}>
 
+      <View style={styles.containerInfo}>
 
         <View style={{
           flex: 1,
         }}>
-
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between'
           }}>
-            <View>
-
-
-              <Text style={styles.loja}>{loja.nome}</Text>
-            </View>
+            <Text style={styles.loja}>{loja.nome}</Text>
 
             <View style={{
               flexDirection: 'row',
@@ -104,13 +101,13 @@ export default function Detalhes() {
             <Text style={styles.nomeproduto}>{nome?.trim()}</Text>
 
             <View>
-            {!!oferta &&
+              {!!oferta &&
                 <View style={[styles.secao, { flexDirection: 'row', alignItems: 'center' }]}>
-                
+
                   <Text style={styles.precoantigo}>{Preco(parseFloat(preco).toFixed(2))}</Text>
                 </View>
               }
-              
+
               {!!oferta ?
                 <Text style={styles.preco}>{Preco(parseFloat(oferta).toFixed(2))}
                   <Text style={{ fontSize: 16 }}>  à vista</Text>
@@ -121,7 +118,7 @@ export default function Detalhes() {
                 </Text>
               }
 
-            
+
 
             </View>
 
@@ -199,7 +196,7 @@ const styles = StyleSheet.create({
   preco: {
     color: '#000',
     fontSize: 24,
-    marginTop:20,
+    marginTop: 20,
     fontFamily: 'Roboto-Bold',
   },
   categoria: {
