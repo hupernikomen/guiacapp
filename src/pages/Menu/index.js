@@ -28,6 +28,13 @@ export default function Menu() {
                 <Material name='chevron-right' color={colors.destaque} size={25} />
             </TouchableOpacity>
 
+            <TouchableOpacity
+                onPress={() => navigation.navigate("Signin")}
+                style={styles.btnmenu}>
+                <Text style={styles.itemmenu}>Login</Text>
+                <Material name='chevron-right' color={colors.destaque} size={25} />
+            </TouchableOpacity>
+
 
             <TouchableOpacity
 

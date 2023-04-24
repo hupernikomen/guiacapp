@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, FlatList, RefreshControl, StyleSheet } from 'react-native';
 
-import Produto from '../../componentes/Produto';
+import Produto from '../../componentes/Produtos/pdt-feed';
 import ListaCategorias from '../../componentes/ListaCategorias';
 
 import api from '../../servicos/api';

@@ -4,7 +4,7 @@ import { FlatList } from 'react-native';
 import api from '../../servicos/api';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
-import Produto from '../../componentes/Produto';
+import Produto from '../../componentes/Produtos/pdt-feed';
 
 export default function Categorias() {
 

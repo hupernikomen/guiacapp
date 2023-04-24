@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -8,38 +8,16 @@ import {
   Dimensions,
 } from "react-native";
 
-import Delivery from "../Delivery";
-import Off from "../Off";
 import { formatCurrency } from "react-native-format-currency";
+import { useNavigation } from "@react-navigation/native";
 
-import api from "../../servicos/api";
-import { useNavigation,useRoute } from "@react-navigation/native";
+import Off from "../Off";
 
-const { width: WIDTH } = Dimensions.get('window')
+const WIDTH = Dimensions.get('window').width
 
-export default function ProdutoFeed({ item }) {
+export default function Produto({ item }) {
 
   const navigation = useNavigation();
-  const {name} = useRoute()
-
-  const [loja, setLoja] = useState([])
-
-  useEffect(() => {
-
-    BuscaLoja()
-
-  }, [])
-
-  async function BuscaLoja() {
-    try {
-      const { data } = await api.get(`/loja?lojaID=${item.lojaID}`)
-      setLoja(data);
-
-    } catch (error) {
-
-    }
-  }
-
 
   function Preco(preco) {
     if (!preco) return
@@ -51,20 +29,20 @@ export default function ProdutoFeed({ item }) {
   return (
 
     <TouchableOpacity
-      style={styles.containerproduct}
-      onPress={() => navigation.navigate("DetalheProduto", {
-        item,
-        loja
-      })}
-      activeOpacity={1}>
-      <View>
-        {!!loja.entrega && <Delivery left={!!item.oferta ? 35 : 4} />}
-        {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
-        <Image
-          style={styles.imageproduct}
-          source={{ uri: item.imagens[0]?.location }} />
+      onPress={() => navigation.navigate("EditaProduto", item)}
+      activeOpacity={1}
+      style={styles.containerproduct}>
 
+      <View style={styles.containerImagem}>
+        <View style={styles.etiquetas}>
+          {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
+          <Image
+            style={styles.imageproduct}
+            source={{ uri: item.imagens[0].location }} />
+
+        </View>
       </View>
+
       <View
         style={styles.containerInfo}>
 
@@ -75,8 +53,28 @@ export default function ProdutoFeed({ item }) {
           {item.nome}
         </Text>
 
-        <Text style={styles.real}>{Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}</Text>
-        {name === "Home" &&<Text style={styles.nomeloja}>{loja.nome}</Text>}
+        <View style={{
+        }}>
+
+          {
+            item.oferta &&
+            <Text style={{
+              textDecorationLine: 'line-through',
+              fontSize: 12,
+              fontFamily: 'Roboto-Light',
+              color: '#222'
+            }}>
+              {Preco(parseFloat(item.preco).toFixed(2))}
+            </Text>
+          }
+          <Text style={styles.real}>
+            {Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}
+          </Text>
+
+
+        </View>
+
+
       </View>
 
     </TouchableOpacity>
@@ -88,10 +86,10 @@ const styles = StyleSheet.create({
   containerproduct: {
     flex: 1,
     backgroundColor: "#fff",
-    borderRadius: 6,
+    padding: 1,
+    borderRadius: 2,
     marginHorizontal: 4,
     maxWidth: (WIDTH / 2) - 12,
-    paddingBottom:5
   },
   containerInfo: {
     paddingHorizontal: 10,
@@ -105,8 +103,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 4,
   },
   imageproduct: {
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
     aspectRatio: 1,
   },
   container_preco: {
@@ -117,7 +113,7 @@ const styles = StyleSheet.create({
   },
   real: {
     color: '#000',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "Roboto-Bold",
   },
   priceoff: {
@@ -135,5 +131,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Light',
     color: '#000'
   }
+
 
 });

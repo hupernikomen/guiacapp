@@ -14,11 +14,11 @@ export default function Off({ valor }) {
             justifyContent: 'center',
             position: 'absolute',
             zIndex: 9999,
-            left:-5,
-            top:-10
+            left:-6,
+            top:-8
         }}>
 
-            <Material name='bookmark' size={50} color={colors.tema}/>
+            <Material name='bookmark' size={44} color={colors.tema}/>
             <View 
             style={{
                 position: 'absolute',
@@ -28,7 +28,7 @@ export default function Off({ valor }) {
                 <Text style={{
                     fontFamily: "Roboto-Regular",
                     alignSelf:'center',
-                    fontSize: 10,
+                    fontSize: 9,
                     color: '#fff',
                     marginTop:2
                 }}>
@@ -36,7 +36,7 @@ export default function Off({ valor }) {
                 </Text>
                 <Text style={{
                     fontFamily: "Roboto-Regular",
-                    fontSize: 10,
+                    fontSize: 9,
                     marginTop:-2,
                     color: '#fff',
                     alignSelf:'center'

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native';
 
-import Produto from '../../componentes/Produto';
+import Produto from '../../componentes/Produtos/pdt-feed';
 
 import Material from "react-native-vector-icons/MaterialCommunityIcons"
 

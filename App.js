@@ -5,7 +5,9 @@ import Rotas from './src/rotas';
 import { StatusBar } from 'react-native';
 
 
-import { AuthProvider } from './src/context';
+import { LojaProvider } from './src/contexts/lojaContext'
+import { ProdutoProvider } from './src/contexts/produtoContext'
+
 const MyTheme = {
   dark: true,
 
@@ -37,12 +39,16 @@ const MyTheme = {
 export default function App() {
   return (
     <NavigationContainer theme={MyTheme}>
-      <AuthProvider>
+
+      <LojaProvider>
+        <ProdutoProvider>
+
         <StatusBar backgroundColor={MyTheme.colors.tema} translucent={false} />
-
-
         <Rotas />
-      </AuthProvider>
+
+        </ProdutoProvider>
+      </LojaProvider>
+      
     </NavigationContainer>
   )
 }
