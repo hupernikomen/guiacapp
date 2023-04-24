@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { Alert } from "react-native";
 import api from '../servicos/api'
 
@@ -13,7 +13,7 @@ export function ProdutoProvider({ children }) {
 
     const [acao, setAcao] = useState(false)
 
-    const arrTamanhos = ["PP", "P", "M", "G", "GG", "XGG", "EG", "EGG", "1", "2", "3", "4", "5","6", "32", "34", "36", "38", "40", "42", "44", "46", "48", "50"]
+    const arrTamanhos = ["PP", "P", "M", "G", "GG", "XGG", "EG", "EGG", "1", "2", "3", "4", "5", "6", "32", "34", "36", "38", "40", "42", "44", "46", "48", "50"]
 
 
     async function Postar(cod, nome, descricao, preco, tamanho, categoria, preview, credenciais) {
@@ -66,20 +66,19 @@ export function ProdutoProvider({ children }) {
         })
             .then(() => {
                 setAcao(false)
-                navigation.navigate("Home")
+                navigation.navigate("HomeControle")
             })
 
             .catch((error) => console.log("error from image :", error.response))
     }
 
-    async function Atualizar(nome, descricao, preco, oferta, tamanho, cor, categoriaID, id, credenciais) {
+    async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id, credenciais) {
 
         if (nome == "" || descricao == "") return
 
         const produto = {
             nome,
             descricao,
-            preco,
             oferta,
             tamanho,
             cor,
@@ -92,18 +91,18 @@ export function ProdutoProvider({ children }) {
         }
 
         await api.put(`/produto?produtoID=${id}`, produto, { headers })
-            .then(() => { navigation.navigate("Home") })
+            .then(() => Alert.alert("Que legal","Seu produto já foi atualizado"))
             .catch((error) => console.error(error.response))
     }
 
-    async function Excluir(id,credenciais) {
+    async function Excluir(id, credenciais) {
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${credenciais.token}`
         }
 
         await api.delete(`/produto?produtoID=${id}`, { headers })
-            .then(() => { })
+            .then(() => navigation.navigate("HomeControle"))
             .catch((error) => console.log(error.response))
     }
 

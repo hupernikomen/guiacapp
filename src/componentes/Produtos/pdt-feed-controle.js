@@ -56,17 +56,17 @@ export default function Produto({ item }) {
         <View style={{
         }}>
 
-          {
+          {/* {
             item.oferta &&
             <Text style={{
               textDecorationLine: 'line-through',
-              fontSize: 12,
+              fontSize: 11,
               fontFamily: 'Roboto-Light',
               color: '#222'
             }}>
               {Preco(parseFloat(item.preco).toFixed(2))}
             </Text>
-          }
+          } */}
           <Text style={styles.real}>
             {Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}
           </Text>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   containerInfo: {
     paddingHorizontal: 10,
     paddingTop: 5,
-    paddingBottom: 10,
+    paddingBottom: 15,
   },
   containerImagem: {
     aspectRatio: 1,
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   priceoff: {
     padding: 3,
     color: '#fff',
-    fontSize: 12
+    fontSize: 10
   },
   nome: {
     color: '#000',

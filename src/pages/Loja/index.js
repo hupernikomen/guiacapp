@@ -70,6 +70,8 @@ export default function Loja() {
 
     return (
         <FlatList
+        showsVerticalScrollIndicator={false}
+        columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
             ListHeaderComponent={<Header />}
             data={route.params?.produtos}
             renderItem={({ item }) => <Produto item={item} />}

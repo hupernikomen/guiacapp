@@ -21,6 +21,8 @@ import CadastrarProduto from '../controle/CadastrarProduto';
 import CadastrarDados from '../controle/CadastrarDados';
 import EditaProduto from '../controle/EditaProduto';
 import HomeControle from '../controle/Home'
+import MapaControle from '../controle/Mapa';
+import VendedoresControle from '../controle/Vendedores';
 
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -66,35 +68,7 @@ export default function RotasStack() {
             options={{
               headerTitle: loja.nome || "",
               headerShadowVisible: false,
-              headerRight: () => (
-                <>
-                  <TouchableOpacity style={{ marginLeft: 10, width: 35, aspectRatio: 1, alignItems: 'flex-end', justifyContent: 'center' }}
-                    onPress={() => navigation.navigate("CadastrarProduto")}>
-                    <Material name='plus-thick' size={26} color='#fff' />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={{ marginLeft: 10, width: 35, aspectRatio: 1, alignItems: 'flex-end', justifyContent: 'center' }}
-                    onPress={() => navigation.navigate("Menu")}>
-                    <Material name='dots-vertical' size={26} color='#fff' />
-                  </TouchableOpacity>
-                </>
-              ),
-              headerLeft: () => (
-
-                loja?.logo?.length > 0 && <Image
-                  source={{ uri: loja.logo[0].location }}
-                  style={{
-                    width: 38,
-                    aspectRatio: 1,
-                    borderRadius: 20,
-                    marginRight: 10,
-                    borderWidth: .5,
-                    borderColor: '#fff',
-                    backgroundColor: '#fff',
-                  }}
-                />
-
-              )
+              
             }}
             name='HomeControle'
             component={HomeControle} />
@@ -120,6 +94,21 @@ export default function RotasStack() {
             name='EditaProduto'
             component={EditaProduto}
             options={{
+              headerShadowVisible: false,
+            }} />
+
+          <Stack.Screen
+            name='MapaControle'
+            component={MapaControle}
+            options={{
+              title:"Localização",
+              headerShadowVisible: false,
+            }} />
+          <Stack.Screen
+            name='VendedoresControle'
+            component={VendedoresControle}
+            options={{
+              title:"Cadastro de Vendedores",
               headerShadowVisible: false,
             }} />
 
@@ -155,9 +144,6 @@ export default function RotasStack() {
         component={Signin}
         options={{
           headerShown: false,
-          tabBarStyle: {
-            display: 'none'
-          }
         }}
       />
 

@@ -159,7 +159,7 @@ export function LojaProvider({ children }) {
 
 
 
-  async function UpdateLoja(entrega, nome, endereco, bairro, referencia, bio) {
+  async function Atualizar(entrega, nome, endereco, bairro, referencia, bio) {
 
     setLoadBotao(true)
 
@@ -180,7 +180,7 @@ export function LojaProvider({ children }) {
     await api.put(`/loja?lojaID=${credenciais.id}`, formData, { headers })
       .then(() => {
         setLoadBotao(false)
-        Alert.alert("Sucesso", "Seus dados foram atualizados")
+        Alert.alert("Muito bom...","Seus dados já foram atualizados")
 
 
       })
@@ -216,7 +216,7 @@ export function LojaProvider({ children }) {
           email,
           token,
         })
-        navigation.navigate('HomeControle')
+        navigation.navigate("HomeControle")
         setLoading(false)
       })
       .catch(({response}) => {
@@ -250,7 +250,7 @@ export function LojaProvider({ children }) {
       previewLogo,
       Logo,
       BuscaLoja,
-      UpdateLoja,
+      Atualizar,
       signIn,
       signOut,
     }}>

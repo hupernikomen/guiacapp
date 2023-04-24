@@ -289,32 +289,36 @@ export default function CadastrarProduto() {
 
 
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
-                visible={modalVisible}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                visible={modalVisible}
+                statusBarTranslucent
+                onRequestClose={() => setModalVisible(false)}
+
+            >
+
+                <View style={{ flex: 1 }}>
+
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => setModalVisible(false)}
+                        style={{ flex: 1, backgroundColor: '#00000070' }}>
+
+                    </TouchableOpacity>
+
+                    <View style={{ backgroundColor: "#fff" }}>
 
                         <FlatList
-                            contentContainerStyle={{ padding: 8 }}
-                            numColumns={7}
-                            data={listaTams}
+                            contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 30, alignItems: 'center' }}
+                            numColumns={6}
+                            data={arrTamanhos}
                             renderItem={({ item }) => <RenderItem data={item} />}
-                            ListFooterComponent={
-                                <Pressable
-                                    style={{
-                                        alignSelf: 'center',
-                                        marginVertical: 30,
-                                        padding: 10,
 
-                                    }}
-                                    onPress={() => setModalVisible(!modalVisible)}>
-                                    <Text style={{ color: '#000' }}>Voltar</Text>
-                                </Pressable>
-                            }
                         />
 
                     </View>
+
+
                 </View>
             </Modal>
 
@@ -322,7 +326,7 @@ export default function CadastrarProduto() {
 
                 <TituloInput>Tamanhos Disponiveis</TituloInput>
                 <FlatList
-                    ItemSeparatorComponent={<Text style={{marginHorizontal:4}}>-</Text>}
+                    ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
                     horizontal
                     data={tamanho.sort()}
                     renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
@@ -341,7 +345,7 @@ export default function CadastrarProduto() {
                 activeOpacity={1}
                 onPress={() => Postar(cod, nome, descricao, preco.replace(',', '.'), tamanho, categoria, preview, credenciais)}>
                 {acao ? <ActivityIndicator size={20} color={'#fff'} /> :
-                        <TextBtn>Postar</TextBtn>
+                    <TextBtn>Postar</TextBtn>
                 }
             </BotaoPrincipal>
 

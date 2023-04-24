@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
-
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useTheme } from '@react-navigation/native';
 
@@ -10,8 +8,7 @@ import { Input, TituloInput, ContainerInput, BotaoPrincipal } from "../../styles
 
 export default function CadastrarDados() {
     const { colors } = useTheme()
-    const { UpdateLoja, loja, loadBotao } = useContext(LojaContext)
-
+    const { Atualizar, loja, loadBotao } = useContext(LojaContext)
 
     const [nome, setNome] = useState('')
     const [endereco, setEndereco] = useState('')
@@ -140,11 +137,11 @@ export default function CadastrarDados() {
                 activeOpacity={1}
                 cor={colors.tema}
                 onPress={() => {
-                    UpdateLoja(entrega, nome, endereco, bairro, referencia, bio)
+                    Atualizar(entrega, nome, endereco, bairro, referencia, bio)
                 }}>
 
-                {loadBotao ? <ActivityIndicator size={20} color={'#fff'} />
-                    :
+                {loadBotao ?
+                    <ActivityIndicator size={20} color={'#fff'} /> :
                     <Text style={styles.txtbtn}>Atualizar</Text>
                 }
             </BotaoPrincipal>

@@ -8,7 +8,6 @@ import { ProdutoContext } from '../../contexts/produtoContext';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal } from "../../styles";
-import ModalTamanhos from '../../componentes/Modal/tamanhos';
 
 export default function EditaProduto() {
   const { credenciais, acao } = useContext(LojaContext)
@@ -89,6 +88,38 @@ export default function EditaProduto() {
   }
 
 
+  function RenderItem({ data }) {
+
+    const response = tamanho.indexOf(data)
+    return (
+
+      <Pressable
+        style={{
+          aspectRatio: 1,
+          height: (width - 40) / 6,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 4,
+          backgroundColor: response == -1 ? "#fff" : colors.tema,
+          borderWidth: response == -1 ? .5 : 0
+        }}
+        onPress={() => {
+          if (response == -1) {
+            setTamanho(itensTam => [...itensTam, data]);
+          } else {
+
+            let response = tamanho.filter((item) => item != data)
+
+            setTamanho(response);
+
+          }
+        }}>
+        <Text style={{ color: response == -1 ? "#000" : '#fff' }}>{data}</Text>
+      </Pressable>
+    )
+  }
+
+
 
 
   return (
@@ -131,13 +162,13 @@ export default function EditaProduto() {
         <ContainerInput>
 
           <TituloInput>
-            Preço Inicial - R$
+            Preço Inicial - ( Não editavel )
           </TituloInput>
 
           <Input
 
             editable={false}
-            style={styles.input}
+            style={[styles.input,{color:'#aaa'}]}
             value={parseFloat(preco).toFixed(2).replace('.', ',')}
             onChangeText={setPreco} />
         </ContainerInput>
@@ -186,7 +217,7 @@ export default function EditaProduto() {
           onPress={() => Atualizar(
             nome,
             descricao,
-            preco,
+            // preco,
             oferta.replace(',', '.'),
             tamanho,
             cor,
@@ -205,51 +236,33 @@ export default function EditaProduto() {
       </ScrollView>
 
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
+        statusBarTranslucent
         onRequestClose={() => setModalVisible(false)}
 
       >
 
         <View style={{ flex: 1 }}>
 
-          <TouchableOpacity onPress={() => setModalVisible(false)} style={{ flex: 1 }}></TouchableOpacity>
+          <TouchableOpacity 
+          activeOpacity={1}
+          onPress={() => setModalVisible(false)} 
+          style={{ flex: 1, backgroundColor: '#00000070' }}>
 
-          <View style={{ backgroundColor: "#fff", elevation: 3, borderRadius: 10, margin: 10, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'space-evenly', paddingVertical: 20 }}>
+          </TouchableOpacity>
 
-            {arrTamanhos.map((item, index) => {
-              const response = tamanho.indexOf(item)
-              return (
+          <View style={{ backgroundColor: "#fff"}}>
 
-                <TouchableOpacity
-                  key={index}
-                  style={{
-                    aspectRatio: 1,
-                    height: (width / 7) - 10,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: 4,
-                    borderRadius: 4,
-                    backgroundColor: response == -1 ? "#fff" : colors.tema,
-                    borderWidth: response == -1 ? .5 : 0
-                  }}
-                  onPress={() => {
-                    if (response == -1) {
-                      setTamanho(itensTam => [...itensTam, item]);
-                    } else {
+            <FlatList
+              contentContainerStyle={{ paddingHorizontal: 20,paddingVertical:30, alignItems: 'center' }}
+              numColumns={6}
+              data={arrTamanhos}
+              renderItem={({ item }) => <RenderItem data={item} />}
 
-                      let response = tamanho.filter((item) => item != item)
+            />
 
-                      setTamanho(response);
-
-                    }
-                  }}>
-                  <Text style={{ color: response == -1 ? "#000" : '#fff' }}>{item}</Text>
-                </TouchableOpacity>
-              )
-            }
-            )}
           </View>
 
 

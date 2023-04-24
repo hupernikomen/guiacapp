@@ -1,22 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Linking,
-  StatusBar,
+  Linking
 } from "react-native";
 
 import { LojaContext } from "../../contexts/lojaContext"
-import { useTheme } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 
 export default function Login() {
 
-  const { signIn } = useContext(LojaContext)
+  const { signIn} = useContext(LojaContext)
 
   const {colors} = useTheme()
+  const navigation = useNavigation()
 
   const [email, setEmail] = useState("hupcontato@gmail.com")
   const [senha, setSenha] = useState("hpG422354")

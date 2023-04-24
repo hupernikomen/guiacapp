@@ -3,7 +3,7 @@ import { View, Text, Dimensions, Alert, TouchableOpacity, PermissionsAndroid, Ac
 
 const { width, height } = Dimensions.get("window")
 
-import api from '../../services/api';
+import api from '../../servicos/api';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 

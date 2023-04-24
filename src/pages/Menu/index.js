@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
 
 import { useTheme, useNavigation } from '@react-navigation/native'
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
+import { LojaContext } from '../../contexts/lojaContext';
+
 export default function Menu() {
 
     const navigation = useNavigation()
     const { colors } = useTheme()
+
+    const { autenticado } = useContext(LojaContext)
 
     return (
         <View style={styles.tela}>
@@ -29,7 +33,7 @@ export default function Menu() {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => navigation.navigate("Signin")}
+                onPress={() => navigation.navigate(autenticado ? "HomeControle" : "Signin")}
                 style={styles.btnmenu}>
                 <Text style={styles.itemmenu}>Login</Text>
                 <Material name='chevron-right' color={colors.destaque} size={25} />
