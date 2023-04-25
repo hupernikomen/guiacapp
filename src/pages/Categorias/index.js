@@ -10,18 +10,17 @@ export default function Categorias() {
 
   const [produtos, setProdutos] = useState([])
 
-  const route = useRoute()
+  const {params} = useRoute()
   const navigation = useNavigation()
 
   useEffect(() => {
     navigation.setOptions({
-      title: route.params?.nome
+      title: params?.nome
 
     })
-    console.log(route.params)
 
     async function PegaCategorias() {
-      const response = await api.get(`/porcategoria?categoriaID=${route.params?.id}`)
+      const response = await api.get(`/porcategoria?categoriaID=${params?.id}`)
       setProdutos(response.data);
     }
 
@@ -32,9 +31,8 @@ export default function Categorias() {
   return (
 
     <FlatList
-    contentContainerStyle={{marginVertical:6}}
       showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 8 }}
+      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
       data={produtos}
       renderItem={({ item }) => <Produto item={item} />}
       numColumns={2}

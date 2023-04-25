@@ -132,12 +132,11 @@ export default function CadastrarProduto() {
                     fontSize: 14,
                     position: 'absolute',
                     zIndex: 99,
-                    top: -10,
                     marginLeft: 10,
                     color: '#000',
                     padding: 10,
                 }}>
-                    Selecione, ou fotografe até 3 Imagens *
+                    Busque, ou fotografe até 3 Imagens *
                 </Text>
 
                 <View style={{

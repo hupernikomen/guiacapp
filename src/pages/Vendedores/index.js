@@ -14,15 +14,15 @@ export default function Vendedores() {
             onPress={()=> Linking.openURL(`https://api.whatsapp.com/send?phone=${data.whatsapp}`)}
                 style={{ flexDirection: "row", alignItems: 'center', marginVertical: 2 }}>
                 <Image
-                    style={{ width: 60, aspectRatio: 1, borderRadius: 30, borderWidth: 3, borderColor: '#ffffff50' }}
+                    style={{ width: 45, aspectRatio: 1, borderRadius: 23 }}
                     source={{ uri: data.foto[0].location }}
                 />
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, flex: 1, borderRadius: 6 }}>
 
                     <View>
-                        <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Vendedor(a): </Text>
-                        <Text numberOfLines={1} style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>{data.nome}</Text>
+                        <Text style={{ fontFamily: 'Roboto-Light', color: '#000',fontSize:13 }}>Vendedor(a): </Text>
+                        <Text numberOfLines={1} style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 16 }}>{data.nome}</Text>
                     </View>
 
                         <Material name='chevron-right' size={24} color='#000' />

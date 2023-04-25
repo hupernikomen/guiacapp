@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import { useContext } from 'react';
+import { View, Linking } from 'react-native';
 
 import { useTheme, useNavigation } from '@react-navigation/native'
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { LojaContext } from '../../contexts/lojaContext';
+
+import { BtnCabecalho, TxtBtnCabecalho, BtnMenu, TxtBtnMenu } from './styles'
 
 export default function Menu() {
 
@@ -15,103 +17,56 @@ export default function Menu() {
     const { autenticado } = useContext(LojaContext)
 
     return (
-        <View style={styles.tela}>
+        <View style={{
+            flex: 1,
+            backgroundColor: '#fff'
+        }}>
 
-            <View style={styles.secao}>
+            <View style={{
+                backgroundColor: colors.tema,
+                height: 130,
+                flexDirection: 'row',
+                alignItems: 'center',
+                padding: 10
+            }}>
 
-                <Text style={[styles.item, { margin: 15, textAlign: "center" }]}>
+                <BtnCabecalho
+                    cor={colors.tema_2}
+                    onPress={() => navigation.navigate("Anuncie")}>
+                    <Material name='bullhorn-variant-outline' size={28} color='#fff' />
+                    <TxtBtnCabecalho>Anuncie no Guia</TxtBtnCabecalho>
+                </BtnCabecalho>
 
-                    Aplicativo de anúncios de mercadorias e serviços. Aproximando lojistas, profissionais e clientes.
-                </Text>
+                <BtnCabecalho
+                    cor={colors.tema_2}
+                    onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}>
+                    <Material name='whatsapp' size={28} color='#fff' />
+                    <TxtBtnCabecalho>Fale conosco</TxtBtnCabecalho>
+                </BtnCabecalho>
+
             </View>
 
-            <TouchableOpacity
-                onPress={() => navigation.navigate("Anuncie")}
-                style={styles.btnmenu}>
-                <Text style={styles.itemmenu}>Seja um anunciante</Text>
-                <Material name='chevron-right' color={colors.destaque} size={25} />
-            </TouchableOpacity>
+            <View style={{ marginTop: 10 }}>
 
-            <TouchableOpacity
-                onPress={() => navigation.navigate(autenticado ? "HomeControle" : "Signin")}
-                style={styles.btnmenu}>
-                <Text style={styles.itemmenu}>Login</Text>
-                <Material name='chevron-right' color={colors.destaque} size={25} />
-            </TouchableOpacity>
+                <BtnMenu
+                    onPress={() => navigation.navigate("Lojas")}>
+                    <TxtBtnMenu>Encontre Lojas</TxtBtnMenu>
+                    <Material name='chevron-right' color={colors.tema} size={25} />
+                </BtnMenu>
 
+                <BtnMenu
+                    onPress={() => navigation.navigate("Servicos")}>
+                    <TxtBtnMenu>Encontre Profissionais</TxtBtnMenu>
+                    <Material name='chevron-right' color={colors.tema} size={25} />
+                </BtnMenu>
 
-            <TouchableOpacity
+                <BtnMenu
+                    onPress={() => navigation.navigate(autenticado ? "HomeControle" : "Signin")}>
+                    <TxtBtnMenu>Lojista</TxtBtnMenu>
+                    <Material name='chevron-right' color={colors.tema} size={25} />
+                </BtnMenu>
 
-                onPress={() => navigation.navigate("Lojas")}
-                style={styles.btnmenu}>
-                <Text style={styles.itemmenu}>Encontre Lojas</Text>
-                <Material name='chevron-right' color={colors.destaque} size={25} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                onPress={() => navigation.navigate("Servicos")}
-                style={styles.btnmenu}>
-                <Text style={styles.itemmenu}>Encontre Profissionais</Text>
-                <Material name='chevron-right' color={colors.destaque} size={25} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
-                style={styles.btnmenuult}>
-                <Text style={styles.itemmenu}>Fale com o Guia</Text>
-                <Material name='chevron-right' color={colors.destaque} size={25} />
-            </TouchableOpacity>
-
-
+            </View>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    tela: {
-        flex: 1,
-        paddingHorizontal: 20,
-        backgroundColor: "#fff"
-    },
-    secao: {
-        borderBottomWidth: .5,
-        borderBottomColor: '#ffffff90',
-        marginVertical: 5,
-        paddingBottom: 25
-    },
-    btnmenu: {
-        backgroundColor: '#f1f1f199',
-        padding: 15,
-        borderRadius: 4,
-        flexDirection: "row",
-        alignItems: 'center',
-        justifyContent: "space-between",
-        marginVertical: 2
-    },
-    btnmenuult: {
-        backgroundColor: '#f1f1f199',
-        padding: 15,
-        borderRadius: 4,
-        flexDirection: "row",
-        alignItems: 'center',
-        justifyContent: "space-between",
-        marginTop: 60,
-
-    },
-    itemdestaque: {
-        marginBottom: 5,
-        fontFamily: 'Roboto-Bold',
-        color: '#000',
-        fontSize: 24
-    },
-    item: {
-        color: '#000',
-        fontFamily: 'Roboto-Regular',
-        fontSize: 16,
-    },
-    itemmenu: {
-        color: '#000',
-        fontSize: 16,
-        fontFamily: 'Roboto-Regular'
-    }
-})

@@ -78,7 +78,7 @@ export default function EditaProduto() {
 
   async function ConfirmaExclusao(e) {
 
-    Alert.alert("Excluir Produto", `Deseja excluir o item: \n${route.params?.nome}`, [
+    Alert.alert("Excluir Produto", `${route.params?.nome}`, [
       {
         text: "Sim",
         onPress: () => Excluir(route.params?.id, credenciais),

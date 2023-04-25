@@ -7,6 +7,9 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import Produto from '../../componentes/Produtos/pdt-feed-controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
+import { BtnIcone } from '../../styles'
+import {BtnMenu} from './styles'
+
 export default function HomeControle() {
 
   const { BuscaLoja, loja, signOut, previewLogo, Logo } = useContext(LojaContext)
@@ -19,7 +22,6 @@ export default function HomeControle() {
 
       BuscaLoja()
 
-
       return () => {
         setModalVisible(false)
       }
@@ -31,29 +33,29 @@ export default function HomeControle() {
     navigation.setOptions({
       headerRight: () => (
         <>
-          <TouchableOpacity style={{ marginLeft: 10, width: 35, aspectRatio: 1, alignItems: 'flex-end', justifyContent: 'center' }}
+          <BtnIcone
+            lado={'flex-end'}
             onPress={() => navigation.navigate("CadastrarProduto")}>
-            <Material name='plus-thick' size={26} color='#fff' />
-          </TouchableOpacity>
+            <Material name='plus-thick' size={24} color='#fff' />
+          </BtnIcone>
 
-          <TouchableOpacity style={{ marginLeft: 10, width: 35, aspectRatio: 1, alignItems: 'flex-end', justifyContent: 'center' }}
+          <BtnIcone
+            lado={'flex-end'}
             onPress={() => setModalVisible(true)}>
-            <Material name='dots-vertical' size={26} color='#fff' />
-          </TouchableOpacity>
+            <Material name='dots-vertical' size={24} color='#fff' />
+          </BtnIcone>
         </>
       ),
       headerLeft: () => (
 
-        loja?.logo?.length > 0 && <Image
+        loja.logo?.length > 0 &&
+        <Image
           source={{ uri: loja.logo[0].location }}
           style={{
-            width: 38,
+            width: 40,
             aspectRatio: 1,
             borderRadius: 20,
-            marginRight: 10,
-            borderWidth: .5,
-            borderColor: '#fff',
-            backgroundColor: '#fff',
+            marginRight: 20,
           }}
         />
 
@@ -68,11 +70,11 @@ export default function HomeControle() {
       <FlatList
         ListEmptyComponent={
           <View style={{ alignItems: 'center', marginTop: 50 }}>
-            <Text style={{ fontFamily: 'Roboto-Light', fontSize: 16, color: '#000' }}>Você ainda não cadastrou nenhum produto.</Text>
+            <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Você não tem nenhum produto postado.</Text>
 
             <View style={{ alignItems: 'center', flexDirection: 'row' }}>
 
-              <Text style={{ fontFamily: 'Roboto-Light', fontSize: 16, marginRight: 5, color: '#000' }}>Para cadastrar clique no botão</Text>
+              <Text style={{ fontFamily: 'Roboto-Light',  marginRight: 5, color: '#000' }}>Para postar clique no botão</Text>
               <Material name='plus-thick' size={20} color='#000' />
 
             </View>
@@ -85,7 +87,10 @@ export default function HomeControle() {
         numColumns={2}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={<Text style={{ marginVertical: 20, alignSelf: 'center', fontFamily: 'Roboto-Light', color: '#000' }}>Guia Comercial App</Text>}
+        ListFooterComponent={loja.produtos?.length > 6
+          && <Text style={{ marginVertical: 20, alignSelf: 'center', fontFamily: 'Roboto-Light', color: '#000' }}>
+            Guia Comercial App
+          </Text>}
       />
 
       <Modal
@@ -93,9 +98,8 @@ export default function HomeControle() {
         transparent={true}
         statusBarTranslucent
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => setModalVisible(false)}>
 
-      >
         <View style={{ flex: 1 }}>
 
           <TouchableOpacity
@@ -106,20 +110,17 @@ export default function HomeControle() {
             }}
             style={{ flex: 1, backgroundColor: '#00000070' }}>
 
-
           </TouchableOpacity>
-
 
           <View
             style={{
               backgroundColor: '#fff',
               paddingHorizontal: 15,
-              paddingTop:15,
+              paddingTop: 15,
             }}
           >
-            <TouchableOpacity
+            <BtnMenu
               activeOpacity={.9}
-              style={styles.btnmenu}
               onPress={Logo}
             >
               <Text style={styles.txtmenu}>Alterar Logo</Text>
@@ -127,44 +128,40 @@ export default function HomeControle() {
               <View
                 style={styles.preview}>
 
-                {loja?.logo?.length > 0 &&<Image
-                style={styles.logomenu}
-                source={{ uri: previewLogo || loja.logo[0].location}} />}
+                {loja.logo?.length > 0 && <Image
+                  style={styles.logomenu}
+                  source={{ uri: previewLogo || loja.logo[0].location }} />}
               </View>
-            </TouchableOpacity>
+            </BtnMenu>
 
-            <TouchableOpacity
-            activeOpacity={.9}
-            style={styles.btnmenu}
-            onPress={() => navigation.navigate("CadastrarDados")}>
+            <BtnMenu
+              activeOpacity={.9}
+              onPress={() => navigation.navigate("CadastrarDados")}>
               <Text style={styles.txtmenu}>Dados</Text>
-            </TouchableOpacity>
+            </BtnMenu>
 
-            <TouchableOpacity
-                activeOpacity={.9}
-                style={styles.btnmenu}
-                onPress={() => navigation.navigate("VendedoresControle")}>
+            <BtnMenu
+              activeOpacity={.9}
+              onPress={() => navigation.navigate("VendedoresControle")}>
               <Text style={styles.txtmenu}>Vendedores</Text>
-              {/* <Text style={{fontFamily:'Roboto-Light'}}>{loja.vendedores.length}</Text> */}
-            </TouchableOpacity>
+              <Text style={{fontFamily:'Roboto-Light'}}>{loja.vendedores?.length}</Text>
+            </BtnMenu>
 
-            <TouchableOpacity
-                activeOpacity={.9}
-                style={styles.btnmenu}
-                onPress={() => navigation.navigate("MapaControle")}>
+            <BtnMenu
+              activeOpacity={.9}
+              onPress={() => navigation.navigate("MapaControle")}>
               <Text style={styles.txtmenu}>Localização</Text>
               {!!loja.latlng &&
                 <Text style={{ fontFamily: 'Roboto-Light' }}>Registrado</Text>
               }
-            </TouchableOpacity>
+            </BtnMenu>
 
-            <TouchableOpacity
+            <BtnMenu
               activeOpacity={.9}
-              style={styles.btnmenu}
               onPress={signOut}>
               <Text style={styles.txtmenu}>Sair da Loja</Text>
 
-            </TouchableOpacity>
+            </BtnMenu>
           </View>
 
         </View>
@@ -203,14 +200,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 20,
   },
-  btnmenu: {
-    width: '100%',
-    height: 55,
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    borderBottomColor: '#ddd',
-    borderBottomWidth: .5
-  },
+  
   txtmenu: {
     color: '#000',
     fontSize: 16,

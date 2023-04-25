@@ -68,7 +68,6 @@ export default function RotasStack() {
             options={{
               headerTitle: loja.nome || "",
               headerShadowVisible: false,
-              
             }}
             name='HomeControle'
             component={HomeControle} />

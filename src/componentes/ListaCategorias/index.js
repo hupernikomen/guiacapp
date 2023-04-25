@@ -34,7 +34,7 @@ export default function ListaCategorias({ data }) {
                 onPress={() => navigation.navigate("Categorias", item)}
                 activeOpacity={.9}
                 style={{
-                    height: 60,
+                    height: 55,
                     justifyContent: 'center',
                     paddingHorizontal: 15,
                 }}>
@@ -44,6 +44,7 @@ export default function ListaCategorias({ data }) {
                 <Text style={{
                     textTransform: 'uppercase',
                     fontFamily: 'Roboto-Bold',
+                    fontSize:13,
                     color: '#fff',
                 }}>
                     {item.nome}

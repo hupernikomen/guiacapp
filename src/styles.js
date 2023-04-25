@@ -1,8 +1,11 @@
 import styled from 'styled-components/native'
 // import { TextInputMask } from 'react-native-masked-text'
 
+const Texto = styled.Text`
+    color: #000
+`
 
-export const Tela =styled.View`
+export const Tela = styled.View`
     flex: 1,
     background-color: #fff,
     padding: 15px
@@ -33,7 +36,7 @@ export const Input = styled.TextInput`
 //     border-radius: 30px;
 //     border-color: #aaa;
 // `
-export const TituloInput = styled.Text`
+export const TituloInput = styled(Texto)`
     font-family: Roboto-Light;
     font-size: 13px;
     position: absolute;
@@ -41,7 +44,6 @@ export const TituloInput = styled.Text`
     z-index: 99;
     top: -10px;
     margin-left: 15px;
-    color: #000;
     padding-horizontal: 10px;
 `
 export const SimulaInput = styled.View`
@@ -56,7 +58,7 @@ export const SimulaInput = styled.View`
     border-radius: 24.5px;
     border-color: #aaa;
 `
-export const BotaoPrincipal=styled.TouchableOpacity`
+export const BotaoPrincipal = styled.TouchableOpacity`
     height: 55px;
     border-radius: 28px;
     align-items: center;
@@ -65,8 +67,17 @@ export const BotaoPrincipal=styled.TouchableOpacity`
     flex-direction: row;
     background-color: ${props => props.cor}
 `
-export const TextBtn=styled.Text`
+export const TextBtn = styled.Text`
     color: #fff;
     font-size: 16px;
     font-family: "Roboto-Medium"
+`
+export const BtnIcone = styled.TouchableOpacity`
+    width: 50px;
+    align-items: ${props => props.lado};
+    height: 50px;
+    justify-content: center
+`
+export const TextoPadrao = styled(Texto)`
+    font-family: Roboto-Regular
 `

@@ -24,7 +24,7 @@ const MyTheme = {
   //TEMA NORMAL
   colors: {
     tema: '#bd2828',
-    tema_2: '#A32222',
+    tema_2: '#a82424',
     vartema: '#FF6D1C',
     destaque: '#b38f00',
     background:'#f1f1f1'
