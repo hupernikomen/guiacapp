@@ -7,11 +7,12 @@ export const BtnCabecalho = styled.TouchableOpacity`
     align-items: center;
     padding: 10px; 
     background-color: ${props => props.cor}; 
-    margin: 5px
+    margin: 5px;
+    elevation: 5
 `
 export const TxtBtnCabecalho = styled.Text`
     text-align: center;
-    color: #fbeaea;
+    color: #000;
     font-family: Roboto-Light;
     font-size: 12px;
     margin-top: 10px

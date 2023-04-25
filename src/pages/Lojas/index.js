@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View,Text, FlatList,TouchableOpacity,Image } from 'react-native';
+import { View,Text, FlatList,TouchableOpacity,Image, RefreshControl } from 'react-native';
 
 import CardLoja from '../../componentes/CardLoja';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -30,8 +30,13 @@ export default function Lojas() {
       },
     })
 
-    CarregaLojas()
+    onRefresh()
+
   }, [navigation])
+  
+  const onRefresh = () => {
+    CarregaLojas()
+  };
 
 
   if (carregando) {
@@ -76,7 +81,7 @@ export default function Lojas() {
             style={{ flexDirection: "row", alignItems: 'center', marginVertical: 2 }}>
 
             <Image
-            style={{ width: 60, aspectRatio: 1, borderRadius: 30, borderWidth: 3, borderColor: '#ffffff50' }}
+            style={{ width: 50, aspectRatio: 1, borderRadius: 30 }}
             source={{ uri: data.logo[0].location }}
             />
 
@@ -100,12 +105,12 @@ export default function Lojas() {
       data={busca ? lojas : listaLojas}
       renderItem={({ item }) => <RenderItem data={item} />}
       contentContainerStyle={{ paddingHorizontal: 15 }}
-    // refreshControl={
-    //   <RefreshControl
-    //     refreshing={carregando}
-    //     onRefresh={onRefresh}
-    //   />
-    // }
+    refreshControl={
+      <RefreshControl
+        refreshing={carregando}
+        onRefresh={onRefresh}
+      />
+    }
     />
 
   );

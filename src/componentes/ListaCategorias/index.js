@@ -24,8 +24,6 @@ export default function ListaCategorias({ data }) {
 
             } else {
                 return <Text style={styles.cont}>{valor}</Text>
-
-
             }
         }
 

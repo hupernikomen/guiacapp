@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { View, Linking } from 'react-native';
+import { View, Linking, ScrollView } from 'react-native';
 
 import { useTheme, useNavigation } from '@react-navigation/native'
 
@@ -22,31 +22,31 @@ export default function Menu() {
             backgroundColor: '#fff'
         }}>
 
-            <View style={{
-                backgroundColor: colors.tema,
-                height: 130,
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 10
-            }}>
+            <ScrollView
+                horizontal
+                style={{
+                    backgroundColor: colors.tema,
+                    padding: 10,
+                    maxHeight: 130
+                }}>
 
                 <BtnCabecalho
-                    cor={colors.tema_2}
+                    cor={'#fff'}
                     onPress={() => navigation.navigate("Anuncie")}>
-                    <Material name='bullhorn-variant-outline' size={28} color='#fff' />
+                    <Material name='bullhorn-variant-outline' size={28} color={colors.tema} />
                     <TxtBtnCabecalho>Anuncie no Guia</TxtBtnCabecalho>
                 </BtnCabecalho>
 
                 <BtnCabecalho
-                    cor={colors.tema_2}
+                    cor={'#fff'}
                     onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}>
-                    <Material name='whatsapp' size={28} color='#fff' />
+                    <Material name='whatsapp' size={28} color={colors.tema} />
                     <TxtBtnCabecalho>Fale conosco</TxtBtnCabecalho>
                 </BtnCabecalho>
 
-            </View>
+            </ScrollView>
 
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 10, flex: 1 }}>
 
                 <BtnMenu
                     onPress={() => navigation.navigate("Lojas")}>
@@ -54,15 +54,15 @@ export default function Menu() {
                     <Material name='chevron-right' color={colors.tema} size={25} />
                 </BtnMenu>
 
-                <BtnMenu
+                {/* <BtnMenu
                     onPress={() => navigation.navigate("Servicos")}>
                     <TxtBtnMenu>Encontre Profissionais</TxtBtnMenu>
                     <Material name='chevron-right' color={colors.tema} size={25} />
-                </BtnMenu>
+                </BtnMenu> */}
 
                 <BtnMenu
                     onPress={() => navigation.navigate(autenticado ? "HomeControle" : "Signin")}>
-                    <TxtBtnMenu>Lojista</TxtBtnMenu>
+                    <TxtBtnMenu>Área do Lojista</TxtBtnMenu>
                     <Material name='chevron-right' color={colors.tema} size={25} />
                 </BtnMenu>
 

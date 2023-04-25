@@ -5,16 +5,13 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useTheme } from '@react-navigation/native';
 
-export default function Delivery({ left }) {
+export default function Delivery() {
 
   const { colors } = useTheme()
   return (
-    <View style={[styles.card, { left }]}>
-      <Material name='truck' size={16} color={'#fff'} />
-      <Material style={{
-        position: 'absolute',
-        zIndex: -1,
-      }} name='card' size={30} color={'#cc9900'} />
+    <View style={[styles.card]}>
+      <Material name='truck' size={20} color={colors.destaque} />
+     
     </View>
   );
 }
@@ -27,7 +24,7 @@ const styles = StyleSheet.create({
     padding: 4,
     marginHorizontal: 4,
     position: "absolute",
-    top: -5,
+    right:0,
     zIndex: 9,
   }
 })

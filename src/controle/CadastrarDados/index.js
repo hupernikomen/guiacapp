@@ -69,7 +69,7 @@ export default function CadastrarDados() {
                     value={nome}
                     style={styles.input}
                     onChangeText={setNome}
-                    maxLength={35} />
+                    maxLength={25} />
             </ContainerInput>
 
             <ContainerInput>

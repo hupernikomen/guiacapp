@@ -66,7 +66,7 @@ export default function RotasStack() {
         <>
           <Stack.Screen
             options={{
-              headerTitle: loja.nome || "",
+             
               headerShadowVisible: false,
             }}
             name='HomeControle'

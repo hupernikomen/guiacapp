@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -12,16 +12,14 @@ import Delivery from "../Delivery";
 import Off from "../Off";
 import { formatCurrency } from "react-native-format-currency";
 
-import { useNavigation,useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const { width: WIDTH } = Dimensions.get('window')
 
 export default function ProdutoFeed({ item }) {
 
   const navigation = useNavigation();
-  const {name} = useRoute()
-
-  console.log(item);
+  const { name } = useRoute()
 
   function Preco(preco) {
     if (!preco) return
@@ -39,7 +37,7 @@ export default function ProdutoFeed({ item }) {
       })}
       activeOpacity={1}>
       <View>
-        {!!item.loja?.entrega && <Delivery left={!!item.oferta ? 35 : 4} />}
+
         {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
         <Image
           style={styles.imageproduct}
@@ -57,8 +55,14 @@ export default function ProdutoFeed({ item }) {
         </Text>
 
         <Text style={styles.real}>{Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}</Text>
-        {name !== "Loja" &&<Text style={styles.nomeloja}>{item.loja?.nome}</Text>}
+
+        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+          {name !== "Loja" && <Text numberOfLines={1} lineBreakMode="tail" style={styles.nomeloja}>{item.loja?.nome}</Text>}
+          {!!item.loja?.entrega && <Delivery />}
+
+        </View>
       </View>
+
 
     </TouchableOpacity>
   );
@@ -109,6 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 13
   },
   nomeloja: {
+    flex:1,
     fontSize: 13,
     fontFamily: 'Roboto-Light',
     color: '#000'

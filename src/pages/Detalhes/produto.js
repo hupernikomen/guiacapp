@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Dimensions, ScrollView, TouchableOpacity, FlatList, Image } from 'react-native';
-
+import Share from "react-native-share";
 import { useNavigation, useRoute, useIsFocused, useTheme } from '@react-navigation/native';
 import { formatCurrency } from "react-native-format-currency";
 
@@ -27,19 +27,25 @@ export default function Detalhes() {
 
     setProduto(route.params?.item)
 
+    
+
+  }, [focus])
+
+  useEffect(()=>{
     navigation.setOptions({
       headerRight: () => (
 
         <TouchableOpacity
           activeOpacity={.8}
-          onPress={() => { }}
+          onPress={async () => {
+            await share();
+          }}
         >
           <Material name='share-variant-outline' size={24} color='#fff' />
         </TouchableOpacity>
       )
     })
-
-  }, [focus])
+  },[imagens])
 
   function Preco(preco) {
     if (!preco) return
@@ -54,21 +60,40 @@ export default function Detalhes() {
       <View
         style={{
           width: WIDTH,
+          backgroundColor: '#eee',
           aspectRatio: 3 / 4,
-          backgroundColor: '#ddd'
         }}
       >
         <Image
           source={{ uri: data.location }}
           style={{
             flex: 1,
-            // resizeMode: 'contain',
+            resizeMode: 'contain',
           }}
         />
 
       </View>
     )
   }
+
+  
+const title=""
+  const url = loja && imagens[0]?.location;
+  const message = nome +" | " + String('*R$' +parseFloat(preco).toFixed(2)+'*');
+
+  const options = {
+    title,
+    url,
+    message,
+  };
+
+  const share = async (customOptions = options) => {
+    try {
+      await Share.open(customOptions);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <ScrollView style={{
@@ -86,15 +111,15 @@ export default function Detalhes() {
 
 
       <View style={{
-            paddingHorizontal: 20,
-            paddingVertical: 10
+        paddingHorizontal: 20,
+        paddingVertical: 10
       }}>
 
         <ContainerLoja>
           <NomeLoja>{loja?.nome}</NomeLoja>
 
           <BtnIcone
-            lado={'center'}
+            lado={'flex-end'}
             activeOpacity={.8}
             onPress={() => navigation.navigate("Loja", loja)}>
 

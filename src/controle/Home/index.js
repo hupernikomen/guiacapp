@@ -31,6 +31,7 @@ export default function HomeControle() {
   useEffect(() => {
 
     navigation.setOptions({
+      title: loja.nome || "",
       headerRight: () => (
         <>
           <BtnIcone
