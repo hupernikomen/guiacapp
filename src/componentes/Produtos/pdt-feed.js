@@ -60,6 +60,7 @@ export default function ProdutoFeed({ item }) {
           {name !== "Loja" && <Text numberOfLines={1} lineBreakMode="tail" style={styles.nomeloja}>{item.loja?.nome}</Text>}
           {!!item.loja?.entrega && <Delivery />}
 
+
         </View>
       </View>
 

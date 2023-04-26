@@ -7,9 +7,9 @@ color: #000
 
 export const ContainerLoja = styled.View`
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 5px
+    height: 50px;
 `
 export const NomeLoja = styled(Texto)`
     font-family: Roboto-Regular;
@@ -32,4 +32,10 @@ export const TxtPreco = styled(Texto)`
 export const TxtPrecoAntigo = styled(Texto)`
     font-family: Roboto-Light;
     text-decoration-line: line-through
+`
+export const BtnIconeLoja = styled.TouchableOpacity`
+    align-items: ${props => props.lado};
+    height: 50px;
+    justify-content: center;
+    margin-left: 30px
 `

@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Dimensions, ScrollView, TouchableOpacity, FlatList, Image } from 'react-native';
-import Share from "react-native-share";
 import { useNavigation, useRoute, useIsFocused, useTheme } from '@react-navigation/native';
 import { formatCurrency } from "react-native-format-currency";
 
+import Pinchable from 'react-native-pinchable';
+
+import Share from "react-native-share";
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo } from './styles'
-import { BtnIcone, TextoPadrao } from '../../styles'
+import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo, BtnIconeLoja } from './styles'
+import { TextoPadrao } from '../../styles';
+
 
 export default function Detalhes() {
 
   const navigation = useNavigation()
   const route = useRoute()
   const focus = useIsFocused()
-
-  const [estadoDescricao, setestadoDescricao] = useState(false)
 
   const { colors } = useTheme()
 
@@ -27,11 +28,11 @@ export default function Detalhes() {
 
     setProduto(route.params?.item)
 
-    
-
   }, [focus])
 
-  useEffect(()=>{
+
+
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
 
@@ -45,7 +46,7 @@ export default function Detalhes() {
         </TouchableOpacity>
       )
     })
-  },[imagens])
+  }, [imagens])
 
   function Preco(preco) {
     if (!preco) return
@@ -55,31 +56,31 @@ export default function Detalhes() {
   }
 
 
+
+
+
   function RenderItem({ data }) {
     return (
-      <View
-        style={{
-          width: WIDTH,
-          backgroundColor: '#eee',
-          aspectRatio: 3 / 4,
-        }}
-      >
-        <Image
-          source={{ uri: data.location }}
-          style={{
-            flex: 1,
-            resizeMode: 'contain',
-          }}
-        />
+      <Pinchable minimumZoomScale={1} maximumZoomScale={2}>
+          <Image
+            source={{ uri: data.location }}
+            style={{
+              width:WIDTH-40,
+              aspectRatio: 3/4,
+              flex: 1,
+              borderRadius:6
+            }}
+          />
 
-      </View>
+      </Pinchable>
+
     )
   }
 
-  
-const title=""
+
+  const title = ""
   const url = loja && imagens[0]?.location;
-  const message = nome +" | " + String('*R$' +parseFloat(preco).toFixed(2)+'*');
+  const message = nome + " | " + String('*R$' + parseFloat(preco).toFixed(2) + '*');
 
   const options = {
     title,
@@ -88,8 +89,9 @@ const title=""
   };
 
   const share = async (customOptions = options) => {
+
     try {
-      await Share.open(customOptions);
+      await Share.open(customOptions)
     } catch (err) {
       console.log(err);
     }
@@ -101,8 +103,13 @@ const title=""
       backgroundColor: '#fff'
     }}>
 
+
       <FlatList
+
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{margin:20}}
+        snapToInterval={WIDTH -40}
+        ItemSeparatorComponent={<View style={{marginRight:1}}/>}
         data={imagens}
         pagingEnabled
         horizontal
@@ -112,19 +119,23 @@ const title=""
 
       <View style={{
         paddingHorizontal: 20,
-        paddingVertical: 10
       }}>
 
         <ContainerLoja>
           <NomeLoja>{loja?.nome}</NomeLoja>
 
-          <BtnIcone
-            lado={'flex-end'}
-            activeOpacity={.8}
-            onPress={() => navigation.navigate("Loja", loja)}>
 
-            <Material name='storefront-outline' size={24} color='#000' />
-          </BtnIcone>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+            <BtnIconeLoja
+              lado={'flex-end'}
+              activeOpacity={.8}
+              onPress={() => navigation.navigate("Loja", loja)}>
+
+              <Material name='storefront-outline' size={24} color={colors.tema} />
+              <Text style={{ fontSize: 10 }}>Ver Loja</Text>
+            </BtnIconeLoja>
+          </View>
 
         </ContainerLoja>
 

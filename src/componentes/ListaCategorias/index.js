@@ -54,7 +54,6 @@ export default function ListaCategorias({ data }) {
                     top: 10
                 }}>
 
-                    <ContagemSimbolica valor={item._count.produto} />
                 </View>
 
 

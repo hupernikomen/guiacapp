@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { FlatList, RefreshControl, Text } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
 import ListaCategorias from '../../componentes/ListaCategorias';
+
+import { LojaContext } from '../../contexts/lojaContext';
 
 import api from '../../servicos/api';
 
@@ -21,6 +23,7 @@ export default function Home() {
 
   const navigation = useNavigation()
 
+  const [listaLojas, setListaLojas] = useState([])
 
   const [carregando, setCarregando] = useState(false)
   const [produtos, setProdutos] = useState([])
@@ -28,6 +31,10 @@ export default function Home() {
   const [categorias, setCategorias] = useState([])
 
   function Menu() {
+
+    BuscaLojas()
+
+
     navigation.setOptions({
       headerLeft: () => {
         return (
@@ -60,14 +67,28 @@ export default function Home() {
     })
   }
 
+
+  async function BuscaLojas() {
+    await api.get('/lojas')
+      .then(({ data }) => {
+
+        setListaLojas(data)
+      })
+
+  }
+
+
   useEffect(() => {
     onRefresh()
     Menu()
+
   }, [])
-  
+
   const onRefresh = () => {
     BuscaCategorias()
     BuscaProdutos()
+
+
   };
 
   async function BuscaCategorias() {
@@ -87,6 +108,8 @@ export default function Home() {
     try {
       const response = await api.get('/produtos')
       shuffleProdutos(response.data)
+
+
 
     } catch (error) {
       if (error == "AxiosError: Network Error") {
@@ -114,7 +137,7 @@ export default function Home() {
     setProdutos(arr);
   }
 
-  
+
   return (
     <FlatList
       showsVerticalScrollIndicator={false}

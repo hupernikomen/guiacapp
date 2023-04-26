@@ -6,7 +6,7 @@ import {
 import { LojaContext } from "../../contexts/lojaContext"
 import { useNavigation, useTheme } from "@react-navigation/native";
 
-import { ContainerInput, Input, BotaoPrincipal, TextBtn } from '../../styles'
+import { ContainerInput, Input, TituloInput, BotaoPrincipal, TextBtn } from '../../styles'
 
 export default function Login() {
 
@@ -15,8 +15,8 @@ export default function Login() {
   const { colors } = useTheme()
   const navigation = useNavigation()
 
-  const [email, setEmail] = useState("hupcontato@gmail.com")
-  const [senha, setSenha] = useState("hpG422354")
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
 
   return (
     <View style={{
@@ -28,23 +28,29 @@ export default function Login() {
 
 
       <ContainerInput>
-        <Input
-          keyboardType='email-address'
-          onChangeText={setEmail}
-          value={email}
-          placeholder='seuemail@email.com'
+        <TituloInput
 
-        />
+        >
+          Email
+        </TituloInput>
+        <Input
+          placeholder={"email@email.com"}
+          placeholderTextColor={'#ccc'}
+          maxLength={35}
+          onChangeText={setEmail}
+          value={email} />
       </ContainerInput>
 
       <ContainerInput>
+        <TituloInput>
+          Senha
+        </TituloInput>
         <Input
+          placeholder={"***"}
+          placeholderTextColor={'#ccc'}
+          maxLength={35}
           onChangeText={setSenha}
-          value={senha}
-          secureTextEntry
-          placeholder='*****'
-        />
-
+          value={senha} />
       </ContainerInput>
 
       <BotaoPrincipal
