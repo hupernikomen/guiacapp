@@ -35,15 +35,25 @@ export default function Detalhes() {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
+        <>
+          <BtnIconeLoja
+            lado={'flex-end'}
+            activeOpacity={.8}
+            onPress={async () => {
+              await share();
+            }}
+          >
+            <Material name='share-variant-outline' size={24} color='#fff' />
+          </BtnIconeLoja>
 
-        <TouchableOpacity
-          activeOpacity={.8}
-          onPress={async () => {
-            await share();
-          }}
-        >
-          <Material name='share-variant-outline' size={24} color='#fff' />
-        </TouchableOpacity>
+          <BtnIconeLoja
+            lado={'flex-end'}
+            activeOpacity={.8}
+            onPress={() => navigation.navigate("Loja", loja)}>
+
+            <Material name='storefront-outline' size={24} color='#fff' />
+          </BtnIconeLoja>
+        </>
       )
     })
   }, [imagens])
@@ -61,16 +71,16 @@ export default function Detalhes() {
 
   function RenderItem({ data }) {
     return (
-      <Pinchable minimumZoomScale={1} maximumZoomScale={2}>
-          <Image
-            source={{ uri: data.location }}
-            style={{
-              width:WIDTH-40,
-              aspectRatio: 3/4,
-              flex: 1,
-              borderRadius:6
-            }}
-          />
+      <Pinchable minimumZoomScale={1} maximumZoomScale={2.8}>
+        <Image
+          source={{ uri: data.location }}
+          style={{
+            width: WIDTH - 40,
+            aspectRatio: 3 / 4,
+            flex: 1,
+            borderRadius: 10,
+          }}
+        />
 
       </Pinchable>
 
@@ -107,9 +117,9 @@ export default function Detalhes() {
       <FlatList
 
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{margin:20}}
-        snapToInterval={WIDTH -40}
-        ItemSeparatorComponent={<View style={{marginRight:1}}/>}
+        contentContainerStyle={{ padding:5,backgroundColor:'#f1f1f1',marginBottom:10 }}
+        snapToInterval={WIDTH - 40}
+        ItemSeparatorComponent={<View style={{ marginRight: 1 }} />}
         data={imagens}
         pagingEnabled
         horizontal
@@ -123,19 +133,6 @@ export default function Detalhes() {
 
         <ContainerLoja>
           <NomeLoja>{loja?.nome}</NomeLoja>
-
-
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-
-            <BtnIconeLoja
-              lado={'flex-end'}
-              activeOpacity={.8}
-              onPress={() => navigation.navigate("Loja", loja)}>
-
-              <Material name='storefront-outline' size={24} color={colors.tema} />
-              <Text style={{ fontSize: 10 }}>Ver Loja</Text>
-            </BtnIconeLoja>
-          </View>
 
         </ContainerLoja>
 
@@ -175,7 +172,7 @@ export default function Detalhes() {
                   marginRight: 5,
                   backgroundColor: colors.vartema
                 }}>
-                {item ? item : "Unico"}
+                {item}
               </Text>
             )
           })}

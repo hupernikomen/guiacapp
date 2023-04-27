@@ -9,7 +9,7 @@ export const ContainerLoja = styled.View`
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    height: 50px;
+    height: 40px;
 `
 export const NomeLoja = styled(Texto)`
     font-family: Roboto-Regular;

@@ -4,7 +4,7 @@ import { LojaContext } from '../../contexts/lojaContext';
 
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 
-import Produto from '../../componentes/Produtos/pdt-feed-controle';
+import ProdutoControle from '../../componentes/Produtos/pdt-feed-controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { BtnIcone } from '../../styles'
@@ -84,7 +84,7 @@ export default function HomeControle() {
         data={loja?.produtos}
         contentContainerStyle={{ marginTop: 4 }}
         columnWrapperStyle={{ margin: 4 }}
-        renderItem={({ item }) => <Produto item={item} />}
+        renderItem={({ item }) => <ProdutoControle item={item} />}
         numColumns={2}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}

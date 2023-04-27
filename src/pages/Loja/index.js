@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image } from 'react-native';
+import { View, Text, FlatList, Image, Dimensions } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
 
@@ -77,8 +77,10 @@ export default function Loja() {
                 </>
 
             </View>
+
         )
     }
+
 
     return (
         <FlatList
@@ -89,7 +91,5 @@ export default function Loja() {
             renderItem={({ item }) => <Produto item={item} />}
             numColumns={2}
         />
-
-
     );
 }
