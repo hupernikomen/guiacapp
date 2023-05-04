@@ -11,12 +11,13 @@ export const ProdutoContext = createContext({})
 export function ProdutoProvider({ children }) {
     const navigation = useNavigation()
 
-    const [acao, setAcao] = useState(false)
 
     const arrTamanhos = ["PP", "P", "M", "G", "GG", "XGG", "EG", "EGG", "1", "2", "3", "4", "5", "6", "32", "34", "36", "38", "40", "42", "44", "46", "48", "50"]
 
 
     async function Postar(cod, nome, descricao, preco, tamanho, categoria, preview, credenciais) {
+
+        console.log(cod, nome, descricao, preco, tamanho, categoria, preview, credenciais);
 
         if (nome == "" || descricao == "" || preco == "" || categoria == "" || preview.length == 0) {
             Alert.alert("Campos obrigatórios... *", !nome && "Produto" || !preco && "Preco" || !descricao && "Descricao" || !categoria && "Categoria" || preview.length == 0 && "Imagens")
@@ -65,11 +66,12 @@ export function ProdutoProvider({ children }) {
             }
         })
             .then(() => {
-                setAcao(false)
                 navigation.navigate("HomeControle")
             })
-
-            .catch((error) => console.log("error from image :", error.response))
+            
+            .catch((error) => {
+                console.log("error from image :", error.response)
+            })
     }
 
     async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id, credenciais) {
@@ -91,7 +93,7 @@ export function ProdutoProvider({ children }) {
         }
 
         await api.put(`/produto?produtoID=${id}`, produto, { headers })
-            .then(() => Alert.alert("Que legal","Seu produto já foi atualizado"))
+            .then(() => Alert.alert("Que legal", "Seu produto já foi atualizado"))
             .catch((error) => console.error(error.response))
     }
 
@@ -109,7 +111,6 @@ export function ProdutoProvider({ children }) {
 
     return (
         <ProdutoContext.Provider value={{
-            acao,
             arrTamanhos,
             Excluir,
             Postar,

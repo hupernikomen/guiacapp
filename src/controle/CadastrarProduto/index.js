@@ -136,7 +136,7 @@ export default function CadastrarProduto() {
                     color: '#000',
                     padding: 10,
                 }}>
-                    Busque, ou fotografe até 3 Imagens *
+                    Busque, ou fotografe até 5 Imagens *
                 </Text>
 
                 <View style={{
@@ -146,7 +146,7 @@ export default function CadastrarProduto() {
                     alignItems: 'center'
                 }}>
                     {preview.map((camera, index) => {
-                        if (index < 3) {
+                        if (index < 5) {
 
                             return (
                                 <TouchableOpacity
@@ -172,7 +172,7 @@ export default function CadastrarProduto() {
                         }
                     })}
 
-                    {preview.length < 3 &&
+                    {preview.length < 5 &&
                         <>
                             <TouchableOpacity
                                 onPress={() => CapturarImagem(launchImageLibrary)}

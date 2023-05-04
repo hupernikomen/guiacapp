@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions, ScrollView, TouchableOpacity, FlatList, Image } from 'react-native';
-import { useNavigation, useRoute, useIsFocused, useTheme } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, Dimensions, ScrollView, FlatList, Image } from 'react-native';
+import { useNavigation, useRoute, useTheme, useFocusEffect } from '@react-navigation/native';
 import { formatCurrency } from "react-native-format-currency";
 
 import Pinchable from 'react-native-pinchable';
@@ -14,9 +14,10 @@ import { TextoPadrao } from '../../styles';
 
 export default function Detalhes() {
 
+  console.log('Pagina Detahes')
+
   const navigation = useNavigation()
   const route = useRoute()
-  const focus = useIsFocused()
 
   const { colors } = useTheme()
 
@@ -24,11 +25,19 @@ export default function Detalhes() {
 
   const [{ nome, imagens, descricao, preco, oferta, categoria, tamanho, loja }, setProduto] = useState([])
 
-  useEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
 
-    setProduto(route.params?.item)
+      let stt = true
 
-  }, [focus])
+      setProduto(route.params?.item)
+
+      return () => {
+        stt = false
+      }
+
+    }, [])
+  )
 
 
 
@@ -75,7 +84,7 @@ export default function Detalhes() {
         <Image
           source={{ uri: data.location }}
           style={{
-            width: WIDTH - 40,
+            width: WIDTH - 45,
             aspectRatio: 3 / 4,
             flex: 1,
             borderRadius: 10,
@@ -117,9 +126,9 @@ export default function Detalhes() {
       <FlatList
 
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ padding:5,backgroundColor:'#f1f1f1',marginBottom:10 }}
+        contentContainerStyle={{ padding: 5, backgroundColor: '#f1f1f1', marginBottom: 10 }}
         snapToInterval={WIDTH - 40}
-        ItemSeparatorComponent={<View style={{ marginRight: 1 }} />}
+        ItemSeparatorComponent={<View style={{ marginRight: 5 }} />}
         data={imagens}
         pagingEnabled
         horizontal

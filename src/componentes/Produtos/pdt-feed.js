@@ -35,7 +35,7 @@ export default function ProdutoFeed({ item }) {
 
       {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
       <Image
-        style={{ aspectRatio: 3 / 3.1 }}
+        style={{ aspectRatio: 1 }}
         source={{ uri: item.imagens[0]?.location }} />
 
       <ContainerInfo>

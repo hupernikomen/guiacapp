@@ -210,6 +210,8 @@ export function LojaProvider({ children }) {
       await api.post('/login', { email, senha })
       .then(async(response) => {
 
+        
+
         const { id, token } = response.data
         const data = { ...response.data }
   
@@ -226,7 +228,11 @@ export function LojaProvider({ children }) {
         setLoading(false)
       })
       .catch(({response}) => {
-        Alert.alert("Ops...", response.data?.error)
+        if (response.status == '503') {
+          Alert.alert("Manutenção", "Estamos melhorando as coisas por aqui, volte em alguns instantes...")
+        }else {
+          Alert.alert("Ops...", response.data?.error)
+        }
         setLoading(false)
     })
       

@@ -8,6 +8,8 @@ import Produto from '../../componentes/Produtos/pdt-feed';
 
 export default function Categorias() {
 
+  console.log('Pagina Categorias')
+
   const [produtos, setProdutos] = useState([])
 
   const {params} = useRoute()
@@ -19,14 +21,17 @@ export default function Categorias() {
 
     })
 
-    async function PegaCategorias() {
-      const response = await api.get(`/porcategoria?categoriaID=${params?.id}`)
-      setProdutos(response.data);
-    }
-
     PegaCategorias()
+
   }, [])
 
+  async function PegaCategorias() {
+    await api.get(`/porcategoria?categoriaID=${params?.id}`)
+    .then(({data}) => {
+      setProdutos(data);
+
+    })
+  }
 
   return (
 

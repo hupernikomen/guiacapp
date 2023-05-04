@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { TouchableOpacity, Image } from 'react-native'
 
 import Home from '../pages/Home';
 import Menu from '../pages/Menu';
@@ -25,18 +24,15 @@ import MapaControle from '../controle/Mapa';
 import VendedoresControle from '../controle/Vendedores';
 
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-
 import { LojaContext } from '../contexts/lojaContext';
 
-import { useTheme, useNavigation } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 const Stack = createNativeStackNavigator()
 
 export default function RotasStack() {
 
-  const navigation = useNavigation()
-  const { colors, font } = useTheme()
-  const { autenticado, loading, loja } = useContext(LojaContext);
+  const { colors } = useTheme()
+  const { autenticado } = useContext(LojaContext);
 
 
   return (
@@ -56,23 +52,15 @@ export default function RotasStack() {
       }}>
 
 
-
-
-
-
-
-
       {autenticado &&
         <>
           <Stack.Screen
+            name='HomeControle'
+            component={HomeControle}
             options={{
-             
               headerShadowVisible: false,
             }}
-            name='HomeControle'
-            component={HomeControle} />
-
-
+          />
 
           <Stack.Screen
             name='CadastrarDados'
@@ -80,62 +68,54 @@ export default function RotasStack() {
             options={{
               title: "Meus Dados",
               headerShadowVisible: false,
-            }} />
+            }}
+          />
+
           <Stack.Screen
             name='CadastrarProduto'
             component={CadastrarProduto}
             options={{
               title: "Postar Produto",
               headerShadowVisible: false,
-            }} />
+            }}
+          />
 
           <Stack.Screen
             name='EditaProduto'
             component={EditaProduto}
             options={{
               headerShadowVisible: false,
-            }} />
+            }}
+          />
 
           <Stack.Screen
             name='MapaControle'
             component={MapaControle}
             options={{
-              title:"Localização",
+              title: "Localização",
               headerShadowVisible: false,
-            }} />
+            }}
+          />
+
           <Stack.Screen
             name='VendedoresControle'
             component={VendedoresControle}
             options={{
-              title:"Cadastro de Vendedores",
+              title: "Cadastro de Vendedores",
               headerShadowVisible: false,
-            }} />
-
+            }}
+          />
 
         </>
-
-
-
       }
 
 
-
-
-
-
-
-
-
-
-
-
-
       <Stack.Screen
+        name='Home'
+        component={Home}
         options={{
           title: "Guia Comercial",
         }}
-        name='Home'
-        component={Home}
       />
 
       <Stack.Screen
@@ -146,16 +126,14 @@ export default function RotasStack() {
         }}
       />
 
-
       <Stack.Screen
         name='Menu'
         component={Menu}
         options={{
           title: "Guia Comercial",
           headerShadowVisible: false
-        }} />
-
-
+        }}
+      />
 
       <Stack.Screen
         name='Servicos'
@@ -170,37 +148,39 @@ export default function RotasStack() {
         component={DetalheProduto}
         options={{
           title: "",
-        }} />
+        }}
+      />
 
       <Stack.Screen
         name='DetalheServico'
         component={DetalheServico}
         options={{
           title: "",
-        }} />
+        }}
+      />
 
       <Stack.Screen
+        name='Loja'
+        component={Loja}
         options={{
           headerShown: false
         }}
-        name='Loja'
-        component={Loja}
       />
 
       <Stack.Screen
+        name='Vendedores'
+        component={Vendedores}
         options={{
           title: "Nossos Vendedores"
         }}
-        name='Vendedores'
-        component={Vendedores}
       />
 
       <Stack.Screen
+        name='Lojas'
+        component={Lojas}
         options={{
           title: 'Lojas Cadastradas'
         }}
-        name='Lojas'
-        component={Lojas}
       />
 
       <Stack.Screen
@@ -208,34 +188,36 @@ export default function RotasStack() {
         component={Mapa}
         options={{
           title: "Localização da Loja"
-        }} />
+        }}
+      />
 
       <Stack.Screen
         name='Categorias'
         component={Categorias}
-        options={{
-        }} />
+      />
 
       <Stack.Screen
+        name='Search'
+        component={Search}
         options={{
           title: "",
         }}
-        name='Search'
-        component={Search} />
+      />
 
       <Stack.Screen
         name='Anuncie'
-        component={Anuncie} />
-
+        component={Anuncie}
+      />
 
       <Stack.Screen
+        name='ErroConexao'
+        component={ErroConexao}
         options={{
           headerShown: false,
           title: ""
         }}
-        name='ErroConexao'
-        component={ErroConexao}
       />
+
     </Stack.Navigator>
 
   )

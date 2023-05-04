@@ -4,16 +4,14 @@ import {
 } from "react-native";
 
 import { LojaContext } from "../../contexts/lojaContext"
-import { useNavigation, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 
 import { ContainerInput, Input, TituloInput, BotaoPrincipal, TextBtn } from '../../styles'
 
 export default function Login() {
 
   const { signIn } = useContext(LojaContext)
-
   const { colors } = useTheme()
-  const navigation = useNavigation()
 
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
@@ -26,11 +24,8 @@ export default function Login() {
       backgroundColor: '#fff'
     }}>
 
-
       <ContainerInput>
-        <TituloInput
-
-        >
+        <TituloInput>
           Email
         </TituloInput>
         <Input
@@ -46,12 +41,14 @@ export default function Login() {
           Senha
         </TituloInput>
         <Input
+          secureTextEntry
           placeholder={"***"}
           placeholderTextColor={'#ccc'}
           maxLength={35}
           onChangeText={setSenha}
           value={senha} />
       </ContainerInput>
+
 
       <BotaoPrincipal
         cor={colors.tema}
@@ -62,8 +59,6 @@ export default function Login() {
         <TextBtn>Entrar</TextBtn>
 
       </BotaoPrincipal>
-
-
     </View>
   );
 }

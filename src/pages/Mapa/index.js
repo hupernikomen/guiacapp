@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, Dimensions } from 'react-native';
 
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 import Maps from '../../componentes/Maps';
+
+import { Card } from './styles';
+import { TextoPadrao } from '../../styles';
 
 const { width, height } = Dimensions.get("window")
 export default function Mapa() {
 
-    const route = useRoute()
-    const navigation = useNavigation()
+    const { params } = useRoute()
 
     const [marker, setMarker] = useState(null)
 
@@ -24,69 +26,37 @@ export default function Mapa() {
     })
 
     function CarregaLocUsuario() {
-        const { latitude, longitude } = JSON.parse(route.params?.latlng)
+        const { latitude, longitude } = JSON.parse(params?.latlng)
+
+        console.log(latitude, longitude);
 
         setRegion({ latitude: latitude, longitude: longitude, ...delta });
         setMarker({ latitude: latitude, longitude: longitude });
 
     }
 
-    function codeLatLng() {
-        var geocoder = new google.maps.Geocoder(),
-            latlng = new google.maps.LatLng(40.730885, -73.997383);
-        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                    console.log(results[1]);
-                    console.log(results[1].formatted_address);
-                }
-            } else {
-                alert("Geocoder failed due to: " + status);
-            }
-        });
-    }
-
-
     return (
-        <View>
+        <>
+            <Card
+                width={width - 40}>
+                <TextoPadrao>
+                    {params?.endereco}
+                </TextoPadrao>
+                <TextoPadrao>
+                    {params?.bairro}
+                </TextoPadrao>
 
-            <View
-                style={{
-                    position: 'absolute',
-                    zIndex: 99,
-                    alignSelf: 'center',
-                    top: 10,
-                    width: width - 40,
-                    borderRadius: 10,
-                    paddingHorizontal: 20,
-                    paddingVertical:10,
-                    elevation: 3,
-                    backgroundColor: '#ffffff',
-                    opacity: .9
-                }}>
-                <Text
-                    style={{ color: '#000' }}>
-                    {route.params?.endereco}
-                </Text>
-                <Text
-                    style={{ color: '#000' }}>
-                    {route.params?.bairro}
-                </Text>
-                
-                <Text
-                    style={{ color: '#000' }}>
-                    {route.params?.referencia}
-                </Text>
-            </View>
+                <TextoPadrao>
+                    {params?.referencia}
+                </TextoPadrao>
+            </Card>
             <Maps
-                
                 carrega={CarregaLocUsuario}
                 width={width}
                 height={height}
                 region={region}
                 marker={marker} />
-
-        </View>
+        </>
     );
 }
 

@@ -27,7 +27,7 @@ const MyTheme = {
     tema_2: '#a82424',
     vartema: '#EDAA25',
     destaque: '#b38f00',
-    background:'#f1f1f1'
+    background: '#f1f1f1'
   },
   font: {
     gfp: "Roboto-Regular"
@@ -43,12 +43,14 @@ export default function App() {
       <LojaProvider>
         <ProdutoProvider>
 
-        <StatusBar backgroundColor={MyTheme.colors.tema} translucent={false} />
-        <Rotas />
+          <StatusBar
+            backgroundColor={MyTheme.colors.tema}
+            translucent={false} />
+          <Rotas />
 
         </ProdutoProvider>
       </LojaProvider>
-      
+
     </NavigationContainer>
   )
 }

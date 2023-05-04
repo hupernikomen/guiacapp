@@ -4,13 +4,11 @@ import styled from 'styled-components/native'
 const Texto = styled.Text`
     color: #000
 `
-
 export const Tela = styled.View`
     flex: 1,
     background-color: #fff,
     padding: 15px
 `
-
 export const ContainerInput = styled.View`
     position: relative;
     margin-horizontal: 15px;
@@ -19,11 +17,11 @@ export const ContainerInput = styled.View`
 export const Input = styled.TextInput`
     font-size: 16px;
     font-family: Roboto-Regular;
-    min-height: 60px;
+    min-height: 55px;
     padding-horizontal: 25px;
     border-width: 1px;
     color: #000;
-    border-radius: 30px;
+    border-radius: 28px;
     border-color: #aaa;
 `
 // export const MaskInput = styled(TextInputMask)`
