@@ -42,8 +42,7 @@ export default function EditaProduto() {
     setDescricao(descricao)
     setPreco(preco)
     setOferta(oferta)
-
-    setTamanho(tamanho.sort())
+    setTamanho(tamanho?.sort())
     setCor(cor)
     setCategoriaID(categoriaID)
     setID(id)

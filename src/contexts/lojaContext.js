@@ -110,6 +110,7 @@ export function LojaProvider({ children }) {
     }
 
 
+
     const formData = new FormData()
 
     formData.append('logo', {
@@ -135,16 +136,9 @@ export function LojaProvider({ children }) {
 
 
   //---------------------------------------------------------------------
-  
-
-  
 
 
 
-  //---------------------------------------------------------------------
-  
-  
-  
 
   async function BuscaLoja() {
     const headers = {
@@ -186,7 +180,7 @@ export function LojaProvider({ children }) {
     await api.put(`/loja?lojaID=${credenciais.id}`, formData, { headers })
       .then(() => {
         setLoadBotao(false)
-        Alert.alert("Muito bom...","Seus dados já foram atualizados")
+        Alert.alert("Muito bom...", "Seus dados já foram atualizados")
 
 
       })
@@ -206,17 +200,17 @@ export function LojaProvider({ children }) {
       return
     }
     setLoading(true)
-    
-      await api.post('/login', { email, senha })
-      .then(async(response) => {
 
-        
+    await api.post('/login', { email, senha })
+      .then(async (response) => {
+
+
 
         const { id, token } = response.data
         const data = { ...response.data }
-  
+
         await AsyncStorage.setItem('@authGuiaComercial', JSON.stringify(data))
-  
+
         //Passar para todas as requisições o token do lojista logado
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`
         setCredenciais({
@@ -227,16 +221,16 @@ export function LojaProvider({ children }) {
         navigation.navigate("HomeControle")
         setLoading(false)
       })
-      .catch(({response}) => {
+      .catch(({ response }) => {
         if (response.status == '503') {
           Alert.alert("Manutenção", "Estamos melhorando as coisas por aqui, volte em alguns instantes...")
-        }else {
+        } else {
           Alert.alert("Ops...", response.data?.error)
         }
         setLoading(false)
-    })
-      
-    
+      })
+
+
   }
 
   async function signOut() {

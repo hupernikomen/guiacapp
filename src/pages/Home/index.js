@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
@@ -9,15 +9,17 @@ import api from '../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useNavigation } from '@react-navigation/native'
-import CarrosselServicos from '../../componentes/CarrosselServicos';
-import CarrosselBanners from '../../componentes/CarrosselBanners';
+// import CarrosselServicos from '../../componentes/CarrosselServicos';
+// import CarrosselBanners from '../../componentes/CarrosselBanners';
 
 import { BtnIcone } from '../../styles'
+
+import { LojaContext } from '../../contexts/lojaContext';
 
 
 export default function Home() {
 
-  console.log('RENDERIZOU');
+  const {} = useContext(LojaContext)
 
   const navigation = useNavigation()
 
@@ -88,6 +90,7 @@ export default function Home() {
 
     try {
       const response = await api.get('/produtos')
+
       shuffleProdutos(response.data)
 
 
@@ -139,7 +142,7 @@ export default function Home() {
 
       refreshControl={
         <RefreshControl
-          refreshing={carregando}
+          refreshing={false}
           onRefresh={onRefresh}
         />
       }

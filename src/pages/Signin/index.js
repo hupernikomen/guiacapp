@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import {
   View,
+  Image
 } from "react-native";
 
 import { LojaContext } from "../../contexts/lojaContext"
@@ -23,6 +24,11 @@ export default function Login() {
       justifyContent: "center",
       backgroundColor: '#fff'
     }}>
+
+      <Image
+        style={{width:100, height:100}}
+        source={require("../../../assets/imagem/IconeGuiaComercial.png")}
+      />
 
       <ContainerInput>
         <TituloInput>

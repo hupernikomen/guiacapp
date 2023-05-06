@@ -25,7 +25,6 @@ export default function Vendedores() {
   const [foto, setFoto] = useState([])
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [carregando, setCarregando] = useState(false)
 
   useEffect(() => {
     onRefresh()
@@ -33,28 +32,48 @@ export default function Vendedores() {
 
   useEffect(() => {
 
-    navigation.setOptions({
-      headerRight: () => {
-        if (loja.vendedores.length < 5) {
-          return (
+    // navigation.setOptions({
+    //   headerRight: () => {
+    //     if (loja?.vendedores?.length < 5) {
+    //       return (
 
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisible(true)
-              }}>
-              <Material name='plus-thick' color='#fff' size={28} />
-            </TouchableOpacity>
-          )
-        }
-      }
-    })
+    //         <TouchableOpacity
+    //           onPress={() => {
+    //             setModalVisible(true)
+    //           }}>
+    //           <Material name='plus-thick' color='#fff' size={28} />
+    //         </TouchableOpacity>
+    //       )
+    //     }
+    //   }
+    // })
 
   }, [])
 
 
+  
+  const options = {
+    options: {
+      mediaType: 'photo',
+    },
+  }
+
+  async function CapturarImagem(metodo) {
+
+    await metodo(options, ({
+      error,
+      didCancel,
+      assets
+    }) => {
+      if (error || didCancel) return
+      setFoto(assets[0])
+
+    })
+  }
+
   async function Vendedores(nome, whatsapp, foto) {
 
-    if (nome == '' || whatsapp == '' || whatsapp.length != 15 || foto.length == 0) {
+    if (!nome || !whatsapp|| foto.length == 0) {
       Alert.alert('Ops...', 'Campos não preenchidos ou invalidos. foto, nome e whatsapp', [
         {
           text: "Tentar Novamente",
@@ -72,15 +91,17 @@ export default function Vendedores() {
     try {
       var result = await ImageResizer.createResizedImage(
         foto.uri,
-        600,
-        600,
+        1000,
+        1000,
         'JPEG',
         90,  // verificar a qualidade da foto e mudar se necessario
       );
 
     } catch (error) { Alert.alert('Não foi possivel redimensionar') } // Caso nao tenha sido possivel redimensionar imagem
 
-    formData.append('fotovendedor', {
+console.log(result.type, "log");
+
+    formData.append('foto', {
       uri: result.uri,
       type: 'image/jpeg',
       name: result.name
@@ -124,27 +145,6 @@ export default function Vendedores() {
   }
 
 
-  const options = {
-    title: 'Select Image',
-    type: 'library',
-    options: {
-      mediaType: 'photo',
-    },
-  }
-
-  async function CapturarImagem(metodo) {
-
-    await metodo(options, ({
-      error,
-      didCancel,
-      assets
-    }) => {
-      if (error || didCancel) return
-
-      setFoto(assets[0])
-
-    })
-  }
 
 
   function RenderItem({ data }) {
@@ -187,7 +187,7 @@ export default function Vendedores() {
         renderItem={({ item }) => <RenderItem data={item} />}
         refreshControl={
           <RefreshControl
-            refreshing={carregando}
+            refreshing={false}
             onRefresh={onRefresh}
           />
         }
@@ -200,7 +200,6 @@ export default function Vendedores() {
         visible={modalVisible}
         statusBarTranslucent
         onRequestClose={() => setModalVisible(false)}
-
       >
 
         <View style={{ flex: 1 }}>

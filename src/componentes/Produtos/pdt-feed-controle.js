@@ -15,6 +15,8 @@ import { ProdutoContainer, ContainerInfo, Produto, TxtPreco } from "./styles";
 
 export default function ProdutoControle({ item }) {
 
+  console.log(item.preco, item.oferta);
+
   const navigation = useNavigation();
 
   function Preco(preco) {
@@ -31,7 +33,7 @@ export default function ProdutoControle({ item }) {
       onPress={() => navigation.navigate("EditaProduto", item)}
       activeOpacity={1}>
 
-      {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
+      {!!item.oferta && <Off valor={(((parseFloat(item.preco) - parseFloat(item.oferta)) / parseFloat(item.preco)) * 100).toFixed(0)} />}
       <Image
         style={{ aspectRatio: 1 }}
         source={{ uri: item.imagens[0].location }} />

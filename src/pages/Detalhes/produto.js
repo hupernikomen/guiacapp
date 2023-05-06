@@ -14,11 +14,10 @@ import { TextoPadrao } from '../../styles';
 
 export default function Detalhes() {
 
-  console.log('Pagina Detahes')
-
+  
   const navigation = useNavigation()
   const route = useRoute()
-
+  
   const { colors } = useTheme()
 
   const { width: WIDTH } = Dimensions.get('window')

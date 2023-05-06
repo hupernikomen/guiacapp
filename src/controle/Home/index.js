@@ -1,14 +1,15 @@
 import React, { useEffect, useContext, useCallback, useState } from 'react';
-import { View, StyleSheet, FlatList, Text, Alert, Image, TouchableOpacity, Modal } from 'react-native';
-import { LojaContext } from '../../contexts/lojaContext';
+import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity, Modal, RefreshControl, Alert } from 'react-native';
 
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
+
+import { LojaContext } from '../../contexts/lojaContext';
 
 import ProdutoControle from '../../componentes/Produtos/pdt-feed-controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { BtnIcone } from '../../styles'
-import {BtnMenu} from './styles'
+import { BtnMenu } from './styles'
 
 export default function HomeControle() {
 
@@ -17,16 +18,21 @@ export default function HomeControle() {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  useFocusEffect(
-    useCallback(() => {
 
-      BuscaLoja()
+  useEffect(() => {
+    onRefresh()
 
-      return () => {
-        setModalVisible(false)
-      }
-    }, [])
-  )
+    return () => {
+      setModalVisible(false)
+    }
+  }, [])
+
+
+  const onRefresh = () => {
+    BuscaLoja()
+
+  };
+
 
   useEffect(() => {
 
@@ -48,9 +54,7 @@ export default function HomeControle() {
         </>
       ),
       headerLeft: () => (
-
-        loja.logo?.length > 0 &&
-        <Image
+        !!loja.logo[0].location && <Image
           source={{ uri: loja.logo[0].location }}
           style={{
             width: 40,
@@ -75,7 +79,7 @@ export default function HomeControle() {
 
             <View style={{ alignItems: 'center', flexDirection: 'row' }}>
 
-              <Text style={{ fontFamily: 'Roboto-Light',  marginRight: 5, color: '#000' }}>Para postar clique no botão</Text>
+              <Text style={{ fontFamily: 'Roboto-Light', marginRight: 5, color: '#000' }}>Para postar clique no botão</Text>
               <Material name='plus-thick' size={20} color='#000' />
 
             </View>
@@ -92,6 +96,13 @@ export default function HomeControle() {
           && <Text style={{ marginVertical: 20, alignSelf: 'center', fontFamily: 'Roboto-Light', color: '#000' }}>
             Guia Comercial App
           </Text>}
+
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={onRefresh}
+          />
+        }
       />
 
       <Modal
@@ -145,7 +156,7 @@ export default function HomeControle() {
               activeOpacity={.9}
               onPress={() => navigation.navigate("VendedoresControle")}>
               <Text style={styles.txtmenu}>Vendedores</Text>
-              <Text style={{fontFamily:'Roboto-Light'}}>{loja.vendedores?.length}</Text>
+              <Text style={{ fontFamily: 'Roboto-Light' }}>{loja.vendedores?.length}</Text>
             </BtnMenu>
 
             <BtnMenu
@@ -201,7 +212,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 20,
   },
-  
+
   txtmenu: {
     color: '#000',
     fontSize: 16,

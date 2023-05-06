@@ -31,7 +31,7 @@ const { width } = Dimensions.get('window')
 export default function CadastrarProduto() {
     const { colors } = useTheme()
     const { credenciais } = useContext(LojaContext)
-    const { Postar, arrTamanhos, acao } = useContext(ProdutoContext)
+    const { Postar, arrTamanhos } = useContext(ProdutoContext)
 
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -340,12 +340,9 @@ export default function CadastrarProduto() {
 
             <BotaoPrincipal
                 cor={colors.tema}
-                disabled={acao ? true : false}
                 activeOpacity={1}
                 onPress={() => Postar(cod, nome, descricao, preco.replace(',', '.'), tamanho, categoria, preview, credenciais)}>
-                {acao ? <ActivityIndicator size={20} color={'#fff'} /> :
-                    <TextBtn>Postar</TextBtn>
-                }
+                <TextBtn>Postar</TextBtn>
             </BotaoPrincipal>
 
             <View style={{ marginVertical: 15 }} />

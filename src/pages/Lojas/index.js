@@ -81,10 +81,10 @@ export default function Lojas() {
         onPress={() => navigation.navigate('Loja', data)}
         style={{ flexDirection: "row", alignItems: 'center', marginVertical: 2 }}>
 
-        <Image
+        {data.logo[0]?.length&&<Image
           style={{ width: 50, aspectRatio: 1, borderRadius: 30 }}
-          source={{ uri: data.logo[0].location }}
-        />
+          source={{ uri: data?.logo[0]?.location }}
+        />}
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, flex: 1, borderRadius: 6 }}>
 

@@ -16,9 +16,10 @@ import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, Container
 
 export default function ProdutoFeed({ item }) {
 
+  
   const navigation = useNavigation();
   const { name } = useRoute()
-
+  
   function Preco(preco) {
     if (!preco) return
 
@@ -33,7 +34,7 @@ export default function ProdutoFeed({ item }) {
       onPress={() => navigation.navigate("DetalheProduto", { item })}
       activeOpacity={1}>
 
-      {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
+{!!item.oferta && <Off valor={(((parseFloat(item.preco) - parseFloat(item.oferta)) / parseFloat(item.preco)) * 100).toFixed(0)} />}
       <Image
         style={{ aspectRatio: 1 }}
         source={{ uri: item.imagens[0]?.location }} />

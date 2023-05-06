@@ -17,14 +17,12 @@ export function ProdutoProvider({ children }) {
 
     async function Postar(cod, nome, descricao, preco, tamanho, categoria, preview, credenciais) {
 
-        console.log(cod, nome, descricao, preco, tamanho, categoria, preview, credenciais);
 
         if (nome == "" || descricao == "" || preco == "" || categoria == "" || preview.length == 0) {
             Alert.alert("Campos obrigatórios... *", !nome && "Produto" || !preco && "Preco" || !descricao && "Descricao" || !categoria && "Categoria" || preview.length == 0 && "Imagens")
             return
         }
 
-        setAcao(true)
 
         const formData = new FormData()
 
@@ -33,9 +31,12 @@ export function ProdutoProvider({ children }) {
         formData.append('descricao', descricao)
         formData.append('preco', preco)
 
-        for (let i = 0; i < tamanho.length; i++) {
-            formData.append('tamanho', tamanho[i])
+        if (tamanho.length > 0) {
+            for (let i = 0; i < tamanho.length; i++) {
+                formData.append('tamanho', tamanho[i])
+            }
         }
+
 
         for (let i = 0; i < preview.length; i++) {
             try {
@@ -43,9 +44,10 @@ export function ProdutoProvider({ children }) {
                     preview[i].uri,
                     1000,
                     1000,
-                    'JPEG',
-                    90,  // verificar a qualidade da foto e mudar se necessario
+                    'WEBP',
+                    90,  //verificar a qualidade da foto e mudar se necessario
                 );
+
 
             } catch (error) { Alert.alert('Não foi possivel redimensionar') } // Caso nao tenha sido possivel redimensionar imagem
 
@@ -59,21 +61,22 @@ export function ProdutoProvider({ children }) {
         formData.append('categoriaID', categoria)
         formData.append('lojaID', credenciais.id)
 
-        await api.post('/produto', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${credenciais.token}`
-            }
-        })
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${credenciais.token}`
+        }
+
+        await api.post('/produto', formData, { headers })
             .then(() => {
                 navigation.navigate("HomeControle")
             })
-            
+
             .catch((error) => {
                 console.log("error from image :", error.response)
             })
     }
 
+    
     async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id, credenciais) {
 
         if (nome == "" || descricao == "") return
