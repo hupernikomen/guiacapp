@@ -17,8 +17,6 @@ export default function Lojas() {
   const [carregando, setCarregando] = useState(false)
   const [busca, setBusca] = useState('')
 
-  console.log('Pagina Lojas')
-
   useEffect(() => {
 
     navigation.setOptions({
@@ -75,22 +73,23 @@ export default function Lojas() {
 
   }
 
-  function RenderItem({ data }) {
+  function RenderItem({ item }) {
+
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('Loja', data)}
+        onPress={() => navigation.navigate('Loja', item.id)}
         style={{ flexDirection: "row", alignItems: 'center', marginVertical: 2 }}>
 
-        {data.logo[0]?.length&&<Image
+        {!!item.logo && <Image
           style={{ width: 50, aspectRatio: 1, borderRadius: 30 }}
-          source={{ uri: data?.logo[0]?.location }}
+          source={{ uri: item?.logo[0]?.location }}
         />}
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, flex: 1, borderRadius: 6 }}>
 
           <View>
-            <Text numberOfLines={1} style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>{data.nome}</Text>
-            <Text style={{ fontFamily: 'Roboto-Light', color: '#000', fontSize: 13 }}>{data.produtos.length} produtos </Text>
+            <Text numberOfLines={1} style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>{item.nome}</Text>
+            <Text style={{ fontFamily: 'Roboto-Light', color: '#000', fontSize: 13 }}>{item.produtos.length} produtos </Text>
           </View>
 
           <Material name='chevron-right' size={24} color='#000' />
@@ -104,7 +103,7 @@ export default function Lojas() {
     <FlatList
       ItemSeparatorComponent={<View style={{ borderWidth: .5, borderColor: '#ddd' }} />}
       data={busca ? lojas : listaLojas}
-      renderItem={({ item }) => <RenderItem data={item} />}
+      renderItem={({ item }) => <RenderItem item={item} />}
       contentContainerStyle={{ paddingHorizontal: 15 }}
       refreshControl={
         <RefreshControl

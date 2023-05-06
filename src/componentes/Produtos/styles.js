@@ -31,5 +31,6 @@ export const TxtPreco= styled(TextoPadrao)`
 export const ContainerLoja = styled.View`
     flex-direction: row; 
     align-items: center; 
+    margin-top: 5px;
     justify-content: space-between;
 `

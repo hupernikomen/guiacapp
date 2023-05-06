@@ -10,7 +10,7 @@ export default function Delivery() {
   const { colors } = useTheme()
   return (
     <View style={[styles.card]}>
-      <Material name='truck-fast' size={20} color={colors.destaque} />
+      <Material name='truck-fast' size={20} color={colors.vartema} />
      
     </View>
   );

@@ -5,6 +5,8 @@ import { formatCurrency } from "react-native-format-currency";
 
 import Pinchable from 'react-native-pinchable';
 
+import api from '../../servicos/api';
+
 import Share from "react-native-share";
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -14,30 +16,32 @@ import { TextoPadrao } from '../../styles';
 
 export default function Detalhes() {
 
-  
+
   const navigation = useNavigation()
   const route = useRoute()
-  
+
   const { colors } = useTheme()
 
   const { width: WIDTH } = Dimensions.get('window')
 
-  const [{ nome, imagens, descricao, preco, oferta, categoria, tamanho, loja }, setProduto] = useState([])
+  const [produto, setProduto] = useState([])
 
   useFocusEffect(
     useCallback(() => {
 
-      let stt = true
-
-      setProduto(route.params?.item)
-
-      return () => {
-        stt = false
-      }
+      PegaItem()
 
     }, [])
   )
 
+
+  async function PegaItem() {
+    await api.get(`/detalhe?produtoID=${route.params.id}`)
+    .then((response) =>{
+      setProduto(response.data);
+    })
+
+  }
 
 
   useEffect(() => {
@@ -57,14 +61,14 @@ export default function Detalhes() {
           <BtnIconeLoja
             lado={'flex-end'}
             activeOpacity={.8}
-            onPress={() => navigation.navigate("Loja", loja)}>
+            onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
 
             <Material name='storefront-outline' size={24} color='#fff' />
           </BtnIconeLoja>
         </>
       )
     })
-  }, [imagens])
+  }, [produto])
 
   function Preco(preco) {
     if (!preco) return
@@ -97,8 +101,8 @@ export default function Detalhes() {
 
 
   const title = ""
-  const url = loja && imagens[0]?.location;
-  const message = nome + " | " + String('*R$' + parseFloat(preco).toFixed(2) + '*');
+  const url = produto.loja && produto.imagens[0]?.location;
+  const message = produto.nome + " | " + String('*R$' + parseFloat(produto.preco).toFixed(2) + '*');
 
   const options = {
     title,
@@ -128,7 +132,7 @@ export default function Detalhes() {
         contentContainerStyle={{ padding: 5, backgroundColor: '#f1f1f1', marginBottom: 10 }}
         snapToInterval={WIDTH - 40}
         ItemSeparatorComponent={<View style={{ marginRight: 5 }} />}
-        data={imagens}
+        data={produto.imagens}
         pagingEnabled
         horizontal
         renderItem={({ item }) => <RenderItem data={item} />}
@@ -140,24 +144,24 @@ export default function Detalhes() {
       }}>
 
         <ContainerLoja>
-          <NomeLoja>{loja?.nome}</NomeLoja>
+          <NomeLoja>{produto.loja?.nome}</NomeLoja>
 
         </ContainerLoja>
 
-        <TextoPadrao>Categoria: {categoria?.nome}</TextoPadrao>
-        <ProdutoNome>{nome?.trim()}</ProdutoNome>
+        <TextoPadrao>Categoria: {produto.categoria?.nome}</TextoPadrao>
+        <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
 
 
         <ContainerPreco>
-          {!!oferta ?
+          {!!produto.oferta ?
             <View>
-              <TxtPrecoAntigo>{Preco(parseFloat(preco).toFixed(2))}</TxtPrecoAntigo>
+              <TxtPrecoAntigo>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPrecoAntigo>
 
-              <TxtPreco>{Preco(parseFloat(oferta).toFixed(2))}</TxtPreco>
+              <TxtPreco>{Preco(parseFloat(produto.oferta).toFixed(2))}</TxtPreco>
             </View>
             :
 
-            <TxtPreco>{Preco(parseFloat(preco).toFixed(2))}</TxtPreco>
+            <TxtPreco>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPreco>
           }
           <TextoPadrao>à vista</TextoPadrao>
         </ContainerPreco>
@@ -167,7 +171,7 @@ export default function Detalhes() {
         <View style={{ flexDirection: 'row', marginVertical: 10 }}>
 
 
-          {tamanho?.map((item, index) => {
+          {produto.tamanho?.map((item, index) => {
             return (
 
               <Text
@@ -187,7 +191,7 @@ export default function Detalhes() {
         </View>
 
         <TextoPadrao>
-          {descricao}
+          {produto.descricao}
         </TextoPadrao>
 
 

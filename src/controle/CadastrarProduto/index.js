@@ -86,6 +86,8 @@ export default function CadastrarProduto() {
             })
     }
 
+    
+
     function RenderItem({ data }) {
 
         const response = tamanho.indexOf(data)

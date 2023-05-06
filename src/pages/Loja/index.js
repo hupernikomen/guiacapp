@@ -20,14 +20,17 @@ export default function Loja() {
     const [loja, setLoja] = useState([])
 
     useEffect(() => {
+        
         BuscaLoja()
-    }, [])
 
+    }, [])
+    
     async function BuscaLoja() {
-        await api.get(`/loja?lojaID=${route.params?.id}`)
-            .then(({ data }) => {
-                setLoja(data)
-            })
+        await api.get(`/loja?lojaID=${route.params}`)
+        .then((response) => {
+            setLoja(response.data)
+
+        })
     }
 
     function Header() {

@@ -16,7 +16,6 @@ import { BtnIcone } from '../../styles'
 
 import { LojaContext } from '../../contexts/lojaContext';
 
-
 export default function Home() {
 
   const {} = useContext(LojaContext)
@@ -88,18 +87,18 @@ export default function Home() {
 
   async function BuscaProdutos() {
 
-    try {
-      const response = await api.get('/produtos')
+      await api.get('/produtos')
+      .then((response) => {
+        shuffleProdutos(response.data)
 
-      shuffleProdutos(response.data)
-
-
-
-    } catch (error) {
-      if (error == "AxiosError: Network Error") {
-        navigation.navigate("ErroConexao")
+      })
+      .catch((error) => {
+        if (error == "AxiosError: Network Error") {
+          navigation.navigate("ErroConexao")
       }
-    }
+      })
+
+     
   }
 
 

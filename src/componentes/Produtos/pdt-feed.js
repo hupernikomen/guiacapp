@@ -2,6 +2,7 @@ import React from "react";
 import {
   Image,
   Dimensions,
+  Text
 } from "react-native";
 
 import Delivery from "../Delivery";
@@ -16,10 +17,11 @@ import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, Container
 
 export default function ProdutoFeed({ item }) {
 
-  
+  console.log(item.id);
+
   const navigation = useNavigation();
   const { name } = useRoute()
-  
+
   function Preco(preco) {
     if (!preco) return
 
@@ -31,10 +33,10 @@ export default function ProdutoFeed({ item }) {
 
     <ProdutoContainer
       largura={(WIDTH / 2) - 12}
-      onPress={() => navigation.navigate("DetalheProduto", { item })}
+      onPress={() => navigation.navigate("DetalheProduto", { id: item.id })}
       activeOpacity={1}>
 
-{!!item.oferta && <Off valor={(((parseFloat(item.preco) - parseFloat(item.oferta)) / parseFloat(item.preco)) * 100).toFixed(0)} />}
+      {!!item.oferta && <Off valor={(((parseFloat(item.preco) - parseFloat(item.oferta)) / parseFloat(item.preco)) * 100).toFixed(0)} />}
       <Image
         style={{ aspectRatio: 1 }}
         source={{ uri: item.imagens[0]?.location }} />
@@ -47,12 +49,12 @@ export default function ProdutoFeed({ item }) {
         </Produto>
 
         <TxtPreco>
-          {Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}
+          {Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))} <Text style={{ fontFamily: 'Roboto-Light', fontSize: 13 }}>à vista</Text>
         </TxtPreco>
 
         <ContainerLoja>
           {name !== "Loja" && <LojaNome numberOfLines={1} lineBreakMode="tail">{item.loja?.nome}</LojaNome>}
-          {!!item.loja?.entrega && <Delivery />}
+          {item.loja?.entrega && <Delivery />}
         </ContainerLoja>
 
       </ContainerInfo>

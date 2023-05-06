@@ -54,7 +54,7 @@ export default function HomeControle() {
         </>
       ),
       headerLeft: () => (
-        !!loja.logo[0].location && <Image
+        !!loja.logo && <Image
           source={{ uri: loja.logo[0].location }}
           style={{
             width: 40,

@@ -25,22 +25,22 @@ export default function Menu() {
             <ScrollView
                 horizontal
                 style={{
-                    backgroundColor: colors.tema,
+                    // backgroundColor: colors.tema,
                     padding: 10,
-                    maxHeight: 130
+                    maxHeight: 150
                 }}>
 
                 <BtnCabecalho
                     cor={'#fff'}
                     onPress={() => navigation.navigate("Anuncie")}>
-                    <Material name='bullhorn-variant-outline' size={28} color={colors.tema} />
+                    <Material name='bullhorn-variant-outline' size={32} color={colors.tema} />
                     <TxtBtnCabecalho>Anuncie no Guia</TxtBtnCabecalho>
                 </BtnCabecalho>
 
                 <BtnCabecalho
                     cor={'#fff'}
                     onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}>
-                    <Material name='whatsapp' size={28} color={colors.tema} />
+                    <Material name='whatsapp' size={32} color={colors.tema} />
                     <TxtBtnCabecalho>Fale conosco</TxtBtnCabecalho>
                 </BtnCabecalho>
 
