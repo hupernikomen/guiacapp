@@ -1,12 +1,26 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { FlatList, View, Text, Image, TouchableOpacity,Linking } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { useRoute } from '@react-navigation/native'
+import { useNavigationState, useRoute } from '@react-navigation/native'
+import api from '../../servicos/api';
 
 export default function Vendedores() {
     const route = useRoute()
+
+    const [vendedores, setVendedores] = useState()
+
+    useEffect(() =>{
+        BuscaVendedores()
+    },[])
+
+    async function BuscaVendedores() {
+        await api.get(`/vendedores?lojaID=${route.params}`)
+        .then((response) => {
+            setVendedores(response.data);
+        })
+    }
 
     function RenderItem({ data }) {
         return (
@@ -35,7 +49,7 @@ export default function Vendedores() {
 
         <FlatList
             ItemSeparatorComponent={<View style={{ borderWidth: .5, borderColor: '#ddd' }} />}
-            data={route.params}
+            data={vendedores}
             renderItem={({ item }) => <RenderItem data={item} />}
             contentContainerStyle={{ paddingHorizontal: 15 }}
         />

@@ -17,8 +17,6 @@ import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, Container
 
 export default function ProdutoFeed({ item }) {
 
-  console.log(item.id);
-
   const navigation = useNavigation();
   const { name } = useRoute()
 

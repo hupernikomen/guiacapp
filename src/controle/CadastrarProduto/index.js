@@ -16,12 +16,13 @@ import {
 
 import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn } from "../../styles";
 
-
 import api from '../../servicos/api'
+import ImageResizer from '@bam.tech/react-native-image-resizer';
+
 import { LojaContext } from "../../contexts/lojaContext"
 import { ProdutoContext } from "../../contexts/produtoContext";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -30,8 +31,9 @@ const { width } = Dimensions.get('window')
 
 export default function CadastrarProduto() {
     const { colors } = useTheme()
+    const navigation = useNavigation()
     const { credenciais } = useContext(LojaContext)
-    const { Postar, arrTamanhos } = useContext(ProdutoContext)
+    const { arrTamanhos } = useContext(ProdutoContext)
 
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -81,12 +83,70 @@ export default function CadastrarProduto() {
             .then(({ data }) => {
                 setListaCategorias(data)
             })
+    }
+
+
+    async function Postar() {
+
+
+        if (nome == "" || descricao == "" || preco == "" || categoria == "" || preview.length == 0) {
+            Alert.alert("Campos obrigatórios... *", !nome && "Produto" || !preco && "Preco" || !descricao && "Descricao" || !categoria && "Categoria" || preview.length == 0 && "Imagens")
+            return
+        }
+
+
+        const formData = new FormData()
+
+        formData.append('cod', cod)
+        formData.append('nome', nome)
+        formData.append('descricao', descricao)
+        formData.append('preco', preco)
+
+        if (tamanho.length > 0) {
+            for (let i = 0; i < tamanho.length; i++) {
+                formData.append('tamanho', tamanho[i])
+            }
+        }
+
+
+        for (let i = 0; i < preview.length; i++) {
+            try {
+                var result = await ImageResizer.createResizedImage(
+                    preview[i].uri,
+                    1000,
+                    1000,
+                    'WEBP',
+                    100,  //verificar a qualidade da foto e mudar se necessario
+                );
+
+
+
+            } catch (error) { Alert.alert('Não foi possivel redimensionar') } // Caso nao tenha sido possivel redimensionar imagem
+
+            formData.append('files', {
+                uri: result.uri,
+                type: 'image/jpeg',
+                name: result.name
+            });
+        }
+
+        formData.append('categoriaID', categoria)
+
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${credenciais.token}`
+        }
+        await api.post(`/produto?lojaID=${credenciais.id}`, formData, { headers })
+            .then((response) => {
+                console.log(response.data, "result");
+                navigation.navigate("HomeControle")
+            })
+
             .catch((error) => {
-                console.log(error);
+                console.log("error from image :", error.response)
             })
     }
 
-    
 
     function RenderItem({ data }) {
 
@@ -343,7 +403,7 @@ export default function CadastrarProduto() {
             <BotaoPrincipal
                 cor={colors.tema}
                 activeOpacity={1}
-                onPress={() => Postar(cod, nome, descricao, preco.replace(',', '.'), tamanho, categoria, preview, credenciais)}>
+                onPress={Postar}>
                 <TextBtn>Postar</TextBtn>
             </BotaoPrincipal>
 

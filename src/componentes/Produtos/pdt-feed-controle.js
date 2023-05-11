@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Image,
+  Text,
   Dimensions,
 } from "react-native";
 
@@ -14,8 +15,6 @@ const WIDTH = Dimensions.get('window').width
 import { ProdutoContainer, ContainerInfo, Produto, TxtPreco } from "./styles";
 
 export default function ProdutoControle({ item }) {
-
-  console.log(item.preco, item.oferta);
 
   const navigation = useNavigation();
 
@@ -46,7 +45,7 @@ export default function ProdutoControle({ item }) {
         </Produto>
 
         <TxtPreco>
-          {Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))}
+        {Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))} <Text style={{ fontFamily: 'Roboto-Light', fontSize: 13 }}>à vista</Text>
         </TxtPreco>
       </ContainerInfo>
 

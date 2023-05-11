@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Dimensions } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 
 import Maps from '../../componentes/Maps';
+
+import api from '../../servicos/api';
 
 import { Card } from './styles';
 import { TextoPadrao } from '../../styles';
@@ -12,6 +14,8 @@ const { width, height } = Dimensions.get("window")
 export default function Mapa() {
 
     const { params } = useRoute()
+
+    const [me, setMe] = useState([])
 
     const [marker, setMarker] = useState(null)
 
@@ -25,33 +29,40 @@ export default function Mapa() {
         ...delta
     })
 
-    function CarregaLocUsuario() {
-        const { latitude, longitude } = JSON.parse(params?.latlng)
+    useEffect(() => {
+        BuscaMeLoja()
+    }, [])
 
-        console.log(latitude, longitude);
+    async function BuscaMeLoja() {
+        await api.get(`/loja?lojaID=${params}`)
+            .then((response) => {
+                setMe(response.data)
 
-        setRegion({ latitude: latitude, longitude: longitude, ...delta });
-        setMarker({ latitude: latitude, longitude: longitude });
+                const { latitude, longitude } = JSON.parse(response.data?.latlng)
 
+                setRegion({ latitude: latitude, longitude: longitude, ...delta });
+                setMarker({ latitude: latitude, longitude: longitude });
+            })
     }
+
+
 
     return (
         <>
             <Card
                 width={width - 40}>
                 <TextoPadrao>
-                    {params?.endereco}
+                    {me?.endereco}
                 </TextoPadrao>
                 <TextoPadrao>
-                    {params?.bairro}
+                    {me?.bairro}
                 </TextoPadrao>
 
                 <TextoPadrao>
-                    {params?.referencia}
+                    {me?.referencia}
                 </TextoPadrao>
             </Card>
             <Maps
-                carrega={CarregaLocUsuario}
                 width={width}
                 height={height}
                 region={region}

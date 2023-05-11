@@ -202,7 +202,7 @@ export default function EditaProduto() {
 
             <TouchableOpacity
               onPress={() => setModalVisible(true)}>
-              <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{tamanho.length > 0 ? 'Editar' : 'Inserir'}</Text>
+              <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{tamanho?.length > 0 ? 'Editar' : 'Inserir'}</Text>
             </TouchableOpacity>
           </SimulaInput>
 

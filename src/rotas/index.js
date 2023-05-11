@@ -42,7 +42,6 @@ export default function RotasStack() {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.tema,
-
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
@@ -105,10 +104,8 @@ export default function RotasStack() {
               headerShadowVisible: false,
             }}
           />
-
         </>
       }
-
 
       <Stack.Screen
         name='Home'
@@ -217,7 +214,7 @@ export default function RotasStack() {
           title: ""
         }}
       />
-
+      
     </Stack.Navigator>
 
   )

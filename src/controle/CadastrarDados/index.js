@@ -1,35 +1,75 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useNavigation,useRoute } from '@react-navigation/native';
+
+import api from '../../servicos/api';
 
 import { Input, TituloInput, ContainerInput, BotaoPrincipal } from "../../styles";
 
+
+
 export default function CadastrarDados() {
     const { colors } = useTheme()
-    const { Atualizar, loja, loadBotao } = useContext(LojaContext)
+    const route = useRoute()
+    const navigation = useNavigation()
+
+    const { credenciais } = useContext(LojaContext)
 
     const [nome, setNome] = useState('')
     const [endereco, setEndereco] = useState('')
     const [bairro, setBairro] = useState('')
     const [referencia, setReferencia] = useState('')
     const [bio, setBio] = useState('')
-    const [entrega, setEntrega] = useState('')
+    const [entrega, setEntrega] = useState()
 
+    console.log(route.params?.bairro);
 
-    const toggleSwitch = () => setEntrega(previousState => !previousState);
 
     useEffect(() => {
-        const { nome, endereco, bairro, referencia, bio, entrega } = loja
-        setNome(nome)
-        setEndereco(endereco)
-        setBairro(bairro)
-        setReferencia(referencia)
-        setBio(bio)
-        setEntrega(entrega)
-
+        setNome(route.params?.nome)
+        setEndereco(route.params?.endereco)
+        setBairro(route.params?.bairro)
+        setReferencia(route.params?.referencia)
+        setBio(route.params?.bio)
     }, [])
+    
+
+    // const toggleSwitch = () => setEntrega(previousState => !previousState);
+
+
+
+    async function Atualizar() {
+
+        const formData = new FormData()
+
+        formData.append('nome', nome)
+        formData.append('endereco', endereco)
+        formData.append('bairro', bairro)
+        formData.append('referencia', referencia)
+        formData.append('bio', bio)
+
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${credenciais.token}`
+        }
+
+        await api.put(`/loja?lojaID=${credenciais.id}`, formData, { headers })
+            .then((response) => {
+                console.log(response.data);
+                Alert.alert("Muito bom...", "Seus dados já foram atualizados", [
+                    {
+                        text: "Sair",
+                        onPress: () => navigation.goBack(),
+                    },
+                    { text: "Continuar" },
+                ])
+
+
+            })
+            .catch((error) => console.log(error, "catch Error"))
+    }
 
     return (
         <ScrollView
@@ -66,6 +106,7 @@ export default function CadastrarDados() {
                 </TituloInput>
 
                 <Input
+
                     value={nome}
                     style={styles.input}
                     onChangeText={setNome}
@@ -133,17 +174,11 @@ export default function CadastrarDados() {
 
 
             <BotaoPrincipal
-                disabled={loadBotao ? true : false}
                 activeOpacity={1}
                 cor={colors.tema}
-                onPress={() => {
-                    Atualizar(entrega, nome, endereco, bairro, referencia, bio)
-                }}>
+                onPress={Atualizar}>
 
-                {loadBotao ?
-                    <ActivityIndicator size={20} color={'#fff'} /> :
-                    <Text style={styles.txtbtn}>Atualizar</Text>
-                }
+                <Text style={styles.txtbtn}>Atualizar</Text>
             </BotaoPrincipal>
 
             <View style={{ marginVertical: 15 }} />

@@ -20,7 +20,6 @@ export function LojaProvider({ children }) {
   })
 
   const [loadBotao, setLoadBotao] = useState(false)
-  const [loja, setLoja] = useState([])
   const [loading, setLoading] = useState(true)
   const [previewLogo, setPreviewLogo] = useState("")
 
@@ -135,59 +134,6 @@ export function LojaProvider({ children }) {
 
 
 
-  //---------------------------------------------------------------------
-
-
-
-
-  async function BuscaLoja() {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${credenciais.token}`
-    }
-    await api.get(`/loja?lojaID=${credenciais.id}`, { headers })
-      .then((response) => {
-        setLoja(response.data)
-      })
-  }
-
-
-
-  //---------------------------------------------------------------------
-
-
-
-
-
-  async function Atualizar(entrega, nome, endereco, bairro, referencia, bio) {
-
-    setLoadBotao(true)
-
-    const formData = new FormData()
-
-    formData.append('entrega', entrega, Blob)
-    formData.append('nome', nome || "")
-    formData.append('endereco', endereco || "")
-    formData.append('bairro', bairro || "")
-    formData.append('referencia', referencia || "")
-    formData.append('bio', bio || "")
-
-    const headers = {
-      'Content-Type': 'multipart/form-data',
-      'Authorization': `Bearer ${credenciais.token}`
-    }
-
-    await api.put(`/loja?lojaID=${credenciais.id}`, formData, { headers })
-      .then(() => {
-        setLoadBotao(false)
-        Alert.alert("Muito bom...", "Seus dados já foram atualizados")
-
-
-      })
-      .catch((error) => console.error(error.response, "catch Error"))
-  }
-
-
 
 
   //---------------------------------------------------------------------
@@ -249,14 +195,11 @@ export function LojaProvider({ children }) {
   return (
     <LojaContext.Provider value={{
       credenciais,
-      loja,
       autenticado,
       loading,
       loadBotao,
       previewLogo,
       Logo,
-      BuscaLoja,
-      Atualizar,
       signIn,
       signOut,
     }}>

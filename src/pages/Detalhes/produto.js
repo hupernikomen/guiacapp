@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, Text, Dimensions, ScrollView, FlatList, Image } from 'react-native';
 import { useNavigation, useRoute, useTheme, useFocusEffect } from '@react-navigation/native';
 import { formatCurrency } from "react-native-format-currency";
@@ -12,10 +12,12 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo, BtnIconeLoja } from './styles'
 import { TextoPadrao } from '../../styles';
+import { ActivityIndicator } from 'react-native-paper';
 
 
 export default function Detalhes() {
 
+  const [load, setLoad] = useState(false)
 
   const navigation = useNavigation()
   const route = useRoute()
@@ -26,20 +28,18 @@ export default function Detalhes() {
 
   const [produto, setProduto] = useState([])
 
-  useFocusEffect(
-    useCallback(() => {
+  useEffect(() => {
+    PegaItem()
 
-      PegaItem()
-
-    }, [])
-  )
-
+  },[route])
 
   async function PegaItem() {
+    setLoad(true)
     await api.get(`/detalhe?produtoID=${route.params.id}`)
-    .then((response) =>{
-      setProduto(response.data);
-    })
+      .then((response) => {
+        setProduto(response.data);
+        setLoad(false)
+      })
 
   }
 
@@ -87,7 +87,7 @@ export default function Detalhes() {
         <Image
           source={{ uri: data.location }}
           style={{
-            width: WIDTH - 45,
+            width: WIDTH-10,
             aspectRatio: 3 / 4,
             flex: 1,
             borderRadius: 10,
@@ -119,6 +119,19 @@ export default function Detalhes() {
     }
   };
 
+  if (load) {
+    return (
+      <View style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+
+        <ActivityIndicator color={colors.tema}/>
+      </View>
+    )
+  }
+
   return (
     <ScrollView style={{
       flex: 1,
@@ -127,11 +140,11 @@ export default function Detalhes() {
 
 
       <FlatList
-
+        style={{width: WIDTH, backgroundColor: '#f1f1f1', marginBottom:10}}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ padding: 5, backgroundColor: '#f1f1f1', marginBottom: 10 }}
-        snapToInterval={WIDTH - 40}
-        ItemSeparatorComponent={<View style={{ marginRight: 5 }} />}
+        snapToInterval={WIDTH-10}
+        contentContainerStyle={{margin:5}}
+        ItemSeparatorComponent={<View style={{width:5}}/>}
         data={produto.imagens}
         pagingEnabled
         horizontal

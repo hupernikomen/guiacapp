@@ -20,17 +20,17 @@ export default function Loja() {
     const [loja, setLoja] = useState([])
 
     useEffect(() => {
-        
+
         BuscaLoja()
 
     }, [])
-    
+
     async function BuscaLoja() {
         await api.get(`/loja?lojaID=${route.params}`)
-        .then((response) => {
-            setLoja(response.data)
+            .then((response) => {
+                setLoja(response.data)
 
-        })
+            })
     }
 
     function Header() {
@@ -67,20 +67,74 @@ export default function Loja() {
                 <>
                     <BtnIcone
                         lado={'center'}
-                        onPress={() => navigation.navigate("Vendedores", loja.vendedores)}>
+                        onPress={() => navigation.navigate("Vendedores", loja.id)}>
                         <Material name='whatsapp' size={24} color='#fff' />
                     </BtnIcone>
 
-                    <BtnIcone
-                        lado={'center'}
-                        onPress={() => navigation.navigate("Mapa", loja)}>
-                        <Material name='google-maps' size={24} color='#fff' />
-                    </BtnIcone>
+                    {!!loja.latlng &&
+                        <BtnIcone
+                            lado={'center'}
+                            onPress={() => navigation.navigate("Mapa", loja.id)}>
+                            <Material name='google-maps' size={24} color='#fff' />
+                        </BtnIcone>
+                    }
 
                 </>
 
             </View>
 
+
+
+
+        )
+    }
+
+    function SubHeader() {
+        return (
+            <View style={{
+                padding: 15,
+                flexDirection:"row",
+                marginBottom:10,
+                backgroundColor:'#fff'
+            }}>
+                {loja.entrega &&
+                    <View style={{
+                        width: 100,
+                        flexDirection: 'column',
+                        justifyContent:'center',
+                        alignItems:"center"
+                    }}>
+                        <Material name='credit-card-outline' size={20} color={colors.vartema} />
+                        <Text style={{fontFamily:'Roboto-Light', color:'#000',fontSize:12,textAlign:'center'}}>
+                            Parcelamos ate 12x crédito</Text>
+                    </View>
+                }
+                {loja.entrega &&
+                    <View style={{
+                        width: 100,
+                        flexDirection: 'column',
+                        justifyContent:'center',
+                        alignItems:"center"
+                    }}>
+                        <Material name='truck-fast' size={20} color={colors.vartema} />
+                        <Text style={{fontFamily:'Roboto-Light', color:'#000',fontSize:12,textAlign:'center'}}>Fazemos Entregas</Text>
+                    </View>
+                }
+            </View>
+        )
+    }
+
+    function Bio() {
+        
+        return(
+            <View style={{
+                backgroundColor:'#fff',
+                padding:15
+            }}>
+
+                <Text>{loja.bio}</Text>
+
+            </View>
         )
     }
 
@@ -89,7 +143,13 @@ export default function Loja() {
         <FlatList
             showsVerticalScrollIndicator={false}
             columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
-            ListHeaderComponent={<Header />}
+            ListHeaderComponent={
+                <>
+                    <Header />
+                    <SubHeader />
+                    {!!loja.bio &&<Bio/>}
+                </>
+            }
             data={loja.produtos}
             renderItem={({ item }) => <Produto item={item} />}
             numColumns={2}

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { FlatList, RefreshControl, Text } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
@@ -14,12 +14,8 @@ import { useNavigation } from '@react-navigation/native'
 
 import { BtnIcone } from '../../styles'
 
-import { LojaContext } from '../../contexts/lojaContext';
 
 export default function Home() {
-
-  const {} = useContext(LojaContext)
-
   const navigation = useNavigation()
 
   const [carregando, setCarregando] = useState(false)
@@ -30,13 +26,13 @@ export default function Home() {
   useEffect(() => {
     onRefresh()
     Menu()
-
   }, [])
-
+  
   const onRefresh = () => {
-    BuscaCategorias()
     BuscaProdutos()
+    BuscaCategorias()
   };
+  
 
 
   function Menu() {
@@ -55,7 +51,6 @@ export default function Home() {
       headerRight: () => {
         return (
           <>
-
             <BtnIcone
               lado={'flex-end'}
               onPress={() => navigation.navigate("Lojas")}>
@@ -74,50 +69,35 @@ export default function Home() {
   }
 
   async function BuscaCategorias() {
-    try {
-      const response = await api.get('/categorias')
-      shuffleCategoria(response.data);
 
-    } catch (error) {
-      if (error == "AxiosError: Network Error") {
-        navigation.navigate("ErroConexao")
-      }
-    }
+    await api.get('/categorias')
+      .then((response) => {
+        let embaralhado = shuffle(response.data)
+        setCategorias(embaralhado)
+      })
+      .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
 
   async function BuscaProdutos() {
-
-      await api.get('/produtos')
+    setCarregando(true)
+    await api.get('/produtos')
       .then((response) => {
-        shuffleProdutos(response.data)
-
+        let embaralhado = shuffle(response.data)
+        setProdutos(embaralhado)
+        setCarregando(false)
       })
-      .catch((error) => {
-        if (error == "AxiosError: Network Error") {
-          navigation.navigate("ErroConexao")
-      }
-      })
-
-     
+      .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
 
 
-  function shuffleCategoria(arr) {
+  function shuffle(arr) {
 
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    setCategorias(arr);
-  }
 
-  function shuffleProdutos(arr) {
-
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    setProdutos(arr);
+    return arr
   }
 
 
@@ -141,7 +121,7 @@ export default function Home() {
 
       refreshControl={
         <RefreshControl
-          refreshing={false}
+          refreshing={carregando}
           onRefresh={onRefresh}
         />
       }

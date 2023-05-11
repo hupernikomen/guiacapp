@@ -1,9 +1,11 @@
-import React, { useEffect, useContext, useCallback, useState } from 'react';
+import React, { useEffect, useContext, useCallback, useState, useMemo } from 'react';
 import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity, Modal, RefreshControl, Alert } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useIsFocused, useFocusEffect } from '@react-navigation/native'
 
 import { LojaContext } from '../../contexts/lojaContext';
+
+import api from '../../servicos/api';
 
 import ProdutoControle from '../../componentes/Produtos/pdt-feed-controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -13,25 +15,24 @@ import { BtnMenu } from './styles'
 
 export default function HomeControle() {
 
-  const { BuscaLoja, loja, signOut, previewLogo, Logo } = useContext(LojaContext)
+  const { credenciais, signOut, previewLogo, Logo } = useContext(LojaContext)
   const navigation = useNavigation()
+  const focus = useIsFocused()
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [loja, setLoja] = useState([])
 
 
-  useEffect(() => {
-    onRefresh()
-
-    return () => {
-      setModalVisible(false)
-    }
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
 
 
-  const onRefresh = () => {
-    BuscaLoja()
+      BuscaLoja()
 
-  };
+
+    },[])
+  )
+
 
 
   useEffect(() => {
@@ -63,14 +64,26 @@ export default function HomeControle() {
             marginRight: 20,
           }}
         />
-
       )
     })
   }, [loja])
 
+  async function BuscaLoja() {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${credenciais.token}`
+    }
+    await api.get(`/me?lojaID=${credenciais.id}`, { headers })
+      .then((response) => {
+        setLoja(response.data)
+      })
+  }
+
   return (
     <View
-      style={styles.tela}>
+    
+    style={styles.tela}>
+        {console.log(loja,"tese")}
 
       <FlatList
         ListEmptyComponent={
@@ -97,12 +110,6 @@ export default function HomeControle() {
             Guia Comercial App
           </Text>}
 
-        refreshControl={
-          <RefreshControl
-            refreshing={false}
-            onRefresh={onRefresh}
-          />
-        }
       />
 
       <Modal
@@ -148,20 +155,29 @@ export default function HomeControle() {
 
             <BtnMenu
               activeOpacity={.9}
-              onPress={() => navigation.navigate("CadastrarDados")}>
+              onPress={() => {
+                navigation.navigate("CadastrarDados", loja)
+                setModalVisible(false)
+              }}>
               <Text style={styles.txtmenu}>Dados</Text>
             </BtnMenu>
 
             <BtnMenu
               activeOpacity={.9}
-              onPress={() => navigation.navigate("VendedoresControle")}>
+              onPress={() => {
+                navigation.navigate("VendedoresControle", loja)
+                setModalVisible(false)
+              }}>
               <Text style={styles.txtmenu}>Vendedores</Text>
               <Text style={{ fontFamily: 'Roboto-Light' }}>{loja.vendedores?.length}</Text>
             </BtnMenu>
 
             <BtnMenu
               activeOpacity={.9}
-              onPress={() => navigation.navigate("MapaControle")}>
+              onPress={() => {
+                navigation.navigate("MapaControle")
+                setModalVisible(false)
+              }}>
               <Text style={styles.txtmenu}>Localização</Text>
               {!!loja.latlng &&
                 <Text style={{ fontFamily: 'Roboto-Light' }}>Registrado</Text>
