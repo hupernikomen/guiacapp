@@ -1,9 +1,10 @@
 import styled from 'styled-components/native'
-// import { TextInputMask } from 'react-native-masked-text'
 
 const Texto = styled.Text`
     color: #000
 `
+
+
 export const Tela = styled.View`
     flex: 1,
     background-color: #fff,
@@ -24,16 +25,8 @@ export const Input = styled.TextInput`
     border-radius: 28px;
     border-color: #aaa;
 `
-// export const MaskInput = styled(TextInputMask)`
-//     font-size: 16px;
-//     font-family: Roboto-Regular;
-//     min-height: 60px;
-//     padding-horizontal: 25px;
-//     border-width: 1px;
-//     color: #000;
-//     border-radius: 30px;
-//     border-color: #aaa;
-// `
+
+
 export const TituloInput = styled(Texto)`
     font-family: Roboto-Light;
     font-size: 13px;

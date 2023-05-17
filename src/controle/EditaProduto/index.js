@@ -1,17 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, ScrollView, Alert, StyleSheet, TouchableOpacity, Pressable, Modal, FlatList, Dimensions } from 'react-native';
+import { View, Text, ScrollView, Alert, StyleSheet, TouchableOpacity, Pressable, Modal, FlatList, Dimensions,ToastAndroid } from 'react-native';
 
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 import { LojaContext } from "../../contexts/lojaContext"
 import { ProdutoContext } from '../../contexts/produtoContext';
 
+import api from '../../servicos/api';
+
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+
 
 import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal } from "../../styles";
 
 export default function EditaProduto() {
   const { credenciais, acao } = useContext(LojaContext)
-  const { Atualizar, Excluir, arrTamanhos } = useContext(ProdutoContext)
+  const { arrTamanhos } = useContext(ProdutoContext)
 
   const route = useRoute()
   const navigation = useNavigation()
@@ -32,21 +35,21 @@ export default function EditaProduto() {
 
   const { width } = Dimensions.get('window')
 
+
+  console.log("Render Edição Produto");
+
+
   useEffect(() => {
 
-    const { cod, nome, descricao, preco, oferta, tamanho, cor, categoriaID, id } = route.params
-
-
-    setCod(cod)
-    setNome(nome)
-    setDescricao(descricao)
-    setPreco(preco)
-    setOferta(oferta)
-    setTamanho(tamanho?.sort())
-    setCor(cor)
-    setCategoriaID(categoriaID)
-    setID(id)
-
+    setCod(route.params?.cod)
+    setNome(route.params?.nome)
+    setDescricao(route.params?.descricao)
+    setPreco(route.params?.preco)
+    setOferta(route.params?.oferta)
+    setTamanho(route.params?.tamanho?.sort())
+    setCor(route.params?.cor)
+    setCategoriaID(route.params?.categoriaID)
+    setID(route.params?.id)
 
     navigation.setOptions({
       title: '' || 'Cod. ' + cod,
@@ -71,7 +74,10 @@ export default function EditaProduto() {
         )
       }
     })
+
   }, [])
+
+
 
 
 
@@ -85,6 +91,49 @@ export default function EditaProduto() {
       { text: "Não" },
     ])
   }
+
+  
+  async function Excluir(id, credenciais) {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${credenciais.token}`
+    }
+
+    await api.delete(`/produto?produtoID=${id}`, { headers })
+        .then(() => {
+          navigation.navigate("HomeControle")
+          ToastExcluiProduto()
+        })
+        .catch((error) => console.log(error.response))
+}
+
+
+async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id, credenciais) {
+
+  if (nome == "" || descricao == "") return
+
+  const produto = {
+      nome,
+      descricao,
+      oferta,
+      tamanho,
+      cor,
+      categoriaID,
+  }
+
+  const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${credenciais.token}`
+  }
+
+  await api.put(`/produto?produtoID=${id}`, produto, { headers })
+      .then(() => {
+        navigation.navigate("HomeControle")
+        ToastAtualizaProduto()
+      })
+      .catch((error) => console.error(error.response))
+}
+
 
 
   function RenderItem({ data }) {
@@ -118,6 +167,25 @@ export default function EditaProduto() {
     )
   }
 
+  const ToastExcluiProduto = () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Produto excluido com sucesso!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
+  const ToastAtualizaProduto = () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Atualizamos seu produto!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
 
 
 
@@ -167,7 +235,7 @@ export default function EditaProduto() {
           <Input
 
             editable={false}
-            style={[styles.input,{color:'#aaa'}]}
+            style={[styles.input, { color: '#aaa' }]}
             value={parseFloat(preco).toFixed(2).replace('.', ',')}
             onChangeText={setPreco} />
         </ContainerInput>
@@ -245,17 +313,17 @@ export default function EditaProduto() {
 
         <View style={{ flex: 1 }}>
 
-          <TouchableOpacity 
-          activeOpacity={1}
-          onPress={() => setModalVisible(false)} 
-          style={{ flex: 1, backgroundColor: '#00000070' }}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => setModalVisible(false)}
+            style={{ flex: 1, backgroundColor: '#00000070' }}>
 
           </TouchableOpacity>
 
-          <View style={{ backgroundColor: "#fff"}}>
+          <View style={{ backgroundColor: "#fff" }}>
 
             <FlatList
-              contentContainerStyle={{ paddingHorizontal: 20,paddingVertical:30, alignItems: 'center' }}
+              contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 30, alignItems: 'center' }}
               numColumns={6}
               data={arrTamanhos}
               renderItem={({ item }) => <RenderItem data={item} />}

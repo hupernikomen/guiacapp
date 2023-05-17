@@ -8,11 +8,13 @@ import {
     Image,
     Modal,
     ActivityIndicator,
+    ToastAndroid,
     Pressable,
     Alert,
     Dimensions,
     FlatList
 } from 'react-native'
+
 
 import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn } from "../../styles";
 
@@ -140,6 +142,7 @@ export default function CadastrarProduto() {
             .then((response) => {
                 console.log(response.data, "result");
                 navigation.navigate("HomeControle")
+                ToastConfirmaPostagem()
             })
 
             .catch((error) => {
@@ -180,6 +183,17 @@ export default function CadastrarProduto() {
             </Pressable>
         )
     }
+
+    const ToastConfirmaPostagem = () => {
+        ToastAndroid.showWithGravityAndOffset(
+            'Produto postado com sucesso!',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+        );
+    };
+
 
     return (
 
@@ -296,6 +310,7 @@ export default function CadastrarProduto() {
                 <TituloInput>
                     Preço - R$ *
                 </TituloInput>
+
 
                 <Input
                     keyboardType="numeric"

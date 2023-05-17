@@ -1,38 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Text, FlatList, View, StyleSheet } from 'react-native';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
+import api from '../../servicos/api';
 
 
-export default function ListaCategorias({ data }) {
+export default function ListaCategorias() {
     const navigation = useNavigation()
     const { colors } = useTheme()
+
+    const [categorias, setCategorias] = useState([])
+
+    useEffect(() => {
+        BuscaCategorias()
+    }, [])
+
+    async function BuscaCategorias() {
+
+        await api.get('/categorias')
+            .then((response) => {
+                let embaralhado = shuffle(response.data)
+                setCategorias(embaralhado)
+            })
+            .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
+    }
+
+    function shuffle(arr) {
+
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+
+        return arr
+    }
 
     const RenderItem = ({ item }) => {
         if (item._count.produto === 0) return
 
-        function ContagemSimbolica({ valor }) {
 
-
-            if (valor > 100 && valor <= 1000) {
-                let result = valor / 100
-                return <Text style={styles.cont}>{"+" + String(result).substring(0, 1) + "00"}</Text>
-
-            } else if (valor > 1000) {
-                let result = valor / 1000
-                return <Text style={styles.cont}>{"+" + String(result).substring(0, 1) + "k"}</Text>
-
-            } else {
-                return <Text style={styles.cont}>{valor}</Text>
-            }
-        }
 
         return (
             <TouchableOpacity
                 onPress={() => navigation.navigate("Categorias", item)}
                 activeOpacity={.9}
                 style={{
-                    height: 55,
+                    height: 50,
                     justifyContent: 'center',
                     paddingHorizontal: 15,
                 }}>
@@ -41,8 +54,8 @@ export default function ListaCategorias({ data }) {
 
                 <Text style={{
                     textTransform: 'uppercase',
-                    fontFamily: 'Roboto-Bold',
-                    fontSize:13,
+                    fontFamily: 'Roboto-Medium',
+                    fontSize: 13,
                     color: '#fff',
                 }}>
                     {item.nome}
@@ -68,19 +81,9 @@ export default function ListaCategorias({ data }) {
             style={{ backgroundColor: colors.tema }}
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={categorias}
             renderItem={({ item }) => <RenderItem item={item} />}
 
         />
     )
 }
-
-const styles = StyleSheet.create({
-    cont: {
-        fontSize: 10,
-        backgroundColor: '#22222250',
-        paddingHorizontal: 5,
-        borderRadius: 5,
-        color: '#fff'
-    }
-})

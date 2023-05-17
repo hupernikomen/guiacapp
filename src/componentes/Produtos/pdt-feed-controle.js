@@ -29,7 +29,7 @@ export default function ProdutoControle({ item }) {
 
     <ProdutoContainer
       largura={(WIDTH / 2) - 12}
-      onPress={() => navigation.navigate("EditaProduto", item)}
+      onPress={() => navigation.navigate("EditaProduto", item )}
       activeOpacity={1}>
 
       {!!item.oferta && <Off valor={(((parseFloat(item.preco) - parseFloat(item.oferta)) / parseFloat(item.preco)) * 100).toFixed(0)} />}

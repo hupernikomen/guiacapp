@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
@@ -9,8 +9,8 @@ import api from '../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useNavigation } from '@react-navigation/native'
-// import CarrosselServicos from '../../componentes/CarrosselServicos';
-// import CarrosselBanners from '../../componentes/CarrosselBanners';
+import CarrosselServicos from '../../componentes/CarrosselServicos';
+import CarrosselBanners from '../../componentes/CarrosselBanners';
 
 import { BtnIcone } from '../../styles'
 
@@ -20,24 +20,25 @@ export default function Home() {
 
   const [carregando, setCarregando] = useState(false)
   const [produtos, setProdutos] = useState([])
-  // const [servico, setServico] = useState([])
-  const [categorias, setCategorias] = useState([])
+  const [servico, setServico] = useState([])
+
+  console.log("Render Home");
 
   useEffect(() => {
-    onRefresh()
     Menu()
+    onRefresh()
+    
   }, [])
   
   const onRefresh = () => {
     BuscaProdutos()
-    BuscaCategorias()
+
   };
-  
+
 
 
   function Menu() {
-
-    navigation.setOptions({
+    !carregando && navigation.setOptions({
       headerLeft: () => {
         return (
           <BtnIcone
@@ -68,23 +69,12 @@ export default function Home() {
     })
   }
 
-  async function BuscaCategorias() {
-
-    await api.get('/categorias')
-      .then((response) => {
-        let embaralhado = shuffle(response.data)
-        setCategorias(embaralhado)
-      })
-      .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
-  }
 
   async function BuscaProdutos() {
-    setCarregando(true)
     await api.get('/produtos')
       .then((response) => {
         let embaralhado = shuffle(response.data)
         setProdutos(embaralhado)
-        setCarregando(false)
       })
       .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
@@ -101,15 +91,17 @@ export default function Home() {
   }
 
 
+
+
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
       columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
       ListHeaderComponent={
         <>
-          <ListaCategorias data={categorias} />
-          {/* <CarrosselBanners data={banners} /> */}
-          {/* {servico.length > 0 && <CarrosselServicos data={servico} />} */}
+          <ListaCategorias />
+          <CarrosselBanners/>
+          {servico.length > 0 && <CarrosselServicos data={servico} />}
         </>
 
       }

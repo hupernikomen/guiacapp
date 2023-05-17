@@ -7,6 +7,7 @@ import Pinchable from 'react-native-pinchable';
 
 import api from '../../servicos/api';
 
+
 import Share from "react-native-share";
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -133,7 +134,9 @@ export default function Detalhes() {
   }
 
   return (
-    <ScrollView style={{
+    <ScrollView
+    showsVerticalScrollIndicator={false}
+    style={{
       flex: 1,
       backgroundColor: '#fff'
     }}>

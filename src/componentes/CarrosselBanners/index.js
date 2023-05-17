@@ -3,16 +3,19 @@ import { Dimensions, View, Image, FlatList, Animated } from 'react-native';
 
 
 const WIDTH = Dimensions.get('window').width;
-const CARD_WIDTH = WIDTH * 0.9;
 
 
 import { ExpandingDot } from "react-native-animated-pagination-dots";
 
-export default function CarrosselBanners({ data }) {
+export default function CarrosselBanners() {
 
     const scrollRef = useRef(null);
     const timeoutRef = useRef(null);
     const [index, setIndex] = useState(0);
+
+    const [banners, setBaners] = useState([
+        'https://marketplace.canva.com/EAFM3ug4PvM/1/0/1600w/canva-banner-para-loja-de-eletr%C3%B4nicos-promo%C3%A7%C3%A3o-desconto-moderno-preto-e-roxo-bDGBCajFe_Q.jpg',
+        'https://wooperstudio.com.br/wp-content/uploads/2022/01/banner-para-loja-no-shopee1.jpg'])
 
     function resetTimeout() {
         if (timeoutRef.current) {
@@ -24,7 +27,7 @@ export default function CarrosselBanners({ data }) {
         resetTimeout();
 
         timeoutRef.current = setTimeout(() => {
-            setIndex(old => (old === data.length - 1 ? 0 : old + 1));
+            setIndex(old => (old === banners.length - 1 ? 0 : old + 1));
         }, 8000);
 
         scrollRef.current?.scrollToIndex({
@@ -43,11 +46,11 @@ export default function CarrosselBanners({ data }) {
                 aspectRatio: 2,
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: 10
+                padding: 8
             }}>
 
                 <Image
-                    style={{ width: WIDTH - 20, flex: 1, borderRadius: 10 }}
+                    style={{ width: WIDTH - 15, flex: 1, borderRadius: 10 }}
                     source={{ uri: img }}
                 />
             </View>
@@ -56,7 +59,7 @@ export default function CarrosselBanners({ data }) {
     const scrollX = React.useRef(new Animated.Value(0)).current;
 
     return (
-        <View style={{ paddingBottom: 20 }}>
+        <View style={{ paddingBottom: 15 }}>
 
             <FlatList
                 ref={scrollRef}
@@ -70,12 +73,12 @@ export default function CarrosselBanners({ data }) {
                 )}
                 showsHorizontalScrollIndicator={false}
                 horizontal
-                data={data}
+                data={banners}
                 renderItem={({ item }) => <RenderItem img={item} />}
             />
 
             <ExpandingDot
-                data={data}
+                data={banners}
 
                 expandingDotWidth={10}
                 scrollX={scrollX}

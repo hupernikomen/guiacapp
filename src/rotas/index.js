@@ -111,6 +111,7 @@ export default function RotasStack() {
         name='Home'
         component={Home}
         options={{
+          headerShadowVisible:false,
           title: "Guia Comercial",
         }}
       />

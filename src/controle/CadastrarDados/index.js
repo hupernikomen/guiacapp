@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, ToastAndroid } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
 import { useTheme, useNavigation,useRoute } from '@react-navigation/native';
@@ -24,7 +24,6 @@ export default function CadastrarDados() {
     const [bio, setBio] = useState('')
     const [entrega, setEntrega] = useState()
 
-    console.log(route.params?.bairro);
 
 
     useEffect(() => {
@@ -56,20 +55,23 @@ export default function CadastrarDados() {
         }
 
         await api.put(`/loja?lojaID=${credenciais.id}`, formData, { headers })
-            .then((response) => {
-                console.log(response.data);
-                Alert.alert("Muito bom...", "Seus dados já foram atualizados", [
-                    {
-                        text: "Sair",
-                        onPress: () => navigation.goBack(),
-                    },
-                    { text: "Continuar" },
-                ])
-
-
+            .then(() => {
+                navigation.goBack()
+                ToastAtualizaDados()
             })
             .catch((error) => console.log(error, "catch Error"))
     }
+
+
+    const ToastAtualizaDados = () => {
+        ToastAndroid.showWithGravityAndOffset(
+          'Atualizamos seus dados!',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+      };
 
     return (
         <ScrollView

@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useCallback, useState, useMemo } from 'react';
-import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity, Modal, RefreshControl, Alert } from 'react-native';
+import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity, Modal, RefreshControl, Alert, ToastAndroid } from 'react-native';
 
 import { useNavigation, useIsFocused, useFocusEffect } from '@react-navigation/native'
 
@@ -23,19 +23,10 @@ export default function HomeControle() {
   const [loja, setLoja] = useState([])
 
 
-  useFocusEffect(
-    useCallback(() => {
 
-
-      BuscaLoja()
-
-
-    },[])
-  )
-
-
-
+  // console.log("Render Home Controle");
   useEffect(() => {
+    BuscaLoja()
 
     navigation.setOptions({
       title: loja.nome || "",
@@ -65,8 +56,11 @@ export default function HomeControle() {
           }}
         />
       )
-    })
-  }, [loja])
+
+    }, [])
+  })
+
+
 
   async function BuscaLoja() {
     const headers = {
@@ -79,11 +73,11 @@ export default function HomeControle() {
       })
   }
 
+
   return (
     <View
-    
-    style={styles.tela}>
-        {console.log(loja,"tese")}
+
+      style={styles.tela}>
 
       <FlatList
         ListEmptyComponent={

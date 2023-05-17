@@ -21,11 +21,11 @@ export default function Categorias() {
 
     })
 
-    PegaCategorias()
+    ProdutosProCategoria()
 
   }, [])
 
-  async function PegaCategorias() {
+  async function ProdutosProCategoria() {
     await api.get(`/porcategoria?categoriaID=${params?.id}`)
     .then(({data}) => {
       setProdutos(data);
