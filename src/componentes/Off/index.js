@@ -15,10 +15,10 @@ export default function Off({ valor }) {
             position: 'absolute',
             zIndex: 9999,
             left:-4,
-            top:-8
+            top:-6
         }}>
 
-            <Material name='bookmark' size={42} color={colors.tema}/>
+            <Material name='bookmark' size={44} color={colors.tema}/>
             <View 
             style={{
                 position: 'absolute',
@@ -28,7 +28,7 @@ export default function Off({ valor }) {
                 <Text style={{
                     fontFamily: "Roboto-Regular",
                     alignSelf:'center',
-                    fontSize: 8,
+                    fontSize: 9,
                     color: '#fff',
                     marginTop:2
                 }}>
@@ -36,7 +36,7 @@ export default function Off({ valor }) {
                 </Text>
                 <Text style={{
                     fontFamily: "Roboto-Regular",
-                    fontSize: 8,
+                    fontSize: 9,
                     marginTop:-2,
                     color: '#fff',
                     alignSelf:'center'

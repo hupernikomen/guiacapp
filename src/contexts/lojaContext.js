@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { Alert } from "react-native";
+import { ToastAndroid } from "react-native";
 import api from '../servicos/api'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -138,8 +138,17 @@ export function LojaProvider({ children }) {
 
   //---------------------------------------------------------------------
 
+  
 
-
+  const ToastErroLogin = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      0,
+      50,
+    );
+  };
 
   async function signIn({ email, senha }) {
     if (!email || !senha) {
@@ -171,7 +180,8 @@ export function LojaProvider({ children }) {
         if (response.status == '503') {
           Alert.alert("Manutenção", "Estamos melhorando as coisas por aqui, volte em alguns instantes...")
         } else {
-          Alert.alert("Ops...", response.data?.error)
+          ToastErroLogin(response.data?.error)
+          // Alert.alert("Ops...", response.data?.error)
         }
         setLoading(false)
       })

@@ -10,7 +10,7 @@ export default function Delivery() {
   const { colors } = useTheme()
   return (
     <View style={[styles.card]}>
-      <Material name='truck-fast' size={20} color={colors.vartema} />
+      <Material name='truck-fast' size={20} color={colors.destaque} />
      
     </View>
   );
@@ -21,10 +21,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: "row",
-    padding: 4,
-    marginHorizontal: 4,
-    position: "absolute",
-    right:0,
-    zIndex: 9,
   }
 })

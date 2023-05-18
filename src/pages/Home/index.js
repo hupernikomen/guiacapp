@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FlatList, RefreshControl, Text } from 'react-native';
+import { FlatList, RefreshControl, Text,View } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
 import ListaCategorias from '../../componentes/ListaCategorias';
@@ -8,7 +8,7 @@ import api from '../../servicos/api';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation,useTheme } from '@react-navigation/native'
 import CarrosselServicos from '../../componentes/CarrosselServicos';
 import CarrosselBanners from '../../componentes/CarrosselBanners';
 
@@ -17,6 +17,7 @@ import { BtnIcone } from '../../styles'
 
 export default function Home() {
   const navigation = useNavigation()
+  const {colors} =useTheme()
 
   const [carregando, setCarregando] = useState(false)
   const [produtos, setProdutos] = useState([])
@@ -25,49 +26,15 @@ export default function Home() {
   console.log("Render Home");
 
   useEffect(() => {
-    Menu()
     onRefresh()
-    
+
   }, [])
-  
+
   const onRefresh = () => {
     BuscaProdutos()
 
   };
 
-
-
-  function Menu() {
-    !carregando && navigation.setOptions({
-      headerLeft: () => {
-        return (
-          <BtnIcone
-            lado={'flex-start'}
-            onPress={() => navigation.navigate("Menu")}
-            activeOpacity={.9}>
-            <Material name='menu' size={24} color={'#fff'} />
-          </BtnIcone>
-        )
-      },
-      headerRight: () => {
-        return (
-          <>
-            <BtnIcone
-              lado={'flex-end'}
-              onPress={() => navigation.navigate("Lojas")}>
-              <Material name='storefront-outline' size={24} color='#fff' />
-            </BtnIcone>
-
-            <BtnIcone
-              lado={'flex-end'}
-              onPress={() => navigation.navigate("Search")}>
-              <Material name='magnify' size={24} color='#fff' />
-            </BtnIcone>
-          </>
-        )
-      }
-    })
-  }
 
 
   async function BuscaProdutos() {
@@ -91,34 +58,84 @@ export default function Home() {
   }
 
 
+  function Header() {
+    return (
+      <View style={{
+        backgroundColor: colors.tema,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 10,
+        height: 57,
+      }}>
+
+        <BtnIcone
+          lado={'center'}
+          onPress={() => navigation.openDrawer()}>
+          <Material name='menu' size={24} color={'#fff'} />
+        </BtnIcone>
+
+
+        <Text
+          numberOfLines={1}
+          style={{
+            flex: 1,
+            marginLeft: 15,
+            fontFamily: 'Roboto-Medium',
+            fontSize: 20,
+            color: '#fff',
+          }}>Guia Comercial</Text>
+
+        <>
+        <BtnIcone
+              lado={'center'}
+              onPress={() => navigation.navigate("Lojas")}>
+              <Material name='storefront-outline' size={24} color='#fff' />
+            </BtnIcone>
+
+            <BtnIcone
+              lado={'center'}
+              onPress={() => navigation.navigate("Search")}>
+              <Material name='magnify' size={24} color='#fff' />
+            </BtnIcone>
+
+        </>
+
+      </View>
+    )
+  }
+
+
 
 
   return (
-    <FlatList
-      showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
-      ListHeaderComponent={
-        <>
-          <ListaCategorias />
-          <CarrosselBanners/>
-          {servico.length > 0 && <CarrosselServicos data={servico} />}
-        </>
+    <>
+      <Header />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
+        ListHeaderComponent={
+          <>
+            <ListaCategorias />
+            {/* <CarrosselBanners/> */}
+            {servico.length > 0 && <CarrosselServicos data={servico} />}
+          </>
 
-      }
-      stickyHeaderHiddenOnScroll={true}
-      StickyHeaderComponent={[0]}
-      data={produtos}
-      renderItem={({ item }) => <Produto item={item} />}
-      numColumns={2}
+        }
+        stickyHeaderHiddenOnScroll={true}
+        StickyHeaderComponent={[0]}
+        data={produtos}
+        renderItem={({ item }) => <Produto item={item} />}
+        numColumns={2}
 
-      refreshControl={
-        <RefreshControl
-          refreshing={carregando}
-          onRefresh={onRefresh}
-        />
-      }
+        refreshControl={
+          <RefreshControl
+            refreshing={carregando}
+            onRefresh={onRefresh}
+          />
+        }
 
-    />
+      />
+    </>
 
   )
 }

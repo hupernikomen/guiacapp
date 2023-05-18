@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 
 export const BtnMenu = styled.TouchableOpacity`
     width: 100%;
-    height: 55px;
+    height: 60px;
     flex-direction: row; 
     align-items: center; 
     justify-content: space-between;
