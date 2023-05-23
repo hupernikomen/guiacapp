@@ -164,6 +164,8 @@ export default function Detalhes() {
 
         </ContainerLoja>
 
+        {console.log(produto,"tttt")}
+
         <TextoPadrao>Categoria: {produto.categoria?.nome}</TextoPadrao>
         <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
 

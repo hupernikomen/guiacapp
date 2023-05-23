@@ -49,9 +49,6 @@ export default function ListaCategorias() {
                     justifyContent: 'center',
                     paddingHorizontal: 15,
                 }}>
-
-
-
                 <Text style={{
                     textTransform: 'uppercase',
                     fontFamily: 'Roboto-Medium',

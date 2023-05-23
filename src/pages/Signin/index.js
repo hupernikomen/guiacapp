@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   View,
-  Image
+  Image,
 } from "react-native";
 
-import { LojaContext } from "../../contexts/lojaContext"
-import { useTheme,useNavigation,useIsFocused } from "@react-navigation/native";
 
-import { ContainerInput, Input, TituloInput, BotaoPrincipal, TextBtn } from '../../styles'
+import { LojaContext } from "../../contexts/lojaContext"
+import { useTheme, useNavigation, useIsFocused } from "@react-navigation/native";
+
+import { ContainerInput, Input, TituloInput, BotaoPrincipal, TextBtn,Tela } from '../../styles'
 
 export default function Login() {
 
   const navigation = useNavigation()
 
   const focus = useIsFocused()
-  const { signIn,autenticado } = useContext(LojaContext)
+  const { signIn, autenticado } = useContext(LojaContext)
   const { colors } = useTheme()
 
   const [email, setEmail] = useState("")
@@ -24,15 +25,10 @@ export default function Login() {
 
     autenticado && navigation.navigate('HomeControle')
 
-  },[focus])
+  }, [focus])
 
   return (
-    <View style={{
-      flex: 1,
-      paddingHorizontal: 10,
-      justifyContent: "center",
-      backgroundColor: '#fff'
-    }}>
+    <Tela>
 
       {/* <Image
         style={{width:100, height:100}}
@@ -66,14 +62,25 @@ export default function Login() {
 
 
       <BotaoPrincipal
+        background={colors.tema}
         cor={colors.tema}
         activeOpacity={0.7}
         onPress={() => signIn({ email, senha })}
         disabled={!email && !senha ? true : false}
       >
-        <TextBtn>Entrar</TextBtn>
+        <TextBtn cor={'#fff'}>Entrar</TextBtn>
 
       </BotaoPrincipal>
-    </View>
+
+      <BotaoPrincipal
+        background={'#fff'}
+
+        activeOpacity={0.7}
+        onPress={() => navigation.goBack()}
+      >
+        <TextBtn cor={'#000'}>Sair</TextBtn>
+
+      </BotaoPrincipal>
+    </Tela>
   );
 }

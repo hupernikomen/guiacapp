@@ -6,24 +6,26 @@ const Texto = styled.Text`
 
 
 export const Tela = styled.View`
-    flex: 1,
-    background-color: #fff,
-    padding: 15px
+    flex: 1;
+    justify-content: center;
+    background-color: #fff;
+    padding: 15px;
 `
 export const ContainerInput = styled.View`
     position: relative;
-    margin-horizontal: 15px;
-    margin-vertical: 8px
+    margin-vertical: 6px;
+    padding-horizontal: 15px;
 `
 export const Input = styled.TextInput`
     font-size: 16px;
     font-family: Roboto-Regular;
     min-height: 55px;
+   
     padding-horizontal: 25px;
-    border-width: 1px;
+    border-width: .8px;
     color: #000;
     border-radius: 28px;
-    border-color: #aaa;
+    border-color: #000;
 `
 
 
@@ -34,32 +36,32 @@ export const TituloInput = styled(Texto)`
     background-color:#fff;
     z-index: 99;
     top: -10px;
-    margin-left: 15px;
+    margin-left: 35px;
     padding-horizontal: 10px;
 `
 export const SimulaInput = styled.View`
     justify-content: space-between;
-    margin-vertical: 8px;
+    margin-vertical: 6px;
     margin-horizontal: 15px;
     flex-direction: row;
     align-items:center;
     min-height: 55px;
     padding-horizontal: 25px;
-    border-width: 1px;
-    border-radius: 24.5px;
-    border-color: #aaa;
+    border-width: .5px;
+    border-radius: 28px;
+    border-color: #000;
 `
 export const BotaoPrincipal = styled.TouchableOpacity`
     height: 55px;
     border-radius: 28px;
     align-items: center;
     justify-content: center;
-    margin: 15px;
+    margin-vertical: 5px;
     flex-direction: row;
-    background-color: ${props => props.cor}
+    background-color: ${props => props.background}
 `
 export const TextBtn = styled.Text`
-    color: #fff;
+    color: ${props => props.cor};
     font-size: 16px;
     font-family: "Roboto-Medium"
 `
