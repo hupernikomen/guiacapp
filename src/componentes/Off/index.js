@@ -18,7 +18,7 @@ export default function Off({ valor }) {
             top:-6
         }}>
 
-            <Material name='bookmark' size={44} color={colors.tema}/>
+            <Material name='bookmark' size={46} color={colors.tema}/>
             <View 
             style={{
                 position: 'absolute',

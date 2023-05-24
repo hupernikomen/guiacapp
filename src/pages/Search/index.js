@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { View, FlatList, ActivityIndicator, RefreshControl, Text, TextInput, TouchableOpacity } from 'react-native';
 
-import { useTheme, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import ProdutoFeed from '../../componentes/Produtos/pdt-feed';
 
@@ -15,6 +15,7 @@ export default function Search() {
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(false)
   const [busca, setBusca] = useState('')
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -52,7 +53,7 @@ export default function Search() {
       if (produtos.indexOf(pesquisa) > -1) {
         return produtos.indexOf(pesquisa) > -1
 
-      } else if(descricao.indexOf(pesquisa) > -1) {
+      } else if (descricao.indexOf(pesquisa) > -1) {
         return descricao.indexOf(pesquisa) > -1
 
       } else {
@@ -97,13 +98,13 @@ export default function Search() {
 
   return (
     <FlatList
-    contentContainerStyle={{marginVertical:6}}
+      contentContainerStyle={{ marginVertical: 6 }}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={<ListaVazia />}
       columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
       data={produtos}
       renderItem={({ item }) => <ProdutoFeed item={item} />}
       numColumns={2}
-      />
+    />
   );
 }

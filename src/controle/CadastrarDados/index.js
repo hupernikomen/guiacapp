@@ -6,7 +6,7 @@ import { useTheme, useNavigation,useRoute } from '@react-navigation/native';
 
 import api from '../../servicos/api';
 
-import { Input, TituloInput, ContainerInput, BotaoPrincipal } from "../../styles";
+import { Input, TituloInput, ContainerInput, BotaoPrincipal,TextBtn } from "../../styles";
 
 
 
@@ -177,10 +177,10 @@ export default function CadastrarDados() {
 
             <BotaoPrincipal
                 activeOpacity={1}
-                cor={colors.tema}
+                background={colors.tema}
                 onPress={Atualizar}>
 
-                <Text style={styles.txtbtn}>Atualizar</Text>
+                <TextBtn cor={'#fff'}>Atualizar</TextBtn>
             </BotaoPrincipal>
 
             <View style={{ marginVertical: 15 }} />

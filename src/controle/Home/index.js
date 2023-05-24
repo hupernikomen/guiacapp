@@ -1,7 +1,7 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { View, StyleSheet, FlatList, Text, Image, TouchableOpacity, Modal, ToastAndroid } from 'react-native';
+import React, { useEffect, useContext, useState, useCallback } from 'react';
+import { View, StyleSheet, FlatList, Text, Image, ActivityIndicator, Modal, ToastAndroid } from 'react-native';
 
-import { useNavigation, useIsFocused, useTheme } from '@react-navigation/native'
+import { useNavigation, useIsFocused, useTheme,useFocusEffect } from '@react-navigation/native'
 
 import { LojaContext } from '../../contexts/lojaContext';
 
@@ -10,17 +10,14 @@ import api from '../../servicos/api';
 import ProdutoControle from '../../componentes/Produtos/pdt-feed-controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { BtnIcone } from '../../styles'
-import { BtnMenu } from './styles'
-import { ActivityIndicator } from 'react-native-paper';
+import { BtnMais } from './styles'
 
 export default function HomeControle() {
 
-  const { credenciais, signOut, previewLogo, Logo } = useContext(LojaContext)
+  const { credenciais } = useContext(LojaContext)
   const navigation = useNavigation()
   const focus = useIsFocused()
 
-  const [modalVisible, setModalVisible] = useState(false);
   const [loja, setLoja] = useState([])
 
   const { colors } = useTheme()
@@ -29,11 +26,14 @@ export default function HomeControle() {
 
   console.log("Render Home Controle");
 
-  useEffect(() => {
-    BuscaLoja()
 
-  }, [focus])
+  useFocusEffect(
+    useCallback(() => {
 
+      BuscaLoja()
+
+    }, [])
+  )
 
 
   const ToastErro = (mensagem) => {
@@ -59,67 +59,22 @@ export default function HomeControle() {
       })
       .catch((error) => {
         ToastErro(error.status)
-        // navigation.goBack()
         setCarregando(false)
       })
+
   }
 
 
-
-  function Header() {
-    return (
-      <View style={{
-        backgroundColor: colors.tema,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal:15,
-        height: 57,
-      }}>
-
-
-        {loja.logo?.length > 0 && <Image
-          style={{ width: 40, aspectRatio: 1, borderRadius: 25 }}
-          source={{ uri: loja.logo[0].location }}
-          />}
-
-        <Text
-          numberOfLines={1}
-          style={{
-            flex: 1,
-            marginLeft: 15,
-            fontFamily: 'Roboto-Medium',
-            fontSize: 20,
-            color: '#fff',
-          }}>{loja.nome}</Text>
-
-        <>
-          <BtnIcone
-            lado={'flex-end'}
-            onPress={() => navigation.navigate("CadastrarProduto")}>
-            <Material name='plus-thick' size={24} color='#fff' />
-          </BtnIcone>
-
-          <BtnIcone
-            lado={'flex-end'}
-            onPress={() => setModalVisible(true)}>
-            <Material name='dots-vertical' size={24} color='#fff' />
-          </BtnIcone>
-
-        </>
-
-      </View>
-
-    )
-  }
 
   if (carregando) {
-    return(
-      <View style={{flex:1, alignItems:'center',justifyContent:'center'}}>
-        <ActivityIndicator size={30} color={colors.tema}/>
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator size={30} color={colors.tema} />
       </View>
     )
   }
+
+
 
 
   return (
@@ -127,7 +82,12 @@ export default function HomeControle() {
 
       style={styles.tela}>
 
-      <Header />
+      <BtnMais
+        background={colors.tema}
+        lado={'flex-end'}
+        onPress={() => navigation.navigate("CadastrarProduto")}>
+        <Material name='plus-thick' size={24} color='#fff' />
+      </BtnMais>
 
       <FlatList
         ListEmptyComponent={
@@ -156,33 +116,8 @@ export default function HomeControle() {
 
       />
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        statusBarTranslucent
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
 
-        <View style={{ flex: 1 }}>
-
-          <TouchableOpacity
-
-            onPress={() => {
-              setModalVisible(false)
-              BuscaLoja()
-            }}
-            style={{ flex: 1 }}>
-
-          </TouchableOpacity>
-
-          <View
-            style={{
-              backgroundColor: '#fff',
-              paddingHorizontal: 15,
-              paddingTop: 15,
-              elevation:10
-            }}
-          >
+      {/* 
             <BtnMenu
               activeOpacity={.9}
               onPress={Logo}
@@ -196,49 +131,9 @@ export default function HomeControle() {
                   style={styles.logomenu}
                   source={{ uri: previewLogo || loja.logo[0]?.location }} />}
               </View>
-            </BtnMenu>
+            </BtnMenu> */}
 
-            <BtnMenu
-              activeOpacity={.9}
-              onPress={() => {
-                navigation.navigate("CadastrarDados", loja)
-                setModalVisible(false)
-              }}>
-              <Text style={styles.txtmenu}>Dados</Text>
-            </BtnMenu>
 
-            <BtnMenu
-              activeOpacity={.9}
-              onPress={() => {
-                navigation.navigate("VendedoresControle", loja)
-                setModalVisible(false)
-              }}>
-              <Text style={styles.txtmenu}>Vendedores</Text>
-              <Text style={{ fontFamily: 'Roboto-Light' }}>{loja.vendedores?.length}</Text>
-            </BtnMenu>
-
-            <BtnMenu
-              activeOpacity={.9}
-              onPress={() => {
-                navigation.navigate("MapaControle")
-                setModalVisible(false)
-              }}>
-              <Text style={styles.txtmenu}>Localização</Text>
-              {!!loja.latlng &&
-                <Text style={{ fontFamily: 'Roboto-Light' }}>Registrado</Text>
-              }
-            </BtnMenu>
-
-            <BtnMenu
-              activeOpacity={.9}
-              onPress={signOut}>
-              <Text style={styles.txtmenu}>Sair da Loja</Text>
-
-            </BtnMenu>
-          </View>
-
-        </View>
-      </Modal>
     </View>
   );
 }

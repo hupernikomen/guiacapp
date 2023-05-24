@@ -16,17 +16,7 @@ import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
 
 import Signin from '../pages/Signin'
-import CadastrarProduto from '../controle/CadastrarProduto';
-import CadastrarDados from '../controle/CadastrarDados';
-import EditaProduto from '../controle/EditaProduto';
-import HomeControle from '../controle/Home'
-import MapaControle from '../controle/Mapa';
-import VendedoresControle from '../controle/Vendedores';
 
-
-
-
-import { LojaContext } from '../contexts/lojaContext';
 
 import { useTheme } from '@react-navigation/native';
 const Stack = createNativeStackNavigator()
@@ -35,8 +25,6 @@ const Stack = createNativeStackNavigator()
 export default function RotasStack() {
 
   const { colors } = useTheme()
-
-  const {autenticado} = useContext(LojaContext);
 
 
   return (
@@ -53,7 +41,7 @@ export default function RotasStack() {
         }
       }}
     >
-      
+
       <Stack.Screen
         name='Home'
         component={Home}
@@ -62,62 +50,6 @@ export default function RotasStack() {
         }}
       />
 
-
-      {autenticado &&
-        <>
-          <Stack.Screen
-            name='HomeControle'
-            component={HomeControle}
-            options={{
-              headerShown: false
-            }}
-          />
-
-          <Stack.Screen
-            name='CadastrarDados'
-            component={CadastrarDados}
-            options={{
-              title: "Meus Dados",
-              headerShadowVisible: false,
-            }}
-          />
-
-          <Stack.Screen
-            name='CadastrarProduto'
-            component={CadastrarProduto}
-            options={{
-              title: "Postar Produto",
-              headerShadowVisible: false,
-            }}
-          />
-
-          <Stack.Screen
-            name='EditaProduto'
-            component={EditaProduto}
-            options={{
-              headerShadowVisible: false,
-            }}
-          />
-
-          <Stack.Screen
-            name='MapaControle'
-            component={MapaControle}
-            options={{
-              title: "Localização",
-              headerShadowVisible: false,
-            }}
-          />
-
-          <Stack.Screen
-            name='VendedoresControle'
-            component={VendedoresControle}
-            options={{
-              title: "Cadastro de Vendedores",
-              headerShadowVisible: false,
-            }}
-          />
-        </>
-      }
 
 
 

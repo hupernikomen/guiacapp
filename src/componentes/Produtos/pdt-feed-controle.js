@@ -1,4 +1,4 @@
-import React from "react";
+import {memo} from "react";
 import {
   Image,
   Text,
@@ -14,7 +14,7 @@ const WIDTH = Dimensions.get('window').width
 
 import { ProdutoContainer, ContainerInfo, Produto, TxtPreco } from "./styles";
 
-export default function ProdutoControle({ item }) {
+function ProdutoControle({ item }) {
 
   const navigation = useNavigation();
 
@@ -24,6 +24,7 @@ export default function ProdutoControle({ item }) {
     const [valueFormattedWithSymbol] = formatCurrency({ amount: preco, code: 'BRL' });
     return valueFormattedWithSymbol
   }
+
 
   return (
 
@@ -53,3 +54,4 @@ export default function ProdutoControle({ item }) {
   );
 }
 
+export default memo(ProdutoControle)

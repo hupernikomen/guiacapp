@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FlatList, RefreshControl, Text,View } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
 import ListaCategorias from '../../componentes/ListaCategorias';
@@ -8,7 +8,7 @@ import api from '../../servicos/api';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { useNavigation,useTheme } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
 import CarrosselServicos from '../../componentes/CarrosselServicos';
 import CarrosselBanners from '../../componentes/CarrosselBanners';
 
@@ -17,7 +17,7 @@ import { BtnIcone } from '../../styles'
 
 export default function Home() {
   const navigation = useNavigation()
-  const {colors} =useTheme()
+  const { colors } = useTheme()
 
   const [carregando, setCarregando] = useState(false)
   const [produtos, setProdutos] = useState([])
@@ -34,6 +34,8 @@ export default function Home() {
     BuscaProdutos()
 
   };
+
+  
 
 
 
@@ -85,20 +87,13 @@ export default function Home() {
             color: '#fff',
           }}>Guia Comercial</Text>
 
-        <>
+
         <BtnIcone
-              lado={'center'}
-              onPress={() => navigation.navigate("Lojas")}>
-              <Material name='storefront-outline' size={24} color='#fff' />
-            </BtnIcone>
+          lado={'center'}
+          onPress={() => navigation.navigate("Search")}>
+          <Material name='magnify' size={24} color='#fff' />
+        </BtnIcone>
 
-            <BtnIcone
-              lado={'center'}
-              onPress={() => navigation.navigate("Search")}>
-              <Material name='magnify' size={24} color='#fff' />
-            </BtnIcone>
-
-        </>
 
       </View>
     )

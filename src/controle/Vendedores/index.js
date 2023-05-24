@@ -13,8 +13,8 @@ import api from '../../servicos/api';
 
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
-import {   TextBtn } from "../../styles";
-import {Input,ContainerInput, BotaoPrincipal,TituloInput}  from './styles'
+import { TextBtn } from "../../styles";
+import { Input, ContainerInput, BotaoPrincipal, TituloInput,BtnMais } from './styles'
 
 export default function Vendedores() {
 
@@ -186,6 +186,13 @@ export default function Vendedores() {
   return (
     <View style={styles.tela}>
 
+      <BtnMais
+        background={colors.tema}
+        lado={'flex-end'}
+        onPress={() => navigation.navigate("CadastrarProduto")}>
+        <Material name='plus-thick' size={24} color='#fff' />
+      </BtnMais>
+
       <FlatList
         ListEmptyComponent={
           <Text style={{ marginTop: 40, textAlign: 'center', color: '#000', fontFamily: 'Roboto-Light' }}>
@@ -215,35 +222,35 @@ export default function Vendedores() {
             setWhatsapp('')
             setFoto([])
           }}
-          style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center',zIndex:0 }}>
+          style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', zIndex: 0 }}>
 
           <View style={styles.centeredView}>
 
-              <View style={styles.containerbtns}>
-                {foto.length == 0 ?
-                  <>
-                    <TouchableOpacity
-                      style={styles.btnmenuitem}
-                      onPress={() => CapturarImagem(launchImageLibrary)}>
-                      <Material name='image-outline' size={30} color='#000' />
-                    </TouchableOpacity>
+            <View style={styles.containerbtns}>
+              {foto.length == 0 ?
+                <>
+                  <TouchableOpacity
+                    style={styles.btnmenuitem}
+                    onPress={() => CapturarImagem(launchImageLibrary)}>
+                    <Material name='image-outline' size={30} color='#000' />
+                  </TouchableOpacity>
 
-                    <TouchableOpacity
-                      style={styles.btnmenuitem}
-                      onPress={() => CapturarImagem(launchCamera)}>
-                      <Material name='camera-outline' size={30} color='#000' />
-                    </TouchableOpacity>
-                  </>
-                  :
+                  <TouchableOpacity
+                    style={styles.btnmenuitem}
+                    onPress={() => CapturarImagem(launchCamera)}>
+                    <Material name='camera-outline' size={30} color='#000' />
+                  </TouchableOpacity>
+                </>
+                :
 
-                  <Image
-                    style={{ alignSelf: "flex-start",  width: 60, aspectRatio: 1, borderRadius: 25 }}
-                    source={{ uri: foto?.uri }}
-                  />
-                }
+                <Image
+                  style={{ alignSelf: "flex-start", width: 60, aspectRatio: 1, borderRadius: 25 }}
+                  source={{ uri: foto?.uri }}
+                />
+              }
 
 
-              </View>
+            </View>
             <View style={styles.modalView}>
 
 
@@ -306,12 +313,12 @@ const styles = StyleSheet.create({
   containerbtns: {
     flexDirection: "row",
     alignItems: 'center',
-    marginBottom:20,
-    padding:5,
-    maxWidth:'60%',
+    marginBottom: 20,
+    padding: 5,
+    maxWidth: '60%',
     borderRadius: 40,
-    backgroundColor:'#fff',
-    zIndex:99
+    backgroundColor: '#fff',
+    zIndex: 99
   },
   btnmenuitem: {
     flexDirection: 'row',
@@ -322,7 +329,7 @@ const styles = StyleSheet.create({
 
 
   centeredView: {
-    width:'80%',
+    width: '80%',
     flex: 1,
     justifyContent: 'center',
   },

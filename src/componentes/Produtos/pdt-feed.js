@@ -1,4 +1,4 @@
-import React from "react";
+import {memo} from "react";
 import {
   Image,
   Dimensions,
@@ -15,7 +15,7 @@ const { width: WIDTH } = Dimensions.get('window')
 
 import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, ContainerLoja } from "./styles";
 
-export default function ProdutoFeed({ item }) {
+function ProdutoFeed({ item }) {
 
   const navigation = useNavigation();
   const { name } = useRoute()
@@ -60,3 +60,6 @@ export default function ProdutoFeed({ item }) {
     </ProdutoContainer>
   );
 }
+
+
+export default memo(ProdutoFeed)

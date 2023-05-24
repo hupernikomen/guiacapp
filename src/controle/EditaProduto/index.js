@@ -101,7 +101,7 @@ export default function EditaProduto() {
 
     await api.delete(`/produto?produtoID=${id}`, { headers })
         .then(() => {
-          navigation.navigate("HomeControle")
+          navigation.goBack()
           ToastExcluiProduto()
         })
         .catch((error) => console.log(error.response))

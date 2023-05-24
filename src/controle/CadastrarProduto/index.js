@@ -140,8 +140,7 @@ export default function CadastrarProduto() {
         }
         await api.post(`/produto?lojaID=${credenciais.id}`, formData, { headers })
             .then((response) => {
-                console.log(response.data, "result");
-                navigation.navigate("HomeControle")
+                navigation.goBack()
                 ToastConfirmaPostagem()
             })
 
@@ -416,10 +415,23 @@ export default function CadastrarProduto() {
 
 
             <BotaoPrincipal
-                cor={colors.tema}
+                background={colors.tema}
                 activeOpacity={1}
                 onPress={Postar}>
-                <TextBtn>Postar</TextBtn>
+                <TextBtn
+                    cor={'#fff'}>
+                    Postar
+                </TextBtn>
+            </BotaoPrincipal>
+
+            <BotaoPrincipal
+                background={colors.background}
+                activeOpacity={1}
+                onPress={() => navigation.goBack()}>
+                <TextBtn
+                    cor={'#000'}>
+                    Voltar
+                </TextBtn>
             </BotaoPrincipal>
 
             <View style={{ marginVertical: 15 }} />
@@ -439,10 +451,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#333",
         borderRadius: 55 / 2,
-        borderColor: "#aaa",
-        marginHorizontal: 15,
+        borderColor: "#000",
         marginVertical: 8,
-        paddingHorizontal: 10,
+        marginHorizontal:15
 
     },
     containerfotos: {
@@ -460,11 +471,6 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         flex: 1,
         borderRadius: 6
-    },
-    infoinputs: {
-        color: '#aaa',
-        fontFamily: 'Roboto-Italic',
-        marginLeft: 20,
     },
 
     centeredView: {

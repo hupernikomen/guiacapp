@@ -1,30 +1,25 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext } from 'react';
 
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import { DrawerContentScrollView, DrawerItemList, DrawerItem,Dra } from '@react-navigation/drawer'
+
+import { LojaContext } from '../../contexts/lojaContext';
 
 export default function DrawerCustom(props) {
+
+    const { autenticado, signOut } = useContext(LojaContext)
+
     return (
         <DrawerContentScrollView {...props}>
 
-            <View style={{
-                padding: 15,
-                marginVertical: 15
-            }}>
-
-                <Text>Guia Comercial</Text>
-            </View>
-
             <DrawerItemList {...props} />
 
-            <View style={{
-                padding: 15,
-                marginVertical: 15
-            }}>
-
-                <Text>Lojas</Text>
-            </View>
-           
+            {autenticado &&
+                <DrawerItem
+                    label="Sair da loja"
+                    inactiveTintColor='#fff'
+                    onPress={signOut}
+                />
+            }
 
         </DrawerContentScrollView>
     );

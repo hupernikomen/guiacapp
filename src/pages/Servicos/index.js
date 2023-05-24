@@ -1,36 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../../servicos/api';
 
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
+
+import { BtnIcone } from '../../styles'
 
 export default function Servicos() {
 
-const navigation = useNavigation()
+  const navigation = useNavigation()
+  const { colors } = useTheme()
 
   const [listaServicos, setListaServicos] = useState([])
   const [servicos, setServicos] = useState([]);
   const [carregando, setCarregando] = useState(false)
   const [busca, setBusca] = useState('')
 
-  const [s,setS] =useState("s")
-
   useEffect(() => {
-
-    listaServicos.length == 1 ? "" : "s"
-
-    navigation.setOptions({
-      title: `Serviço${s} Cadastrado${s}`,
-      headerSearchBarOptions: {
-        onChangeText: (event) => {
-          setBusca(event.nativeEvent.text)
-
-        },
-        headerIconColor: '#fff',
-        textColor: '#fff',
-      },
-    })
 
     CarregaServicos()
   }, [])
@@ -111,25 +99,57 @@ const navigation = useNavigation()
     )
   }
 
-  return (
-    <View style={styles.tela}>
 
-    <FlatList
-    showsVerticalScrollIndicator={false}
-      data={busca ? servicos : listaServicos }
-      renderItem={({ item }) => <RenderItem data={item} />}
-      />
+  function Header() {
+    return (
+      <View style={{
+        backgroundColor: colors.tema,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 10,
+        height: 57,
+      }}>
+
+        <BtnIcone
+          lado={'center'}
+          onPress={() => navigation.goBack()}>
+          <Material name='arrow-left' size={24} color='#fff' />
+        </BtnIcone>
+
+
+        <Text
+          numberOfLines={1}
+          style={{
+            flex: 1,
+            marginLeft: 15,
+            fontFamily: 'Roboto-Medium',
+            fontSize: 20,
+            color: '#fff',
+          }}>Profissionais</Text>
+
+
       </View>
+
+    )
+  }
+
+
+  return (
+    <>
+      <Header />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={busca ? servicos : listaServicos}
+        renderItem={({ item }) => <RenderItem data={item} />}
+      />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  tela:{
-    flex:1,
-    padding:14
-  },
+
   card: {
-    marginVertical:5,
+    marginVertical: 5,
     backgroundColor: '#fff',
     elevation: 1,
     flexDirection: 'row',

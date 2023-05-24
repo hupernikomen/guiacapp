@@ -13,7 +13,7 @@ export const Tela = styled.View`
 `
 export const ContainerInput = styled.View`
     position: relative;
-    margin-vertical: 6px;
+    margin-vertical: 8px;
     padding-horizontal: 15px;
 `
 export const Input = styled.TextInput`
@@ -22,7 +22,7 @@ export const Input = styled.TextInput`
     min-height: 55px;
    
     padding-horizontal: 25px;
-    border-width: .8px;
+    border-width: 1px;
     color: #000;
     border-radius: 28px;
     border-color: #000;
@@ -41,13 +41,13 @@ export const TituloInput = styled(Texto)`
 `
 export const SimulaInput = styled.View`
     justify-content: space-between;
-    margin-vertical: 6px;
+    margin-vertical: 8px;
     margin-horizontal: 15px;
     flex-direction: row;
     align-items:center;
     min-height: 55px;
     padding-horizontal: 25px;
-    border-width: .5px;
+    border-width: 1px;
     border-radius: 28px;
     border-color: #000;
 `
@@ -56,7 +56,8 @@ export const BotaoPrincipal = styled.TouchableOpacity`
     border-radius: 28px;
     align-items: center;
     justify-content: center;
-    margin-vertical: 5px;
+    margin-vertical: 8px;
+    margin-horizontal: 15px;
     flex-direction: row;
     background-color: ${props => props.background}
 `

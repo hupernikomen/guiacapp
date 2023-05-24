@@ -1,12 +1,16 @@
 import styled from 'styled-components/native'
 
-export const BtnMenu = styled.TouchableOpacity`
-    width: 100%;
-    height: 60px;
-    flex-direction: row; 
-    align-items: center; 
-    justify-content: space-between;
-    padding-horizontal: 15px;
-    border-bottom-color: #ddd;
-    border-bottom-width: .5px
+export const BtnMais = styled.TouchableOpacity`
+
+    position:absolute;
+    z-index: 9999;
+    right: 20px;
+    bottom:30px;
+    background-color:${props => props.background};
+    width:50px;
+    height: 50px;
+    border-radius: 25px;
+    align-items: center;
+    justify-content:center;
+    elevation: 5
 `
