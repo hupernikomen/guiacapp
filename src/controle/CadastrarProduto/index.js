@@ -37,6 +37,8 @@ export default function CadastrarProduto() {
     const { credenciais } = useContext(LojaContext)
     const { arrTamanhos } = useContext(ProdutoContext)
 
+    const [carregamento, setCarregamento] = useState(false)
+
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -90,6 +92,7 @@ export default function CadastrarProduto() {
 
     async function Postar() {
 
+        setCarregamento(true)
 
         if (nome == "" || descricao == "" || preco == "" || categoria == "" || preview.length == 0) {
             Alert.alert("Campos obrigatórios... *", !nome && "Produto" || !preco && "Preco" || !descricao && "Descricao" || !categoria && "Categoria" || preview.length == 0 && "Imagens")
@@ -142,6 +145,7 @@ export default function CadastrarProduto() {
             .then((response) => {
                 navigation.goBack()
                 ToastConfirmaPostagem()
+                setCarregamento(false)
             })
 
             .catch((error) => {
@@ -415,13 +419,16 @@ export default function CadastrarProduto() {
 
 
             <BotaoPrincipal
+                disabled={carregamento}
                 background={colors.tema}
                 activeOpacity={1}
                 onPress={Postar}>
+                    {carregamento? <ActivityIndicator color='#fff'/>:
                 <TextBtn
-                    cor={'#fff'}>
+                cor={'#fff'}>
                     Postar
                 </TextBtn>
+                    }
             </BotaoPrincipal>
 
             <BotaoPrincipal

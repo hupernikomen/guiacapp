@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, ToastAndroid } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
-import { useTheme, useNavigation,useRoute } from '@react-navigation/native';
+import { useTheme, useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
 
 import api from '../../servicos/api';
 
-import { Input, TituloInput, ContainerInput, BotaoPrincipal,TextBtn } from "../../styles";
+import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn } from "../../styles";
 
 
 
@@ -14,6 +14,8 @@ export default function CadastrarDados() {
     const { colors } = useTheme()
     const route = useRoute()
     const navigation = useNavigation()
+
+    const focus = useIsFocused()
 
     const { credenciais } = useContext(LojaContext)
 
@@ -25,18 +27,33 @@ export default function CadastrarDados() {
     const [entrega, setEntrega] = useState()
 
 
-
     useEffect(() => {
-        setNome(route.params?.nome)
-        setEndereco(route.params?.endereco)
-        setBairro(route.params?.bairro)
-        setReferencia(route.params?.referencia)
-        setBio(route.params?.bio)
+        BuscaLoja()
     }, [])
-    
+
 
     // const toggleSwitch = () => setEntrega(previousState => !previousState);
 
+    async function BuscaLoja() {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${credenciais.token}`
+        }
+        await api.get(`/me?lojaID=${credenciais.id}`, { headers })
+            .then((response) => {
+                const { nome, endereco, bairro, referencia, bio } = response.data
+
+                setNome(nome)
+                setEndereco(endereco)
+                setBairro(bairro)
+                setReferencia(referencia)
+                setBio(bio)
+            })
+            .catch((error) => {
+                ToastErro(error.status)
+            })
+
+    }
 
 
     async function Atualizar() {
@@ -56,7 +73,6 @@ export default function CadastrarDados() {
 
         await api.put(`/loja?lojaID=${credenciais.id}`, formData, { headers })
             .then(() => {
-                navigation.goBack()
                 ToastAtualizaDados()
             })
             .catch((error) => console.log(error, "catch Error"))
@@ -65,13 +81,13 @@ export default function CadastrarDados() {
 
     const ToastAtualizaDados = () => {
         ToastAndroid.showWithGravityAndOffset(
-          'Atualizamos seus dados!',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
+            'Atualizamos seus dados!',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
         );
-      };
+    };
 
     return (
         <ScrollView

@@ -13,8 +13,8 @@ import api from '../../servicos/api';
 
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
-import { TextBtn } from "../../styles";
-import { Input, ContainerInput, BotaoPrincipal, TituloInput,BtnMais } from './styles'
+import { Input, ContainerInput, TituloInput, BtnMais } from './styles'
+import { Tela, TextBtn } from '../../styles'
 
 export default function Vendedores() {
 
@@ -184,12 +184,12 @@ export default function Vendedores() {
 
 
   return (
-    <View style={styles.tela}>
+    <Tela>
 
       <BtnMais
         background={colors.tema}
         lado={'flex-end'}
-        onPress={() => navigation.navigate("CadastrarProduto")}>
+        onPress={CriarVendedores}>
         <Material name='plus-thick' size={24} color='#fff' />
       </BtnMais>
 
@@ -203,139 +203,60 @@ export default function Vendedores() {
         ItemSeparatorComponent={<View style={{ borderWidth: .5, borderColor: '#ddd' }} />}
         data={vendedores}
         renderItem={({ item }) => <RenderItem data={item} />}
+        ListFooterComponent={
 
+          <>
+
+            {foto.length == 0 ?
+              <>
+                <TouchableOpacity
+                  onPress={() => CapturarImagem(launchImageLibrary)}>
+                  <Material name='image-outline' size={30} color='#000' />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => CapturarImagem(launchCamera)}>
+                  <Material name='camera-outline' size={30} color='#000' />
+                </TouchableOpacity>
+              </>
+              :
+
+              <Image
+                style={{ alignSelf: "flex-start", width: 60, aspectRatio: 1, borderRadius: 25 }}
+                source={{ uri: foto?.uri }}
+              />
+            }
+
+            <ContainerInput>
+
+              <TituloInput>
+                Nome do Vendedor
+              </TituloInput>
+
+              <Input
+                maxLength={25}
+                value={nome}
+                onChangeText={setNome} />
+
+            </ContainerInput>
+
+            <ContainerInput>
+
+              <TituloInput>
+                Whatsapp
+              </TituloInput>
+
+              <Input
+                maxLength={25}
+                value={whatsapp}
+                onChangeText={setWhatsapp} />
+
+            </ContainerInput>
+
+          </>
+        }
       />
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => {
-            setModalVisible(false)
-            setNome('')
-            setWhatsapp('')
-            setFoto([])
-          }}
-          style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', zIndex: 0 }}>
-
-          <View style={styles.centeredView}>
-
-            <View style={styles.containerbtns}>
-              {foto.length == 0 ?
-                <>
-                  <TouchableOpacity
-                    style={styles.btnmenuitem}
-                    onPress={() => CapturarImagem(launchImageLibrary)}>
-                    <Material name='image-outline' size={30} color='#000' />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.btnmenuitem}
-                    onPress={() => CapturarImagem(launchCamera)}>
-                    <Material name='camera-outline' size={30} color='#000' />
-                  </TouchableOpacity>
-                </>
-                :
-
-                <Image
-                  style={{ alignSelf: "flex-start", width: 60, aspectRatio: 1, borderRadius: 25 }}
-                  source={{ uri: foto?.uri }}
-                />
-              }
-
-
-            </View>
-            <View style={styles.modalView}>
-
-
-
-              <ContainerInput>
-
-                <TituloInput>
-                  Nome do Vendedor
-                </TituloInput>
-
-                <Input
-                  maxLength={25}
-                  value={nome}
-                  onChangeText={setNome} />
-              </ContainerInput>
-              <ContainerInput>
-
-                <TituloInput>
-                  Whatsapp
-                </TituloInput>
-
-                <Input
-                  maxLength={25}
-                  value={whatsapp}
-                  onChangeText={setWhatsapp} />
-              </ContainerInput>
-
-            </View>
-
-            <BotaoPrincipal
-              cor={colors.tema}
-              activeOpacity={1}
-              onPress={() => {
-                CriarVendedores()
-                setModalVisible(false)
-
-              }}>
-
-
-              <TextBtn>Cadastrar</TextBtn>
-
-            </BotaoPrincipal>
-          </View>
-
-        </TouchableOpacity>
-      </Modal>
-
-
-
-    </View>
+    </Tela>
   )
 }
-
-
-const styles = StyleSheet.create({
-  tela: {
-    flex: 1,
-    padding: 10
-  },
-  containerbtns: {
-    flexDirection: "row",
-    alignItems: 'center',
-    marginBottom: 20,
-    padding: 5,
-    maxWidth: '60%',
-    borderRadius: 40,
-    backgroundColor: '#fff',
-    zIndex: 99
-  },
-  btnmenuitem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    borderRadius: 40
-  },
-
-
-  centeredView: {
-    width: '80%',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  modalView: {
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-
-})

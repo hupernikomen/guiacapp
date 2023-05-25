@@ -32,7 +32,7 @@ export default function Detalhes() {
   useEffect(() => {
     PegaItem()
 
-  },[route])
+  }, [route])
 
   async function PegaItem() {
     setLoad(true)
@@ -84,14 +84,14 @@ export default function Detalhes() {
 
   function RenderItem({ data }) {
     return (
-      <Pinchable minimumZoomScale={1} maximumZoomScale={2.8}>
+      <Pinchable minimumZoomScale={1} maximumZoomScale={2.9}>
         <Image
           source={{ uri: data.location }}
           style={{
-            width: WIDTH-10,
+            width: WIDTH,
             aspectRatio: 3 / 4,
             flex: 1,
-            borderRadius: 10,
+            resizeMode:'contain'
           }}
         />
 
@@ -128,28 +128,26 @@ export default function Detalhes() {
         justifyContent: 'center'
       }}>
 
-        <ActivityIndicator color={colors.tema}/>
+        <ActivityIndicator color={colors.tema} />
       </View>
     )
   }
 
   return (
     <ScrollView
-    showsVerticalScrollIndicator={false}
-    style={{
-      flex: 1,
-      backgroundColor: '#fff'
-    }}>
+      showsVerticalScrollIndicator={false}
+      style={{
+        flex: 1,
+        backgroundColor: '#fff'
+      }}>
 
 
       <FlatList
-        style={{width: WIDTH, backgroundColor: '#f1f1f1', marginBottom:10}}
+        style={{ width: WIDTH, backgroundColor: '#f1f1f1', marginBottom: 10 }}
         showsHorizontalScrollIndicator={false}
-        snapToInterval={WIDTH-10}
-        contentContainerStyle={{margin:5}}
-        ItemSeparatorComponent={<View style={{width:5}}/>}
+        snapToInterval={WIDTH + 5}
+        ItemSeparatorComponent={<View style={{ width: 5 }} />}
         data={produto.imagens}
-        pagingEnabled
         horizontal
         renderItem={({ item }) => <RenderItem data={item} />}
       />
@@ -163,8 +161,6 @@ export default function Detalhes() {
           <NomeLoja>{produto.loja?.nome}</NomeLoja>
 
         </ContainerLoja>
-
-        {console.log(produto,"tttt")}
 
         <TextoPadrao>Categoria: {produto.categoria?.nome}</TextoPadrao>
         <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>

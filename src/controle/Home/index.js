@@ -1,7 +1,7 @@
-import React, { useEffect, useContext, useState, useCallback } from 'react';
+import React, { useEffect, useContext, useState, } from 'react';
 import { View, StyleSheet, FlatList, Text, Image, ActivityIndicator, Modal, ToastAndroid } from 'react-native';
 
-import { useNavigation, useIsFocused, useTheme,useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useIsFocused, useTheme, useFocusEffect } from '@react-navigation/native'
 
 import { LojaContext } from '../../contexts/lojaContext';
 
@@ -16,7 +16,6 @@ export default function HomeControle() {
 
   const { credenciais } = useContext(LojaContext)
   const navigation = useNavigation()
-  const focus = useIsFocused()
 
   const [loja, setLoja] = useState([])
 
@@ -24,16 +23,15 @@ export default function HomeControle() {
 
   const [carregando, setCarregando] = useState(false)
 
-  console.log("Render Home Controle");
 
 
-  useFocusEffect(
-    useCallback(() => {
+  useEffect(() => {
+    BuscaLoja()
 
-      BuscaLoja()
+    console.log("Nav");
 
-    }, [])
-  )
+  }, [navigation])
+  
 
 
   const ToastErro = (mensagem) => {
@@ -54,8 +52,11 @@ export default function HomeControle() {
     }
     await api.get(`/me?lojaID=${credenciais.id}`, { headers })
       .then((response) => {
+        
         setLoja(response.data)
         setCarregando(false)
+
+
       })
       .catch((error) => {
         ToastErro(error.status)
@@ -81,6 +82,7 @@ export default function HomeControle() {
     <View
 
       style={styles.tela}>
+
 
       <BtnMais
         background={colors.tema}

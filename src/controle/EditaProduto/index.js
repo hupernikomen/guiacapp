@@ -1,5 +1,18 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, ScrollView, Alert, StyleSheet, TouchableOpacity, Pressable, Modal, FlatList, Dimensions,ToastAndroid } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+  Modal,
+  FlatList,
+  Dimensions,
+  ToastAndroid,
+  ActivityIndicator
+} from 'react-native';
 
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 import { LojaContext } from "../../contexts/lojaContext"
@@ -10,7 +23,7 @@ import api from '../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
-import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal } from "../../styles";
+import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn } from "../../styles";
 
 export default function EditaProduto() {
   const { credenciais, acao } = useContext(LojaContext)
@@ -33,10 +46,9 @@ export default function EditaProduto() {
   const [categoriaID, setCategoriaID] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [carregando, setCarregando] = useState(false)
+
   const { width } = Dimensions.get('window')
-
-
-  console.log("Render Edição Produto");
 
 
   useEffect(() => {
@@ -51,34 +63,7 @@ export default function EditaProduto() {
     setCategoriaID(route.params?.categoriaID)
     setID(route.params?.id)
 
-    navigation.setOptions({
-      title: '' || 'Cod. ' + cod,
-
-      headerRight: () => {
-
-        return (
-          <View style={{
-            flexDirection: 'row'
-          }}>
-
-            <TouchableOpacity
-              style={styles.icotopo}
-              onPress={ConfirmaExclusao}>
-
-              <Material
-                name='delete'
-                size={24}
-                color={'#fff'} />
-            </TouchableOpacity>
-          </View>
-        )
-      }
-    })
-
   }, [])
-
-
-
 
 
   async function ConfirmaExclusao(e) {
@@ -92,47 +77,57 @@ export default function EditaProduto() {
     ])
   }
 
-  
+
   async function Excluir(id, credenciais) {
+
+    setCarregando(true)
     const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${credenciais.token}`
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${credenciais.token}`
     }
 
     await api.delete(`/produto?produtoID=${id}`, { headers })
-        .then(() => {
-          navigation.goBack()
-          ToastExcluiProduto()
-        })
-        .catch((error) => console.log(error.response))
-}
+      .then(() => {
+        navigation.goBack()
+        setCarregando(false)
+        ToastExcluiProduto()
+      })
+      .catch((error) => {
+        setCarregando(false)
+
+      })
+  }
 
 
-async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id, credenciais) {
+  async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id, credenciais) {
+    setCarregando(true)
 
-  if (nome == "" || descricao == "") return
+    if (nome == "" || descricao == "") return
 
-  const produto = {
+    const produto = {
       nome,
       descricao,
       oferta,
       tamanho,
       cor,
       categoriaID,
-  }
+    }
 
-  const headers = {
+    const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
-  }
+    }
 
-  await api.put(`/produto?produtoID=${id}`, produto, { headers })
+    await api.put(`/produto?produtoID=${id}`, produto, { headers })
       .then(() => {
-        navigation.navigate("HomeControle")
+        setCarregando(false)
         ToastAtualizaProduto()
       })
-      .catch((error) => console.error(error.response))
-}
+      .catch((error) => {
+        setCarregando(false)
+
+      })
+  }
 
 
 
@@ -280,7 +275,7 @@ async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id,
 
         <BotaoPrincipal
           activeOpacity={1}
-          cor={colors.tema}
+          background={colors.tema}
           onPress={() => Atualizar(
             nome,
             descricao,
@@ -292,8 +287,21 @@ async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id,
             id,
             credenciais
           )}>
-          {acao ? <ActivityIndicator size={20} color={'#fff'} /> :
+          {acao ? <ActivityIndicator size={20} color={'#000'} /> :
             <Text style={styles.txtbtn}>Atualizar</Text>
+          }
+        </BotaoPrincipal>
+
+        <BotaoPrincipal
+          disabled={carregando}
+          background={colors.tema}
+          activeOpacity={1}
+          onPress={ConfirmaExclusao}>
+          {carregando ? <ActivityIndicator color='#fff' /> :
+            <TextBtn
+              cor={'#fff'}>
+              Excluir
+            </TextBtn>
           }
         </BotaoPrincipal>
 

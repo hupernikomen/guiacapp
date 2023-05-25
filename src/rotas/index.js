@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import HomeStack from './stacks';
@@ -15,20 +16,31 @@ import DrawerCustom from '../componentes/DrawerCustom';
 import { useTheme } from '@react-navigation/native';
 
 import { LojaContext } from '../contexts/lojaContext';
+
+import { BtnIcone, TextBtn } from '../styles';
+
 const Drawer = createDrawerNavigator()
 
 export default function Rotas() {
 
   const { colors } = useTheme()
 
-  const { autenticado } = useContext(LojaContext);
+  const { autenticado, signOut } = useContext(LojaContext);
 
   return (
     <Drawer.Navigator
+
       drawerContent={DrawerCustom}
+
+
       initialRouteName='HomeScreen'
       screenOptions={{
         headerShown: false,
+
+        headerStyle: {
+          backgroundColor: colors.tema
+        },
+        headerTintColor: '#fff',
 
         drawerStyle: {
           backgroundColor: colors.tema
@@ -46,7 +58,25 @@ export default function Rotas() {
 
       {autenticado ?
         <>
-          <Drawer.Screen name='HomeControle' component={TabsControle} options={{ title: 'Area Lojista' }} />
+          <Drawer.Screen name='HomeControle' component={TabsControle}
+            options={{
+              headerRight: () => {
+                return (
+                  <BtnIcone
+                    onPress={signOut}
+                    lado={'center'}
+                  >
+
+                    <TextBtn
+                      cor={'#fff'}>
+                      Sair
+                    </TextBtn>
+                  </BtnIcone>
+                )
+              },
+              headerShown: true,
+              title: 'Area Lojista'
+            }} />
           <Drawer.Screen name='HomeScreen' component={HomeStack} options={{ title: 'Feed' }} />
         </>
 

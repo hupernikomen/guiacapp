@@ -49,7 +49,7 @@ export default function RotasStack() {
         name='EditaProduto'
         component={EditaProduto}
         options={{
-          headerShadowVisible: false,
+          headerShown:false
         }}
       />
 

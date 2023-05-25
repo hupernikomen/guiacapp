@@ -16,7 +16,9 @@ export default function TabsControle() {
     return (
         <Tab.Navigator
         initialRouteName='StackControle'
+        
             screenOptions={{
+                
                 tabBarStyle: {
                     backgroundColor: colors.tema
                 },

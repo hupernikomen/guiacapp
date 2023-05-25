@@ -1,25 +1,23 @@
 import React, { useContext } from 'react';
+import { Linking } from 'react-native';
 
-import { DrawerContentScrollView, DrawerItemList, DrawerItem,Dra } from '@react-navigation/drawer'
+import { DrawerContentScrollView, DrawerItemList, DrawerItem, Dra } from '@react-navigation/drawer'
 
 import { LojaContext } from '../../contexts/lojaContext';
 
 export default function DrawerCustom(props) {
 
-    const { autenticado, signOut } = useContext(LojaContext)
 
     return (
         <DrawerContentScrollView {...props}>
 
             <DrawerItemList {...props} />
 
-            {autenticado &&
-                <DrawerItem
-                    label="Sair da loja"
-                    inactiveTintColor='#fff'
-                    onPress={signOut}
-                />
-            }
+            <DrawerItem
+                label="Fale com o Guia"
+                inactiveTintColor='#fff'
+                onPress={()=> Linking.openURL('https://wa.me/5586994773403')}
+            />
 
         </DrawerContentScrollView>
     );
