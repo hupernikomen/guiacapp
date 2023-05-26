@@ -23,7 +23,7 @@ import api from '../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
-import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn } from "../../styles";
+import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
 
 export default function EditaProduto() {
   const { credenciais, acao } = useContext(LojaContext)
@@ -139,9 +139,10 @@ export default function EditaProduto() {
       <Pressable
         style={{
           aspectRatio: 1,
-          height: (width - 40) / 6,
+          height: (width / 7) - 10,
           alignItems: 'center',
           justifyContent: 'center',
+          margin: 4,
           borderRadius: 4,
           backgroundColor: response == -1 ? "#fff" : colors.tema,
           borderWidth: response == -1 ? .5 : 0
@@ -185,11 +186,10 @@ export default function EditaProduto() {
 
 
   return (
-    <>
+    <Tela>
 
       <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.tela}>
+        showsVerticalScrollIndicator={false}>
 
         <ContainerInput>
 
@@ -198,7 +198,6 @@ export default function EditaProduto() {
           </TituloInput>
 
           <Input
-            style={styles.input}
             value={nome}
             onChangeText={setNome}
           />
@@ -214,7 +213,6 @@ export default function EditaProduto() {
             multiline={true}
             numberOfLines={0}
             verticalAlign={'top'}
-            style={styles.input}
             value={descricao}
             onChangeText={setDescricao} />
         </ContainerInput>
@@ -230,7 +228,6 @@ export default function EditaProduto() {
           <Input
 
             editable={false}
-            style={[styles.input, { color: '#aaa' }]}
             value={parseFloat(preco).toFixed(2).replace('.', ',')}
             onChangeText={setPreco} />
         </ContainerInput>
@@ -242,7 +239,6 @@ export default function EditaProduto() {
           </TituloInput>
 
           <Input
-            style={styles.input}
             value={oferta}
             keyboardType="numeric"
             onChangeText={setOferta} />
@@ -287,9 +283,7 @@ export default function EditaProduto() {
             id,
             credenciais
           )}>
-          {acao ? <ActivityIndicator size={20} color={'#000'} /> :
-            <Text style={styles.txtbtn}>Atualizar</Text>
-          }
+            <TextBtn cor={'#fff'}>Atualizar</TextBtn>
         </BotaoPrincipal>
 
         <BotaoPrincipal
@@ -331,7 +325,7 @@ export default function EditaProduto() {
           <View style={{ backgroundColor: "#fff" }}>
 
             <FlatList
-              contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 30, alignItems: 'center' }}
+              contentContainerStyle={{ padding: 20, alignItems: 'center' }}
               numColumns={6}
               data={arrTamanhos}
               renderItem={({ item }) => <RenderItem data={item} />}
@@ -344,48 +338,9 @@ export default function EditaProduto() {
         </View>
       </Modal>
 
-    </>
+
+
+    </Tela>
   );
 }
 
-const styles = StyleSheet.create({
-
-  tela: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingVertical: 20
-  },
-  icotopo: {
-    marginLeft: 10,
-    paddingLeft: 15
-  },
-  fotoReferencia: {
-    width: 50,
-    height: 50,
-    margin: 2,
-    borderRadius: 6
-  },
-  containerExcluir: {
-    alignItems: 'baseline',
-    justifyContent: 'space-between',
-    marginBottom: 20
-  },
-
-  infoinputs: {
-    color: '#aaa',
-    fontFamily: 'Roboto-Italic',
-    marginLeft: 20,
-  },
-
-  txtbtn: {
-    marginLeft: 10,
-    color: '#fff',
-    fontSize: 16,
-    fontFamily: "Roboto-Medium"
-  },
-
-  btnmenuitem: {
-    paddingVertical: 15
-  },
-
-})

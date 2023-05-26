@@ -1,16 +1,16 @@
 import React, { useEffect, useContext, useState, } from 'react';
-import { View, StyleSheet, FlatList, Text, Image, ActivityIndicator, Modal, ToastAndroid } from 'react-native';
+import { View, StyleSheet, FlatList, Text, ActivityIndicator, ToastAndroid, ScrollView, TouchableOpacity } from 'react-native';
+import { BtnMais } from './styles'
+import { BtnIcone, Tela } from '../../styles'
 
-import { useNavigation, useIsFocused, useTheme, useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
 
 import { LojaContext } from '../../contexts/lojaContext';
-
-import api from '../../servicos/api';
 
 import ProdutoControle from '../../componentes/Produtos/pdt-feed-controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { BtnMais } from './styles'
+import api from '../../servicos/api';
 
 export default function HomeControle() {
 
@@ -28,10 +28,9 @@ export default function HomeControle() {
   useEffect(() => {
     BuscaLoja()
 
-    console.log("Nav");
+  }, [])
 
-  }, [navigation])
-  
+
 
 
   const ToastErro = (mensagem) => {
@@ -52,7 +51,7 @@ export default function HomeControle() {
     }
     await api.get(`/me?lojaID=${credenciais.id}`, { headers })
       .then((response) => {
-        
+
         setLoja(response.data)
         setCarregando(false)
 
@@ -76,20 +75,98 @@ export default function HomeControle() {
   }
 
 
+  function Header() {
+    return (
+      <View style={{
+        backgroundColor: colors.tema,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 10,
+        height: 57,
+        elevation: 5,
+        zIndex: 999
+      }}>
+
+        <BtnIcone
+          lado={'center'}
+          onPress={() => navigation.openDrawer()}>
+          <Material name='menu' size={24} color={'#fff'} />
+        </BtnIcone>
+
+
+        <Text
+          numberOfLines={1}
+          style={{
+            flex: 1,
+            marginLeft: 15,
+            fontFamily: 'Roboto-Medium',
+            fontSize: 20,
+            color: '#fff',
+          }}>{loja.nome}</Text>
+
+
+      </View>
+    )
+  }
+
+
+  function CarrosselPaginas() {
+
+    const paginas = [
+      {
+        nome: 'Dados',
+        link: 'CadastrarDados',
+      },
+      {
+        nome: 'Vendedores',
+        link: 'VendedoresControle',
+      },
+      {
+        nome: 'Mapa',
+        link: 'Mapa',
+      },
+    ]
+
+    return (
+      <ScrollView
+        horizontal
+        style={{
+          height: 50,
+          width: '100%',
+          backgroundColor: colors.tema,
+          paddingHorizontal: 10,
+        }}
+      >
+
+        {paginas.map((item, index) => (
+          <TouchableOpacity
+          key={index}
+            style={{
+              justifyContent: 'center',
+              alignItems: "center",
+              paddingHorizontal: 15
+            }}
+            onPress={() => navigation.navigate(item.link)}
+          >
+            <Text style={{
+              textTransform: 'uppercase',
+              fontFamily: 'Roboto-Medium',
+              fontSize: 13,
+              color: '#fff',
+            }}>{item.nome}</Text>
+          </TouchableOpacity>
+        ))}
+
+      </ScrollView>
+    )
+  }
 
 
   return (
-    <View
+    <>
 
-      style={styles.tela}>
-
-
-      <BtnMais
-        background={colors.tema}
-        lado={'flex-end'}
-        onPress={() => navigation.navigate("CadastrarProduto")}>
-        <Material name='plus-thick' size={24} color='#fff' />
-      </BtnMais>
+      <Header />
+      <CarrosselPaginas />
 
       <FlatList
         ListEmptyComponent={
@@ -111,69 +188,18 @@ export default function HomeControle() {
         numColumns={2}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={loja.produtos?.length > 6
-          && <Text style={{ marginVertical: 20, alignSelf: 'center', fontFamily: 'Roboto-Light', color: '#000' }}>
-            Guia Comercial App
-          </Text>}
-
       />
 
+      <BtnMais
+        background={colors.tema}
+        lado={'flex-end'}
+        onPress={() => navigation.navigate("CadastrarProduto")}>
+        <Material name='plus-thick' size={24} color='#fff' />
+      </BtnMais>
 
-      {/* 
-            <BtnMenu
-              activeOpacity={.9}
-              onPress={Logo}
-            >
-              <Text style={styles.txtmenu}>Alterar Logo</Text>
-
-              <View
-                style={styles.preview}>
-
-                {loja.logo?.length > 0 && <Image
-                  style={styles.logomenu}
-                  source={{ uri: previewLogo || loja.logo[0]?.location }} />}
-              </View>
-            </BtnMenu> */}
-
-
-    </View>
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  tela: {
-    flex: 1,
-  },
-  btnmenu: {
-    paddingLeft: 20,
-    marginLeft: 15,
-    paddingVertical: 5
-  },
-  logo: {
-    width: 40,
-    borderRadius: 40 / 2,
-    aspectRatio: 1,
 
-  },
-  preview: {
-    aspectRatio: 1,
-    alignItems: "center",
-    justifyContent: 'center',
-    width: 40,
-    borderRadius: 20,
-    borderWidth: .5,
-    borderColor: '#fff',
-    backgroundColor: '#fff',
-  },
-  logomenu: {
-    flex: 1,
-    aspectRatio: 1,
-    borderRadius: 20,
-  },
-
-  txtmenu: {
-    color: '#000',
-    fontFamily: "Roboto-Regular"
-  }
-});
 

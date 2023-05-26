@@ -16,7 +16,7 @@ import {
 } from 'react-native'
 
 
-import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn } from "../../styles";
+import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
 
 import api from '../../servicos/api'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
@@ -200,297 +200,221 @@ export default function CadastrarProduto() {
 
     return (
 
-        <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={styles.tela}>
-            <View style={{
-                margin: 20,
-            }}>
-                <Text style={{
-                    fontFamily: 'Roboto-Light',
-                    fontSize: 14,
-                    position: 'absolute',
-                    zIndex: 99,
-                    marginLeft: 10,
-                    color: '#000',
-                    padding: 10,
-                }}>
-                    Busque, ou fotografe até 5 Imagens *
-                </Text>
+        <Tela>
 
+
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={styles.tela}>
                 <View style={{
-                    marginTop: 40,
-                    flexDirection: "row",
-                    justifyContent: "flex-start",
-                    alignItems: 'center'
+                    margin: 20,
                 }}>
-                    {preview.map((camera, index) => {
-                        if (index < 5) {
 
-                            return (
-                                <TouchableOpacity
-                                    activeOpacity={.9}
-                                    // onPress={() => Alert.alert(String(index))}
-                                    key={index}
-                                    style={{
-                                        borderWidth: .5,
-                                        aspectRatio: 1,
-                                        padding: 2,
-                                        marginRight: 5,
-                                        width: (width / 3) - 75,
-                                        borderRadius: 8,
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}>
+
+                    <View style={{
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                        alignItems: 'center',
+                        gap: 5
+                    }}>
+                        {preview.map((camera, index) => {
+                            if (index < 5) {
+
+                                return (
+
                                     <Image
                                         key={index}
-                                        style={styles.fotoReferencia}
+                                        style={{ width: 50, aspectRatio: 1 }}
                                         source={{ uri: camera.uri }} />
+                                )
+                            }
+                        })}
+
+                        {preview.length < 5 &&
+                            <>
+                                <TouchableOpacity
+                                    style={{ padding: 10 }}
+                                    onPress={() => CapturarImagem(launchImageLibrary)}>
+                                    <Material name='image-outline' size={32} color='#000' />
                                 </TouchableOpacity>
-                            )
+                                <TouchableOpacity
+                                    style={{ padding: 10 }}
+                                    onPress={() => CapturarImagem(launchCamera)}>
+                                    <Material name='camera-outline' size={32} color='#000' />
+                                </TouchableOpacity>
+                            </>
                         }
-                    })}
-
-                    {preview.length < 5 &&
-                        <>
-                            <TouchableOpacity
-                                onPress={() => CapturarImagem(launchImageLibrary)}
-                                style={{
-                                    borderWidth: .5,
-                                    marginRight: 5,
-                                    aspectRatio: 1,
-                                    width: (width / 3) - 75,
-                                    borderRadius: 8,
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                <Material name='image-outline' size={26} color='#000' />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => CapturarImagem(launchCamera)}
-                                style={{
-                                    borderWidth: .5,
-                                    aspectRatio: 1,
-                                    width: (width / 3) - 75,
-                                    borderRadius: 8,
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                <Material name='camera-outline' size={26} color='#000' />
-                            </TouchableOpacity>
-                        </>
-                    }
-
-                </View>
-
-
-            </View>
-
-
-
-            <ContainerInput>
-                <TituloInput>
-                    Cod. Produto
-                </TituloInput>
-                <Input
-                    maxLength={10}
-                    onChangeText={setCod}
-                    value={cod} />
-            </ContainerInput>
-
-            <ContainerInput>
-                <TituloInput>
-                    Produto *
-                </TituloInput>
-                <Input
-                    maxLength={35}
-                    onChangeText={setNome}
-                    value={nome} />
-            </ContainerInput>
-
-
-            <ContainerInput>
-                <TituloInput>
-                    Preço - R$ *
-                </TituloInput>
-
-
-                <Input
-                    keyboardType="numeric"
-                    onChangeText={setPreco}
-                    value={preco} />
-            </ContainerInput>
-
-            <ContainerInput>
-                <TituloInput>
-                    Descrição *
-                </TituloInput>
-                <Input
-                    onChangeText={setDescricao}
-                    multiline
-                    value={descricao} />
-
-            </ContainerInput>
-
-
-
-
-
-            <View style={styles.picker}>
-                <TituloInput>
-                    Categoria *
-                </TituloInput>
-                <Picker
-                    mode="dialog"
-                    selectedValue={categoria}
-                    onValueChange={(itemValue) => {
-                        setCategoria(itemValue);
-                    }}>
-                    <Picker.Item
-                        label=""
-                        style={{
-                            color: '#aaa',
-                        }}
-                    />
-
-                    {listaCategorias.map((item) => {
-                        return (
-                            <Picker.Item
-                                key={item.id}
-                                value={item.id}
-                                label={item.nome}
-                            />
-                        );
-                    })}
-                </Picker>
-            </View>
-
-
-
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                statusBarTranslucent
-                onRequestClose={() => setModalVisible(false)}
-
-            >
-
-                <View style={{ flex: 1 }}>
-
-                    <TouchableOpacity
-                        activeOpacity={1}
-                        onPress={() => setModalVisible(false)}
-                        style={{ flex: 1, backgroundColor: '#00000070' }}>
-
-                    </TouchableOpacity>
-
-                    <View style={{ backgroundColor: "#fff" }}>
-
-                        <FlatList
-                            contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 30, alignItems: 'center' }}
-                            numColumns={6}
-                            data={arrTamanhos}
-                            renderItem={({ item }) => <RenderItem data={item} />}
-
-                        />
 
                     </View>
 
 
                 </View>
-            </Modal>
-
-            <SimulaInput>
-
-                <TituloInput>Tamanhos Disponiveis</TituloInput>
-                <FlatList
-                    ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
-                    horizontal
-                    data={tamanho.sort()}
-                    renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
-                />
-
-                <TouchableOpacity
-                    onPress={() => setModalVisible(true)}>
-                    <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{tamanho.length > 0 ? 'Editar' : 'Inserir'}</Text>
-                </TouchableOpacity>
-            </SimulaInput>
 
 
-            <BotaoPrincipal
-                disabled={carregamento}
-                background={colors.tema}
-                activeOpacity={1}
-                onPress={Postar}>
-                    {carregamento? <ActivityIndicator color='#fff'/>:
-                <TextBtn
-                cor={'#fff'}>
-                    Postar
-                </TextBtn>
+
+                <ContainerInput>
+                    <TituloInput>
+                        Cod. Produto
+                    </TituloInput>
+                    <Input
+                        maxLength={10}
+                        onChangeText={setCod}
+                        value={cod} />
+                </ContainerInput>
+
+                <ContainerInput>
+                    <TituloInput>
+                        Produto
+                    </TituloInput>
+                    <Input
+                        maxLength={35}
+                        onChangeText={setNome}
+                        value={nome} />
+                </ContainerInput>
+
+
+                <ContainerInput>
+                    <TituloInput>
+                        Preço - R$
+                    </TituloInput>
+
+
+                    <Input
+                        keyboardType="numeric"
+                        onChangeText={setPreco}
+                        value={preco} />
+                </ContainerInput>
+
+                <ContainerInput>
+                    <TituloInput>
+                        Descrição
+                    </TituloInput>
+                    <Input
+                        onChangeText={setDescricao}
+                        multiline
+                        value={descricao} />
+
+                </ContainerInput>
+
+
+
+
+
+                <View style={styles.picker}>
+                    <TituloInput>
+                        Categoria
+                    </TituloInput>
+                    <Picker
+                        mode="dialog"
+                        selectedValue={categoria}
+                        onValueChange={(itemValue) => {
+                            setCategoria(itemValue);
+                        }}>
+                        <Picker.Item
+                            label=""
+                            style={{
+                                color: '#777',
+                            }}
+                        />
+
+                        {listaCategorias.map((item) => {
+                            return (
+                                <Picker.Item
+                                    key={item.id}
+                                    value={item.id}
+                                    label={item.nome}
+                                />
+                            );
+                        })}
+                    </Picker>
+                </View>
+
+
+
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                    statusBarTranslucent
+                    onRequestClose={() => setModalVisible(false)}
+
+                >
+
+                    <View style={{ flex: 1 }}>
+
+                        <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={() => setModalVisible(false)}
+                            style={{ flex: 1, backgroundColor: '#00000070' }}>
+
+                        </TouchableOpacity>
+
+                        <View style={{ backgroundColor: "#fff" }}>
+
+                            <FlatList
+                                contentContainerStyle={{ padding:20, alignItems: 'center' }}
+                                numColumns={6}
+                                data={arrTamanhos}
+                                renderItem={({ item }) => <RenderItem data={item} />}
+
+                            />
+
+                        </View>
+
+
+                    </View>
+                </Modal>
+
+                <SimulaInput>
+
+                    <TituloInput>Tamanhos Disponiveis</TituloInput>
+                    <FlatList
+                        ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
+                        horizontal
+                        data={tamanho.sort()}
+                        renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
+                    />
+
+                    <TouchableOpacity
+                        onPress={() => setModalVisible(true)}>
+                        <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{tamanho.length > 0 ? 'Editar' : 'Inserir'}</Text>
+                    </TouchableOpacity>
+                </SimulaInput>
+
+
+                <BotaoPrincipal
+                    disabled={carregamento}
+                    background={colors.tema}
+                    activeOpacity={1}
+                    onPress={Postar}>
+                    {carregamento ? <ActivityIndicator color='#fff' /> :
+                        <TextBtn
+                            cor={'#fff'}>
+                            Postar
+                        </TextBtn>
                     }
-            </BotaoPrincipal>
+                </BotaoPrincipal>
 
-            <BotaoPrincipal
-                background={colors.background}
-                activeOpacity={1}
-                onPress={() => navigation.goBack()}>
-                <TextBtn
-                    cor={'#000'}>
-                    Voltar
-                </TextBtn>
-            </BotaoPrincipal>
+                <View style={{ marginVertical: 15 }} />
 
-            <View style={{ marginVertical: 15 }} />
-
-        </ScrollView>
+            </ScrollView>
+        </Tela>
 
 
     )
 }
 
 const styles = StyleSheet.create({
-    tela: {
-        flex: 1,
-        backgroundColor: '#fff'
-    },
+
     picker: {
-        borderWidth: 1,
+        borderWidth: .5,
         borderColor: "#333",
-        borderRadius: 55 / 2,
-        borderColor: "#000",
+        borderRadius: 60 / 2,
+        borderColor: "#777",
         marginVertical: 8,
-        marginHorizontal:15
+        minHeight:60
 
     },
-    containerfotos: {
-        margin: 35,
-    },
-    linkfotos: {
-        fontSize: 16,
-        fontFamily: "Roboto-Regular"
-
-    },
-    scrollfotos: {
-        marginBottom: 14,
-    },
-    fotoReferencia: {
-        aspectRatio: 1,
-        flex: 1,
-        borderRadius: 6
-    },
-
-    centeredView: {
-        flex: 1,
-    },
-    modalView: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-    btnmenuitem: {
-        paddingVertical: 15
-    },
-
 
 })
 

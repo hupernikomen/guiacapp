@@ -8,8 +8,8 @@ import Lojas from '../pages/Lojas';
 import Anuncie from '../pages/Anuncie';
 import Signin from '../pages/Signin'
 
+import StackControle from '../rotas/stacksControle'
 
-import TabsControle from './tabsControle';
 
 import DrawerCustom from '../componentes/DrawerCustom';
 
@@ -58,7 +58,7 @@ export default function Rotas() {
 
       {autenticado ?
         <>
-          <Drawer.Screen name='HomeControle' component={TabsControle}
+          <Drawer.Screen name='HomeControle' component={StackControle}
             options={{
               headerRight: () => {
                 return (
@@ -74,7 +74,6 @@ export default function Rotas() {
                   </BtnIcone>
                 )
               },
-              headerShown: true,
               title: 'Area Lojista'
             }} />
           <Drawer.Screen name='HomeScreen' component={HomeStack} options={{ title: 'Feed' }} />

@@ -1,57 +1,33 @@
-import React, { useState, useContext, useEffect, useRef, useMemo, useCallback } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, FlatList, Modal, Alert, RefreshControl } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, TouchableOpacity, FlatList, Alert } from 'react-native';
 
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 
 import { LojaContext } from '../../contexts/lojaContext';
 
-import { useTheme, useNavigation, useRoute } from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
 import api from '../../servicos/api';
 
-import ImageResizer from '@bam.tech/react-native-image-resizer';
 
-import { Input, ContainerInput, TituloInput, BtnMais } from './styles'
-import { Tela, TextBtn } from '../../styles'
+import { Tela, BotaoPrincipal, TextBtn, TituloInput, ContainerInput, Input } from '../../styles'
 
 export default function Vendedores() {
 
   const { credenciais } = useContext(LojaContext)
   const { colors } = useTheme()
-  const navigation = useNavigation()
 
   const [nome, setNome] = useState("")
   const [whatsapp, setWhatsapp] = useState("")
-  const [foto, setFoto] = useState([])
+  const [setor, setSetor] = useState("")
 
   const [vendedores, setVendedores] = useState([])
 
-  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     BuscarVendedores()
 
   }, [])
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        if (vendedores.length < 5) {
-          return (
-
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisible(true)
-              }}>
-              <Material name='plus-thick' color='#fff' size={28} />
-            </TouchableOpacity>
-          )
-        }
-      }
-    })
-  }, [vendedores])
 
 
   async function BuscarVendedores() {
@@ -62,29 +38,11 @@ export default function Vendedores() {
   }
 
 
-  const options = {
-    options: {
-      mediaType: 'photo',
-    },
-  }
-
-  async function CapturarImagem(metodo) {
-
-    await metodo(options, ({
-      error,
-      didCancel,
-      assets
-    }) => {
-      if (error || didCancel) return
-      setFoto(assets[0])
-
-    })
-  }
 
   async function CriarVendedores() {
 
-    if (!nome || !whatsapp || foto.length == 0) {
-      Alert.alert('Ops...', 'Campos não preenchidos ou invalidos. foto, nome e whatsapp', [
+    if (!nome || !whatsapp) {
+      Alert.alert('Campos não preenchidos ou invalidos. nome e whatsapp', [
         {
           text: "Tentar Novamente",
           onPress: () => setModalVisible(true),
@@ -93,31 +51,16 @@ export default function Vendedores() {
       return
     }
 
-    const formData = new FormData()
+    const vendedor = {
+      nome,
+      whatsapp,
+      setor
+    }
 
-    formData.append('nome', nome)
-    formData.append('whatsapp', whatsapp)
 
-    try {
-      var result = await ImageResizer.createResizedImage(
-        foto.uri,
-        600,
-        600,
-        'WEBP',
-        90,  // verificar a qualidade da foto e mudar se necessario
-      );
-
-    } catch (error) { Alert.alert('Não foi possivel redimensionar') } // Caso nao tenha sido possivel redimensionar imagem
-
-    formData.append('foto', {
-      uri: result.uri,
-      type: 'image/jpeg',
-      name: result.name
-    });
-
-    await api.post(`/vendedor?lojaID=${credenciais.id}`, formData, {
+    await api.post(`/vendedor?lojaID=${credenciais.id}`, vendedor, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${credenciais.token}`
       }
     })
@@ -125,7 +68,7 @@ export default function Vendedores() {
         BuscarVendedores()
         setNome('')
         setWhatsapp('')
-        setFoto([])
+        setSetor('')
       })
 
       .catch((error) => console.log("error from image :", error.response))
@@ -161,21 +104,28 @@ export default function Vendedores() {
   function RenderItem({ data }) {
     return (
       <View
-        style={{ flexDirection: "row", alignItems: 'center', backgroundColor: '#fff', borderRadius: 6, padding: 10, height: 80 }}>
-        <Image
-          style={{ width: 40, aspectRatio: 1, borderRadius: 40 / 2 }}
-          source={{ uri: data.foto[0].location }}
-        />
+        style={{ 
+          paddingHorizontal: 10, 
+          flexDirection: "row", 
+          alignItems: 'center', 
+          borderRadius: 30, 
+          height: 65, 
+          margin: 2,
+          borderWidth:.5,
+          borderColor:'#777'
+          }}>
+
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, borderRadius: 6 }}>
 
           <View style={{ marginLeft: 20 }}>
-            <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Vendedor(a): </Text>
             <Text numberOfLines={1} style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>{data.nome}</Text>
+            <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Setor: {data.setor}</Text>
           </View>
           <TouchableOpacity
+            style={{ padding: 10 }}
             onPress={() => Excluir(data.id)}>
-            <Material name='trash-can-outline' size={28} color='#000' />
+            <Material name='trash-can-outline' size={24} color={colors.tema} />
           </TouchableOpacity>
         </View>
       </View>
@@ -186,74 +136,72 @@ export default function Vendedores() {
   return (
     <Tela>
 
-      <BtnMais
-        background={colors.tema}
-        lado={'flex-end'}
-        onPress={CriarVendedores}>
-        <Material name='plus-thick' size={24} color='#fff' />
-      </BtnMais>
+      <>
+
+        <ContainerInput>
+
+          <TituloInput>
+            Nome do Vendedor
+          </TituloInput>
+
+          <Input
+            maxLength={25}
+            value={nome}
+            onChangeText={setNome} />
+
+        </ContainerInput>
+
+        <ContainerInput>
+
+          <TituloInput>
+            Setor
+          </TituloInput>
+
+          <Input
+            maxLength={25}
+            value={setor}
+            onChangeText={setSetor} />
+
+        </ContainerInput>
+        <ContainerInput>
+
+          <TituloInput>
+            Whatsapp
+          </TituloInput>
+
+          <Input
+            maxLength={25}
+            value={whatsapp}
+            onChangeText={setWhatsapp} />
+
+        </ContainerInput>
+
+        <BotaoPrincipal
+          onPress={CriarVendedores}
+          style={{ marginBottom: 50 }}
+          background={colors.tema}
+        >
+
+          <TextBtn cor={'#fff'}>
+            Cadastrar Vendedor
+          </TextBtn>
+
+        </BotaoPrincipal>
+
+      </>
+
+      
 
       <FlatList
         ListEmptyComponent={
           <Text style={{ marginTop: 40, textAlign: 'center', color: '#000', fontFamily: 'Roboto-Light' }}>
-            Você ainda não cadastrou nenhum vendedor para seu atendimento.
-            Cadastre até 5 vendedores
+            Você ainda não cadastrou nenhum vendedor para seu atendimento via whatsapp.
           </Text>
         }
-        ItemSeparatorComponent={<View style={{ borderWidth: .5, borderColor: '#ddd' }} />}
         data={vendedores}
         renderItem={({ item }) => <RenderItem data={item} />}
-        ListFooterComponent={
-
-          <>
-
-            {foto.length == 0 ?
-              <>
-                <TouchableOpacity
-                  onPress={() => CapturarImagem(launchImageLibrary)}>
-                  <Material name='image-outline' size={30} color='#000' />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={() => CapturarImagem(launchCamera)}>
-                  <Material name='camera-outline' size={30} color='#000' />
-                </TouchableOpacity>
-              </>
-              :
-
-              <Image
-                style={{ alignSelf: "flex-start", width: 60, aspectRatio: 1, borderRadius: 25 }}
-                source={{ uri: foto?.uri }}
-              />
-            }
-
-            <ContainerInput>
-
-              <TituloInput>
-                Nome do Vendedor
-              </TituloInput>
-
-              <Input
-                maxLength={25}
-                value={nome}
-                onChangeText={setNome} />
-
-            </ContainerInput>
-
-            <ContainerInput>
-
-              <TituloInput>
-                Whatsapp
-              </TituloInput>
-
-              <Input
-                maxLength={25}
-                value={whatsapp}
-                onChangeText={setWhatsapp} />
-
-            </ContainerInput>
-
-          </>
+        ListHeaderComponent={
+          <Text style={{fontFamily:'Roboto-Medium', fontSize:16, textAlign:"center",color:'#000',marginBottom:15}}>Vendedores Cadastrados</Text>
         }
       />
 

@@ -16,8 +16,8 @@ export const ContainerInfo = styled.View`
 `
 
 export const Produto = styled(TextoPadrao)`
-    font-family: Roboto-Light;
-    font-size: 13px
+    font-family: Roboto-Regular;
+    font-size: 13px;
 `
 export const LojaNome = styled(TextoPadrao)`
     flex:1;

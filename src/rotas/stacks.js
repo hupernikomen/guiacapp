@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from '../pages/Home';
-import Menu from '../pages/Menu';
 import DetalheProduto from '../pages/Detalhes/produto';
 import DetalheServico from '../pages/Detalhes/servico';
 import Servicos from '../pages/Servicos';
@@ -50,9 +49,6 @@ export default function RotasStack() {
         }}
       />
 
-
-
-
       <Stack.Screen
         name='Signin'
         component={Signin}
@@ -61,14 +57,6 @@ export default function RotasStack() {
         }}
       />
 
-      <Stack.Screen
-        name='Menu'
-        component={Menu}
-        options={{
-          title: "Guia Comercial",
-          headerShadowVisible: false
-        }}
-      />
 
       <Stack.Screen
         name='Servicos'

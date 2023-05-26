@@ -6,7 +6,7 @@ import { useTheme, useNavigation, useRoute, useIsFocused } from '@react-navigati
 
 import api from '../../servicos/api';
 
-import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn } from "../../styles";
+import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
 
 
 
@@ -90,12 +90,13 @@ export default function CadastrarDados() {
     };
 
     return (
-        <ScrollView
+        <Tela>
 
-            showsVerticalScrollIndicator={false}
-            style={styles.tela}>
+            <ScrollView
 
-            {/* <View style={{ marginBottom: 30 }}>
+                showsVerticalScrollIndicator={false}
+            >
+                {/* <View style={{ marginBottom: 30 }}>
                 <View style={[styles.links]}>
 
                     <Text
@@ -118,117 +119,87 @@ export default function CadastrarDados() {
 
 
 
-            <ContainerInput>
-                <TituloInput>
-                    Nome da Loja *
-                </TituloInput>
+                <ContainerInput>
+                    <TituloInput>
+                        Nome da Loja *
+                    </TituloInput>
 
-                <Input
+                    <Input
 
-                    value={nome}
-                    style={styles.input}
-                    onChangeText={setNome}
-                    maxLength={25} />
-            </ContainerInput>
+                        value={nome}
+                        onChangeText={setNome}
+                        maxLength={25} />
+                </ContainerInput>
 
-            <ContainerInput>
-                <TituloInput>
-                    Endereço *
-                </TituloInput>
+                <ContainerInput>
+                    <TituloInput>
+                        Endereço *
+                    </TituloInput>
 
-                <Input
-                    multiline numberOfLines={0}
-                    verticalAlign={'top'}
-                    style={styles.input}
-                    onChangeText={setEndereco}
-                    value={endereco}
-                    maxLength={50} />
-            </ContainerInput>
+                    <Input
+                        multiline numberOfLines={0}
+                        verticalAlign={'top'}
+                        onChangeText={setEndereco}
+                        value={endereco}
+                        maxLength={50} />
+                </ContainerInput>
 
-            <ContainerInput>
-                <TituloInput>
-                    Bairro *
-                </TituloInput>
+                <ContainerInput>
+                    <TituloInput>
+                        Bairro *
+                    </TituloInput>
 
-                <Input
-                    style={styles.input}
-                    onChangeText={setBairro}
-                    value={bairro}
-                    maxLength={40} />
-            </ContainerInput>
+                    <Input
+                        onChangeText={setBairro}
+                        value={bairro}
+                        maxLength={40} />
+                </ContainerInput>
 
-            <ContainerInput>
-                <TituloInput>
-                    Ponto de Referencia *
-                </TituloInput>
+                <ContainerInput>
+                    <TituloInput>
+                        Ponto de Referencia *
+                    </TituloInput>
 
-                <Input
-                    style={styles.input}
-                    onChangeText={setReferencia}
-                    value={referencia}
-                    maxLength={40} />
-            </ContainerInput>
+                    <Input
+                        onChangeText={setReferencia}
+                        value={referencia}
+                        maxLength={40} />
+                </ContainerInput>
 
 
-            <ContainerInput>
-                <TituloInput>
-                    Sobre... *
-                </TituloInput>
+                <ContainerInput>
+                    <TituloInput>
+                        Sobre... *
+                    </TituloInput>
 
-                <Input
-                    style={styles.input}
-                    multiline numberOfLines={0}
-                    verticalAlign={'top'}
-                    maxLength={300}
-                    onChangeText={setBio}
-                    value={bio}
-                />
-                <Text
-                    style={{ alignSelf: "flex-end", marginRight: 15 }}>
-                    {bio?.length || '0'}/300
-                </Text>
+                    <Input
+                        multiline numberOfLines={0}
+                        verticalAlign={'top'}
+                        maxLength={300}
+                        onChangeText={setBio}
+                        value={bio}
+                    />
+                    <Text
+                        style={{ alignSelf: "flex-end", marginRight: 15 }}>
+                        {bio?.length || '0'}/300
+                    </Text>
 
-            </ContainerInput>
+                </ContainerInput>
 
 
-            <BotaoPrincipal
-                activeOpacity={1}
-                background={colors.tema}
-                onPress={Atualizar}>
+                <BotaoPrincipal
+                    activeOpacity={1}
+                    background={colors.tema}
+                    onPress={Atualizar}>
 
-                <TextBtn cor={'#fff'}>Atualizar</TextBtn>
-            </BotaoPrincipal>
+                    <TextBtn cor={'#fff'}>Atualizar</TextBtn>
+                </BotaoPrincipal>
 
-            <View style={{ marginVertical: 15 }} />
+                <View style={{ marginVertical: 15 }} />
 
-        </ScrollView>
+            </ScrollView>
+        </Tela>
+
     );
 }
 
-const styles = StyleSheet.create({
-    tela: {
-        flex: 1,
-        paddingTop: 20,
-        backgroundColor: '#fff'
-    },
-    links: {
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        alignItems: 'baseline',
-        marginLeft: 20,
-        paddingVertical: 5,
-    },
-    infoinputs: {
-        color: '#aaa',
-        fontFamily: 'Roboto-Italic',
-        marginLeft: 20,
-        marginTop: -5
-    },
-    txtbtn: {
-        marginLeft: 10,
-        color: '#fff',
-        fontSize: 16,
-        fontFamily: "Roboto-Medium"
-    },
-
-})

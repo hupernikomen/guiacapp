@@ -4,6 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CadastrarProduto from '../controle/CadastrarProduto';
 import EditaProduto from '../controle/EditaProduto';
 import Home from '../controle/Home'
+import CadastrarDados from '../controle/CadastrarDados';
+import MapaControle from '../controle/Mapa';
+import VendedoresControle from '../controle/Vendedores';
 
 import { useTheme } from '@react-navigation/native';
 const Stack = createNativeStackNavigator()
@@ -36,21 +39,41 @@ export default function RotasStack() {
         }}
       />
 
+      <Stack.Screen
+        name="CadastrarDados"
+        component={CadastrarDados}
+        options={{ title: "Dados" }}
+      />
+
 
       <Stack.Screen
         name='CadastrarProduto'
         component={CadastrarProduto}
         options={{
-          headerShown:false
+          title: 'Cadastrar Produto'
+          // headerShown:false
         }}
       />
+
+      <Stack.Screen
+        name="VendedoresControle"
+        component={VendedoresControle}
+        options={{ title: "Vendedores" }}
+      />
+
 
       <Stack.Screen
         name='EditaProduto'
         component={EditaProduto}
         options={{
-          headerShown:false
+          title: ''
+          // headerShown:false
         }}
+      />
+
+      <Stack.Screen
+        name="Mapa"
+        component={MapaControle}
       />
 
     </Stack.Navigator>

@@ -16,7 +16,7 @@ export default function DrawerCustom(props) {
             <DrawerItem
                 label="Fale com o Guia"
                 inactiveTintColor='#fff'
-                onPress={()=> Linking.openURL('https://wa.me/5586994773403')}
+                onPress={()=> Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
             />
 
         </DrawerContentScrollView>

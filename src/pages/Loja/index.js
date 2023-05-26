@@ -89,50 +89,38 @@ export default function Loja() {
         )
     }
 
-    function SubHeader() {
-        return (
-            <View style={{
-                padding: 15,
-                flexDirection:"row",
-                marginBottom:10,
-                backgroundColor:'#fff'
-            }}>
-                {loja.entrega &&
-                    <View style={{
-                        width: 100,
-                        flexDirection: 'column',
-                        justifyContent:'center',
-                        alignItems:"center"
-                    }}>
-                        <Material name='credit-card-outline' size={20} color={colors.vartema} />
-                        <Text style={{fontFamily:'Roboto-Light', color:'#000',fontSize:12,textAlign:'center'}}>
-                            Parcelamos ate 12x crédito</Text>
-                    </View>
-                }
-                {loja.entrega &&
-                    <View style={{
-                        width: 100,
-                        flexDirection: 'column',
-                        justifyContent:'center',
-                        alignItems:"center"
-                    }}>
-                        <Material name='truck-fast' size={20} color={colors.vartema} />
-                        <Text style={{fontFamily:'Roboto-Light', color:'#000',fontSize:12,textAlign:'center'}}>Fazemos Entregas</Text>
-                    </View>
-                }
-            </View>
-        )
-    }
+
 
     function Bio() {
-        
-        return(
-            <View style={{
-                backgroundColor:'#fff',
-                padding:15
-            }}>
 
-                <Text>{loja.bio}</Text>
+        return (
+            <View style={{
+                margin: 8,
+                backgroundColor: '#fff',
+                padding: 15,
+                alignItems: "flex-start",
+                gap: 15,
+                borderRadius: 4
+            }}>
+                <View>
+
+
+                    {!!loja.logo?.length ?
+
+                        <Image
+                            style={{ width: 60, aspectRatio: 1, borderRadius: 30, borderWidth: .5, borderColor: "#aaa" }}
+                            source={{ uri: loja.logo[0]?.location }}
+                        /> :
+                        <View style={{ width: 60, aspectRatio: 1, borderRadius: 30, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: "#ddd" }}>
+                            <Text style={{ fontFamily: "Roboto-Black", color: '#000', fontSize: 22 }}>{loja.nome.trim().split(' ')[0].substring(0, 1) + loja.nome.trim().split(' ')[1].substring(0, 1)}</Text>
+                        </View>
+                    }
+                </View>
+                <View>
+
+                    <Text style={{ fontFamily: 'Roboto-Medium', color: '#000', fontSize: 18 }}>Sobre nós</Text>
+                    <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>{loja.bio}</Text>
+                </View>
 
             </View>
         )
@@ -144,11 +132,10 @@ export default function Loja() {
             showsVerticalScrollIndicator={false}
             columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
             ListHeaderComponent={
-                <>
+                <View>
                     <Header />
-                    <SubHeader />
-                    {!!loja.bio &&<Bio/>}
-                </>
+                    {!!loja.bio && <Bio />}
+                </View>
             }
             data={loja.produtos}
             renderItem={({ item }) => <Produto item={item} />}

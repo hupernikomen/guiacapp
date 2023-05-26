@@ -26,6 +26,16 @@ function ProdutoControle({ item }) {
   }
 
 
+  function Capitalize(nome) {
+    novonome = nome.toLowerCase().split(" ")
+
+    for (let i = 0; i < novonome.length; i++) {
+      novonome[i] = novonome[i][0].toUpperCase() + novonome[i].substr(1);
+    }
+
+    return novonome.join(" ")
+  }
+
   return (
 
     <ProdutoContainer
@@ -42,7 +52,7 @@ function ProdutoControle({ item }) {
         <Produto
           numberOfLines={1}
           ellipsizeMode={"tail"}>
-          {item.nome}
+          {Capitalize(item.nome)}
         </Produto>
 
         <TxtPreco>

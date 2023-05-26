@@ -38,6 +38,7 @@ export default function Detalhes() {
     setLoad(true)
     await api.get(`/detalhe?produtoID=${route.params.id}`)
       .then((response) => {
+        
         setProduto(response.data);
         setLoad(false)
       })

@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { BtnIcone } from '../../styles'
 
 import Produto from '../../componentes/Produtos/pdt-feed';
 import ListaCategorias from '../../componentes/ListaCategorias';
 
-import api from '../../servicos/api';
-
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useNavigation, useTheme } from '@react-navigation/native'
-import CarrosselServicos from '../../componentes/CarrosselServicos';
-import CarrosselBanners from '../../componentes/CarrosselBanners';
+// import CarrosselServicos from '../../componentes/CarrosselServicos';
+// import CarrosselBanners from '../../componentes/CarrosselBanners';
 
-import { BtnIcone } from '../../styles'
 
+import api from '../../servicos/api';
 
 export default function Home() {
   const navigation = useNavigation()
@@ -21,7 +20,7 @@ export default function Home() {
 
   const [carregando, setCarregando] = useState(false)
   const [produtos, setProdutos] = useState([])
-  const [servico, setServico] = useState([])
+  // const [servico, setServico] = useState([])
 
   console.log("Render Home");
 
@@ -35,15 +34,10 @@ export default function Home() {
 
   };
 
-  
-
-
-
   async function BuscaProdutos() {
     await api.get('/produtos')
       .then((response) => {
-        let embaralhado = shuffle(response.data)
-        setProdutos(embaralhado)
+        setProdutos(shuffle(response.data))
       })
       .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
@@ -68,6 +62,8 @@ export default function Home() {
         alignItems: 'center',
         paddingVertical: 10,
         height: 57,
+        elevation: 5,
+        zIndex: 999
       }}>
 
         <BtnIcone
@@ -112,12 +108,9 @@ export default function Home() {
           <>
             <ListaCategorias />
             {/* <CarrosselBanners/> */}
-            {servico.length > 0 && <CarrosselServicos data={servico} />}
+            {/* {servico.length > 0 && <CarrosselServicos data={servico} />} */}
           </>
-
         }
-        stickyHeaderHiddenOnScroll={true}
-        StickyHeaderComponent={[0]}
         data={produtos}
         renderItem={({ item }) => <Produto item={item} />}
         numColumns={2}
