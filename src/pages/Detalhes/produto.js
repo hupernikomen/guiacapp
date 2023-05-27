@@ -14,6 +14,7 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo, BtnIconeLoja } from './styles'
 import { TextoPadrao } from '../../styles';
 import { ActivityIndicator } from 'react-native-paper';
+import Avatar from '../../componentes/Avatar';
 
 
 export default function Detalhes() {
@@ -159,11 +160,11 @@ export default function Detalhes() {
       }}>
 
         <ContainerLoja>
+          <Avatar DATA={produto.loja} WIDTH={30} SIZE={12}/>
           <NomeLoja>{produto.loja?.nome}</NomeLoja>
 
         </ContainerLoja>
 
-        <TextoPadrao>Categoria: {produto.categoria?.nome}</TextoPadrao>
         <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
 
 
@@ -175,12 +176,13 @@ export default function Detalhes() {
               <TxtPreco>{Preco(parseFloat(produto.oferta).toFixed(2))}</TxtPreco>
             </View>
             :
-
+            
             <TxtPreco>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPreco>
           }
           <TextoPadrao>à vista</TextoPadrao>
         </ContainerPreco>
 
+          <TextoPadrao>Categoria: {produto.categoria?.nome}</TextoPadrao>
 
         <TextoPadrao>Tamanhos:</TextoPadrao>
         <View style={{ flexDirection: 'row', marginVertical: 10 }}>

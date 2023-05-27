@@ -175,13 +175,13 @@ export default function CadastrarDados() {
                     <Input
                         multiline numberOfLines={0}
                         verticalAlign={'top'}
-                        maxLength={300}
+                        maxLength={200}
                         onChangeText={setBio}
                         value={bio}
                     />
                     <Text
                         style={{ alignSelf: "flex-end", marginRight: 15 }}>
-                        {bio?.length || '0'}/300
+                        {bio?.length || '0'}/200
                     </Text>
 
                 </ContainerInput>

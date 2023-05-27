@@ -7,12 +7,14 @@ color: #000
 
 export const ContainerLoja = styled.View`
     flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-start;
     height: 40px;
+    margin-bottom:10px
 `
 export const NomeLoja = styled(Texto)`
     font-family: Roboto-Regular;
+    margin-left: 10px
 `
 export const ProdutoNome = styled(Texto)`
     font-size: 24px;

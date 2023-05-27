@@ -58,24 +58,7 @@ export default function Rotas() {
 
       {autenticado ?
         <>
-          <Drawer.Screen name='HomeControle' component={StackControle}
-            options={{
-              headerRight: () => {
-                return (
-                  <BtnIcone
-                    onPress={signOut}
-                    lado={'center'}
-                  >
-
-                    <TextBtn
-                      cor={'#fff'}>
-                      Sair
-                    </TextBtn>
-                  </BtnIcone>
-                )
-              },
-              title: 'Area Lojista'
-            }} />
+          <Drawer.Screen name='HomeControle' component={StackControle} options={{ title: 'Área Lojista' }}/>
           <Drawer.Screen name='HomeScreen' component={HomeStack} options={{ title: 'Feed' }} />
         </>
 

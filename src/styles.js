@@ -26,7 +26,7 @@ export const Input = styled.TextInput`
 `
 
 export const TituloInput = styled(Texto)`
-    font-family: Roboto-Light;
+    font-family: Roboto-Regular;
     font-size: 13px;
     position: absolute;
     background-color:#fff;

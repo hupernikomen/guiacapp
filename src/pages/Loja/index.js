@@ -9,6 +9,8 @@ import Material from "react-native-vector-icons/MaterialCommunityIcons"
 
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 
+import Avatar from '../../componentes/Avatar';
+
 import { BtnIcone } from '../../styles'
 
 export default function Loja() {
@@ -102,20 +104,7 @@ export default function Loja() {
                 gap: 15,
                 borderRadius: 4
             }}>
-                <View>
-
-
-                    {!!loja.logo?.length ?
-
-                        <Image
-                            style={{ width: 60, aspectRatio: 1, borderRadius: 30, borderWidth: .5, borderColor: "#aaa" }}
-                            source={{ uri: loja.logo[0]?.location }}
-                        /> :
-                        <View style={{ width: 60, aspectRatio: 1, borderRadius: 30, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: "#ddd" }}>
-                            <Text style={{ fontFamily: "Roboto-Black", color: '#000', fontSize: 22 }}>{loja.nome.trim().split(' ')[0].substring(0, 1) + loja.nome.trim().split(' ')[1].substring(0, 1)}</Text>
-                        </View>
-                    }
-                </View>
+                <Avatar DATA={loja} WIDTH={60} SIZE={22}/>
                 <View>
 
                     <Text style={{ fontFamily: 'Roboto-Medium', color: '#000', fontSize: 18 }}>Sobre nós</Text>

@@ -23,7 +23,7 @@ import api from '../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
-import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
+import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn, Tela, BtnIcone } from "../../styles";
 
 export default function EditaProduto() {
   const { credenciais, acao } = useContext(LojaContext)
@@ -62,6 +62,19 @@ export default function EditaProduto() {
     setCor(route.params?.cor)
     setCategoriaID(route.params?.categoriaID)
     setID(route.params?.id)
+
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+
+          <BtnIcone
+            lado={'flex-end'}
+          >
+            <Material name='delete-outline' size={30} color={'#fff'}/>
+          </BtnIcone>
+        )
+      }
+    })
 
   }, [])
 
@@ -283,21 +296,9 @@ export default function EditaProduto() {
             id,
             credenciais
           )}>
-            <TextBtn cor={'#fff'}>Atualizar</TextBtn>
+          <TextBtn cor={'#fff'}>Atualizar</TextBtn>
         </BotaoPrincipal>
 
-        <BotaoPrincipal
-          disabled={carregando}
-          background={colors.tema}
-          activeOpacity={1}
-          onPress={ConfirmaExclusao}>
-          {carregando ? <ActivityIndicator color='#fff' /> :
-            <TextBtn
-              cor={'#fff'}>
-              Excluir
-            </TextBtn>
-          }
-        </BotaoPrincipal>
 
         <View style={{ marginVertical: 15 }} />
 

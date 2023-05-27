@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState, } from 'react';
 import { View, StyleSheet, FlatList, Text, ActivityIndicator, ToastAndroid, ScrollView, TouchableOpacity } from 'react-native';
 import { BtnMais } from './styles'
-import { BtnIcone, Tela } from '../../styles'
+import { BtnIcone, TextBtn } from '../../styles'
 
 import { useNavigation, useTheme } from '@react-navigation/native'
 
@@ -14,7 +14,7 @@ import api from '../../servicos/api';
 
 export default function HomeControle() {
 
-  const { credenciais } = useContext(LojaContext)
+  const { credenciais, signOut } = useContext(LojaContext)
   const navigation = useNavigation()
 
   const [loja, setLoja] = useState([])
@@ -105,6 +105,18 @@ export default function HomeControle() {
           }}>{loja.nome}</Text>
 
 
+        <BtnIcone
+          onPress={signOut}
+          lado={'center'}
+        >
+
+          <TextBtn
+            cor={'#fff'}>
+            Sair
+          </TextBtn>
+        </BtnIcone>
+
+
       </View>
     )
   }
@@ -131,7 +143,7 @@ export default function HomeControle() {
       <ScrollView
         horizontal
         style={{
-          height: 50,
+          maxHeight: 55,
           width: '100%',
           backgroundColor: colors.tema,
           paddingHorizontal: 10,
@@ -140,7 +152,7 @@ export default function HomeControle() {
 
         {paginas.map((item, index) => (
           <TouchableOpacity
-          key={index}
+            key={index}
             style={{
               justifyContent: 'center',
               alignItems: "center",
