@@ -1,14 +1,17 @@
-import React, { useEffect, useContext, useState, } from 'react';
-import { View, StyleSheet, FlatList, Text, ActivityIndicator, ToastAndroid, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useContext, useState, useCallback } from 'react';
+import { View, FlatList, Text, ActivityIndicator, ToastAndroid, ScrollView, TouchableOpacity,RefreshControl, } from 'react-native';
 import { BtnMais } from './styles'
 import { BtnIcone, TextBtn } from '../../styles'
 
-import { useNavigation, useTheme } from '@react-navigation/native'
+import { useNavigation, useTheme,useFocusEffect } from '@react-navigation/native'
 
 import { LojaContext } from '../../contexts/lojaContext';
-
+import ImageResizer from '@bam.tech/react-native-image-resizer';
+import { launchImageLibrary } from 'react-native-image-picker';
 import ProdutoControle from '../../componentes/Produtos/pdt-feed-controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+
+import Avatar from '../../componentes/Avatar';
 
 import api from '../../servicos/api';
 
@@ -21,17 +24,20 @@ export default function HomeControle() {
 
   const { colors } = useTheme()
 
-  const [carregando, setCarregando] = useState(false)
+  const [load, setLoad] = useState(false)
+
+  useFocusEffect(
+    useCallback(() =>{
+      onRefresh()
+
+    },[])
+  )
 
 
-
-  useEffect(() => {
+  const onRefresh = () => {
     BuscaLoja()
 
-  }, [])
-
-
-
+  };
 
   const ToastErro = (mensagem) => {
     ToastAndroid.showWithGravityAndOffset(
@@ -44,7 +50,7 @@ export default function HomeControle() {
   };
 
   async function BuscaLoja() {
-    setCarregando(true)
+    setLoad(true)
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
@@ -53,26 +59,81 @@ export default function HomeControle() {
       .then((response) => {
 
         setLoja(response.data)
-        setCarregando(false)
+        setLoad(false)
 
 
       })
       .catch((error) => {
         ToastErro(error.status)
-        setCarregando(false)
+        setLoad(false)
       })
 
   }
 
 
 
-  if (carregando) {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size={30} color={colors.tema} />
-      </View>
-    )
+  const options = {
+    options: {
+      mediaType: 'photo',
+
+    },
   }
+
+
+
+
+  async function Logo() {
+    await launchImageLibrary(options, ({ error, didCancel, assets }) => {
+      if (error || didCancel) {
+        return;
+      } else {
+        CadastrarLogo(assets[0])
+      }
+    })
+  }
+
+
+
+
+  async function CadastrarLogo(assets) {
+    try {
+      var result = await ImageResizer.createResizedImage(
+        assets.uri,
+        200,
+        200,
+        'JPEG',
+        90,
+      );
+
+    } catch (error) {
+      Alert.alert('Unable to resize the photo');
+    }
+
+
+    const formData = new FormData()
+
+    formData.append('logo', {
+      uri: result.uri,
+      type: 'image/jpeg', // ou 'image/png', dependendo do tipo de imagem
+      name: result.name
+    });
+
+    await api.put(`/loja?lojaID=${credenciais.id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${credenciais.token}`
+      }
+    })
+      .then(({ data }) => {
+        BuscaLoja()
+
+      })
+      .catch((error) => {
+        console.log("error from image :", error);
+      })
+  }
+
+
 
 
   function Header() {
@@ -93,12 +154,18 @@ export default function HomeControle() {
           <Material name='menu' size={24} color={'#fff'} />
         </BtnIcone>
 
+        <TouchableOpacity onPress={() => {
+          Logo()
+        }}>
+
+          {load ? <ActivityIndicator color={'#fff'} /> : <Avatar DATA={loja} WIDTH={40} SIZE={14} />}
+        </TouchableOpacity>
+
 
         <Text
           numberOfLines={1}
           style={{
             flex: 1,
-            marginLeft: 15,
             fontFamily: 'Roboto-Medium',
             fontSize: 20,
             color: '#fff',
@@ -144,9 +211,9 @@ export default function HomeControle() {
         horizontal
         style={{
           maxHeight: 55,
+          minHeight: 55,
           width: '100%',
           backgroundColor: colors.tema,
-          paddingHorizontal: 10,
         }}
       >
 
@@ -156,7 +223,8 @@ export default function HomeControle() {
             style={{
               justifyContent: 'center',
               alignItems: "center",
-              paddingHorizontal: 15
+              paddingHorizontal: 5,
+              marginHorizontal: 10
             }}
             onPress={() => navigation.navigate(item.link)}
           >
@@ -181,18 +249,7 @@ export default function HomeControle() {
       <CarrosselPaginas />
 
       <FlatList
-        ListEmptyComponent={
-          <View style={{ alignItems: 'center', marginTop: 50 }}>
-            <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Você não tem nenhum produto postado.</Text>
-
-            <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-
-              <Text style={{ fontFamily: 'Roboto-Light', marginRight: 5, color: '#000' }}>Para postar clique no botão</Text>
-              <Material name='plus-thick' size={20} color='#000' />
-
-            </View>
-          </View>
-        }
+       
         data={loja?.produtos}
         contentContainerStyle={{ marginTop: 4 }}
         columnWrapperStyle={{ margin: 4 }}
@@ -200,6 +257,13 @@ export default function HomeControle() {
         numColumns={2}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+
+        refreshControl={
+          <RefreshControl
+            refreshing={load}
+            onRefresh={onRefresh}
+          />
+        }
       />
 
       <BtnMais

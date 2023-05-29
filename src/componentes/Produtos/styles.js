@@ -12,7 +12,7 @@ export const ProdutoContainer = styled.TouchableOpacity`
 export const ContainerInfo = styled.View`
     padding-horizontal: 8px;
     padding-top: 5px;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 `
 
 export const Produto = styled(TextoPadrao)`

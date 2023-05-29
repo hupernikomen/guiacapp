@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, Dimensions } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
 
@@ -20,29 +20,49 @@ export default function Loja() {
     const { colors } = useTheme()
 
     const [loja, setLoja] = useState([])
+    const [load, setLoad] = useState(false)
+
 
     useEffect(() => {
 
         BuscaLoja()
 
+
     }, [])
 
+
+    if (load) {
+        return (
+            <View style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+
+                <ActivityIndicator color={colors.tema} />
+            </View>
+        )
+    }
+
     async function BuscaLoja() {
+        setLoad(true)
         await api.get(`/loja?lojaID=${route.params}`)
             .then((response) => {
                 setLoja(response.data)
-
+                setLoad(false)
             })
     }
 
     function Header() {
         return (
             <View style={{
+                width: '100%',
                 backgroundColor: colors.tema,
                 flexDirection: 'row',
                 alignItems: 'center',
                 paddingVertical: 10,
-                height: 57,
+                height: 55,
+                elevation: 5
             }}>
 
                 <BtnIcone
@@ -51,16 +71,12 @@ export default function Loja() {
                     <Material name='arrow-left' size={24} color='#fff' />
                 </BtnIcone>
 
-                {loja.logo?.length > 0 && <Image
-                    style={{ width: 40, aspectRatio: 1, borderRadius: 25 }}
-                    source={{ uri: loja.logo[0].location }}
-                />}
+                <Avatar DATA={loja} WIDTH={40} SIZE={18} />
 
                 <Text
                     numberOfLines={1}
                     style={{
                         flex: 1,
-                        marginLeft: 15,
                         fontFamily: 'Roboto-Medium',
                         fontSize: 20,
                         color: '#fff',
@@ -84,17 +100,12 @@ export default function Loja() {
                 </>
 
             </View>
-
-
-
-
         )
     }
 
 
 
     function Bio() {
-
         return (
             <View style={{
                 margin: 8,
@@ -104,31 +115,32 @@ export default function Loja() {
                 gap: 15,
                 borderRadius: 4
             }}>
-                <Avatar DATA={loja} WIDTH={60} SIZE={22}/>
-                <View>
 
+                <View>
                     <Text style={{ fontFamily: 'Roboto-Medium', color: '#000', fontSize: 18 }}>Sobre nós</Text>
                     <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>{loja.bio}</Text>
                 </View>
-
             </View>
         )
     }
 
 
     return (
-        <FlatList
-            showsVerticalScrollIndicator={false}
-            columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
-            ListHeaderComponent={
-                <View>
-                    <Header />
-                    {!!loja.bio && <Bio />}
-                </View>
-            }
-            data={loja.produtos}
-            renderItem={({ item }) => <Produto item={item} />}
-            numColumns={2}
-        />
+        <>
+            <Header />
+
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
+                ListHeaderComponent={
+                    <View>
+                        {!!loja.bio && <Bio />}
+                    </View>
+                }
+                data={loja.produtos}
+                renderItem={({ item }) => <Produto item={item} />}
+                numColumns={2}
+            />
+        </>
     );
 }

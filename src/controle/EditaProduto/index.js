@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
   ScrollView,
   Alert,
-  StyleSheet,
   TouchableOpacity,
   Pressable,
   Modal,
@@ -13,6 +12,7 @@ import {
   ToastAndroid,
   ActivityIndicator
 } from 'react-native';
+
 
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 import { LojaContext } from "../../contexts/lojaContext"
@@ -26,42 +26,28 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn, Tela, BtnIcone } from "../../styles";
 
 export default function EditaProduto() {
-  const { credenciais, acao } = useContext(LojaContext)
+  const { credenciais } = useContext(LojaContext)
   const { arrTamanhos } = useContext(ProdutoContext)
 
   const route = useRoute()
   const navigation = useNavigation()
   const { colors } = useTheme()
 
-  const [cod, setCod] = useState("")
 
-  const [nome, setNome] = useState("")
-  const [descricao, setDescricao] = useState("")
-  const [preco, setPreco] = useState("")
-  const [oferta, setOferta] = useState("")
-  const [tamanho, setTamanho] = useState("")
-  const [cor, setCor] = useState("")
-  const [id, setID] = useState("")
-
-  const [categoriaID, setCategoriaID] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [carregando, setCarregando] = useState(false)
+  const [load, setLoad] = useState(false)
+
+  const [produto, setProduto] = useState({})
 
   const { width } = Dimensions.get('window')
 
 
+  console.log('RENDER EDIÇÃO');
+
   useEffect(() => {
 
-    setCod(route.params?.cod)
-    setNome(route.params?.nome)
-    setDescricao(route.params?.descricao)
-    setPreco(route.params?.preco)
-    setOferta(route.params?.oferta)
-    setTamanho(route.params?.tamanho?.sort())
-    setCor(route.params?.cor)
-    setCategoriaID(route.params?.categoriaID)
-    setID(route.params?.id)
+    setProduto(route.params)
 
     navigation.setOptions({
       headerRight: () => {
@@ -69,8 +55,9 @@ export default function EditaProduto() {
 
           <BtnIcone
             lado={'flex-end'}
+            onPress={ConfirmaExclusao}
           >
-            <Material name='delete-outline' size={30} color={'#fff'}/>
+            <Material name='delete-outline' size={30} color={'#fff'} />
           </BtnIcone>
         )
       }
@@ -79,7 +66,7 @@ export default function EditaProduto() {
   }, [])
 
 
-  async function ConfirmaExclusao(e) {
+  async function ConfirmaExclusao() {
 
     Alert.alert("Excluir Produto", `${route.params?.nome}`, [
       {
@@ -93,7 +80,6 @@ export default function EditaProduto() {
 
   async function Excluir(id, credenciais) {
 
-    setCarregando(true)
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
@@ -102,42 +88,30 @@ export default function EditaProduto() {
     await api.delete(`/produto?produtoID=${id}`, { headers })
       .then(() => {
         navigation.goBack()
-        setCarregando(false)
         ToastExcluiProduto()
       })
       .catch((error) => {
-        setCarregando(false)
 
       })
   }
 
 
-  async function Atualizar(nome, descricao, oferta, tamanho, cor, categoriaID, id, credenciais) {
-    setCarregando(true)
-
-    if (nome == "" || descricao == "") return
-
-    const produto = {
-      nome,
-      descricao,
-      oferta,
-      tamanho,
-      cor,
-      categoriaID,
-    }
+  async function Atualizar() {
+    setLoad(true)
 
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
     }
 
-    await api.put(`/produto?produtoID=${id}`, produto, { headers })
+    await api.put(`/produto?produtoID=${produto.id}`, produto, { headers })
       .then(() => {
-        setCarregando(false)
+        setLoad(false)
+        navigation.goBack()
         ToastAtualizaProduto()
       })
       .catch((error) => {
-        setCarregando(false)
+        setLoad(false)
 
       })
   }
@@ -146,7 +120,7 @@ export default function EditaProduto() {
 
   function RenderItem({ data }) {
 
-    const response = tamanho.indexOf(data)
+    const response = produto.tamanho.indexOf(data)
     return (
 
       <Pressable
@@ -162,12 +136,12 @@ export default function EditaProduto() {
         }}
         onPress={() => {
           if (response == -1) {
-            setTamanho(itensTam => [...itensTam, data]);
+            const i = produto.tamanho
+            setProduto({ ...produto, tamanho: [...i, data] })
           } else {
 
-            let response = tamanho.filter((item) => item != data)
-
-            setTamanho(response);
+            let response = produto.tamanho.filter((item) => item != data)
+            setProduto({ ...produto, tamanho: response })
 
           }
         }}>
@@ -201,6 +175,8 @@ export default function EditaProduto() {
   return (
     <Tela>
 
+
+
       <ScrollView
         showsVerticalScrollIndicator={false}>
 
@@ -211,8 +187,8 @@ export default function EditaProduto() {
           </TituloInput>
 
           <Input
-            value={nome}
-            onChangeText={setNome}
+            value={produto.nome}
+            onChangeText={(e) => setProduto({ ...produto, nome: e })}
           />
         </ContainerInput>
 
@@ -226,10 +202,9 @@ export default function EditaProduto() {
             multiline={true}
             numberOfLines={0}
             verticalAlign={'top'}
-            value={descricao}
-            onChangeText={setDescricao} />
+            value={produto.descricao}
+            onChangeText={(e) => setProduto({ ...produto, descricao: e })} />
         </ContainerInput>
-
 
 
         <ContainerInput>
@@ -241,8 +216,7 @@ export default function EditaProduto() {
           <Input
 
             editable={false}
-            value={parseFloat(preco).toFixed(2).replace('.', ',')}
-            onChangeText={setPreco} />
+            value={parseFloat(produto.preco).toFixed(2).replace('.', ',')} />
         </ContainerInput>
 
         <ContainerInput>
@@ -252,9 +226,9 @@ export default function EditaProduto() {
           </TituloInput>
 
           <Input
-            value={oferta}
+            value={produto.oferta}
             keyboardType="numeric"
-            onChangeText={setOferta} />
+            onChangeText={(e) => setProduto({ ...produto, oferta: e })} />
         </ContainerInput>
 
         <View>
@@ -268,13 +242,13 @@ export default function EditaProduto() {
 
               ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
               horizontal
-              data={tamanho}
+              data={produto.tamanho}
               renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
             />
 
             <TouchableOpacity
               onPress={() => setModalVisible(true)}>
-              <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{tamanho?.length > 0 ? 'Editar' : 'Inserir'}</Text>
+              <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{produto.tamanho?.length > 0 ? 'Editar' : 'Inserir'}</Text>
             </TouchableOpacity>
           </SimulaInput>
 
@@ -285,18 +259,8 @@ export default function EditaProduto() {
         <BotaoPrincipal
           activeOpacity={1}
           background={colors.tema}
-          onPress={() => Atualizar(
-            nome,
-            descricao,
-            // preco,
-            oferta.replace(',', '.'),
-            tamanho,
-            cor,
-            categoriaID,
-            id,
-            credenciais
-          )}>
-          <TextBtn cor={'#fff'}>Atualizar</TextBtn>
+          onPress={Atualizar}>
+          {load ? <ActivityIndicator color={'#fff'} /> : <TextBtn cor={'#fff'}>Atualizar</TextBtn>}
         </BotaoPrincipal>
 
 
@@ -341,7 +305,7 @@ export default function EditaProduto() {
 
 
 
+
     </Tela>
   );
 }
-

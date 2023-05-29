@@ -42,7 +42,7 @@ function ProdutoFeed({ item }) {
     <ProdutoContainer
       largura={(WIDTH / 2) - 12}
       onPress={() => navigation.navigate("DetalheProduto", { id: item.id })}
-      activeOpacity={1}>
+      activeOpacity={.9}>
 
       {!!item.oferta && <Off valor={(((parseFloat(item.preco) - parseFloat(item.oferta)) / parseFloat(item.preco)) * 100).toFixed(0)} />}
       <Image
@@ -62,7 +62,7 @@ function ProdutoFeed({ item }) {
 
         <ContainerLoja>
           {name !== "Loja" && <LojaNome numberOfLines={1} lineBreakMode="tail">{item.loja?.nome}</LojaNome>}
-          {item.loja?.entrega && <Delivery />}
+          {Boolean(item.loja?.entrega=="true") && <Delivery />}
         </ContainerLoja>
 
       </ContainerInfo>

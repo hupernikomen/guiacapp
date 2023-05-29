@@ -25,7 +25,7 @@ export default function Rotas() {
 
   const { colors } = useTheme()
 
-  const { autenticado, signOut } = useContext(LojaContext);
+  const { autenticado } = useContext(LojaContext);
 
   return (
     <Drawer.Navigator
@@ -33,10 +33,12 @@ export default function Rotas() {
       drawerContent={DrawerCustom}
 
 
+
       initialRouteName='HomeScreen'
       screenOptions={{
         headerShown: false,
-
+        unmountOnBlur: true,
+        swipeEdgeWidth: 130,
         headerStyle: {
           backgroundColor: colors.tema
         },
@@ -58,7 +60,7 @@ export default function Rotas() {
 
       {autenticado ?
         <>
-          <Drawer.Screen name='HomeControle' component={StackControle} options={{ title: 'Área Lojista' }}/>
+          <Drawer.Screen name='HomeControle' component={StackControle} options={{ title: 'Área Lojista' }} />
           <Drawer.Screen name='HomeScreen' component={HomeStack} options={{ title: 'Feed' }} />
         </>
 

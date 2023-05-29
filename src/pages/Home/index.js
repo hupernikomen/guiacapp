@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { FlatList, RefreshControl, Text, View, ActivityIndicator } from 'react-native';
 import { BtnIcone } from '../../styles'
 
 import Produto from '../../componentes/Produtos/pdt-feed';
@@ -18,7 +18,7 @@ export default function Home() {
   const navigation = useNavigation()
   const { colors } = useTheme()
 
-  const [carregando, setCarregando] = useState(false)
+  const [load, setLoad] = useState(false)
   const [produtos, setProdutos] = useState([])
   // const [servico, setServico] = useState([])
 
@@ -29,15 +29,32 @@ export default function Home() {
 
   }, [])
 
+
+
+  if (load) {
+    return (
+      <View style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+
+        <ActivityIndicator size={40} color={colors.tema} />
+      </View>
+    )
+  }
+
   const onRefresh = () => {
     BuscaProdutos()
 
   };
 
   async function BuscaProdutos() {
+    setLoad(true)
     await api.get('/produtos')
       .then((response) => {
         setProdutos(shuffle(response.data))
+        setLoad(false)
       })
       .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
@@ -117,13 +134,13 @@ export default function Home() {
 
         refreshControl={
           <RefreshControl
-            refreshing={carregando}
+            refreshing={load}
             onRefresh={onRefresh}
           />
         }
 
       />
-    </>
 
+    </>
   )
 }

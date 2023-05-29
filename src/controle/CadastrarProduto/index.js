@@ -267,7 +267,7 @@ export default function CadastrarProduto() {
                         Produto
                     </TituloInput>
                     <Input
-                        maxLength={35}
+                        maxLength={50}
                         onChangeText={setNome}
                         value={nome} />
                 </ContainerInput>

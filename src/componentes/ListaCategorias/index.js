@@ -51,7 +51,7 @@ export default function ListaCategorias() {
                 }}>
                 <Text style={{
                     textTransform: 'uppercase',
-                    fontFamily: 'Roboto-Medium',
+                    fontFamily: 'Roboto-Regular',
                     fontSize: 13,
                     color: '#fff',
                 }}>

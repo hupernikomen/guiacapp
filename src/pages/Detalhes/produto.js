@@ -11,8 +11,8 @@ import api from '../../servicos/api';
 import Share from "react-native-share";
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo, BtnIconeLoja } from './styles'
-import { TextoPadrao } from '../../styles';
+import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo } from './styles'
+import { TextoPadrao, BtnIcone } from '../../styles';
 import { ActivityIndicator } from 'react-native-paper';
 import Avatar from '../../componentes/Avatar';
 
@@ -39,39 +39,13 @@ export default function Detalhes() {
     setLoad(true)
     await api.get(`/detalhe?produtoID=${route.params.id}`)
       .then((response) => {
-        
+
         setProduto(response.data);
         setLoad(false)
       })
 
   }
 
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <>
-          <BtnIconeLoja
-            lado={'flex-end'}
-            activeOpacity={.8}
-            onPress={async () => {
-              await share();
-            }}
-          >
-            <Material name='share-variant-outline' size={24} color='#fff' />
-          </BtnIconeLoja>
-
-          <BtnIconeLoja
-            lado={'flex-end'}
-            activeOpacity={.8}
-            onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
-
-            <Material name='storefront-outline' size={24} color='#fff' />
-          </BtnIconeLoja>
-        </>
-      )
-    })
-  }, [produto])
 
   function Preco(preco) {
     if (!preco) return
@@ -81,7 +55,36 @@ export default function Detalhes() {
   }
 
 
+  function Header() {
+    return (
+      <View style={{
+        width: '100%',
+        backgroundColor: colors.tema,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: "space-between",
+        paddingVertical: 10,
+        height: 55,
+        elevation: 5
+      }}>
 
+        <BtnIcone
+          lado={'center'}
+          onPress={() => navigation.goBack()}>
+          <Material name='arrow-left' size={24} color='#fff' />
+        </BtnIcone>
+
+        <BtnIcone
+          lado={'center'}
+          activeOpacity={.8}
+          onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
+
+          <Material name='storefront-outline' size={24} color='#fff' />
+        </BtnIcone>
+
+      </View>
+    )
+  }
 
 
   function RenderItem({ data }) {
@@ -93,7 +96,7 @@ export default function Detalhes() {
             width: WIDTH,
             aspectRatio: 3 / 4,
             flex: 1,
-            resizeMode:'contain'
+            resizeMode: 'contain'
           }}
         />
 
@@ -136,85 +139,90 @@ export default function Detalhes() {
   }
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{
-        flex: 1,
-        backgroundColor: '#fff'
-      }}>
+
+    <>
+      <Header />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+          flex: 1,
+          backgroundColor: '#fff'
+        }}>
 
 
-      <FlatList
-        style={{ width: WIDTH, backgroundColor: '#f1f1f1', marginBottom: 10 }}
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={WIDTH + 5}
-        ItemSeparatorComponent={<View style={{ width: 5 }} />}
-        data={produto.imagens}
-        horizontal
-        renderItem={({ item }) => <RenderItem data={item} />}
-      />
+        <FlatList
+          style={{ width: WIDTH, backgroundColor: '#f1f1f1', marginBottom: 10 }}
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={WIDTH + 5}
+          ItemSeparatorComponent={<View style={{ width: 5 }} />}
+          data={produto.imagens}
+          horizontal
+          renderItem={({ item }) => <RenderItem data={item} />}
+        />
 
 
-      <View style={{
-        paddingHorizontal: 20,
-      }}>
+        <View style={{
+          paddingHorizontal: 20,
+        }}>
 
-        <ContainerLoja>
-          <Avatar DATA={produto.loja} WIDTH={30} SIZE={12}/>
-          <NomeLoja>{produto.loja?.nome}</NomeLoja>
+          <ContainerLoja>
+            <Avatar DATA={produto.loja} WIDTH={30} SIZE={12} />
+            <NomeLoja>{produto.loja?.nome}</NomeLoja>
 
-        </ContainerLoja>
+          </ContainerLoja>
 
-        <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
+          <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
 
 
-        <ContainerPreco>
-          {!!produto.oferta ?
-            <View>
-              <TxtPrecoAntigo>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPrecoAntigo>
+          <ContainerPreco>
+            {!!produto.oferta ?
+              <View>
+                <TxtPrecoAntigo>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPrecoAntigo>
 
-              <TxtPreco>{Preco(parseFloat(produto.oferta).toFixed(2))}</TxtPreco>
-            </View>
-            :
-            
-            <TxtPreco>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPreco>
-          }
-          <TextoPadrao>à vista</TextoPadrao>
-        </ContainerPreco>
+                <TxtPreco>{Preco(parseFloat(produto.oferta).toFixed(2))}</TxtPreco>
+              </View>
+              :
+
+              <TxtPreco>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPreco>
+            }
+            <TextoPadrao>à vista</TextoPadrao>
+          </ContainerPreco>
 
           <TextoPadrao>Categoria: {produto.categoria?.nome}</TextoPadrao>
 
-        <TextoPadrao>Tamanhos:</TextoPadrao>
-        <View style={{ flexDirection: 'row', marginVertical: 10 }}>
+          <TextoPadrao>Tamanhos:</TextoPadrao>
+          <View style={{ flexDirection: 'row', marginVertical: 10 }}>
 
 
-          {produto.tamanho?.map((item, index) => {
-            return (
+            {produto.tamanho?.map((item, index) => {
+              return (
 
-              <Text
-                key={index}
-                style={{
-                  color: '#000',
-                  padding: 5,
-                  color: '#fff',
-                  borderRadius: 6,
-                  marginRight: 5,
-                  backgroundColor: colors.vartema
-                }}>
-                {item}
-              </Text>
-            )
-          })}
+                <Text
+                  key={index}
+                  style={{
+                    color: '#000',
+                    padding: 5,
+                    color: '#fff',
+                    borderRadius: 6,
+                    marginRight: 5,
+                    backgroundColor: colors.vartema
+                  }}>
+                  {item}
+                </Text>
+              )
+            })}
+          </View>
+
+          <TextoPadrao>
+            {produto.descricao}
+          </TextoPadrao>
+
+
         </View>
 
-        <TextoPadrao>
-          {produto.descricao}
-        </TextoPadrao>
 
+      </ScrollView>
+    </>
 
-      </View>
-
-
-    </ScrollView>
   );
 }

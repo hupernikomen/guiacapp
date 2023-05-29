@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, Switch, ScrollView, ToastAndroid } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
 import { useTheme, useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
@@ -24,7 +24,7 @@ export default function CadastrarDados() {
     const [bairro, setBairro] = useState('')
     const [referencia, setReferencia] = useState('')
     const [bio, setBio] = useState('')
-    const [entrega, setEntrega] = useState()
+    const [entrega, setEntrega] = useState(false)
 
 
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function CadastrarDados() {
     }, [])
 
 
-    // const toggleSwitch = () => setEntrega(previousState => !previousState);
+    const toggleSwitch = () => setEntrega(previousState => !previousState);
 
     async function BuscaLoja() {
         const headers = {
@@ -41,13 +41,16 @@ export default function CadastrarDados() {
         }
         await api.get(`/me?lojaID=${credenciais.id}`, { headers })
             .then((response) => {
-                const { nome, endereco, bairro, referencia, bio } = response.data
+                const { nome, endereco, bairro, referencia, bio, entrega } = response.data
+
+                const booEntrega = entrega == "true"
 
                 setNome(nome)
                 setEndereco(endereco)
                 setBairro(bairro)
                 setReferencia(referencia)
                 setBio(bio)
+                setEntrega(booEntrega)
             })
             .catch((error) => {
                 ToastErro(error.status)
@@ -65,6 +68,7 @@ export default function CadastrarDados() {
         formData.append('bairro', bairro)
         formData.append('referencia', referencia)
         formData.append('bio', bio)
+        formData.append('entrega', entrega)
 
         const headers = {
             'Content-Type': 'multipart/form-data',
@@ -96,28 +100,6 @@ export default function CadastrarDados() {
 
                 showsVerticalScrollIndicator={false}
             >
-                {/* <View style={{ marginBottom: 30 }}>
-                <View style={[styles.links]}>
-
-                    <Text
-                        style={{ color: '#222', fontFamily: "Roboto-Regular", fontSize: 16 }}>
-                        Entregas
-                    </Text>
-
-                    <Switch
-                        trackColor={{ false: '#767577', true: '#ddd' }}
-                        thumbColor={entrega ? colors.tema : '#f4f3f4'}
-                        onValueChange={toggleSwitch}
-                        value={entrega}
-                    />
-                </View>
-                <Text
-                    style={styles.infoinputs}>
-                    Ative, se sua loja faz entregas de pedidos
-                </Text>
-            </View> */}
-
-
 
                 <ContainerInput>
                     <TituloInput>
@@ -185,6 +167,22 @@ export default function CadastrarDados() {
                     </Text>
 
                 </ContainerInput>
+
+
+                <View style={{ marginVertical: 30, flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
+
+                    <Text
+                        style={{ color: '#222', fontFamily: "Roboto-Regular", fontSize: 16, marginLeft:25 }}>
+                        Entregas
+                    </Text>
+
+                    <Switch
+                        trackColor={{ false: '#767577', true: '#ddd' }}
+                        thumbColor={entrega ? colors.tema : '#f4f3f4'}
+                        onValueChange={toggleSwitch}
+                        value={Boolean(entrega)}
+                    />
+                </View>
 
 
                 <BotaoPrincipal

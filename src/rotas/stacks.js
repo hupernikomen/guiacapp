@@ -55,7 +55,7 @@ export default function RotasStack() {
         options={{
           headerShown: false,
         }}
-      />
+        />
 
 
       <Stack.Screen
@@ -64,12 +64,13 @@ export default function RotasStack() {
         options={{
           title: 'Serviços Profissionais'
         }}
-      />
+        />
 
       <Stack.Screen
         name='DetalheProduto'
         component={DetalheProduto}
         options={{
+          headerShown: false,
           title: "",
         }}
       />

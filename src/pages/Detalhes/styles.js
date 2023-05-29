@@ -14,12 +14,12 @@ export const ContainerLoja = styled.View`
 `
 export const NomeLoja = styled(Texto)`
     font-family: Roboto-Regular;
-    margin-left: 10px
 `
 export const ProdutoNome = styled(Texto)`
-    font-size: 24px;
+    font-size: 22px;
     font-family: Roboto-Bold;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    text-transform: uppercase
 `
 export const ContainerPreco = styled.View`
     flex-direction: row;

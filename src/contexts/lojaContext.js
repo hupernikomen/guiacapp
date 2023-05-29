@@ -3,8 +3,7 @@ import { ToastAndroid } from "react-native";
 import api from '../servicos/api'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import ImageResizer from '@bam.tech/react-native-image-resizer';
-import { launchImageLibrary } from 'react-native-image-picker';
+
 import { useNavigation } from "@react-navigation/native";
 
 export const LojaContext = createContext({})
@@ -21,7 +20,7 @@ export function LojaProvider({ children }) {
 
   const [loadBotao, setLoadBotao] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [previewLogo, setPreviewLogo] = useState("")
+
 
   const autenticado = !!credenciais.email
 
@@ -63,77 +62,7 @@ export function LojaProvider({ children }) {
 
 
 
-  const options = {
-    options: {
-      mediaType: 'photo',
-
-    },
-  }
-
-
-  //---------------------------------------------------------------------
-
-
-
-
-  async function Logo() {
-    await launchImageLibrary(options, ({ error, didCancel, assets }) => {
-      if (error || didCancel) {
-        return;
-      } else {
-        CadastrarLogo(assets[0])
-      }
-    })
-  }
-
-
-
-
-  //---------------------------------------------------------------------
-
-
-
-  async function CadastrarLogo(assets) {
-
-    try {
-      var result = await ImageResizer.createResizedImage(
-        assets.uri,
-        200,
-        200,
-        'JPEG',
-        90,
-      );
-
-    } catch (error) {
-      Alert.alert('Unable to resize the photo');
-    }
-
-
-
-    const formData = new FormData()
-
-    formData.append('logo', {
-      uri: result.uri,
-      type: 'image/jpeg', // ou 'image/png', dependendo do tipo de imagem
-      name: result.name
-    });
-
-    await api.put(`/loja?lojaID=${credenciais.id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${credenciais.token}`
-      }
-    })
-      .then(({ data }) => {
-        setPreviewLogo(data?.logo[0]?.location);
-      })
-      .catch((error) => {
-        console.log("error from image :", error);
-      })
-  }
-
-
-
+ 
 
 
   //---------------------------------------------------------------------
@@ -208,8 +137,6 @@ export function LojaProvider({ children }) {
       autenticado,
       loading,
       loadBotao,
-      previewLogo,
-      Logo,
       signIn,
       signOut,
     }}>
