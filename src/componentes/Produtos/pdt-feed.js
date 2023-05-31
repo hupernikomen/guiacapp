@@ -1,4 +1,3 @@
-import { memo } from "react";
 import {
   Image,
   Dimensions,
@@ -15,7 +14,7 @@ const { width: WIDTH } = Dimensions.get('window')
 
 import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, ContainerLoja } from "./styles";
 
-function ProdutoFeed({ item }) {
+export default function ProdutoFeed({ item }) {
 
   const navigation = useNavigation();
   const { name } = useRoute()
@@ -71,5 +70,3 @@ function ProdutoFeed({ item }) {
   );
 }
 
-
-export default memo(ProdutoFeed)

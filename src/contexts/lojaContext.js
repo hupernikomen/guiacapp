@@ -18,7 +18,6 @@ export function LojaProvider({ children }) {
     token: ''
   })
 
-  const [loadBotao, setLoadBotao] = useState(false)
   const [loading, setLoading] = useState(true)
 
 
@@ -136,7 +135,6 @@ export function LojaProvider({ children }) {
       credenciais,
       autenticado,
       loading,
-      loadBotao,
       signIn,
       signOut,
     }}>

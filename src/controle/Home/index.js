@@ -1,9 +1,9 @@
 import React, { useContext, useState, useCallback } from 'react';
-import { View, FlatList, Text, ActivityIndicator, ToastAndroid, ScrollView, TouchableOpacity,RefreshControl, } from 'react-native';
+import { View, FlatList, Text, ActivityIndicator, ToastAndroid, ScrollView, TouchableOpacity, RefreshControl, } from 'react-native';
 import { BtnMais } from './styles'
-import { BtnIcone, TextBtn } from '../../styles'
+import { BtnIcone } from '../../styles'
 
-import { useNavigation, useTheme,useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 
 import { LojaContext } from '../../contexts/lojaContext';
 import ImageResizer from '@bam.tech/react-native-image-resizer';
@@ -27,10 +27,10 @@ export default function HomeControle() {
   const [load, setLoad] = useState(false)
 
   useFocusEffect(
-    useCallback(() =>{
+    useCallback(() => {
       onRefresh()
 
-    },[])
+    }, [])
   )
 
 
@@ -112,7 +112,7 @@ export default function HomeControle() {
 
     const formData = new FormData()
 
-    formData.append('logo', {
+    formData.append('avatar', {
       uri: result.uri,
       type: 'image/jpeg', // ou 'image/png', dependendo do tipo de imagem
       name: result.name
@@ -142,8 +142,7 @@ export default function HomeControle() {
         backgroundColor: colors.tema,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 10,
-        height: 57,
+        height: 55,
         elevation: 5,
         zIndex: 999
       }}>
@@ -154,11 +153,23 @@ export default function HomeControle() {
           <Material name='menu' size={24} color={'#fff'} />
         </BtnIcone>
 
-        <TouchableOpacity onPress={() => {
-          Logo()
-        }}>
+        <TouchableOpacity
+          style={{
+            width: 55,
+            height: 55,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight:10
+          }}
+          onPress={() => {
+            Logo()
+          }}>
+          <Material name={'pencil-box'} size={18} color='#ECEFF1'
+            style={{ position: 'absolute', zIndex: 9, right:5, bottom:5 }} />
 
-          {load ? <ActivityIndicator color={'#fff'} /> : <Avatar DATA={loja} WIDTH={40} SIZE={14} />}
+          {load ?
+            <ActivityIndicator color={'#fff'} size={20} /> :
+            <Avatar DATA={loja} WIDTH={40} SIZE={14} />}
         </TouchableOpacity>
 
 
@@ -176,11 +187,7 @@ export default function HomeControle() {
           onPress={signOut}
           lado={'center'}
         >
-
-          <TextBtn
-            cor={'#fff'}>
-            Sair
-          </TextBtn>
+          <Material name='logout-variant' size={24} color={'#fff'} />
         </BtnIcone>
 
 
@@ -230,7 +237,7 @@ export default function HomeControle() {
           >
             <Text style={{
               textTransform: 'uppercase',
-              fontFamily: 'Roboto-Medium',
+              fontFamily: 'Roboto-Regular',
               fontSize: 13,
               color: '#fff',
             }}>{item.nome}</Text>
@@ -249,7 +256,7 @@ export default function HomeControle() {
       <CarrosselPaginas />
 
       <FlatList
-       
+
         data={loja?.produtos}
         contentContainerStyle={{ marginTop: 4 }}
         columnWrapperStyle={{ margin: 4 }}

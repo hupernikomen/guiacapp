@@ -1,4 +1,3 @@
-import {memo} from "react";
 import {
   Image,
   Text,
@@ -14,7 +13,7 @@ const WIDTH = Dimensions.get('window').width
 
 import { ProdutoContainer, ContainerInfo, Produto, TxtPreco } from "./styles";
 
-function ProdutoControle({ item }) {
+export default function ProdutoControle({ item }) {
 
   const navigation = useNavigation();
 
@@ -63,5 +62,3 @@ function ProdutoControle({ item }) {
     </ProdutoContainer>
   );
 }
-
-export default memo(ProdutoControle)

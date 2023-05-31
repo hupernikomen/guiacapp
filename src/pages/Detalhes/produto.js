@@ -89,12 +89,12 @@ export default function Detalhes() {
 
   function RenderItem({ data }) {
     return (
-      <Pinchable minimumZoomScale={1} maximumZoomScale={2.9}>
+      <Pinchable minimumZoomScale={.8} maximumZoomScale={2.9}>
         <Image
           source={{ uri: data.location }}
           style={{
             width: WIDTH,
-            aspectRatio: 3 / 4,
+            aspectRatio: 1,
             flex: 1,
             resizeMode: 'contain'
           }}

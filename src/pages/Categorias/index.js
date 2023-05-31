@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
-import ListaSubCategorias from '../../componentes/ListaSubCategorias';
-import api from '../../servicos/api';
-
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Produto from '../../componentes/Produtos/pdt-feed';
+
+import api from '../../servicos/api';
 
 export default function Categorias() {
 
@@ -40,14 +39,7 @@ export default function Categorias() {
   return (
 
     <FlatList
-    ListHeaderComponent={
-      <>
-        <ListaSubCategorias data={params.id}/>
-        {/* <CarrosselBanners/> */}
-        {/* {servico.length > 0 && <CarrosselServicos data={servico} />} */}
-      </>
 
-    }
       showsVerticalScrollIndicator={false}
       columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
       data={produtos}

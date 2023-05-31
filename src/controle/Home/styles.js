@@ -7,9 +7,9 @@ export const BtnMais = styled.TouchableOpacity`
     right: 20px;
     bottom:30px;
     background-color:${props => props.background};
-    width:50px;
-    height: 50px;
-    border-radius: 25px;
+    width:55px;
+    height: 55px;
+    border-radius: 30px;
     align-items: center;
     justify-content:center;
     elevation: 5

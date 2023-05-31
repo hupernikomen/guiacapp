@@ -1,5 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Dimensions, Alert, TouchableOpacity, PermissionsAndroid, ActivityIndicator } from 'react-native';
+import React, { useState, useContext } from 'react';
+import {
+  View,
+  Text,
+  Dimensions,
+  Alert,
+  TouchableOpacity,
+  PermissionsAndroid,
+  ActivityIndicator,
+  ToastAndroid
+} from 'react-native';
 
 const { width, height } = Dimensions.get("window")
 
@@ -11,7 +20,7 @@ import { LojaContext } from '../../contexts/lojaContext';
 
 import Geolocation from 'react-native-geolocation-service';
 
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function Mapa() {
@@ -21,9 +30,7 @@ export default function Mapa() {
   const [carregado, setCarregando] = useState(false)
 
   const [marker, setMarker] = useState(null)
-  const [location, setLocation] = useState(false);
 
-  const navigation = useNavigation()
   const { colors } = useTheme()
 
   // Function to get permission for location
@@ -71,11 +78,18 @@ export default function Mapa() {
         );
       }
     });
-    // console.log(location);
   };
 
 
-
+  const ToastOK = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
 
   const delta = {
     latitudeDelta: 0.0922,
@@ -131,15 +145,13 @@ export default function Mapa() {
           }
         },
       ])
-    }, 500);
+    }, 300);
   }
 
 
   async function SalvarLatlng(latitude, longitude) {
 
-
     const formData = new FormData()
-
 
     formData.append('latlng', JSON.stringify({ latitude, longitude }))
 
@@ -152,6 +164,7 @@ export default function Mapa() {
       .then(() => {
         CarregaLocUsuario()
         setCarregando(false)
+        ToastOK("Localização Registrada")
 
       })
       .catch((err) => {
@@ -160,54 +173,65 @@ export default function Mapa() {
       })
   }
 
-
-
-
   return (
     <View>
 
-
       <TouchableOpacity
-        activeOpacity={.7}
+activeOpacity={.8}
         onPress={getLocation}
         style={{
+          position: 'absolute',
+          zIndex: 99,
+          marginTop: 5,
+          backgroundColor: '#fff',
+          height: 60,
+          width: '97%',
+          alignSelf: "center",
           alignItems: 'center',
           justifyContent: 'center',
-          position: 'absolute',
-          zIndex: 9,
-          width: 58,
-          aspectRatio: 1,
-          backgroundColor: '#fff',
-          borderRadius: 58 / 2,
-          opacity: .8,
-          borderColor: '#fff',
-          borderWidth: 5,
-          right: 20,
-          top: 20,
-          elevation: 5
+          flexDirection: "row",
+          elevation: 5,
+          borderRadius: 6
         }}>
-        
-        {requestLocationPermission&& <View style={{
-          width: 8,
-          aspectRatio: 1,
-          backgroundColor: '#0066ff',
-          position: 'absolute',
-          borderRadius: 5
-        }} />}
 
-        {carregado ?
-          <ActivityIndicator size={22}color={'#0066ff'}/>
-          :
-          <Material name='crosshairs' size={25} color={'#0066ff'} />
-        }
+        <Text style={{ color: '#000', fontFamily: 'Roboto-Regular', fontSize: 15 }}>Capturar localização automaticamente</Text>
+        <View
+          activeOpacity={.7}
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 58,
+            borderRadius: 58 / 2,
+            opacity: .8,
+          }}>
+
+          {requestLocationPermission && <View style={{
+            width: 8,
+            aspectRatio: 1,
+            backgroundColor: '#0066ff',
+            position: 'absolute',
+            borderRadius: 5
+          }} />}
+
+          {carregado ?
+            <ActivityIndicator size={22} color={'#0066ff'} />
+            :
+            <Material name='crosshairs' size={25} color={'#0066ff'} />
+          }
 
 
+        </View>
       </TouchableOpacity>
+      <View style={{ marginTop: 70, backgroundColor: '#fff', zIndex: 9, width: '100%', padding: 5, opacity: .8, position: 'absolute' }}>
+        <Text style={{ alignSelf: 'center', color: '#000', fontFamily: 'Roboto-Regular' }}>Ou selecione no mapa sua localização com um toque</Text>
+      </View>
+
+
 
       <MapView
         onMapReady={CarregaLocUsuario} // função chamada quando todo omapa esta carregado
-        maxZoomLevel={18}
-        minZoomLevel={11}
+        maxZoomLevel={20}
+        minZoomLevel={12}
         onPress={CapturaLatLng}
         style={{ width, height }}
         region={region}

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Switch, ScrollView, ToastAndroid } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
-import { useTheme, useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 
 import api from '../../servicos/api';
 
@@ -12,27 +12,16 @@ import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } fro
 
 export default function CadastrarDados() {
     const { colors } = useTheme()
-    const route = useRoute()
-    const navigation = useNavigation()
-
-    const focus = useIsFocused()
 
     const { credenciais } = useContext(LojaContext)
 
-    const [nome, setNome] = useState('')
-    const [endereco, setEndereco] = useState('')
-    const [bairro, setBairro] = useState('')
-    const [referencia, setReferencia] = useState('')
-    const [bio, setBio] = useState('')
-    const [entrega, setEntrega] = useState(false)
-
+    const [loja, setLoja] = useState({})
 
     useEffect(() => {
         BuscaLoja()
     }, [])
 
-
-    const toggleSwitch = () => setEntrega(previousState => !previousState);
+    const toggleSwitch = (e) => setLoja({ ...loja, entrega: e });
 
     async function BuscaLoja() {
         const headers = {
@@ -41,41 +30,23 @@ export default function CadastrarDados() {
         }
         await api.get(`/me?lojaID=${credenciais.id}`, { headers })
             .then((response) => {
-                const { nome, endereco, bairro, referencia, bio, entrega } = response.data
 
-                const booEntrega = entrega == "true"
+                setLoja(response.data)
 
-                setNome(nome)
-                setEndereco(endereco)
-                setBairro(bairro)
-                setReferencia(referencia)
-                setBio(bio)
-                setEntrega(booEntrega)
             })
             .catch((error) => {
                 ToastErro(error.status)
             })
-
     }
-
 
     async function Atualizar() {
 
-        const formData = new FormData()
-
-        formData.append('nome', nome)
-        formData.append('endereco', endereco)
-        formData.append('bairro', bairro)
-        formData.append('referencia', referencia)
-        formData.append('bio', bio)
-        formData.append('entrega', entrega)
-
         const headers = {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${credenciais.token}`
         }
 
-        await api.put(`/loja?lojaID=${credenciais.id}`, formData, { headers })
+        await api.put(`/loja?lojaID=${credenciais.id}`, loja, { headers })
             .then(() => {
                 ToastAtualizaDados()
             })
@@ -108,8 +79,8 @@ export default function CadastrarDados() {
 
                     <Input
 
-                        value={nome}
-                        onChangeText={setNome}
+                        value={loja.nome}
+                        onChangeText={(e) => setLoja({ ...loja, nome: e })}
                         maxLength={25} />
                 </ContainerInput>
 
@@ -121,8 +92,8 @@ export default function CadastrarDados() {
                     <Input
                         multiline numberOfLines={0}
                         verticalAlign={'top'}
-                        onChangeText={setEndereco}
-                        value={endereco}
+                        onChangeText={(e) => setLoja({ ...loja, endereco: e })}
+                        value={loja.endereco}
                         maxLength={50} />
                 </ContainerInput>
 
@@ -132,8 +103,8 @@ export default function CadastrarDados() {
                     </TituloInput>
 
                     <Input
-                        onChangeText={setBairro}
-                        value={bairro}
+                        onChangeText={(e) => setLoja({ ...loja, bairro: e })}
+                        value={loja.bairro}
                         maxLength={40} />
                 </ContainerInput>
 
@@ -143,8 +114,8 @@ export default function CadastrarDados() {
                     </TituloInput>
 
                     <Input
-                        onChangeText={setReferencia}
-                        value={referencia}
+                        onChangeText={(e) => setLoja({ ...loja, referencia: e })}
+                        value={loja.referencia}
                         maxLength={40} />
                 </ContainerInput>
 
@@ -158,12 +129,12 @@ export default function CadastrarDados() {
                         multiline numberOfLines={0}
                         verticalAlign={'top'}
                         maxLength={200}
-                        onChangeText={setBio}
-                        value={bio}
+                        onChangeText={(e) => setLoja({ ...loja, bio: e })}
+                        value={loja.bio}
                     />
                     <Text
                         style={{ alignSelf: "flex-end", marginRight: 15 }}>
-                        {bio?.length || '0'}/200
+                        {loja.bio?.length || '0'}/200
                     </Text>
 
                 </ContainerInput>
@@ -172,15 +143,15 @@ export default function CadastrarDados() {
                 <View style={{ marginVertical: 30, flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
 
                     <Text
-                        style={{ color: '#222', fontFamily: "Roboto-Regular", fontSize: 16, marginLeft:25 }}>
+                        style={{ color: '#222', fontFamily: "Roboto-Regular", fontSize: 16, marginLeft: 25 }}>
                         Entregas
                     </Text>
 
                     <Switch
                         trackColor={{ false: '#767577', true: '#ddd' }}
-                        thumbColor={entrega ? colors.tema : '#f4f3f4'}
+                        thumbColor={loja.entrega ? colors.tema : '#f4f3f4'}
                         onValueChange={toggleSwitch}
-                        value={Boolean(entrega)}
+                        value={loja.entrega}
                     />
                 </View>
 
