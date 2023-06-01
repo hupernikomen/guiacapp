@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { View, Text, Pressable, FlatList, Alert } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { LojaContext } from '../../contexts/lojaContext';
 
-import { useTheme, useNavigation } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 
 import api from '../../servicos/api';
 
@@ -122,11 +122,11 @@ export default function Vendedores() {
             <Text numberOfLines={1} style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>{data.nome}</Text>
             <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Setor: {data.setor}</Text>
           </View>
-          <TouchableOpacity
+          <Pressable
             style={{ padding: 10 }}
             onPress={() => Excluir(data.id)}>
             <Material name='trash-can-outline' size={24} color={colors.tema} />
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     )

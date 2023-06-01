@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, View, Text, Image, TouchableOpacity, Linking } from 'react-native';
+import { FlatList, View, Text, Pressable, Linking } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -24,7 +24,7 @@ export default function Vendedores() {
 
     function RenderItem({ data }) {
         return (
-            <TouchableOpacity
+            <Pressable
                 onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${data.whatsapp}`)}>
 
                 <View style={{
@@ -45,7 +45,7 @@ export default function Vendedores() {
 
                     <Material name='whatsapp' size={28} color='#000' />
                 </View>
-            </TouchableOpacity>
+            </Pressable>
         )
     }
 

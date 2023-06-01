@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, Text, FlatList, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, FlatList } from 'react-native';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 import api from '../../servicos/api';
@@ -38,8 +38,6 @@ export default function ListaCategorias() {
     const RenderItem = ({ item }) => {
         if (item._count.produto === 0) return
 
-
-
         return (
             <TouchableOpacity
                 onPress={() => navigation.navigate("Categorias", item)}
@@ -47,7 +45,7 @@ export default function ListaCategorias() {
                 style={{
                     height: 50,
                     justifyContent: 'center',
-                    paddingHorizontal: 15,
+                    paddingHorizontal: 10,
                 }}>
                 <Text style={{
                     textTransform: 'uppercase',
@@ -58,15 +56,6 @@ export default function ListaCategorias() {
                     {item.nome}
                 </Text>
 
-                <View style={{
-                    position: 'absolute',
-                    right: 5,
-                    top: 10
-                }}>
-
-                </View>
-
-
             </TouchableOpacity>
         )
     }
@@ -75,6 +64,7 @@ export default function ListaCategorias() {
 
     return (
         <FlatList
+            contentContainerStyle={{ marginHorizontal: 5 }}
             style={{ backgroundColor: colors.tema }}
             horizontal
             showsHorizontalScrollIndicator={false}

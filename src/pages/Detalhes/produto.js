@@ -96,7 +96,6 @@ export default function Detalhes() {
             width: WIDTH,
             aspectRatio: 1,
             flex: 1,
-            resizeMode: 'contain'
           }}
         />
 

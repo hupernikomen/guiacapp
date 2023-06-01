@@ -3,14 +3,14 @@ import MapView, { Marker } from 'react-native-maps';
 
 import { useTheme } from '@react-navigation/native'
 
-export default function Maps({carrega,width, height, region, marker }) {
+export default function Maps({carrega,width, height, region, marker, zoom }) {
 
     const { colors } = useTheme()
     return (
         <MapView
             onMapReady={carrega} // função chamada quando todo omapa esta carregado
             maxZoomLevel={19}
-            minZoomLevel={11}
+            minZoomLevel={zoom}// colocar 16 para Page Loja - 11
             style={{ width, height }}
             region={region}>
             {marker &&

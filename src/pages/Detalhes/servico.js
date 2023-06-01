@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, Linking, StyleSheet } from 'react-native';
+import { View, Text, Image, Dimensions, Pressable, Linking, StyleSheet } from 'react-native';
 
 import {
   useRoute,
@@ -39,7 +39,7 @@ export default function DetalheServico() {
           contentContainerStyle={{paddingHorizontal:6}}
             data={foto}
             renderItem={({item,index}) =>  
-            <TouchableOpacity
+            <Pressable
             key={index}
             onPress={() => setPreview(item.location)}
           >
@@ -48,7 +48,7 @@ export default function DetalheServico() {
               style={{ width: 70, height: 70, marginVertical: 4, marginHorizontal: 2, borderRadius: 4, resizeMode: 'contain' }}
               source={{ uri: item.location }}
             />
-          </TouchableOpacity>
+          </Pressable>
           }
           />
 
@@ -67,12 +67,12 @@ export default function DetalheServico() {
 
               {/* {aDomicilio && <Material name='moped' size={28} color='#000' />} */}
 
-              <TouchableOpacity
+              <Pressable
                 onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${telefone}`)}
                 style={{ padding: 5, backgroundColor: 'green', borderRadius: 4, marginLeft: 20 }}>
 
                 <Material name='whatsapp' size={28} color='#fff' />
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
 

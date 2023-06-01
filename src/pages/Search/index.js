@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { View, FlatList, ActivityIndicator, RefreshControl, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 

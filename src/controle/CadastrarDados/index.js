@@ -8,8 +8,6 @@ import api from '../../servicos/api';
 
 import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
 
-
-
 export default function CadastrarDados() {
     const { colors } = useTheme()
 
@@ -74,7 +72,7 @@ export default function CadastrarDados() {
 
                 <ContainerInput>
                     <TituloInput>
-                        Nome da Loja *
+                        Nome da Loja
                     </TituloInput>
 
                     <Input
@@ -86,7 +84,7 @@ export default function CadastrarDados() {
 
                 <ContainerInput>
                     <TituloInput>
-                        Endereço *
+                        Endereço
                     </TituloInput>
 
                     <Input
@@ -99,7 +97,7 @@ export default function CadastrarDados() {
 
                 <ContainerInput>
                     <TituloInput>
-                        Bairro *
+                        Bairro
                     </TituloInput>
 
                     <Input
@@ -110,7 +108,7 @@ export default function CadastrarDados() {
 
                 <ContainerInput>
                     <TituloInput>
-                        Ponto de Referencia *
+                        Ponto de Referencia
                     </TituloInput>
 
                     <Input
@@ -122,7 +120,7 @@ export default function CadastrarDados() {
 
                 <ContainerInput>
                     <TituloInput>
-                        Sobre... *
+                        Sobre
                     </TituloInput>
 
                     <Input

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, Pressable } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
 
@@ -7,11 +7,13 @@ import api from '../../servicos/api';
 
 import Material from "react-native-vector-icons/MaterialCommunityIcons"
 
+import Maps from '../../componentes/Maps';
+
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 
 import Avatar from '../../componentes/Avatar';
 
-import { BtnIcone } from '../../styles'
+import { BtnIcone, BtnCanto } from '../../styles'
 
 export default function Loja() {
 
@@ -21,7 +23,17 @@ export default function Loja() {
 
     const [loja, setLoja] = useState([])
     const [load, setLoad] = useState(false)
+    const [marker, setMarker] = useState(null)
 
+    const delta = {
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+    }
+    const [region, setRegion] = useState({
+        latitude: -5.1036423,
+        longitude: -42.7516067,
+        ...delta
+    })
 
     useEffect(() => {
 
@@ -49,6 +61,11 @@ export default function Loja() {
         await api.get(`/loja?lojaID=${route.params}`)
             .then((response) => {
                 setLoja(response.data)
+
+                const { latitude, longitude } = JSON.parse(response.data?.latlng)
+
+                setRegion({ latitude: latitude, longitude: longitude, ...delta });
+                setMarker({ latitude: latitude, longitude: longitude });
                 setLoad(false)
             })
     }
@@ -79,25 +96,9 @@ export default function Loja() {
                         flex: 1,
                         fontFamily: 'Roboto-Medium',
                         fontSize: 20,
+                        marginLeft: 10,
                         color: '#fff',
                     }}>{loja.nome}</Text>
-
-                <>
-                    <BtnIcone
-                        lado={'center'}
-                        onPress={() => navigation.navigate("Vendedores", loja.id)}>
-                        <Material name='whatsapp' size={24} color='#fff' />
-                    </BtnIcone>
-
-                    {!!loja.latlng &&
-                        <BtnIcone
-                            lado={'center'}
-                            onPress={() => navigation.navigate("Mapa", loja.id)}>
-                            <Material name='google-maps' size={24} color='#fff' />
-                        </BtnIcone>
-                    }
-
-                </>
 
             </View>
         )
@@ -125,6 +126,7 @@ export default function Loja() {
     }
 
 
+
     return (
         <>
             <Header />
@@ -134,6 +136,24 @@ export default function Loja() {
                 columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
                 ListHeaderComponent={
                     <View>
+                        <Pressable
+                        style={{
+                            margin: 8,
+                            backgroundColor: '#fff',
+                            alignItems: "flex-start",
+                            elevation:1
+                        }}
+                            onPress={() => navigation.navigate("Mapa", loja.id)}
+                        >
+
+                            <Maps
+                                width={'100%'}
+                                height={120}
+                                region={region}
+                                marker={marker}
+                                zoom={16}
+                            />
+                        </Pressable>
                         {!!loja.bio && <Bio />}
                     </View>
                 }
@@ -141,6 +161,12 @@ export default function Loja() {
                 renderItem={({ item }) => <Produto item={item} />}
                 numColumns={2}
             />
+
+            <BtnCanto
+                background={colors.tema}
+                onPress={() => navigation.navigate("Vendedores", loja.id)}>
+                <Material name='whatsapp' size={26} color='#fff' />
+            </BtnCanto>
         </>
     );
 }

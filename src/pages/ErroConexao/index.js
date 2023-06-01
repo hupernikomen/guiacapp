@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
@@ -31,14 +31,14 @@ export default function ErroConexao() {
                 {`Humm...\n Parece que estamos sem internet`}
             </Text>
 
-            <TouchableOpacity
+            <Pressable
                 onPress={VerificaConexao}
             >
 
                 <Text style={styles.info2}>
                     Verifique sua conexão!
                 </Text>
-            </TouchableOpacity>
+            </Pressable>
 
         </View>
     );

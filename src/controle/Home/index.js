@@ -1,7 +1,6 @@
 import React, { useContext, useState, useCallback } from 'react';
-import { View, FlatList, Text, ActivityIndicator, ToastAndroid, ScrollView, TouchableOpacity, RefreshControl, } from 'react-native';
-import { BtnMais } from './styles'
-import { BtnIcone } from '../../styles'
+import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl, } from 'react-native';
+import { BtnIcone, BtnCanto } from '../../styles'
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 
@@ -153,24 +152,22 @@ export default function HomeControle() {
           <Material name='menu' size={24} color={'#fff'} />
         </BtnIcone>
 
-        <TouchableOpacity
+        <Pressable
           style={{
-            width: 55,
-            height: 55,
+            minWidth: 55,
+            width:55,
+            aspectRatio:1,
             alignItems: 'center',
             justifyContent: 'center',
-            marginRight:10
+            marginRight: 10
           }}
-          onPress={() => {
-            Logo()
-          }}>
+          onPress={Logo}>
           <Material name={'pencil-box'} size={18} color='#ECEFF1'
-            style={{ position: 'absolute', zIndex: 9, right:5, bottom:5 }} />
+            style={{ position: 'absolute', zIndex: 9, right: 5, bottom: 5 }} />
 
-          {load ?
-            <ActivityIndicator color={'#fff'} size={20} /> :
-            <Avatar DATA={loja} WIDTH={40} SIZE={14} />}
-        </TouchableOpacity>
+
+          <Avatar DATA={loja} WIDTH={40} SIZE={14} />
+        </Pressable>
 
 
         <Text
@@ -213,6 +210,8 @@ export default function HomeControle() {
       },
     ]
 
+
+
     return (
       <ScrollView
         horizontal
@@ -225,7 +224,7 @@ export default function HomeControle() {
       >
 
         {paginas.map((item, index) => (
-          <TouchableOpacity
+          <Pressable
             key={index}
             style={{
               justifyContent: 'center',
@@ -241,7 +240,7 @@ export default function HomeControle() {
               fontSize: 13,
               color: '#fff',
             }}>{item.nome}</Text>
-          </TouchableOpacity>
+          </Pressable>
         ))}
 
       </ScrollView>
@@ -273,12 +272,12 @@ export default function HomeControle() {
         }
       />
 
-      <BtnMais
+      <BtnCanto
         background={colors.tema}
         lado={'flex-end'}
         onPress={() => navigation.navigate("CadastrarProduto")}>
         <Material name='plus-thick' size={24} color='#fff' />
-      </BtnMais>
+      </BtnCanto>
 
     </>
   );

@@ -14,7 +14,7 @@ const MyTheme = {
   colors: {
     // tema: '#bd2828',
     tema: '#a82424',
-    tema_2: '#a82424',
+    link: '#0288D1',
     vartema: '#EDAA25',
     destaque: '#b38f00',
     background: '#f1f1f1',

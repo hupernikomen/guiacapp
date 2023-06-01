@@ -43,7 +43,7 @@ export default function ProdutoFeed({ item }) {
       onPress={() => navigation.navigate("DetalheProduto", { id: item.id })}
       activeOpacity={.9}>
 
-      {!!item.oferta && <Off valor={(((parseFloat(item.preco) - parseFloat(item.oferta)) / parseFloat(item.preco)) * 100).toFixed(0)} />}
+      {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
       <Image
         style={{ aspectRatio: 1 }}
         source={{ uri: item.imagens[0]?.location }} />
@@ -56,12 +56,12 @@ export default function ProdutoFeed({ item }) {
         </Produto>
 
         <TxtPreco>
-          {Preco(!!item.oferta ? parseFloat(item.oferta).toFixed(2) : parseFloat(item.preco).toFixed(2))} <Text style={{ fontFamily: 'Roboto-Light', fontSize: 13 }}>à vista</Text>
+          {Preco(!!item.oferta ? item.oferta.toFixed(2) : item.preco.toFixed(2))} <Text style={{ fontFamily: 'Roboto-Light', fontSize: 13 }}>à vista</Text>
         </TxtPreco>
 
         <ContainerLoja>
           {name !== "Loja" && <LojaNome numberOfLines={1} lineBreakMode="tail">{item.loja?.nome}</LojaNome>}
-          {Boolean(item.loja?.entrega=="true") && <Delivery />}
+          {item.loja?.entrega && <Delivery />}
         </ContainerLoja>
 
       </ContainerInfo>

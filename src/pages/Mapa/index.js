@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 
@@ -66,7 +66,9 @@ export default function Mapa() {
                 width={width}
                 height={height}
                 region={region}
-                marker={marker} />
+                marker={marker}
+                zoom={11}
+                />
         </>
     );
 }

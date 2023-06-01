@@ -1,11 +1,8 @@
 import React, { useContext } from 'react';
-import { Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import HomeStack from './stacks';
 import Servicos from '../pages/Servicos';
-import Lojas from '../pages/Lojas';
-import Anuncie from '../pages/Anuncie';
 import Signin from '../pages/Signin'
 
 import StackControle from '../rotas/stacksControle'
@@ -17,7 +14,6 @@ import { useTheme } from '@react-navigation/native';
 
 import { LojaContext } from '../contexts/lojaContext';
 
-import { BtnIcone, TextBtn } from '../styles';
 
 const Drawer = createDrawerNavigator()
 
@@ -31,14 +27,11 @@ export default function Rotas() {
     <Drawer.Navigator
 
       drawerContent={DrawerCustom}
-
-
-
       initialRouteName='HomeScreen'
       screenOptions={{
         headerShown: false,
         unmountOnBlur: true,
-        swipeEdgeWidth: 130,
+        swipeEdgeWidth: 60,
         headerStyle: {
           backgroundColor: colors.tema
         },
@@ -66,11 +59,8 @@ export default function Rotas() {
 
         :
         <>
-          <Drawer.Screen name='HomeScreen' component={HomeStack} options={{ title: 'Feed' }} />
-          <Drawer.Screen name='Lojas' component={Lojas} options={{ title: "Lojas Parceiras" }} />
-          <Drawer.Screen name='Servicos' component={Servicos} options={{ title: 'Serviços Profissionais' }} />
-
           <Drawer.Screen name='Signin' component={Signin} options={{ title: 'Login' }} />
+          <Drawer.Screen name='HomeScreen' component={HomeStack} options={{ title: 'Feed' }} />
         </>
       }
 

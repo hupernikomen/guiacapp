@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   Alert,
-  TouchableOpacity,
   Pressable,
   Modal,
   FlatList,
@@ -246,10 +245,10 @@ export default function EditaProduto() {
               renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
             />
 
-            <TouchableOpacity
+            <Pressable
               onPress={() => setModalVisible(true)}>
               <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{produto.tamanho?.length > 0 ? 'Editar' : 'Inserir'}</Text>
-            </TouchableOpacity>
+            </Pressable>
           </SimulaInput>
 
 
@@ -280,12 +279,12 @@ export default function EditaProduto() {
 
         <View style={{ flex: 1 }}>
 
-          <TouchableOpacity
+          <Pressable
             activeOpacity={1}
             onPress={() => setModalVisible(false)}
             style={{ flex: 1, backgroundColor: '#00000070' }}>
 
-          </TouchableOpacity>
+          </Pressable>
 
           <View style={{ backgroundColor: "#fff" }}>
 

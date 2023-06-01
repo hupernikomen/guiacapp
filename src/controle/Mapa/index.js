@@ -4,7 +4,7 @@ import {
   Text,
   Dimensions,
   Alert,
-  TouchableOpacity,
+  Pressable,
   PermissionsAndroid,
   ActivityIndicator,
   ToastAndroid
@@ -176,7 +176,7 @@ export default function Mapa() {
   return (
     <View>
 
-      <TouchableOpacity
+      <Pressable
 activeOpacity={.8}
         onPress={getLocation}
         style={{
@@ -221,7 +221,7 @@ activeOpacity={.8}
 
 
         </View>
-      </TouchableOpacity>
+      </Pressable>
       <View style={{ marginTop: 70, backgroundColor: '#fff', zIndex: 9, width: '100%', padding: 5, opacity: .8, position: 'absolute' }}>
         <Text style={{ alignSelf: 'center', color: '#000', fontFamily: 'Roboto-Regular' }}>Ou selecione no mapa sua localização com um toque</Text>
       </View>

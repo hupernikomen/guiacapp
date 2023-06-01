@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, FlatList, Pressable, StyleSheet, Image } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../../servicos/api';
@@ -61,7 +61,7 @@ export default function Servicos() {
 
   const RenderItem = ({ data }) => {
     return (
-      <TouchableOpacity
+      <Pressable
         activeOpacity={.9}
         onPress={() => navigation.navigate("DetalheServico", data)}
         style={styles.card}>
@@ -95,54 +95,17 @@ export default function Servicos() {
 
         </View>
 
-      </TouchableOpacity>
-    )
-  }
-
-
-  function Header() {
-    return (
-      <View style={{
-        backgroundColor: colors.tema,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        height: 57,
-      }}>
-
-        <BtnIcone
-          lado={'center'}
-          onPress={() => navigation.goBack()}>
-          <Material name='arrow-left' size={24} color='#fff' />
-        </BtnIcone>
-
-
-        <Text
-          numberOfLines={1}
-          style={{
-            flex: 1,
-            marginLeft: 15,
-            fontFamily: 'Roboto-Medium',
-            fontSize: 20,
-            color: '#fff',
-          }}>Profissionais</Text>
-
-
-      </View>
-
+      </Pressable>
     )
   }
 
 
   return (
-    <>
-      <Header />
       <FlatList
         showsVerticalScrollIndicator={false}
         data={busca ? servicos : listaServicos}
         renderItem={({ item }) => <RenderItem data={item} />}
       />
-    </>
   );
 }
 

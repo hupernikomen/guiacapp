@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import {
     View,
     Text,
-    StyleSheet,
     TouchableOpacity,
     ScrollView,
     Image,
@@ -12,7 +11,7 @@ import {
     Pressable,
     Alert,
     Dimensions,
-    FlatList
+    FlatList,
 } from 'react-native'
 
 
@@ -23,7 +22,7 @@ import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 import { LojaContext } from "../../contexts/lojaContext"
 import { ProdutoContext } from "../../contexts/produtoContext";
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker';
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -32,13 +31,14 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 const { width } = Dimensions.get('window')
 
 export default function CadastrarProduto() {
-    const { colors } = useTheme()
     const navigation = useNavigation()
+
+    const { colors } = useTheme()
     const { credenciais } = useContext(LojaContext)
     const { arrTamanhos } = useContext(ProdutoContext)
 
-    const [carregamento, setCarregamento] = useState(false)
-
+    const [load, setLoad] = useState(false)
+    const [listaCategorias, setListaCategorias] = useState([])
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -49,9 +49,7 @@ export default function CadastrarProduto() {
     const [descricao, setDescricao] = useState("")
     const [categoria, setCategoria] = useState("")
     const [tamanho, setTamanho] = useState([])
-    const [listaCategorias, setListaCategorias] = useState([])
 
-    const [listaTams, setListaTams] = useState(arrTamanhos)
 
     useEffect(() => {
         CarregaCategorias()
@@ -92,10 +90,9 @@ export default function CadastrarProduto() {
 
     async function Postar() {
 
-        setCarregamento(true)
 
         if (nome == "" || descricao == "" || preco == "" || categoria == "" || preview.length == 0) {
-            Alert.alert("Campos obrigatórios... *", !nome && "Produto" || !preco && "Preco" || !descricao && "Descricao" || !categoria && "Categoria" || preview.length == 0 && "Imagens")
+            Toast(`Campo obrigatório: ${!nome && "Produto" || !preco && "Preço" || !descricao && "Descrição" || !categoria && "Categoria" || preview.length == 0 && "Imagens"}`)
             return
         }
 
@@ -106,6 +103,7 @@ export default function CadastrarProduto() {
         formData.append('nome', nome)
         formData.append('descricao', descricao)
         formData.append('preco', preco)
+        formData.append('categoriaID', categoria)
 
         if (tamanho.length > 0) {
             for (let i = 0; i < tamanho.length; i++) {
@@ -123,29 +121,28 @@ export default function CadastrarProduto() {
                     'WEBP',
                     100,  //verificar a qualidade da foto e mudar se necessario
                 );
+                formData.append('files', {
+                    uri: result.uri,
+                    type: 'image/jpeg',
+                    name: result.name
+                });
+            }
+            catch (error) { Alert.alert('Não foi possivel redimensionar') } // Caso nao tenha sido possivel redimensionar imagem
 
-
-
-            } catch (error) { Alert.alert('Não foi possivel redimensionar') } // Caso nao tenha sido possivel redimensionar imagem
-
-            formData.append('files', {
-                uri: result.uri,
-                type: 'image/jpeg',
-                name: result.name
-            });
         }
 
-        formData.append('categoriaID', categoria)
+
+        setLoad(true)
 
         const headers = {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${credenciais.token}`
         }
-        await api.post(`/produto?lojaID=${credenciais.id}`, formData, { headers })
-            .then((response) => {
+        await api.post(`/produto`, formData, { headers })
+            .then(() => {
                 navigation.goBack()
-                ToastConfirmaPostagem()
-                setCarregamento(false)
+                Toast('Produto postado com sucesso!')
+                setLoad(false)
             })
 
             .catch((error) => {
@@ -171,25 +168,18 @@ export default function CadastrarProduto() {
                     borderWidth: response == -1 ? .5 : 0
                 }}
                 onPress={() => {
-                    if (response == -1) {
-                        setTamanho(itensTam => [...itensTam, data]);
-                    } else {
+                    setTamanho(response == -1 ? itensTam => [...itensTam, data] :
+                        tamanho.filter((item) => item != data))
 
-                        let response = tamanho.filter((item) => item != data)
-
-                        setTamanho(response);
-                        setListaTams(arrTamanhos) // Zera a lista
-
-                    }
                 }}>
                 <Text style={{ color: response == -1 ? "#000" : '#fff' }}>{data}</Text>
             </Pressable>
         )
     }
 
-    const ToastConfirmaPostagem = () => {
+    const Toast = (mensagem) => {
         ToastAndroid.showWithGravityAndOffset(
-            'Produto postado com sucesso!',
+            mensagem,
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,
@@ -198,59 +188,59 @@ export default function CadastrarProduto() {
     };
 
 
+
     return (
 
         <Tela>
-
-
             <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={styles.tela}>
+                showsVerticalScrollIndicator={false}>
+
                 <View style={{
-                    margin: 20,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: 'center',
+                    gap: 5,
+                    marginBottom:25,
                 }}>
+                    {preview.map((camera, index) => {
+                        if (index < 5) {
 
+                            return (
 
-                    <View style={{
-                        flexDirection: "row",
-                        justifyContent: "flex-start",
-                        alignItems: 'center',
-                        gap: 5
-                    }}>
-                        {preview.map((camera, index) => {
-                            if (index < 5) {
-
-                                return (
-
-                                    <Image
-                                        key={index}
-                                        style={{ width: 50, aspectRatio: 1 }}
-                                        source={{ uri: camera.uri }} />
-                                )
-                            }
-                        })}
-
-                        {preview.length < 5 &&
-                            <>
-                                <TouchableOpacity
-                                    style={{ padding: 10 }}
-                                    onPress={() => CapturarImagem(launchImageLibrary)}>
-                                    <Material name='image-outline' size={32} color='#000' />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={{ padding: 10 }}
-                                    onPress={() => CapturarImagem(launchCamera)}>
-                                    <Material name='camera-outline' size={32} color='#000' />
-                                </TouchableOpacity>
-                            </>
+                                <Image
+                                    key={index}
+                                    style={{ width: 50, aspectRatio: 1,borderRadius:6 }}
+                                    source={{ uri: camera.uri }} />
+                            )
                         }
+                    })}
 
-                    </View>
 
 
                 </View>
+                {preview.length < 5 &&
 
+                    <ContainerInput>
+                        <TituloInput>
+                            Fotos do Produto
+                        </TituloInput>
 
+                            <View style={{ justifyContent:'center', flexWrap: 'wrap', flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
+                                <Pressable style={{ backgroundColor: '#dedede', marginHorizontal: 5, paddingHorizontal: 5 }}
+                                    onPress={() => CapturarImagem(launchCamera)}>
+                                    <Text style={{ color: colors.link }}>Tirar Foto</Text>
+                                </Pressable>
+                                <Text>ou</Text>
+                                <Pressable
+                                    onPress={() => CapturarImagem(launchImageLibrary)}
+                                    style={{ backgroundColor: '#ddd', marginHorizontal: 5, paddingHorizontal: 5 }}>
+                                    <Text style={{ color: colors.link }}>Escolher de minhas imagens</Text>
+                                </Pressable>
+                            </View>
+
+                    </ContainerInput>
+
+                }
 
                 <ContainerInput>
                     <TituloInput>
@@ -296,11 +286,14 @@ export default function CadastrarProduto() {
 
                 </ContainerInput>
 
-
-
-
-
-                <View style={styles.picker}>
+                <View style={{
+                    borderWidth: .5,
+                    borderColor: "#333",
+                    borderRadius: 60 / 2,
+                    borderColor: "#777",
+                    marginVertical: 8,
+                    minHeight: 60
+                }}>
                     <TituloInput>
                         Categoria
                     </TituloInput>
@@ -330,14 +323,12 @@ export default function CadastrarProduto() {
                 </View>
 
 
-
                 <Modal
                     animationType="fade"
                     transparent={true}
                     visible={modalVisible}
                     statusBarTranslucent
                     onRequestClose={() => setModalVisible(false)}
-
                 >
 
                     <View style={{ flex: 1 }}>
@@ -352,7 +343,7 @@ export default function CadastrarProduto() {
                         <View style={{ backgroundColor: "#fff" }}>
 
                             <FlatList
-                                contentContainerStyle={{ padding:20, alignItems: 'center' }}
+                                contentContainerStyle={{ padding: 20, alignItems: 'center' }}
                                 numColumns={6}
                                 data={arrTamanhos}
                                 renderItem={({ item }) => <RenderItem data={item} />}
@@ -383,11 +374,11 @@ export default function CadastrarProduto() {
 
 
                 <BotaoPrincipal
-                    disabled={carregamento}
+                    disabled={load}
                     background={colors.tema}
                     activeOpacity={1}
                     onPress={Postar}>
-                    {carregamento ? <ActivityIndicator color='#fff' /> :
+                    {load ? <ActivityIndicator color='#fff' /> :
                         <TextBtn
                             cor={'#fff'}>
                             Postar
@@ -395,26 +386,9 @@ export default function CadastrarProduto() {
                     }
                 </BotaoPrincipal>
 
-                <View style={{ marginVertical: 15 }} />
-
             </ScrollView>
         </Tela>
 
 
     )
 }
-
-const styles = StyleSheet.create({
-
-    picker: {
-        borderWidth: .5,
-        borderColor: "#333",
-        borderRadius: 60 / 2,
-        borderColor: "#777",
-        marginVertical: 8,
-        minHeight:60
-
-    },
-
-})
-
