@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
+import { Dimensions } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import HomeStack from './stacks';
-import Servicos from '../pages/Servicos';
 import Signin from '../pages/Signin'
 
 import StackControle from '../rotas/stacksControle'
-
 
 import DrawerCustom from '../componentes/DrawerCustom';
 
@@ -14,10 +13,10 @@ import { useTheme } from '@react-navigation/native';
 
 import { LojaContext } from '../contexts/lojaContext';
 
-
 const Drawer = createDrawerNavigator()
 
 export default function Rotas() {
+  const  WIDTH = Dimensions.get('window').width
 
   const { colors } = useTheme()
 
@@ -31,13 +30,13 @@ export default function Rotas() {
       screenOptions={{
         headerShown: false,
         unmountOnBlur: true,
-        swipeEdgeWidth: 60,
         headerStyle: {
           backgroundColor: colors.tema
         },
         headerTintColor: '#fff',
 
         drawerStyle: {
+          width: WIDTH - 55,
           backgroundColor: colors.tema
         },
         drawerActiveTintColor: '#fff',

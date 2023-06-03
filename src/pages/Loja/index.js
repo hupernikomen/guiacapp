@@ -110,7 +110,7 @@ export default function Loja() {
         return (
             <View style={{
                 margin: 8,
-                backgroundColor: '#fff',
+                backgroundColor: colors.tema,
                 padding: 15,
                 alignItems: "flex-start",
                 gap: 15,
@@ -118,8 +118,8 @@ export default function Loja() {
             }}>
 
                 <View>
-                    <Text style={{ fontFamily: 'Roboto-Medium', color: '#000', fontSize: 18 }}>Sobre nós</Text>
-                    <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>{loja.bio}</Text>
+                    <Text style={{ fontFamily: 'Roboto-Medium', color: '#fff', fontSize: 18 }}>Sobre nós</Text>
+                    <Text style={{ fontFamily: 'Roboto-Light', color: '#fff' }}>{loja.bio}</Text>
                 </View>
             </View>
         )
@@ -136,6 +136,8 @@ export default function Loja() {
                 columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
                 ListHeaderComponent={
                     <View>
+                        {!!loja.bio && <Bio />}
+
                         <Pressable
                         style={{
                             margin: 8,
@@ -154,7 +156,6 @@ export default function Loja() {
                                 zoom={16}
                             />
                         </Pressable>
-                        {!!loja.bio && <Bio />}
                     </View>
                 }
                 data={loja.produtos}

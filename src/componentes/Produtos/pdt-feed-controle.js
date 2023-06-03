@@ -20,13 +20,15 @@ export default function ProdutoControle({ item }) {
   function Preco(preco) {
     if (!preco) return
 
-    const [valueFormattedWithSymbol] = formatCurrency({ amount: preco, code: 'BRL' });
+    const precoFormatado = parseFloat(preco).toFixed(2)
+
+    const [valueFormattedWithSymbol] = formatCurrency({ amount: precoFormatado, code: 'BRL' });
     return valueFormattedWithSymbol
   }
 
 
   function Capitalize(nome) {
-    novonome = nome.toLowerCase().split(" ")
+    novonome = nome.trim().toLowerCase().split(" ")
 
     for (let i = 0; i < novonome.length; i++) {
       novonome[i] = novonome[i][0].toUpperCase() + novonome[i].substr(1);
@@ -42,7 +44,7 @@ export default function ProdutoControle({ item }) {
       onPress={() => navigation.navigate("EditaProduto", item )}
       activeOpacity={.9}>
 
-      {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100).toFixed(0)} />}
+      {!!item.oferta && <Off valor={(((item.preco - item.oferta) / item.preco) * 100)} />}
       <Image
         style={{ aspectRatio: 1 }}
         source={{ uri: item.imagens[0].location }} />
@@ -55,7 +57,7 @@ export default function ProdutoControle({ item }) {
         </Produto>
 
         <TxtPreco>
-        {Preco(!!item.oferta ? item.oferta.toFixed(2) : item.preco.toFixed(2))} <Text style={{ fontFamily: 'Roboto-Light', fontSize: 13 }}>à vista</Text>
+        {Preco(!!item.oferta ? item.oferta : item.preco)} <Text style={{ fontFamily: 'Roboto-Light', fontSize: 13 }}>à vista</Text>
         </TxtPreco>
       </ContainerInfo>
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FlatList, RefreshControl, Text, View, ActivityIndicator } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { BtnIcone } from '../../styles'
 
 import Produto from '../../componentes/Produtos/pdt-feed';
@@ -8,11 +8,12 @@ import ListaCategorias from '../../componentes/ListaCategorias';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useNavigation, useTheme } from '@react-navigation/native'
-// import CarrosselServicos from '../../componentes/CarrosselServicos';
-// import CarrosselBanners from '../../componentes/CarrosselBanners';
+import CarrosselServicos from '../../componentes/CarrosselServicos';
+import CarrosselBanners from '../../componentes/CarrosselBanners';
 
 
 import api from '../../servicos/api';
+import Load from '../../componentes/Load';
 
 export default function Home() {
   const navigation = useNavigation()
@@ -22,8 +23,6 @@ export default function Home() {
   const [produtos, setProdutos] = useState([])
   // const [servico, setServico] = useState([])
 
-  console.log("Render Home");
-
   useEffect(() => {
     onRefresh()
 
@@ -32,16 +31,7 @@ export default function Home() {
 
 
   if (load) {
-    return (
-      <View style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-
-        <ActivityIndicator size={40} color={colors.tema} />
-      </View>
-    )
+    return <Load/>
   }
 
   const onRefresh = () => {
@@ -128,6 +118,8 @@ export default function Home() {
             {/* {servico.length > 0 && <CarrosselServicos data={servico} />} */}
           </>
         }
+        stickyHeaderHiddenOnScroll={true}
+        stickyHeaderIndices={[0]}
         data={produtos}
         renderItem={({ item }) => <Produto item={item} />}
         numColumns={2}

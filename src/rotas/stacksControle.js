@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import CadastrarProduto from '../controle/CadastrarProduto';

@@ -5,41 +5,38 @@ color: #000
 `
 
 
-export const ContainerLoja = styled.View`
+export const ContainerLoja = styled.Pressable`
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    height: 40px;
-    margin-bottom:10px
+    height: 50px;
+
 `
 export const NomeLoja = styled(Texto)`
     font-family: Roboto-Regular;
-    margin-left:10px
 `
 export const ProdutoNome = styled(Texto)`
     font-size: 22px;
     font-family: Roboto-Bold;
-    margin-bottom: 10px;
     text-transform: uppercase
 
 `
 export const ContainerPreco = styled.View`
     flex-direction: row;
     align-items: baseline;
-    margin-bottom: 20px
+    margin-vertical: 15px
 `
 export const TxtPreco = styled(Texto)`
-    font-family: Roboto-Bold
-    font-size: 24px;
-    margin-right: 10px
+    font-family: Roboto-Bold;
+    font-size: 26px;
+    margin-top:-5px
 `
 export const TxtPrecoAntigo = styled(Texto)`
     font-family: Roboto-Light;
     text-decoration-line: line-through
 `
-export const BtnIconeLoja = styled.TouchableOpacity`
-    align-items: ${props => props.lado};
-    height: 50px;
-    justify-content: center;
-    margin-left: 30px
+
+export const TextoAvista = styled(Texto)`
+    font-family: Roboto-Regular;
+    font-size:16px;
 `

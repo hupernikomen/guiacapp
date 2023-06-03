@@ -12,13 +12,11 @@ const MyTheme = {
   dark: true,
   ...DefaultTheme,
   colors: {
-    // tema: '#bd2828',
     tema: '#a82424',
     link: '#0288D1',
     vartema: '#EDAA25',
-    destaque: '#b38f00',
+    destaque: '#00838F',
     background: '#f1f1f1',
-    card: '#fff',
   }
 };
 

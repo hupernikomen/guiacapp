@@ -32,7 +32,7 @@ export default function Off({ valor }) {
                     color: '#fff',
                     marginTop:2
                 }}>
-                    {valor + '%'}
+                    {parseFloat(valor).toFixed(0) + '%'}
                 </Text>
                 <Text style={{
                     fontFamily: "Roboto-Regular",

@@ -2,13 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import {
     View,
     Text,
-    TouchableOpacity,
+    Pressable,
     ScrollView,
     Image,
     Modal,
     ActivityIndicator,
     ToastAndroid,
-    Pressable,
     Alert,
     Dimensions,
     FlatList,
@@ -25,8 +24,6 @@ import { ProdutoContext } from "../../contexts/produtoContext";
 import { launchCamera, launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker';
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
-
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const { width } = Dimensions.get('window')
 
@@ -116,9 +113,9 @@ export default function CadastrarProduto() {
             try {
                 var result = await ImageResizer.createResizedImage(
                     preview[i].uri,
+                    800,
                     1000,
-                    1000,
-                    'WEBP',
+                    'JPEG',
                     100,  //verificar a qualidade da foto e mudar se necessario
                 );
                 formData.append('files', {
@@ -147,6 +144,8 @@ export default function CadastrarProduto() {
 
             .catch((error) => {
                 console.log("error from image :", error.response)
+                Toast('Ops.. Algo, deu errado!')
+                setLoad(false)
             })
     }
 
@@ -200,7 +199,7 @@ export default function CadastrarProduto() {
                     justifyContent: "center",
                     alignItems: 'center',
                     gap: 5,
-                    marginBottom:25,
+                    marginBottom: 25,
                 }}>
                     {preview.map((camera, index) => {
                         if (index < 5) {
@@ -209,7 +208,7 @@ export default function CadastrarProduto() {
 
                                 <Image
                                     key={index}
-                                    style={{ width: 50, aspectRatio: 1,borderRadius:6 }}
+                                    style={{ width: 50, aspectRatio: 1, borderRadius: 6 }}
                                     source={{ uri: camera.uri }} />
                             )
                         }
@@ -225,18 +224,18 @@ export default function CadastrarProduto() {
                             Fotos do Produto
                         </TituloInput>
 
-                            <View style={{ justifyContent:'center', flexWrap: 'wrap', flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
-                                <Pressable style={{ backgroundColor: '#dedede', marginHorizontal: 5, paddingHorizontal: 5 }}
-                                    onPress={() => CapturarImagem(launchCamera)}>
-                                    <Text style={{ color: colors.link }}>Tirar Foto</Text>
-                                </Pressable>
-                                <Text>ou</Text>
-                                <Pressable
-                                    onPress={() => CapturarImagem(launchImageLibrary)}
-                                    style={{ backgroundColor: '#ddd', marginHorizontal: 5, paddingHorizontal: 5 }}>
-                                    <Text style={{ color: colors.link }}>Escolher de minhas imagens</Text>
-                                </Pressable>
-                            </View>
+                        <View style={{ justifyContent: 'center', flexWrap: 'wrap', flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
+                            <Pressable style={{ backgroundColor: '#dedede', marginHorizontal: 5, paddingHorizontal: 5 }}
+                                onPress={() => CapturarImagem(launchCamera)}>
+                                <Text style={{ color: colors.link }}>Tirar Foto</Text>
+                            </Pressable>
+                            <Text>ou</Text>
+                            <Pressable
+                                onPress={() => CapturarImagem(launchImageLibrary)}
+                                style={{ backgroundColor: '#ddd', marginHorizontal: 5, paddingHorizontal: 5 }}>
+                                <Text style={{ color: colors.link }}>Escolher de minhas imagens</Text>
+                            </Pressable>
+                        </View>
 
                     </ContainerInput>
 
@@ -257,7 +256,7 @@ export default function CadastrarProduto() {
                         Produto
                     </TituloInput>
                     <Input
-                        maxLength={50}
+                        maxLength={100}
                         onChangeText={setNome}
                         value={nome} />
                 </ContainerInput>
@@ -333,12 +332,12 @@ export default function CadastrarProduto() {
 
                     <View style={{ flex: 1 }}>
 
-                        <TouchableOpacity
+                        <Pressable
                             activeOpacity={1}
                             onPress={() => setModalVisible(false)}
                             style={{ flex: 1, backgroundColor: '#00000070' }}>
 
-                        </TouchableOpacity>
+                        </Pressable>
 
                         <View style={{ backgroundColor: "#fff" }}>
 
@@ -366,10 +365,10 @@ export default function CadastrarProduto() {
                         renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
                     />
 
-                    <TouchableOpacity
+                    <Pressable
                         onPress={() => setModalVisible(true)}>
                         <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{tamanho.length > 0 ? 'Editar' : 'Inserir'}</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                 </SimulaInput>
 
 

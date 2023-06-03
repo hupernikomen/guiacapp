@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Switch, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, Switch, ScrollView, ToastAndroid,ActivityIndicator } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
-import { useTheme } from '@react-navigation/native';
+import { useTheme,useNavigation } from '@react-navigation/native';
+import Load from '../../componentes/Load';
 
 import api from '../../servicos/api';
 
@@ -10,6 +11,9 @@ import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } fro
 
 export default function CadastrarDados() {
     const { colors } = useTheme()
+    const navigation = useNavigation()
+
+    const [load,setLoad] = useState(false)
 
     const { credenciais } = useContext(LojaContext)
 
@@ -21,7 +25,14 @@ export default function CadastrarDados() {
 
     const toggleSwitch = (e) => setLoja({ ...loja, entrega: e });
 
+    
+  if (load) {
+    return <Load/>
+  }
+
+
     async function BuscaLoja() {
+        setLoad(true)
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${credenciais.token}`
@@ -30,10 +41,13 @@ export default function CadastrarDados() {
             .then((response) => {
 
                 setLoja(response.data)
-
+                setLoad(false)
+                
             })
             .catch((error) => {
                 ToastErro(error.status)
+                setLoad(false)
+                navigation.goBack()
             })
     }
 

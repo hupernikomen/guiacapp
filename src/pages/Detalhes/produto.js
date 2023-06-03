@@ -7,14 +7,9 @@ import Pinchable from 'react-native-pinchable';
 
 import api from '../../servicos/api';
 
-
-import Share from "react-native-share";
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-
-import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo } from './styles'
-import { TextoPadrao, BtnIcone } from '../../styles';
-import { ActivityIndicator } from 'react-native-paper';
+import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo, TextoAvista } from './styles'
 import Avatar from '../../componentes/Avatar';
+import Load from '../../componentes/Load';
 
 
 export default function Detalhes() {
@@ -24,7 +19,6 @@ export default function Detalhes() {
   const navigation = useNavigation()
   const route = useRoute()
 
-  const { colors } = useTheme()
 
   const { width: WIDTH } = Dimensions.get('window')
 
@@ -34,6 +28,10 @@ export default function Detalhes() {
     PegaItem()
 
   }, [route])
+
+  if (load) {
+    return <Load />
+  }
 
   async function PegaItem() {
     setLoad(true)
@@ -46,44 +44,27 @@ export default function Detalhes() {
 
   }
 
+  function SizesFormatted(tams) {
+    const sizesDefault = ['PP', 'P', 'M', 'G', 'GG'];
+    const array = tams;
+  
+    array.sort((firstElement, secondElement) => {
+      const positionInDefaultA = sizesDefault.indexOf(firstElement);
+      const positionInDefaultB = sizesDefault.indexOf(secondElement);
+      return positionInDefaultA - positionInDefaultB;
+    });
+  
+    return array;
+  };
+
 
   function Preco(preco) {
     if (!preco) return
 
-    const [valueFormattedWithSymbol] = formatCurrency({ amount: preco, code: 'BRL' });
+    const precoFormatado = parseFloat(preco).toFixed(2)
+
+    const [valueFormattedWithSymbol] = formatCurrency({ amount: precoFormatado, code: 'BRL' });
     return valueFormattedWithSymbol
-  }
-
-
-  function Header() {
-    return (
-      <View style={{
-        width: '100%',
-        backgroundColor: colors.tema,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: "space-between",
-        paddingVertical: 10,
-        height: 55,
-        elevation: 5
-      }}>
-
-        <BtnIcone
-          lado={'center'}
-          onPress={() => navigation.goBack()}>
-          <Material name='arrow-left' size={24} color='#fff' />
-        </BtnIcone>
-
-        <BtnIcone
-          lado={'center'}
-          activeOpacity={.8}
-          onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
-
-          <Material name='storefront-outline' size={24} color='#fff' />
-        </BtnIcone>
-
-      </View>
-    )
   }
 
 
@@ -94,8 +75,8 @@ export default function Detalhes() {
           source={{ uri: data.location }}
           style={{
             width: WIDTH,
-            aspectRatio: 1,
             flex: 1,
+            resizeMode: 'contain',
           }}
         />
 
@@ -104,43 +85,10 @@ export default function Detalhes() {
     )
   }
 
-
-  const title = ""
-  const url = produto.loja && produto.imagens[0]?.location;
-  const message = produto.nome + " | " + String('*R$' + parseFloat(produto.preco).toFixed(2) + '*');
-
-  const options = {
-    title,
-    url,
-    message,
-  };
-
-  const share = async (customOptions = options) => {
-
-    try {
-      await Share.open(customOptions)
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  if (load) {
-    return (
-      <View style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-
-        <ActivityIndicator color={colors.tema} />
-      </View>
-    )
-  }
-
   return (
 
     <>
-      <Header />
+      {/* <Header /> */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
@@ -150,10 +98,9 @@ export default function Detalhes() {
 
 
         <FlatList
-          style={{ width: WIDTH, backgroundColor: '#f1f1f1', marginBottom: 10 }}
+          style={{ width: WIDTH, aspectRatio: 3 / 4, backgroundColor: '#f1f1f1', marginBottom: 10 }}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={WIDTH + 5}
-          ItemSeparatorComponent={<View style={{ width: 5 }} />}
+          pagingEnabled
           data={produto.imagens}
           horizontal
           renderItem={({ item }) => <RenderItem data={item} />}
@@ -164,57 +111,69 @@ export default function Detalhes() {
           paddingHorizontal: 20,
         }}>
 
-          <ContainerLoja>
-            <Avatar DATA={produto.loja} WIDTH={30} SIZE={12} />
-            <NomeLoja>{produto.loja?.nome}</NomeLoja>
 
-          </ContainerLoja>
+            <ContainerLoja
+            
+            onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
+              <Avatar DATA={produto.loja} WIDTH={30} SIZE={12} />
+    
+              <View style={{marginLeft:10}}>
+                <NomeLoja>{produto.loja?.nome}</NomeLoja>
+                <Text style={{fontSize:11,fontFamily:'Roboto-Light',color:'#000'}}>Acessar pagina da loja</Text>
+              </View>
+            </ContainerLoja>
 
+
+          <View style={{ position: 'relative', height: 20,marginTop:15 }}>
+            <Text style={{ borderRadius: 4, backgroundColor: '#000000', color: '#fff', paddingHorizontal: 10, paddingVertical: 2, fontSize: 10, position: 'absolute' }}>Black Friday</Text>
+          </View>
+
+          <Text style={{ fontFamily: 'Roboto-Light', color: '#000',marginTop:15 }}>Categoria: {produto.categoria?.nome}</Text>
           <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
-
 
           <ContainerPreco>
             {!!produto.oferta ?
               <View>
-                <TxtPrecoAntigo>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPrecoAntigo>
+                <TxtPrecoAntigo>{Preco(produto.preco)}</TxtPrecoAntigo>
 
-                <TxtPreco>{Preco(parseFloat(produto.oferta).toFixed(2))}</TxtPreco>
+                <TxtPreco>{Preco(produto.oferta)} <TextoAvista>à vista</TextoAvista></TxtPreco>
               </View>
               :
 
-              <TxtPreco>{Preco(parseFloat(produto.preco).toFixed(2))}</TxtPreco>
+              <TxtPreco>{Preco(produto.preco)} <TextoAvista>à vista</TextoAvista></TxtPreco>
             }
-            <TextoPadrao>à vista</TextoPadrao>
+
           </ContainerPreco>
 
-          <TextoPadrao>Categoria: {produto.categoria?.nome}</TextoPadrao>
 
-          <TextoPadrao>Tamanhos:</TextoPadrao>
-          <View style={{ flexDirection: 'row', marginVertical: 10 }}>
+          {produto.tamanho?.length > 0 && <View style={{ flexDirection: 'row' }}>
+
+            <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Tamanhos Disponiveis:</Text>
 
 
-            {produto.tamanho?.map((item, index) => {
+            {SizesFormatted(produto.tamanho)?.map((item, index) => {
               return (
 
                 <Text
                   key={index}
                   style={{
                     color: '#000',
-                    padding: 5,
-                    color: '#fff',
                     borderRadius: 6,
-                    marginRight: 5,
-                    backgroundColor: colors.vartema
+                    marginLeft: 5,
                   }}>
-                  {item}
+                  {index != 0 && '- '}{item}
                 </Text>
               )
             })}
-          </View>
+          </View>}
 
-          <TextoPadrao>
-            {produto.descricao}
-          </TextoPadrao>
+          <View style={{ marginTop: 15 }}>
+
+            <TextoAvista style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</TextoAvista>
+            <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>
+              {produto.descricao}
+            </Text>
+          </View>
 
 
         </View>

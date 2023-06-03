@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 
+
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 import { LojaContext } from "../../contexts/lojaContext"
 import { ProdutoContext } from '../../contexts/produtoContext';
@@ -42,7 +43,6 @@ export default function EditaProduto() {
   const { width } = Dimensions.get('window')
 
 
-  console.log('RENDER EDIÇÃO');
 
   useEffect(() => {
 
@@ -87,7 +87,7 @@ export default function EditaProduto() {
     await api.delete(`/produto?produtoID=${id}`, { headers })
       .then(() => {
         navigation.goBack()
-        ToastExcluiProduto()
+        Toast('Produto excluido com sucesso!')
       })
       .catch((error) => {
 
@@ -98,6 +98,12 @@ export default function EditaProduto() {
   async function Atualizar() {
     setLoad(true)
 
+    if (produto.oferta >= produto.preco) {
+      Toast("Oferta maior ou igual ao preço")
+      setLoad(false)
+      return
+    }
+
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
@@ -107,7 +113,7 @@ export default function EditaProduto() {
       .then(() => {
         setLoad(false)
         navigation.goBack()
-        ToastAtualizaProduto()
+        Toast('Atualizamos seu produto!')
       })
       .catch((error) => {
         setLoad(false)
@@ -149,9 +155,9 @@ export default function EditaProduto() {
     )
   }
 
-  const ToastExcluiProduto = () => {
+  const Toast = (mensagem) => {
     ToastAndroid.showWithGravityAndOffset(
-      'Produto excluido com sucesso!',
+      mensagem,
       ToastAndroid.LONG,
       ToastAndroid.BOTTOM,
       25,
@@ -159,15 +165,6 @@ export default function EditaProduto() {
     );
   };
 
-  const ToastAtualizaProduto = () => {
-    ToastAndroid.showWithGravityAndOffset(
-      'Atualizamos seu produto!',
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
 
 
 
@@ -215,7 +212,7 @@ export default function EditaProduto() {
           <Input
 
             editable={false}
-            value={parseFloat(produto.preco).toFixed(2).replace('.', ',')} />
+          value={produto.preco} />
         </ContainerInput>
 
         <ContainerInput>

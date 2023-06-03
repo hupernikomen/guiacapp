@@ -79,7 +79,7 @@ export default function Login() {
         background={'#fff'}
 
         activeOpacity={0.7}
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate("HomeScreen")}
       >
         <TextBtn cor={'#000'}>Sair</TextBtn>
 

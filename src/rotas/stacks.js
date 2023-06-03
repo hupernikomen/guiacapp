@@ -70,7 +70,6 @@ export default function RotasStack() {
         name='DetalheProduto'
         component={DetalheProduto}
         options={{
-          headerShown: false,
           title: "",
         }}
       />
