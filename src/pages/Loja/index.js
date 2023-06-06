@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, Pressable } from 'react-native';
+import { View, Text, FlatList, Pressable } from 'react-native';
 
 import Produto from '../../componentes/Produtos/pdt-feed';
 
@@ -14,6 +14,7 @@ import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 import Avatar from '../../componentes/Avatar';
 
 import { BtnIcone, BtnCanto } from '../../styles'
+import Load from '../../componentes/Load';
 
 export default function Loja() {
 
@@ -39,22 +40,15 @@ export default function Loja() {
 
         BuscaLoja()
 
+        console.log(loja.latlng);
+
 
     }, [])
 
 
     if (load) {
-        return (
-            <View style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-
-                <ActivityIndicator color={colors.tema} />
-            </View>
-        )
-    }
+        return <Load />
+      }
 
     async function BuscaLoja() {
         setLoad(true)
@@ -62,8 +56,13 @@ export default function Loja() {
             .then((response) => {
                 setLoja(response.data)
 
+                if(!response.data.latlng ) {
+                    setLoad(false)
+                    return
+                }
+                
                 const { latitude, longitude } = JSON.parse(response.data?.latlng)
-
+                
                 setRegion({ latitude: latitude, longitude: longitude, ...delta });
                 setMarker({ latitude: latitude, longitude: longitude });
                 setLoad(false)
@@ -78,6 +77,7 @@ export default function Loja() {
                 flexDirection: 'row',
                 alignItems: 'center',
                 paddingVertical: 10,
+                zIndex:999,
                 height: 55,
                 elevation: 5
             }}>
@@ -109,12 +109,10 @@ export default function Loja() {
     function Bio() {
         return (
             <View style={{
-                margin: 8,
                 backgroundColor: colors.tema,
                 padding: 15,
                 alignItems: "flex-start",
                 gap: 15,
-                borderRadius: 4
             }}>
 
                 <View>
@@ -138,7 +136,7 @@ export default function Loja() {
                     <View>
                         {!!loja.bio && <Bio />}
 
-                        <Pressable
+                        {loja.latlng && <Pressable
                         style={{
                             margin: 8,
                             backgroundColor: '#fff',
@@ -150,12 +148,12 @@ export default function Loja() {
 
                             <Maps
                                 width={'100%'}
-                                height={120}
+                                height={100}
                                 region={region}
                                 marker={marker}
                                 zoom={16}
                             />
-                        </Pressable>
+                        </Pressable>}
                     </View>
                 }
                 data={loja.produtos}

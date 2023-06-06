@@ -1,4 +1,5 @@
 import styled from 'styled-components/native'
+import CurrencyInput from 'react-native-currency-input';
 
 const Texto = styled.Text`
     color: #000
@@ -23,6 +24,17 @@ export const Input = styled.TextInput`
     padding-horizontal: 25px;
     color: #000;
     border-radius: 28px;
+`
+export const CurrencyInputs =styled(CurrencyInput)`
+font-size: 16px;
+font-family: Roboto-Regular;
+min-height: 55px;
+border-width: .5px;
+border-color: #777;
+padding-horizontal: 25px;
+color: #000;
+border-radius: 28px;
+
 `
 export const BtnCanto = styled.Pressable`
 
@@ -53,7 +65,7 @@ export const TituloInput = styled(Texto)`
 `
 export const SimulaInput = styled.View`
     justify-content: space-between;
-    margin-vertical: 8px;
+    margin-vertical: 10px;
     flex-direction: row;
     align-items:center;
     min-height: 55px;
@@ -62,7 +74,7 @@ export const SimulaInput = styled.View`
     border-color: #777;
     border-radius: 30px;
 `
-export const BotaoPrincipal = styled.TouchableOpacity`
+export const BotaoPrincipal = styled.Pressable`
     height: 55px;
     border-radius: 28px;
     align-items: center;
@@ -76,7 +88,7 @@ export const TextBtn = styled.Text`
     font-size: 16px;
     font-family: "Roboto-Medium"
 `
-export const BtnIcone = styled.TouchableOpacity`
+export const BtnIcone = styled.Pressable`
     width: 50px;
     align-items: ${props => props.lado};
     height: 50px;

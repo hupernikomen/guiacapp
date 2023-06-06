@@ -63,6 +63,7 @@ export default function Mapa() {
                 </TextoPadrao>
             </Card>
             <Maps
+            
                 width={width}
                 height={height}
                 region={region}

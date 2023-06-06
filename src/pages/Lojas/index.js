@@ -70,11 +70,26 @@ export default function Lojas() {
 
   async function CarregaLojas() {
     const response = await api.get('/lojas')
-    setListaLojas(response.data)
+    setListaLojas(shuffle(response.data))
 
   }
 
+  
+  function shuffle(arr) {
+
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr
+  }
+
   function RenderItem({ item }) {
+
+    if (item.produtos.length === 0) {
+      return
+    }
 
     return (
       <Pressable

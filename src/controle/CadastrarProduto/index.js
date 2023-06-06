@@ -13,15 +13,14 @@ import {
     FlatList,
 } from 'react-native'
 
-
-import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
+import { Input, TituloInput, ContainerInput,BtnIcone, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela } from "../../styles";
 
 import api from '../../servicos/api'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 import { LojaContext } from "../../contexts/lojaContext"
 import { ProdutoContext } from "../../contexts/produtoContext";
-import { launchCamera, launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -42,7 +41,7 @@ export default function CadastrarProduto() {
     const [preview, setPreview] = useState([])
     const [cod, setCod] = useState("")
     const [nome, setNome] = useState("")
-    const [preco, setPreco] = useState("")
+    const [preco, setPreco] = useState(null)
     const [descricao, setDescricao] = useState("")
     const [categoria, setCategoria] = useState("")
     const [tamanho, setTamanho] = useState([])
@@ -68,7 +67,7 @@ export default function CadastrarProduto() {
         }) => {
             if (error || didCancel) return
 
-            setPreview(imagemArray => [...imagemArray, assets[0]])
+            setPreview(img => [...img, assets[0]])
 
         })
             .then(() => {
@@ -87,11 +86,12 @@ export default function CadastrarProduto() {
 
     async function Postar() {
 
-
-        if (nome == "" || descricao == "" || preco == "" || categoria == "" || preview.length == 0) {
+        if (!nome || !descricao || !preco || !categoria || preview.length == 0) {
             Toast(`Campo obrigatório: ${!nome && "Produto" || !preco && "Preço" || !descricao && "Descrição" || !categoria && "Categoria" || preview.length == 0 && "Imagens"}`)
             return
         }
+
+        setLoad(true)
 
 
         const formData = new FormData()
@@ -113,8 +113,8 @@ export default function CadastrarProduto() {
             try {
                 var result = await ImageResizer.createResizedImage(
                     preview[i].uri,
-                    800,
-                    1000,
+                    600,
+                    900,
                     'JPEG',
                     100,  //verificar a qualidade da foto e mudar se necessario
                 );
@@ -129,7 +129,6 @@ export default function CadastrarProduto() {
         }
 
 
-        setLoad(true)
 
         const headers = {
             'Content-Type': 'multipart/form-data',
@@ -143,7 +142,6 @@ export default function CadastrarProduto() {
             })
 
             .catch((error) => {
-                console.log("error from image :", error.response)
                 Toast('Ops.. Algo, deu errado!')
                 setLoad(false)
             })
@@ -155,24 +153,16 @@ export default function CadastrarProduto() {
         const response = tamanho.indexOf(data)
         return (
 
-            <Pressable
-                style={{
-                    aspectRatio: 1,
-                    height: (width / 7) - 10,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: 4,
-                    borderRadius: 4,
-                    backgroundColor: response == -1 ? "#fff" : colors.tema,
-                    borderWidth: response == -1 ? .5 : 0
-                }}
+            <BtnIcone
+            lado={'center'}
+            style={{backgroundColor: response == -1 ? "#fff" : colors.tema,borderRadius:20}}
                 onPress={() => {
                     setTamanho(response == -1 ? itensTam => [...itensTam, data] :
                         tamanho.filter((item) => item != data))
 
                 }}>
                 <Text style={{ color: response == -1 ? "#000" : '#fff' }}>{data}</Text>
-            </Pressable>
+            </BtnIcone>
         )
     }
 
@@ -261,17 +251,15 @@ export default function CadastrarProduto() {
                         value={nome} />
                 </ContainerInput>
 
-
                 <ContainerInput>
+
                     <TituloInput>
-                        Preço - R$
+                        Preço R$
                     </TituloInput>
+                    <CurrencyInputs
+                        value={preco}
+                        onChangeValue={setPreco} />
 
-
-                    <Input
-                        keyboardType="numeric"
-                        onChangeText={setPreco}
-                        value={preco} />
                 </ContainerInput>
 
                 <ContainerInput>
@@ -288,10 +276,10 @@ export default function CadastrarProduto() {
                 <View style={{
                     borderWidth: .5,
                     borderColor: "#333",
-                    borderRadius: 60 / 2,
+                    borderRadius: 55 / 2,
                     borderColor: "#777",
                     marginVertical: 8,
-                    minHeight: 60
+                    minHeight: 55
                 }}>
                     <TituloInput>
                         Categoria

@@ -17,6 +17,8 @@ import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, Container
 
 export default function ProdutoFeed({ item }) {
 
+  console.log(item, "itemmmmm");
+
   const navigation = useNavigation();
   const { name } = useRoute()
 
@@ -53,13 +55,15 @@ export default function ProdutoFeed({ item }) {
           style={{ aspectRatio: 1 }}
           source={{ uri: item.imagens[0]?.location }} />
 
-        <View style={{ position: 'absolute', bottom: 0,backgroundColor:'#000',paddingVertical:2,paddingHorizontal:6 }}>
-          <Text style={{color:'#fff',fontSize:10}}>Black Friday</Text>
-        </View>
+        {item.campanha?.nome &&
+          <View style={{ position: 'absolute', bottom: 0, backgroundColor: item.campanha?.tema, paddingVertical: 2, paddingHorizontal: 6 }}>
+            <Text style={{ color: '#fff', fontSize: 11 }}>{item.campanha?.nome}</Text>
+          </View>
+        }
       </View>
 
 
-      
+
       <ContainerInfo>
         <Produto
           numberOfLines={1}

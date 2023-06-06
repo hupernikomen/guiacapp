@@ -228,10 +228,14 @@ activeOpacity={.8}
 
 
 
+
       <MapView
         onMapReady={CarregaLocUsuario} // função chamada quando todo omapa esta carregado
         maxZoomLevel={20}
+        loadingEnabled={true}
+
         minZoomLevel={12}
+        mapType='standard'
         onPress={CapturaLatLng}
         style={{ width, height }}
         region={region}

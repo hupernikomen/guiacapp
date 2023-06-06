@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL:"https://guiacapi.onrender.com"
+    baseURL:"https://guiacapp-api.herokuapp.com/"
 
 })
 

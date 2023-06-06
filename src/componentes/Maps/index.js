@@ -11,6 +11,8 @@ export default function Maps({carrega,width, height, region, marker, zoom }) {
             onMapReady={carrega} // função chamada quando todo omapa esta carregado
             maxZoomLevel={19}
             minZoomLevel={zoom}// colocar 16 para Page Loja - 11
+            mapType='terrain'
+            // showsBuildings={false}
             style={{ width, height }}
             region={region}>
             {marker &&

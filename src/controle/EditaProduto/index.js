@@ -11,8 +11,7 @@ import {
   ToastAndroid,
   ActivityIndicator
 } from 'react-native';
-
-
+import { Picker } from "@react-native-picker/picker";
 
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 import { LojaContext } from "../../contexts/lojaContext"
@@ -23,7 +22,7 @@ import api from '../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
-import { Input, TituloInput, ContainerInput, SimulaInput, BotaoPrincipal, TextBtn, Tela, BtnIcone } from "../../styles";
+import { Input, TituloInput, ContainerInput, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela, BtnIcone } from "../../styles";
 
 export default function EditaProduto() {
   const { credenciais } = useContext(LojaContext)
@@ -38,6 +37,8 @@ export default function EditaProduto() {
 
   const [load, setLoad] = useState(false)
 
+  const [listaCampanha, setListaCampanha] = useState([])
+
   const [produto, setProduto] = useState({})
 
   const { width } = Dimensions.get('window')
@@ -47,6 +48,7 @@ export default function EditaProduto() {
   useEffect(() => {
 
     setProduto(route.params)
+    BuscaCampanhas()
 
     navigation.setOptions({
       headerRight: () => {
@@ -64,6 +66,17 @@ export default function EditaProduto() {
 
   }, [])
 
+  useEffect(() => {
+    if (produto.oferta === null) setProduto({ ...produto, campanhaID: null });
+  },[produto.oferta])
+
+
+  async function BuscaCampanhas() {
+    await api.get('/campanhas/ativas')
+      .then((response) => {
+        setListaCampanha(response.data)
+      })
+  }
 
   async function ConfirmaExclusao() {
 
@@ -96,13 +109,13 @@ export default function EditaProduto() {
 
 
   async function Atualizar() {
-    setLoad(true)
 
     if (produto.oferta >= produto.preco) {
       Toast("Oferta maior ou igual ao preço")
-      setLoad(false)
       return
     }
+
+    setLoad(true)
 
     const headers = {
       'Content-Type': 'application/json',
@@ -171,8 +184,6 @@ export default function EditaProduto() {
   return (
     <Tela>
 
-
-
       <ScrollView
         showsVerticalScrollIndicator={false}>
 
@@ -184,7 +195,7 @@ export default function EditaProduto() {
 
           <Input
             value={produto.nome}
-            onChangeText={(e) => setProduto({ ...produto, nome: e })}
+            onChangeText={e => setProduto({ ...produto, nome: e })}
           />
         </ContainerInput>
 
@@ -199,38 +210,72 @@ export default function EditaProduto() {
             numberOfLines={0}
             verticalAlign={'top'}
             value={produto.descricao}
-            onChangeText={(e) => setProduto({ ...produto, descricao: e })} />
+            onChangeText={e => setProduto({ ...produto, descricao: e })} />
+        </ContainerInput>
+
+
+        <ContainerInput focusable={false}>
+
+          <TituloInput>
+            Preço R$ - ( Não editavel )
+          </TituloInput>
+
+          <CurrencyInputs value={produto.preco} />
+
         </ContainerInput>
 
 
         <ContainerInput>
 
           <TituloInput>
-            Preço Inicial - ( Não editavel )
+            Oferta R$
           </TituloInput>
+          <CurrencyInputs
 
-          <Input
+            value={parseFloat(produto.oferta)}
+            onChangeValue={e => setProduto({ ...produto, oferta: e })} />
 
-            editable={false}
-          value={produto.preco} />
         </ContainerInput>
 
-        <ContainerInput>
+        {produto.oferta &&
+          <View style={{
+            borderWidth: .5,
+            borderColor: "#333",
+            borderRadius: 55 / 2,
+            borderColor: "#777",
+            marginVertical: 10,
+            minHeight: 55
+          }}>
+            <TituloInput>
+              Campanha
+            </TituloInput>
+            <Picker
+              mode="dialog"
+              selectedValue={produto.campanhaID}
+              onValueChange={(e) => {
+                setProduto({ ...produto, campanhaID: e });
+              }}>
+              <Picker.Item
+                label="Nenhum"
+                value={null}
+                style={{
+                  color: '#777',
+                }}
+              />
 
-          <TituloInput>
-            Preço Oferta - R$
-          </TituloInput>
-
-          <Input
-            value={produto.oferta}
-            keyboardType="numeric"
-            onChangeText={(e) => setProduto({ ...produto, oferta: e })} />
-        </ContainerInput>
-
+              {listaCampanha.map((item) => {
+                return (
+                  <Picker.Item
+                    key={item.id}
+                    value={item.id}
+                    label={item.nome}
+                  />
+                );
+              })}
+            </Picker>
+          </View>
+        }
         <View>
-
-
-
           <SimulaInput>
 
             <TituloInput>Tamanhos Disponiveis</TituloInput>
@@ -298,10 +343,6 @@ export default function EditaProduto() {
 
         </View>
       </Modal>
-
-
-
-
     </Tela>
   );
 }

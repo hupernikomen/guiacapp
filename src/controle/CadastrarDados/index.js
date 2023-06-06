@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Switch, ScrollView, ToastAndroid,ActivityIndicator } from 'react-native';
+import { View, Text, Switch, ScrollView, ToastAndroid, ActivityIndicator } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
-import { useTheme,useNavigation } from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
 import Load from '../../componentes/Load';
 
 import api from '../../servicos/api';
@@ -13,23 +13,19 @@ export default function CadastrarDados() {
     const { colors } = useTheme()
     const navigation = useNavigation()
 
-    const [load,setLoad] = useState(false)
+    const [load, setLoad] = useState(false)
 
     const { credenciais } = useContext(LojaContext)
 
-    const [loja, setLoja] = useState({})
+    const [loja, setLoja] = useState([])
 
     useEffect(() => {
         BuscaLoja()
     }, [])
 
-    const toggleSwitch = (e) => setLoja({ ...loja, entrega: e });
+    const toggleSwitch = e => setLoja({ ...loja, entrega: e });
 
-    
-  if (load) {
-    return <Load/>
-  }
-
+    if (load) { return <Load /> }
 
     async function BuscaLoja() {
         setLoad(true)
@@ -37,12 +33,10 @@ export default function CadastrarDados() {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${credenciais.token}`
         }
-        await api.get(`/me?lojaID=${credenciais.id}`, { headers })
-            .then((response) => {
-
+        await api.get('/me', { headers })
+            .then(response => {
                 setLoja(response.data)
                 setLoad(false)
-                
             })
             .catch((error) => {
                 ToastErro(error.status)
@@ -58,11 +52,11 @@ export default function CadastrarDados() {
             'Authorization': `Bearer ${credenciais.token}`
         }
 
-        await api.put(`/loja?lojaID=${credenciais.id}`, loja, { headers })
+        await api.put(`/loja`, loja, { headers })
             .then(() => {
                 ToastAtualizaDados()
             })
-            .catch((error) => console.log(error, "catch Error"))
+            .catch((error) => console.log(error.response, "catch Error"))
     }
 
 
