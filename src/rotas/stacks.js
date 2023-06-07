@@ -16,6 +16,14 @@ import ErroConexao from '../pages/ErroConexao';
 
 import Signin from '../pages/Signin'
 
+import CadastrarProduto from '../controle/CadastrarProduto';
+import EditaProduto from '../controle/EditaProduto';
+import CadastrarDados from '../controle/CadastrarDados';
+import MapaControle from '../controle/Mapa';
+import VendedoresControle from '../controle/Vendedores';
+
+import HomeControle from '../controle/Home';
+
 
 import { useTheme } from '@react-navigation/native';
 const Stack = createNativeStackNavigator()
@@ -50,12 +58,25 @@ export default function RotasStack() {
       />
 
       <Stack.Screen
+        name='HomeControle'
+        component={HomeControle}
+        options={{
+          headerShown: false
+        }}
+      />
+
+      <Stack.Screen
         name='Signin'
         component={Signin}
         options={{
-          headerShown: false,
+          title:'',
+          headerShadowVisible:false,
+          headerTintColor: "#000",
+          headerStyle: {
+            backgroundColor: '#f1f1f1',
+          },
         }}
-        />
+      />
 
 
       <Stack.Screen
@@ -64,7 +85,15 @@ export default function RotasStack() {
         options={{
           title: 'Serviços Profissionais'
         }}
-        />
+      />
+
+      <Stack.Screen
+        name='Lojas'
+        component={Lojas}
+        options={{
+          title: 'Lojas Cadastradas'
+        }}
+      />
 
       <Stack.Screen
         name='DetalheProduto'
@@ -98,13 +127,7 @@ export default function RotasStack() {
         }}
       />
 
-      <Stack.Screen
-        name='Lojas'
-        component={Lojas}
-        options={{
-          title: 'Lojas Cadastradas'
-        }}
-      />
+
 
       <Stack.Screen
         name='Mapa'
@@ -140,6 +163,44 @@ export default function RotasStack() {
           title: ""
         }}
       />
+
+      <Stack.Screen
+        name="CadastrarDados"
+        component={CadastrarDados}
+        options={{ title: "Dados" }}
+      />
+
+
+      <Stack.Screen
+        name='CadastrarProduto'
+        component={CadastrarProduto}
+        options={{
+          title: 'Cadastrar Produto'
+          // headerShown:false
+        }}
+      />
+
+      <Stack.Screen
+        name="VendedoresControle"
+        component={VendedoresControle}
+        options={{ title: "Vendedores" }}
+      />
+
+
+      <Stack.Screen
+        name='EditaProduto'
+        component={EditaProduto}
+        options={{
+          title: ''
+          // headerShown:false
+        }}
+      />
+
+      <Stack.Screen
+        name="MapaControle"
+        component={MapaControle}
+      />
+
 
     </Stack.Navigator>
 

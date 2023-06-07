@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Text, FlatList } from 'react-native';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
-import api from '../../servicos/api';
+import api from '../servicos/api';
 
 
 export default function ListaCategorias() {

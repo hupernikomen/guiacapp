@@ -43,8 +43,6 @@ export default function EditaProduto() {
 
   const { width } = Dimensions.get('window')
 
-
-
   useEffect(() => {
 
     setProduto(route.params)
@@ -232,19 +230,21 @@ export default function EditaProduto() {
           </TituloInput>
           <CurrencyInputs
 
-            value={parseFloat(produto.oferta)}
+            value={produto.oferta}
             onChangeValue={e => setProduto({ ...produto, oferta: e })} />
 
         </ContainerInput>
 
-        {produto.oferta &&
+
+        {!!produto.oferta &&
           <View style={{
             borderWidth: .5,
             borderColor: "#333",
             borderRadius: 55 / 2,
             borderColor: "#777",
             marginVertical: 10,
-            minHeight: 55
+            minHeight: 55,
+            paddingLeft:10
           }}>
             <TituloInput>
               Campanha
@@ -258,9 +258,6 @@ export default function EditaProduto() {
               <Picker.Item
                 label="Nenhum"
                 value={null}
-                style={{
-                  color: '#777',
-                }}
               />
 
               {listaCampanha.map((item) => {
@@ -274,7 +271,14 @@ export default function EditaProduto() {
               })}
             </Picker>
           </View>
-        }
+       }
+
+
+
+
+
+
+
         <View>
           <SimulaInput>
 
@@ -284,7 +288,7 @@ export default function EditaProduto() {
               ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
               horizontal
               data={produto.tamanho}
-              renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
+              renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }}>{item}</Text>}
             />
 
             <Pressable

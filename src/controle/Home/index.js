@@ -7,7 +7,7 @@ import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/nativ
 import { LojaContext } from '../../contexts/lojaContext';
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 import { launchImageLibrary } from 'react-native-image-picker';
-import ProdutoControle from '../../componentes/Produtos/pdt-feed-controle';
+import ProdutoControle from '../../componentes/Pdt-controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import Avatar from '../../componentes/Avatar';
@@ -141,6 +141,7 @@ export default function HomeControle() {
         backgroundColor: colors.tema,
         flexDirection: 'row',
         alignItems: 'center',
+        maxHeight: 55,
         height: 55,
         elevation: 5,
         zIndex: 999
@@ -206,7 +207,7 @@ export default function HomeControle() {
       },
       {
         nome: 'Mapa',
-        link: 'Mapa',
+        link: 'MapaControle',
       },
     ]
 

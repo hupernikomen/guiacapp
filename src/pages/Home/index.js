@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { BtnIcone } from '../../styles'
 
-import Produto from '../../componentes/Produtos/pdt-feed';
+import Produto from '../../componentes/Pdt-feed';
 import ListaCategorias from '../../componentes/ListaCategorias';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useNavigation, useTheme } from '@react-navigation/native'
-import CarrosselServicos from '../../componentes/CarrosselServicos';
-import CarrosselBanners from '../../componentes/CarrosselBanners';
 
 
 import api from '../../servicos/api';

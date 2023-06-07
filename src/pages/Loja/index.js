@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { View, Text, FlatList, Pressable } from 'react-native';
 
-import Produto from '../../componentes/Produtos/pdt-feed';
+import Produto from '../../componentes/Pdt-feed';
 
 import api from '../../servicos/api';
 
 import Material from "react-native-vector-icons/MaterialCommunityIcons"
 
-import Maps from '../../componentes/Maps';
+import Maps from '../../componentes/Mapa';
 
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 

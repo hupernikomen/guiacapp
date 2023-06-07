@@ -5,41 +5,40 @@ import { useTheme } from '@react-navigation/native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-export default function Off({ valor }) {
+export default function Off({  valor }) {
 
     const { colors } = useTheme()
     return (
         <View style={{
             alignItems: 'center',
-            justifyContent: 'center',
             position: 'absolute',
-            zIndex: 9999,
-            left:-4,
-            top:-6
+            zIndex: 99,
+            left: -9,
+            top: -6
         }}>
 
-            <Material name='bookmark' size={46} color={colors.tema}/>
-            <View 
-            style={{
-                position: 'absolute',
-                top:7
-            }}>
+            <Material name='bookmark' size={46} color={'#EF6C0099'} />
+            <View
+                style={{
+                    position: 'absolute',
+                    top: 7
+                }}>
 
                 <Text style={{
                     fontFamily: "Roboto-Regular",
-                    alignSelf:'center',
+                    alignSelf: 'center',
                     fontSize: 9,
                     color: '#fff',
-                    marginTop:2
+                    marginTop: 2
                 }}>
-                    {parseFloat(valor).toFixed(0) + '%'}
+                    {valor + '%'}
                 </Text>
                 <Text style={{
                     fontFamily: "Roboto-Regular",
                     fontSize: 9,
-                    marginTop:-2,
+                    marginTop: -2,
                     color: '#fff',
-                    alignSelf:'center'
+                    alignSelf: 'center'
                 }}>OFF</Text>
             </View>
         </View>

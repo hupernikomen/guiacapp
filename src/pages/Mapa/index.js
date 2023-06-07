@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 
-import Maps from '../../componentes/Maps';
+import Maps from '../../componentes/Mapa';
 
 import api from '../../servicos/api';
 

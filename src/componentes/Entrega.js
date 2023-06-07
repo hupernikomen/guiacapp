@@ -2,7 +2,7 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { useTheme } from '@react-navigation/native';
 
-export default function Delivery() {
+export default function Entrega() {
 
   const { colors } = useTheme()
   

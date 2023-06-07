@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Dimensions, ScrollView, FlatList, Image } from 'react-native';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
-import { formatCurrency } from "react-native-format-currency";
 
 import Pinchable from 'react-native-pinchable';
 
@@ -47,25 +46,23 @@ export default function Detalhes() {
   function SizesFormatted(tams) {
     const sizesDefault = ['PP', 'P', 'M', 'G', 'GG'];
     const array = tams;
-  
+
     array.sort((firstElement, secondElement) => {
       const positionInDefaultA = sizesDefault.indexOf(firstElement);
       const positionInDefaultB = sizesDefault.indexOf(secondElement);
       return positionInDefaultA - positionInDefaultB;
     });
-  
+
     return array;
   };
 
-
-  function Preco(preco) {
-    if (!preco) return
-
-    const precoFormatado = parseFloat(preco).toFixed(2)
-
-    const [valueFormattedWithSymbol] = formatCurrency({ amount: precoFormatado, code: 'BRL' });
-    return valueFormattedWithSymbol
+  const formateValor = (valor) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(valor)
   }
+
 
 
   function RenderItem({ data }) {
@@ -112,35 +109,34 @@ export default function Detalhes() {
         }}>
 
 
-            <ContainerLoja
-            
+          <ContainerLoja
+
             onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
-              <Avatar DATA={produto.loja} WIDTH={30} SIZE={12} />
-    
-              <View style={{marginLeft:10}}>
-                <NomeLoja>{produto.loja?.nome}</NomeLoja>
-                <Text style={{fontSize:11,fontFamily:'Roboto-Light',color:'#000'}}>Acessar pagina da loja</Text>
-              </View>
-            </ContainerLoja>
+            <Avatar DATA={produto.loja} WIDTH={30} SIZE={12} />
 
+            <View style={{ marginLeft: 10 }}>
+              <NomeLoja>{produto.loja?.nome}</NomeLoja>
+              <Text style={{ fontSize: 11, fontFamily: 'Roboto-Light', color: '#000' }}>Acessar pagina da loja</Text>
+            </View>
+          </ContainerLoja>
 
-          <View style={{ position: 'relative', height: 20,marginTop:15 }}>
-            <Text style={{ borderRadius: 4, backgroundColor: '#000000', color: '#fff', paddingHorizontal: 10, paddingVertical: 2, fontSize: 10, position: 'absolute' }}>Black Friday</Text>
-          </View>
+          {produto.campanha && <View style={{ position: 'relative', height: 20, marginTop: 15 }}>
+            <Text style={{ borderRadius: 4, backgroundColor: '#000000', color: '#fff', paddingHorizontal: 10, paddingVertical: 2, fontSize: 10, position: 'absolute' }}>{produto?.campanha?.nome}</Text>
+          </View>}
 
-          <Text style={{ fontFamily: 'Roboto-Light', color: '#000',marginTop:15 }}>Categoria: {produto.categoria?.nome}</Text>
+          <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>Categoria: {produto.categoria?.nome}</Text>
           <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
 
           <ContainerPreco>
             {!!produto.oferta ?
               <View>
-                <TxtPrecoAntigo>{Preco(produto.preco)}</TxtPrecoAntigo>
+                <TxtPrecoAntigo>{formateValor(produto.preco)}</TxtPrecoAntigo>
 
-                <TxtPreco>{Preco(produto.oferta)} <TextoAvista>à vista</TextoAvista></TxtPreco>
+                <TxtPreco>{formateValor(produto.oferta)} <TextoAvista>à vista</TextoAvista></TxtPreco>
               </View>
               :
 
-              <TxtPreco>{Preco(produto.preco)} <TextoAvista>à vista</TextoAvista></TxtPreco>
+              <TxtPreco>{formateValor(produto.preco)} <TextoAvista>à vista</TextoAvista></TxtPreco>
             }
 
           </ContainerPreco>

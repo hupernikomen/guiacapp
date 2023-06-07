@@ -67,6 +67,7 @@ export function LojaProvider({ children }) {
   //---------------------------------------------------------------------
 
   
+  
 
   const ToastErroLogin = (mensagem) => {
     ToastAndroid.showWithGravityAndOffset(
@@ -86,8 +87,6 @@ export function LojaProvider({ children }) {
 
     await api.post('/login', { email, senha })
       .then(async (response) => {
-
-
 
         const { id, token } = response.data
         const data = { ...response.data }
@@ -118,6 +117,7 @@ export function LojaProvider({ children }) {
   }
 
   async function signOut() {
+    
     await AsyncStorage.clear()
       .then(() => {
         setCredenciais({
@@ -125,6 +125,7 @@ export function LojaProvider({ children }) {
           email: '',
           token: ''
         })
+        navigation.navigate("Home")
       })
   }
 

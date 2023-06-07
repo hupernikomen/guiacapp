@@ -1,77 +1,45 @@
 import React from 'react';
-import { View, Text, TouchableOpacity,Linking } from 'react-native';
-import { useTheme, useNavigation } from '@react-navigation/native';
+import { View, Text, Linking, Pressable } from 'react-native';
 
-import { TextoPadrao } from '../../styles'
-import { Titulo, Subtitulo, ContainerSessao } from './styles';
+import { Tela } from '../../styles'
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function Anuncie() {
-  const { colors } = useTheme()
-  const navigation = useNavigation()
 
-  const valores = [{
-    lojas: {
-      preco: '13,90',
-      oferta: '9,90'
-    },
-    servicos: {
-      preco: '5,90',
-      oferta: '4,90'
-    }
-  }]
+  const d1 = '2023-06-30';
+  const d2 = Date.now();
+  const diffInMs = new Date(d1) - new Date(d2)
+  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+  console.log(diffInDays)
+
 
   return (
-    <View style={{
-      padding: 15
-    }}>
 
-      <ContainerSessao left={0}>
+    <View style={{ padding: 15 }}>
+      <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 15, color: '#000' }}>
 
-        <Titulo>Qual a forma de pagamento?</Titulo>
-        <TextoPadrao>Assinatura mensal - cartão de crédito</TextoPadrao>
-      </ContainerSessao>
+        {
+`O App Guia Comercial é uma plataforma de assinatura mensal. E tem o compromisso de aproximar o seu cliente do seu produto.
+        
+Publique toda a sua loja em nossa plataforma por apenas R$ 8,90 (mensal), e nós levaremos seu produto a toda a região do Grande Dirceu.
 
-      <ContainerSessao left={0}>
+Clientes mais próximos, mais chances de conversão.`
+}
 
-        <Titulo>Quem pode anunciar?</Titulo>
-        <TextoPadrao>Lojistas que tenham ponto fixo ou prestem o serviço de entrega de seus produtos (Delivery). E prestadores de serviços profissionais de qualquer tipo.</TextoPadrao>
-      </ContainerSessao>
 
-      <ContainerSessao left={0}>
+      </Text>
 
-        <Titulo>Tipos de anúncios</Titulo>
-        <TextoPadrao>Produtos, Serviço e Banners Promocionais</TextoPadrao>
-      </ContainerSessao>
 
-      <ContainerSessao left={10}>
-
-        <Subtitulo>Lojista</Subtitulo>
-        <TextoPadrao>Produtos com estoque em loja;</TextoPadrao>
-        <TextoPadrao>Banners com duração minima de 1 semana;</TextoPadrao>
-      </ContainerSessao>
-
-      <ContainerSessao left={10}>
-
-        <Subtitulo>Prestadores de Serviços</Subtitulo>
-        <TextoPadrao>Serviços com detalhes de fotos, descrição, localização, contato (Whatsapp), etc;</TextoPadrao>
-      </ContainerSessao>
-
-      <ContainerSessao left={0}>
-
-        <Subtitulo>Quero saber mais...</Subtitulo>
-        <TouchableOpacity
-          onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${5586994773403}`)}
-          >
-
-          <TextoPadrao>Click aqui e fale Conosco</TextoPadrao>
-
-        </TouchableOpacity>
-      </ContainerSessao>
-
+      <Pressable
+        style={{ paddingVertical: 15 }}
+        onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
+      >
+        <Text style={{ fontFamily: 'Roboto-Bold', fontSize: 15, color: '#000' }}>Fale conosco via whatsapp</Text>
+      </Pressable>
 
 
     </View>
+
+
   );
 }

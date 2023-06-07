@@ -1,11 +1,11 @@
 import styled from 'styled-components/native'
-import { TextoPadrao } from '../../styles'
+import { TextoPadrao } from '../styles'
 
 export const ProdutoContainer = styled.TouchableOpacity`
     flex: 1;
     background-color: #fff;
     padding: 1px;
-    border-radius: 2px;
+    border-radius: 4px;
     margin-horizontal: 4px;
     max-width: ${props => props.largura}px
 `
@@ -25,12 +25,11 @@ export const LojaNome = styled(TextoPadrao)`
     font-size: 13px
 `
 export const TxtPreco= styled(TextoPadrao)`
-    font-size: 16px;
+    font-size: 17px;
     font-family: Roboto-Bold;
 `
 export const ContainerLoja = styled.View`
     flex-direction: row; 
     align-items: center; 
-    margin-top: 5px;
     justify-content: space-between;
 `

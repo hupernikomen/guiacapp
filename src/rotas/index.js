@@ -3,11 +3,11 @@ import { Dimensions } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import HomeStack from './stacks';
-import Signin from '../pages/Signin'
+// import Signin from '../pages/Signin'
 
 import StackControle from '../rotas/stacksControle'
 
-import DrawerCustom from '../componentes/DrawerCustom';
+import DrawerCustom from '../componentes/Drawer';
 
 import { useTheme } from '@react-navigation/native';
 
@@ -37,31 +37,19 @@ export default function Rotas() {
 
         drawerStyle: {
           width: WIDTH - 55,
-          backgroundColor: colors.tema
+          backgroundColor: colors.tema,
         },
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#fff',
-        drawerLabelStyle: {
-          fontFamily: 'Roboto-Regular'
-        },
+      
 
         drawerType: 'back',
 
       }}
     >
 
-      {autenticado ?
-        <>
-          <Drawer.Screen name='HomeControle' component={StackControle} options={{ title: 'Área Lojista' }} />
-          <Drawer.Screen name='HomeScreen' component={HomeStack} options={{ title: 'Feed' }} />
-        </>
 
-        :
-        <>
-          <Drawer.Screen name='Signin' component={Signin} options={{ title: 'Login' }} />
           <Drawer.Screen name='HomeScreen' component={HomeStack} options={{ title: 'Feed' }} />
-        </>
-      }
 
     </Drawer.Navigator>
 

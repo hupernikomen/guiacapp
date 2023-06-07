@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback, useMemo } from "react";
 import {
     View,
     Text,
@@ -9,11 +9,10 @@ import {
     ActivityIndicator,
     ToastAndroid,
     Alert,
-    Dimensions,
     FlatList,
 } from 'react-native'
 
-import { Input, TituloInput, ContainerInput,BtnIcone, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela } from "../../styles";
+import { Input, TituloInput, ContainerInput, BtnIcone, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela } from "../../styles";
 
 import api from '../../servicos/api'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
@@ -24,9 +23,11 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 
-const { width } = Dimensions.get('window')
 
 export default function CadastrarProduto() {
+
+    console.log("Controle - Cadastrar Produto | RENDER")
+    
     const navigation = useNavigation()
 
     const { colors } = useTheme()
@@ -52,11 +53,9 @@ export default function CadastrarProduto() {
     }, [])
 
     const options = {
-        title: 'Select Image',
-        type: 'library',
-        options: {
-            mediaType: 'photo',
-        },
+        mediaType: 'photo',
+        quality: 1,
+        saveToPhotos: true
     }
 
     async function CapturarImagem(metodo) {
@@ -86,8 +85,10 @@ export default function CadastrarProduto() {
 
     async function Postar() {
 
-        if (!nome || !descricao || !preco || !categoria || preview.length == 0) {
-            Toast(`Campo obrigatório: ${!nome && "Produto" || !preco && "Preço" || !descricao && "Descrição" || !categoria && "Categoria" || preview.length == 0 && "Imagens"}`)
+        
+
+        if (nome == "" || descricao == "" || preco == null || categoria == "" || preview.length == 0) {
+            Toast(`Campo obrigatório: ${nome && "Produto" || !preco && "Preço" || !descricao && "Descrição" || !categoria && "Categoria" || preview.length == 0 && "Imagens"}`)
             return
         }
 
@@ -154,8 +155,8 @@ export default function CadastrarProduto() {
         return (
 
             <BtnIcone
-            lado={'center'}
-            style={{backgroundColor: response == -1 ? "#fff" : colors.tema,borderRadius:20}}
+                lado={'center'}
+                style={{ backgroundColor: response == -1 ? "#fff" : colors.tema, borderRadius: 20 }}
                 onPress={() => {
                     setTamanho(response == -1 ? itensTam => [...itensTam, data] :
                         tamanho.filter((item) => item != data))
@@ -279,7 +280,8 @@ export default function CadastrarProduto() {
                     borderRadius: 55 / 2,
                     borderColor: "#777",
                     marginVertical: 8,
-                    minHeight: 55
+                    minHeight: 55,
+                    paddingLeft: 10
                 }}>
                     <TituloInput>
                         Categoria

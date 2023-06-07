@@ -20,12 +20,12 @@ export const Input = styled.TextInput`
     color: #000;
     border-radius: 28px;
 `
-export const BotaoPrincipal = styled.TouchableOpacity`
+export const BotaoPrincipal = styled.Pressable`
     height: 55px;
     border-radius: 28px;
     align-items: center;
     justify-content: center;
-    margin-vertical: 4px;
+    margin-vertical: 15px;
     flex-direction: row;
     background-color: ${props => props.background}
 `

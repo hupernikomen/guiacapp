@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Text, Linking } from 'react-native'
+import { Text, Linking,Pressable } from 'react-native'
 
 import { LojaContext } from "../../contexts/lojaContext"
 import { useTheme, useNavigation, useIsFocused } from "@react-navigation/native";
@@ -28,15 +28,7 @@ export default function Login() {
   return (
     <Tela>
 
-
       <ContainerInput>
-        <Material name={'email-outline'} size={24} color={'#222'}
-          style={{
-            position: 'absolute',
-            zIndex: 99,
-            left: 25,
-
-          }} />
         <Input
           placeholder={"email@email.com"}
           placeholderTextColor={'#aaa'}
@@ -47,13 +39,6 @@ export default function Login() {
 
       <ContainerInput>
 
-        <Material name={'lock-outline'} size={24} color={'#222'}
-          style={{
-            position: 'absolute',
-            zIndex: 99,
-            left: 25,
-
-          }} />
         <Input
           secureTextEntry
           placeholder={"*****"}
@@ -69,32 +54,38 @@ export default function Login() {
         cor={colors.tema}
         activeOpacity={0.7}
         onPress={() => signIn({ email, senha })}
-        disabled={!email && !senha ? true : false}
-      >
+        disabled={!email && !senha ? true : false}>
+
         <TextBtn cor={'#fff'}>Entrar</TextBtn>
 
       </BotaoPrincipal>
 
-      <BotaoPrincipal
-        background={'#fff'}
+      <Pressable
+        style={{
+          alignItems:'center',
+          paddingVertical:10,
+          marginTop:5
+        }}
 
-        activeOpacity={0.7}
-        onPress={() => navigation.navigate("HomeScreen")}
-      >
-        <TextBtn cor={'#000'}>Sair</TextBtn>
-
-      </BotaoPrincipal>
-
-      <Text style={{ marginTop: 25, marginLeft: 15, fontFamily: 'Roboto-Light', color: '#000' }}>Esqueceu a sua senha?</Text>
-      <BotaoPrincipal
-        background={'#fff'}
-
-        activeOpacity={0.7}
         onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
       >
-        <TextBtn cor={'#000'}>Fale com o Guia</TextBtn>
+        <Text>Esqueci minha senha</Text>
 
-      </BotaoPrincipal>
+      </Pressable>
+
+      <Pressable
+        style={{
+          alignItems:'center',
+          paddingVertical:10,
+          marginTop:5
+        }}
+        onPress={() => navigation.navigate("HomeScreen")}>
+
+        <Text>Cadastrar minha loja</Text>
+
+      </Pressable>
+
+
 
 
     </Tela>
