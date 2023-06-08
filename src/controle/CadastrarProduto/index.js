@@ -17,9 +17,10 @@ import { Input, TituloInput, ContainerInput, BtnIcone, SimulaInput, CurrencyInpu
 import api from '../../servicos/api'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
+import ImagePicker from 'react-native-image-crop-picker';
+
 import { LojaContext } from "../../contexts/lojaContext"
 import { ProdutoContext } from "../../contexts/produtoContext";
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -27,7 +28,7 @@ import { Picker } from "@react-native-picker/picker";
 export default function CadastrarProduto() {
 
     console.log("Controle - Cadastrar Produto | RENDER")
-    
+
     const navigation = useNavigation()
 
     const { colors } = useTheme()
@@ -52,27 +53,39 @@ export default function CadastrarProduto() {
         CarregaCategorias()
     }, [])
 
-    const options = {
-        mediaType: 'photo',
-        quality: 1,
-        saveToPhotos: true
+
+
+    const Fotografar = () => {
+        ImagePicker.openCamera({
+            width: 800, height: 800, cropping: true,
+            mediaType: 'photo',
+            showCropGuidelines: true,
+            hideBottomControls:true
+        }).then(image => {
+            setPreview(img => [...img, image])
+
+        }).catch(() => {
+            return
+        });
     }
 
-    async function CapturarImagem(metodo) {
-        await metodo(options, ({
-            error,
-            didCancel,
-            assets
-        }) => {
-            if (error || didCancel) return
+    const BuscarImagem = () => {
+        ImagePicker.openPicker({
+            width: 800, height: 800, cropping: true,
+            mediaType: 'photo',
+            showCropGuidelines: true,
+            hideBottomControls:true
 
-            setPreview(img => [...img, assets[0]])
+        }).then(image => {
+            setPreview(img => [...img, image])
 
-        })
-            .then(() => {
-                setModalVisible(false)
-            })
+        }).catch(() => {
+            return
+        });
     }
+
+
+
 
     async function CarregaCategorias() {
 
@@ -84,8 +97,6 @@ export default function CadastrarProduto() {
 
 
     async function Postar() {
-
-        
 
         if (nome == "" || descricao == "" || preco == null || categoria == "" || preview.length == 0) {
             Toast(`Campo obrigatório: ${nome && "Produto" || !preco && "Preço" || !descricao && "Descrição" || !categoria && "Categoria" || preview.length == 0 && "Imagens"}`)
@@ -113,9 +124,9 @@ export default function CadastrarProduto() {
         for (let i = 0; i < preview.length; i++) {
             try {
                 var result = await ImageResizer.createResizedImage(
-                    preview[i].uri,
-                    600,
-                    900,
+                    preview[i].path,
+                    800,
+                    800,
                     'JPEG',
                     100,  //verificar a qualidade da foto e mudar se necessario
                 );
@@ -200,7 +211,7 @@ export default function CadastrarProduto() {
                                 <Image
                                     key={index}
                                     style={{ width: 50, aspectRatio: 1, borderRadius: 6 }}
-                                    source={{ uri: camera.uri }} />
+                                    source={{ uri: camera.path }} />
                             )
                         }
                     })}
@@ -217,12 +228,12 @@ export default function CadastrarProduto() {
 
                         <View style={{ justifyContent: 'center', flexWrap: 'wrap', flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
                             <Pressable style={{ backgroundColor: '#dedede', marginHorizontal: 5, paddingHorizontal: 5 }}
-                                onPress={() => CapturarImagem(launchCamera)}>
+                                onPress={Fotografar}>
                                 <Text style={{ color: colors.link }}>Tirar Foto</Text>
                             </Pressable>
                             <Text>ou</Text>
                             <Pressable
-                                onPress={() => CapturarImagem(launchImageLibrary)}
+                                onPress={BuscarImagem}
                                 style={{ backgroundColor: '#ddd', marginHorizontal: 5, paddingHorizontal: 5 }}>
                                 <Text style={{ color: colors.link }}>Escolher de minhas imagens</Text>
                             </Pressable>
@@ -255,7 +266,7 @@ export default function CadastrarProduto() {
                 <ContainerInput>
 
                     <TituloInput>
-                        Preço R$
+                        Preço
                     </TituloInput>
                     <CurrencyInputs
                         value={preco}
@@ -293,9 +304,10 @@ export default function CadastrarProduto() {
                             setCategoria(itemValue);
                         }}>
                         <Picker.Item
-                            label=""
+                            label="Selecione uma categoria"
                             style={{
-                                color: '#777',
+                                color: '#aaa',
+                                fontSize:15
                             }}
                         />
 

@@ -1,5 +1,7 @@
+import {memo} from 'react'
 import {
   Image,
+  View,
   Text,
   Dimensions,
 } from "react-native";
@@ -12,12 +14,12 @@ const WIDTH = Dimensions.get('window').width
 
 import { ProdutoContainer, ContainerInfo, Produto, TxtPreco } from "./styles";
 
-export default function ProdutoControle({ item }) {
+function ProdutoControle({ item }) {
 
   const { preco, oferta, campanha, imagens, nome } = item
   const navigation = useNavigation();
 
- 
+
   function Capitalize(nome) {
     novonome = nome.trim().toLowerCase().split(" ")
 
@@ -41,25 +43,26 @@ export default function ProdutoControle({ item }) {
       largura={(WIDTH / 2) - 12}
       onPress={() => navigation.navigate("EditaProduto", item)}
       activeOpacity={.9}>
-
       {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}
-      <Image
-          style={{ aspectRatio: 1, borderTopLeftRadius:4, borderTopRightRadius:4 }}
+      <View>
+        <Image
+          style={{ aspectRatio: 1, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
           source={{ uri: imagens[0]?.location }} />
 
         {campanha?.nome &&
-          <Text style={{ 
-            position: 'absolute', 
-            bottom: 0, 
-            backgroundColor: campanha?.tema, 
-            paddingVertical: 2, 
-            paddingHorizontal: 4, 
-            margin:2,
-            borderRadius: 6,
-            color: '#fff', 
-            fontSize: 11 
+          <Text style={{
+            position: 'absolute',
+            bottom: -1,
+            left: -1,
+            borderRadius: 2,
+            backgroundColor: campanha?.tema,
+            paddingVertical: 2,
+            paddingHorizontal: 4,
+            color: '#fff',
+            fontSize: 11
           }}>{campanha?.nome}</Text>
         }
+      </View>
 
       <ContainerInfo>
         <Produto
@@ -69,10 +72,12 @@ export default function ProdutoControle({ item }) {
         </Produto>
 
         <TxtPreco>
-          {formateValor(!!oferta ? oferta : preco)} <Text style={{ fontFamily: 'Roboto-Light', fontSize: 13 }}>à vista</Text>
+          {formateValor(!!oferta ? oferta : preco)}
         </TxtPreco>
       </ContainerInfo>
 
     </ProdutoContainer>
   );
 }
+
+export default memo(ProdutoControle)

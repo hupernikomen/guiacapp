@@ -9,7 +9,7 @@ const Texto = styled.Text`
 export const Tela = styled.View`
     flex: 1;
     justify-content: center;
-    padding: 15px;
+    padding-horizontal: 15px;
 `
 export const ContainerInput = styled.View`
     position: relative;

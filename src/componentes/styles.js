@@ -32,4 +32,5 @@ export const ContainerLoja = styled.View`
     flex-direction: row; 
     align-items: center; 
     justify-content: space-between;
+    margin-top:4px
 `

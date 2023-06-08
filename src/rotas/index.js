@@ -5,7 +5,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import HomeStack from './stacks';
 // import Signin from '../pages/Signin'
 
-import StackControle from '../rotas/stacksControle'
 
 import DrawerCustom from '../componentes/Drawer';
 
@@ -30,6 +29,7 @@ export default function Rotas() {
       screenOptions={{
         headerShown: false,
         unmountOnBlur: true,
+       
         headerStyle: {
           backgroundColor: colors.tema
         },
@@ -41,8 +41,6 @@ export default function Rotas() {
         },
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#fff',
-      
-
         drawerType: 'back',
 
       }}

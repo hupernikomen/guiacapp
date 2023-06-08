@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Linking, View } from 'react-native';
+import { Linking, View, StatusBar } from 'react-native';
 
 
 import { useNavigation } from '@react-navigation/native'
@@ -16,25 +16,7 @@ export default function DrawerCustom(props) {
     return (
         <DrawerContentScrollView {...props}>
 
-
-            {!autenticado ?
-                <DrawerItem
-                    labelStyle={{ fontFamily: 'Roboto-Regular' }}
-                    label="Login"
-                    inactiveTintColor='#fff'
-                    onPress={() => navigation.navigate("Signin")}
-                /> :
-                <DrawerItem
-                    labelStyle={{ fontFamily: 'Roboto-Regular' }}
-                    label="Area Lojista"
-                    inactiveTintColor='#fff'
-                    onPress={() => navigation.navigate("HomeControle")}
-                />
-
-            }
-
-
-            <View style={{ borderColor: '#951c1c', borderTopWidth: 1, borderBottomWidth: 1 }}>
+            <View style={{ borderColor: '#811818', borderBottomWidth: 1 }}>
 
                 <DrawerItem
                     labelStyle={{ fontFamily: 'Roboto-Regular' }}
@@ -58,9 +40,26 @@ export default function DrawerCustom(props) {
 
             </View>
 
+            {!autenticado ?
+                <DrawerItem
+                    labelStyle={{ fontFamily: 'Roboto-Regular' }}
+                    label="Login"
+                    inactiveTintColor='#fff'
+                    onPress={() => navigation.navigate("Signin")}
+                /> :
+                <DrawerItem
+                    labelStyle={{ fontFamily: 'Roboto-Regular' }}
+                    label="Minha Loja"
+                    inactiveTintColor='#fff'
+                    onPress={() => navigation.navigate("HomeControle")}
+                />
+
+            }
+
+
             <DrawerItem
                 labelStyle={{ fontFamily: 'Roboto-Regular' }}
-                label="Anuncie"
+                label="Seja um anunciante"
                 inactiveTintColor='#fff'
                 onPress={() => navigation.navigate("Anuncie")}
             />

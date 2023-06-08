@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { BtnIcone } from '../../styles'
 
@@ -7,7 +7,7 @@ import ListaCategorias from '../../componentes/ListaCategorias';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { useNavigation, useTheme } from '@react-navigation/native'
+import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/native'
 
 
 import api from '../../servicos/api';
@@ -21,10 +21,18 @@ export default function Home() {
   const [produtos, setProdutos] = useState([])
   // const [servico, setServico] = useState([])
 
-  useEffect(() => {
-    onRefresh()
+  useFocusEffect(
 
-  }, [])
+    
+    useCallback(() => {
+      let ativo = true
+      onRefresh()
+      
+      return () => {
+        ativo = false
+      }
+    }, [])
+    )
 
 
 

@@ -1,3 +1,4 @@
+import {memo} from 'react'
 import {
   Image,
   Dimensions,
@@ -14,7 +15,7 @@ const { width: WIDTH } = Dimensions.get('window')
 
 import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, ContainerLoja } from "./styles";
 
-export default function ProdutoFeed({ item }) {
+function ProdutoFeed({ item }) {
 
   const { preco, oferta, campanha, imagens, nome, loja } = item
 
@@ -79,7 +80,6 @@ export default function ProdutoFeed({ item }) {
 
         <TxtPreco>
           {formateValor(!!oferta ? oferta : preco)}
-          <Text style={{ fontFamily: 'Roboto-Light', fontSize: 13 }}> à vista</Text>
         </TxtPreco>
 
         <ContainerLoja>
@@ -93,3 +93,4 @@ export default function ProdutoFeed({ item }) {
   );
 }
 
+export default memo(ProdutoFeed)

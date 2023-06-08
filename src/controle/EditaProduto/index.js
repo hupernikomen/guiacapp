@@ -56,7 +56,7 @@ export default function EditaProduto() {
             lado={'flex-end'}
             onPress={ConfirmaExclusao}
           >
-            <Material name='delete-outline' size={30} color={'#fff'} />
+            <Material name='delete-outline' size={30} color={colors.tema} />
           </BtnIcone>
         )
       }
@@ -65,6 +65,7 @@ export default function EditaProduto() {
   }, [])
 
   useEffect(() => {
+
     if (produto.oferta === null) setProduto({ ...produto, campanhaID: null });
   },[produto.oferta])
 
@@ -183,6 +184,7 @@ export default function EditaProduto() {
     <Tela>
 
       <ScrollView
+        style={{paddingVertical:25}}
         showsVerticalScrollIndicator={false}>
 
         <ContainerInput>
@@ -272,12 +274,6 @@ export default function EditaProduto() {
             </Picker>
           </View>
        }
-
-
-
-
-
-
 
         <View>
           <SimulaInput>

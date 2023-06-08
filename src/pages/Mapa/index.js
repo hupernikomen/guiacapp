@@ -54,16 +54,12 @@ export default function Mapa() {
                 <TextoPadrao>
                     {me?.endereco}
                 </TextoPadrao>
-                <TextoPadrao>
-                    {me?.bairro}
-                </TextoPadrao>
 
                 <TextoPadrao>
                     {me?.referencia}
                 </TextoPadrao>
             </Card>
             <Maps
-            
                 width={width}
                 height={height}
                 region={region}

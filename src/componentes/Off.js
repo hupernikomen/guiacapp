@@ -1,23 +1,23 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { useTheme } from '@react-navigation/native';
-
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useTheme } from '@react-navigation/native';
 
 export default function Off({  valor }) {
 
-    const { colors } = useTheme()
+    const {colors} = useTheme()
+
     return (
         <View style={{
             alignItems: 'center',
             position: 'absolute',
             zIndex: 99,
-            left: -9,
-            top: -6
+            left: -10,
+            top: -7
         }}>
 
-            <Material name='bookmark' size={46} color={'#EF6C0099'} />
+            <Material name='bookmark' size={46} color={colors.tema} />
             <View
                 style={{
                     position: 'absolute',
@@ -25,16 +25,16 @@ export default function Off({  valor }) {
                 }}>
 
                 <Text style={{
-                    fontFamily: "Roboto-Regular",
+                    fontFamily: "Roboto-Medium",
                     alignSelf: 'center',
-                    fontSize: 9,
+                    fontSize: 10,
                     color: '#fff',
                     marginTop: 2
                 }}>
                     {valor + '%'}
                 </Text>
                 <Text style={{
-                    fontFamily: "Roboto-Regular",
+                    fontFamily: "Roboto-Medium",
                     fontSize: 9,
                     marginTop: -2,
                     color: '#fff',

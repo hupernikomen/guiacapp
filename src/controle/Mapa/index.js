@@ -33,64 +33,6 @@ export default function Mapa() {
 
   const { colors } = useTheme()
 
-  // Function to get permission for location
-  const requestLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Geolocation Permission',
-          message: 'Can we access your location?',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === 'granted') {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (err) {
-      return false;
-    }
-  };
-
-  // function to check permissions and get Location
-  const getLocation = () => {
-    setCarregando(true)
-
-    const result = requestLocationPermission();
-    result.then(res => {
-      if (res) {
-        Geolocation.getCurrentPosition(
-          position => {
-            // setLocation(position);
-            SalvarLatlng(position.coords.latitude, position.coords.longitude)
-
-          },
-          error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
-            setCarregando(false)
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
-        );
-      }
-    });
-  };
-
-
-  const ToastOK = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
-
   const delta = {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421
@@ -102,6 +44,65 @@ export default function Mapa() {
   })
 
 
+  // Verificar se o app permissão para acessar localização
+  const permissaoLocalizacao = async () => {
+    try {
+      const autorizado = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Permissão de Geolocalização',
+          message: 'Podemos acessar sua localização?',
+          buttonNeutral: 'Lembre-me mais tarde',
+          buttonNegative: 'Cancelar',
+          buttonPositive: 'OK',
+        },
+      );
+
+      if (autorizado === 'granted') {
+        return true
+      } else {
+        return false
+      }
+
+    } catch (err) {
+      return false;
+    }
+  };
+
+  // Checar Permissão e Pegar Locaização Automatica
+  const getLocation = () => {
+    setCarregando(true)
+
+    const permissao = permissaoLocalizacao();
+    permissao.then(response => {
+      if (response) {
+        Geolocation.getCurrentPosition(
+          position => {
+            SalvarLatlng(position.coords?.latitude, position.coords?.longitude)
+          },
+          error => {
+            console.log(error);
+            setCarregando(false)
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+        );
+      }
+    });
+  };
+
+
+  const Toast = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
+
+
   async function CarregaLocUsuario() {
 
     const headers = {
@@ -110,14 +111,16 @@ export default function Mapa() {
     }
     await api.get(`/loja?lojaID=${credenciais.id}`, { headers })
       .then((response) => {
-        if (response.data?.latlng == null) {
-          return
-        }
+
         const { latitude, longitude } = JSON.parse(response.data?.latlng)
 
         setMarker({ latitude: latitude, longitude: longitude });
         setRegion({ latitude: latitude, longitude: longitude, ...delta });
 
+      })
+      .catch((err) => {
+        // TRATAR ESSE MOMENTO DE ERRO
+        console.log("errou");
       })
 
   }
@@ -129,23 +132,10 @@ export default function Mapa() {
       latitude,
       longitude
     })
-    setTimeout(() => {
-      Alert.alert("Mudar Localização?", "Caso confirme sua localização será alterada...", [
-        {
-          text: "Sim",
-          onPress: () => {
 
-            SalvarLatlng(latitude, longitude)
-          },
-        },
-        {
-          text: "Não",
-          onPress: () => {
-            CarregaLocUsuario()
-          }
-        },
-      ])
-    }, 300);
+    SalvarLatlng(latitude, longitude)
+    Toast("Localização Atualizada")
+
   }
 
 
@@ -164,7 +154,6 @@ export default function Mapa() {
       .then(() => {
         CarregaLocUsuario()
         setCarregando(false)
-        ToastOK("Localização Registrada")
 
       })
       .catch((err) => {
@@ -177,35 +166,34 @@ export default function Mapa() {
     <View>
 
       <Pressable
-activeOpacity={.8}
+        activeOpacity={.8}
         onPress={getLocation}
         style={{
           position: 'absolute',
           zIndex: 99,
-          marginTop: 5,
+          marginTop: 10,
           backgroundColor: '#fff',
-          height: 60,
-          width: '97%',
+          height: 55,
           alignSelf: "center",
           alignItems: 'center',
-          justifyContent: 'center',
           flexDirection: "row",
           elevation: 5,
-          borderRadius: 6
+          borderRadius: 55 / 2,
+          paddingHorizontal: 20
         }}>
 
-        <Text style={{ color: '#000', fontFamily: 'Roboto-Regular', fontSize: 15 }}>Capturar localização automaticamente</Text>
+        <Text style={{ color: '#000', fontFamily: 'Roboto-Regular', fontSize: 15 }}>Capturar localização atual</Text>
         <View
           activeOpacity={.7}
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            width: 58,
             borderRadius: 58 / 2,
             opacity: .8,
+            marginLeft: 15
           }}>
 
-          {requestLocationPermission && <View style={{
+          {permissaoLocalizacao && <View style={{
             width: 8,
             aspectRatio: 1,
             backgroundColor: '#0066ff',
@@ -222,33 +210,27 @@ activeOpacity={.8}
 
         </View>
       </Pressable>
-      <View style={{ marginTop: 70, backgroundColor: '#fff', zIndex: 9, width: '100%', padding: 5, opacity: .8, position: 'absolute' }}>
-        <Text style={{ alignSelf: 'center', color: '#000', fontFamily: 'Roboto-Regular' }}>Ou selecione no mapa sua localização com um toque</Text>
-      </View>
-
-
 
 
       <MapView
-        onMapReady={CarregaLocUsuario} // função chamada quando todo omapa esta carregado
+        // onMapReady={CarregaLocUsuario} // função chamada quando todo omapa esta carregado
         maxZoomLevel={20}
         loadingEnabled={true}
-
         minZoomLevel={12}
         mapType='standard'
-        onPress={CapturaLatLng}
         style={{ width, height }}
         region={region}
       >
-        {marker &&
-
-          <Marker
-
-            coordinate={marker}
-            pinColor={colors.tema}
-            loadingEnabled
-          />
-        }
+        <Marker
+          draggable
+          onDragEnd={CapturaLatLng}
+          coordinate={marker || {
+            latitude: -5.1036423,
+            longitude: -42.7516067,
+          }}
+          pinColor={colors.tema}
+          loadingEnabled
+        />
       </MapView>
     </View>
   );

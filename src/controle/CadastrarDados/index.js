@@ -74,7 +74,7 @@ export default function CadastrarDados() {
         <Tela>
 
             <ScrollView
-
+                   style={{paddingVertical:25}}
                 showsVerticalScrollIndicator={false}
             >
 

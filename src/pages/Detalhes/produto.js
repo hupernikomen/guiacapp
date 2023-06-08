@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Dimensions, ScrollView, FlatList, Image } from 'react-native';
-import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Pinchable from 'react-native-pinchable';
 
 import api from '../../servicos/api';
+
+import { ProdutoContext } from '../../contexts/produtoContext';
 
 import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo, TextoAvista } from './styles'
 import Avatar from '../../componentes/Avatar';
@@ -14,6 +16,8 @@ import Load from '../../componentes/Load';
 export default function Detalhes() {
 
   const [load, setLoad] = useState(false)
+
+  const {arrTamanhos} = useContext(ProdutoContext)
 
   const navigation = useNavigation()
   const route = useRoute()
@@ -25,6 +29,8 @@ export default function Detalhes() {
 
   useEffect(() => {
     PegaItem()
+
+    
 
   }, [route])
 
@@ -44,7 +50,7 @@ export default function Detalhes() {
   }
 
   function SizesFormatted(tams) {
-    const sizesDefault = ['PP', 'P', 'M', 'G', 'GG'];
+    const sizesDefault = arrTamanhos;
     const array = tams;
 
     array.sort((firstElement, secondElement) => {
@@ -84,99 +90,99 @@ export default function Detalhes() {
 
   return (
 
-    <>
-      {/* <Header /> */}
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          flex: 1,
-          backgroundColor: '#fff'
-        }}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      onScroll={event => {
+        console.log(event);
+      }}
+      style={{
+        flex: 1,
+        backgroundColor: '#fff'
+      }}>
 
 
-        <FlatList
-          style={{ width: WIDTH, aspectRatio: 3 / 4, backgroundColor: '#f1f1f1', marginBottom: 10 }}
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled
-          data={produto.imagens}
-          horizontal
-          renderItem={({ item }) => <RenderItem data={item} />}
-        />
+      <FlatList
+        style={{ width: WIDTH, aspectRatio: 1, backgroundColor: '#f1f1f1' }}
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled
+        data={produto.imagens}
+        horizontal
+        renderItem={({ item }) => <RenderItem data={item} />}
+      />
+
+      <ContainerLoja
+
+        onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
+        <Avatar DATA={produto.loja} WIDTH={36} SIZE={12} />
+
+        <View style={{ marginLeft: 10 }}>
+          <NomeLoja>{produto.loja?.nome}</NomeLoja>
+          <Text style={{ fontSize: 12, fontFamily: 'Roboto-Light', color: '#000' }}>Acessar pagina da loja</Text>
+        </View>
+      </ContainerLoja>
+
+      <View style={{
+        paddingHorizontal: 20,
+      }}>
 
 
-        <View style={{
-          paddingHorizontal: 20,
-        }}>
 
+        {produto.campanha && <View style={{ position: 'relative', height: 20, marginTop: 15 }}>
+          <Text style={{ borderRadius: 4, backgroundColor: '#000000', color: '#fff', paddingHorizontal: 10, paddingVertical: 2, fontSize: 10, position: 'absolute' }}>{produto?.campanha?.nome}</Text>
+        </View>}
 
-          <ContainerLoja
+        <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>Categoria: {produto.categoria?.nome}</Text>
+        <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
 
-            onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
-            <Avatar DATA={produto.loja} WIDTH={30} SIZE={12} />
+        <ContainerPreco>
+          {!!produto.oferta ?
+            <View>
+              <TxtPrecoAntigo>{formateValor(produto.preco)}</TxtPrecoAntigo>
 
-            <View style={{ marginLeft: 10 }}>
-              <NomeLoja>{produto.loja?.nome}</NomeLoja>
-              <Text style={{ fontSize: 11, fontFamily: 'Roboto-Light', color: '#000' }}>Acessar pagina da loja</Text>
+              <TxtPreco>{formateValor(produto.oferta)} <TextoAvista>à vista</TextoAvista></TxtPreco>
             </View>
-          </ContainerLoja>
+            :
 
-          {produto.campanha && <View style={{ position: 'relative', height: 20, marginTop: 15 }}>
-            <Text style={{ borderRadius: 4, backgroundColor: '#000000', color: '#fff', paddingHorizontal: 10, paddingVertical: 2, fontSize: 10, position: 'absolute' }}>{produto?.campanha?.nome}</Text>
-          </View>}
+            <TxtPreco>{formateValor(produto.preco)} <TextoAvista>à vista</TextoAvista></TxtPreco>
+          }
 
-          <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>Categoria: {produto.categoria?.nome}</Text>
-          <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
-
-          <ContainerPreco>
-            {!!produto.oferta ?
-              <View>
-                <TxtPrecoAntigo>{formateValor(produto.preco)}</TxtPrecoAntigo>
-
-                <TxtPreco>{formateValor(produto.oferta)} <TextoAvista>à vista</TextoAvista></TxtPreco>
-              </View>
-              :
-
-              <TxtPreco>{formateValor(produto.preco)} <TextoAvista>à vista</TextoAvista></TxtPreco>
-            }
-
-          </ContainerPreco>
+        </ContainerPreco>
 
 
-          {produto.tamanho?.length > 0 && <View style={{ flexDirection: 'row' }}>
+        {produto.tamanho?.length > 0 && <View style={{ flexDirection: 'row' }}>
 
-            <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Tamanhos Disponiveis:</Text>
-
-
-            {SizesFormatted(produto.tamanho)?.map((item, index) => {
-              return (
-
-                <Text
-                  key={index}
-                  style={{
-                    color: '#000',
-                    borderRadius: 6,
-                    marginLeft: 5,
-                  }}>
-                  {index != 0 && '- '}{item}
-                </Text>
-              )
-            })}
-          </View>}
-
-          <View style={{ marginTop: 15 }}>
-
-            <TextoAvista style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</TextoAvista>
-            <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>
-              {produto.descricao}
-            </Text>
-          </View>
+          <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Tamanhos Disponiveis:</Text>
 
 
+          {SizesFormatted(produto.tamanho)?.map((item, index) => {
+            return (
+
+              <Text
+                key={index}
+                style={{
+                  color: '#000',
+                  borderRadius: 6,
+                  marginLeft: 5,
+                }}>
+                {index != 0 && '- '}{item}
+              </Text>
+            )
+          })}
+        </View>}
+
+        <View style={{ marginTop: 15 }}>
+
+          <TextoAvista style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</TextoAvista>
+          <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>
+            {produto.descricao}
+          </Text>
         </View>
 
 
-      </ScrollView>
-    </>
+      </View>
+
+
+    </ScrollView>
 
   );
 }

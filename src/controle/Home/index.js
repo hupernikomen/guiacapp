@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback } from 'react';
-import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl, } from 'react-native';
+import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl, StatusBar } from 'react-native';
 import { BtnIcone, BtnCanto } from '../../styles'
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
@@ -15,6 +15,8 @@ import Avatar from '../../componentes/Avatar';
 import api from '../../servicos/api';
 
 export default function HomeControle() {
+
+  console.log("Controle - Home | RENDER")
 
   const { credenciais, signOut } = useContext(LojaContext)
   const navigation = useNavigation()
@@ -136,66 +138,6 @@ export default function HomeControle() {
 
 
   function Header() {
-    return (
-      <View style={{
-        backgroundColor: colors.tema,
-        flexDirection: 'row',
-        alignItems: 'center',
-        maxHeight: 55,
-        height: 55,
-        elevation: 5,
-        zIndex: 999
-      }}>
-
-        <BtnIcone
-          lado={'center'}
-          onPress={() => navigation.openDrawer()}>
-          <Material name='menu' size={24} color={'#fff'} />
-        </BtnIcone>
-
-        <Pressable
-          style={{
-            minWidth: 55,
-            width:55,
-            aspectRatio:1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginRight: 10
-          }}
-          onPress={Logo}>
-          <Material name={'pencil-box'} size={18} color='#ECEFF1'
-            style={{ position: 'absolute', zIndex: 9, right: 5, bottom: 5 }} />
-
-
-          <Avatar DATA={loja} WIDTH={40} SIZE={14} />
-        </Pressable>
-
-
-        <Text
-          numberOfLines={1}
-          style={{
-            flex: 1,
-            fontFamily: 'Roboto-Medium',
-            fontSize: 20,
-            color: '#fff',
-          }}>{loja.nome}</Text>
-
-
-        <BtnIcone
-          onPress={signOut}
-          lado={'center'}
-        >
-          <Material name='logout-variant' size={24} color={'#fff'} />
-        </BtnIcone>
-
-
-      </View>
-    )
-  }
-
-
-  function CarrosselPaginas() {
-
     const paginas = [
       {
         nome: 'Dados',
@@ -210,50 +152,105 @@ export default function HomeControle() {
         link: 'MapaControle',
       },
     ]
-
-
-
     return (
-      <ScrollView
-        horizontal
-        style={{
+      <View style={{
+        elevation:5,
+        backgroundColor: '#fff',
+        zIndex: 999
+
+        }}>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
           maxHeight: 55,
-          minHeight: 55,
-          width: '100%',
-          backgroundColor: colors.tema,
-        }}
-      >
+          height: 55,
+        }}>
 
-        {paginas.map((item, index) => (
+          <BtnIcone
+            lado={'center'}
+            onPress={() => navigation.openDrawer()}>
+            <Material name='menu' size={24} color={'#000'} />
+          </BtnIcone>
+
           <Pressable
-            key={index}
             style={{
+              minWidth: 55,
+              width: 55,
+              aspectRatio: 1,
+              alignItems: 'center',
               justifyContent: 'center',
-              alignItems: "center",
-              paddingHorizontal: 5,
-              marginHorizontal: 10
+              marginRight: 10
             }}
-            onPress={() => navigation.navigate(item.link)}
-          >
-            <Text style={{
-              textTransform: 'uppercase',
-              fontFamily: 'Roboto-Regular',
-              fontSize: 13,
-              color: '#fff',
-            }}>{item.nome}</Text>
-          </Pressable>
-        ))}
+            onPress={Logo}>
+            <Material name={'pencil-box'} size={18} color='#ECEFF1'
+              style={{ position: 'absolute', zIndex: 9, right: 5, bottom: 5 }} />
 
-      </ScrollView>
+
+            <Avatar DATA={loja} WIDTH={40} SIZE={14} />
+          </Pressable>
+
+
+          <Text
+            numberOfLines={1}
+            style={{
+              flex: 1,
+              fontFamily: 'Roboto-Medium',
+              fontSize: 20,
+              color: '#000',
+            }}>{loja.nome}</Text>
+
+
+          <BtnIcone
+            onPress={signOut}
+            lado={'center'}
+          >
+            <Material name='logout-variant' size={24} color={'#000'} />
+          </BtnIcone>
+
+
+        </View>
+
+        <ScrollView
+          horizontal
+          style={{
+            maxHeight: 55,
+            height: 55,
+            width: '100%',
+            backgroundColor: '#fff',
+          }}
+        >
+
+          {paginas.map((item, index) => (
+            <Pressable
+              key={index}
+              style={{
+                justifyContent: 'center',
+                alignItems: "center",
+                paddingHorizontal: 5,
+                marginHorizontal: 10
+              }}
+              onPress={() => navigation.navigate(item.link)}
+            >
+              <Text style={{
+                textTransform: 'uppercase',
+                fontFamily: 'Roboto-Regular',
+                fontSize: 13,
+                color: '#000',
+              }}>{item.nome}</Text>
+            </Pressable>
+          ))}
+
+        </ScrollView>
+      </View>
+
     )
   }
 
 
+
   return (
     <>
-
       <Header />
-      <CarrosselPaginas />
 
       <FlatList
 

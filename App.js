@@ -13,6 +13,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     tema: '#a82424',
+    temalojas: "#333",
     link: '#0288D1',
     vartema: '#EDAA25',
     destaque: '#00838F',
