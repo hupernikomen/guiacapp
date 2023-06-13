@@ -46,7 +46,7 @@ function ProdutoControle({ item }) {
       {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}
       <View>
         <Image
-          style={{ aspectRatio: 1, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
+          style={{ aspectRatio: 8/9, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
           source={{ uri: imagens[0]?.location }} />
 
         {campanha?.nome &&

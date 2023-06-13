@@ -102,7 +102,7 @@ export default function Detalhes() {
 
 
       <FlatList
-        style={{ width: WIDTH, aspectRatio: 1, backgroundColor: '#f1f1f1' }}
+        style={{ width: WIDTH, aspectRatio: 7/9, backgroundColor: '#f1f1f1' }}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         data={produto.imagens}
@@ -113,11 +113,11 @@ export default function Detalhes() {
       <ContainerLoja
 
         onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
-        <Avatar DATA={produto.loja} WIDTH={36} SIZE={12} />
+        <Avatar DATA={produto.loja} WIDTH={40} SIZE={12} />
 
         <View style={{ marginLeft: 10 }}>
           <NomeLoja>{produto.loja?.nome}</NomeLoja>
-          <Text style={{ fontSize: 12, fontFamily: 'Roboto-Light', color: '#000' }}>Acessar pagina da loja</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'Roboto-Light', color: '#000' }}>Acessar página da loja</Text>
         </View>
       </ContainerLoja>
 
@@ -170,7 +170,7 @@ export default function Detalhes() {
           })}
         </View>}
 
-        <View style={{ marginTop: 15 }}>
+        <View style={{ marginVertical: 15 }}>
 
           <TextoAvista style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</TextoAvista>
           <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>

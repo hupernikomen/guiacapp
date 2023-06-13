@@ -133,6 +133,18 @@ export default function EditaProduto() {
       })
   }
 
+  function SizesFormatted(tams) {
+    const sizesDefault = arrTamanhos;
+    const array = tams;
+
+    array.sort((firstElement, secondElement) => {
+      const positionInDefaultA = sizesDefault.indexOf(firstElement);
+      const positionInDefaultB = sizesDefault.indexOf(secondElement);
+      return positionInDefaultA - positionInDefaultB;
+    });
+
+    return array;
+  };
 
 
   function RenderItem({ data }) {
@@ -283,7 +295,7 @@ export default function EditaProduto() {
 
               ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
               horizontal
-              data={produto.tamanho}
+              data={SizesFormatted(produto.tamanho)}
               renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }}>{item}</Text>}
             />
 

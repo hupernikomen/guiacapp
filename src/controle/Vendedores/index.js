@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Pressable, FlatList, Alert } from 'react-native';
+import { View, Text, Pressable, FlatList, Alert, Image } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -8,7 +8,9 @@ import { LojaContext } from '../../contexts/lojaContext';
 import { useTheme } from '@react-navigation/native';
 
 import api from '../../servicos/api';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 
+import ImagePicker from 'react-native-image-crop-picker'
 
 import { Tela, BotaoPrincipal, TextBtn, TituloInput, ContainerInput, Input } from '../../styles'
 
@@ -17,6 +19,7 @@ export default function Vendedores() {
   const { credenciais } = useContext(LojaContext)
   const { colors } = useTheme()
 
+  const [avatar, setAvatar] = useState([])
   const [nome, setNome] = useState("")
   const [whatsapp, setWhatsapp] = useState("")
   const [setor, setSetor] = useState("")
@@ -37,6 +40,22 @@ export default function Vendedores() {
       })
   }
 
+  const BuscarImagem = () => {
+    ImagePicker.openPicker({
+      width: 300, height: 300, cropping: true,
+      mediaType: 'photo',
+      cropperCircleOverlay: true,
+      showCropGuidelines: true,
+      hideBottomControls: true
+
+    }).then(image => {
+      setAvatar(image)
+
+    }).catch(() => {
+      return
+    });
+  }
+
 
 
   async function CriarVendedores() {
@@ -51,16 +70,27 @@ export default function Vendedores() {
       return
     }
 
-    const vendedor = {
-      nome,
-      whatsapp,
-      setor
-    }
+    const formData = new FormData()
+    formData.append("nome", nome)
+    formData.append("setor", setor)
+    formData.append("whatsapp", whatsapp)
 
+    var result = await ImageResizer.createResizedImage(
+      avatar.path,
+      300,
+      300,
+      'JPEG',
+      80,  //verificar a qualidade da foto e mudar se necessario
+    );
+    formData.append('avatar', {
+      uri: result.uri,
+      type: 'image/jpeg',
+      name: result.name
+    });
 
-    await api.post(`/vendedor?lojaID=${credenciais.id}`, vendedor, {
+    await api.post(`/vendedor?lojaID=${credenciais.id}`, formData, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${credenciais.token}`
       }
     })
@@ -77,7 +107,7 @@ export default function Vendedores() {
 
   async function Excluir(id) {
     const headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer ${credenciais.token}`
     }
 
@@ -104,17 +134,19 @@ export default function Vendedores() {
   function RenderItem({ data }) {
     return (
       <View
-        style={{ 
-          paddingHorizontal: 10, 
-          flexDirection: "row", 
-          alignItems: 'center', 
-          borderRadius: 30, 
-          height: 65, 
+        style={{
+          paddingHorizontal: 10,
+          flexDirection: "row",
+          alignItems: 'center',
+          borderRadius: 30,
+          height: 65,
           margin: 2,
-          borderWidth:.5,
-          borderColor:'#777'
-          }}>
+          borderWidth: .5,
+          borderColor: '#777'
+        }}>
 
+<Image source={{ uri: data.avatar?.location }}
+            style={{ width: 60, aspectRatio: 1, borderRadius: 60 / 2, borderColor: '#fff', borderWidth: 4 }} />
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, borderRadius: 6 }}>
 
@@ -136,6 +168,16 @@ export default function Vendedores() {
   return (
     <Tela>
 
+      <Pressable
+        style={{ alignItems:'center',justifyContent:'center', backgroundColor: '#fff', width: 70, aspectRatio: 1, borderRadius: 70 / 2, elevation: 5, alignSelf: 'center', marginVertical: 20 }}
+        onPress={BuscarImagem}>
+        {avatar.length == 0 ?
+        <Material name='account-circle' size={36}/>
+          :
+          <Image source={{ uri: avatar?.path }}
+            style={{ width: 70, aspectRatio: 1, borderRadius: 70 / 2, borderColor: '#fff', borderWidth: 4 }} />
+        }
+      </Pressable>
       <>
 
         <ContainerInput>
@@ -187,23 +229,18 @@ export default function Vendedores() {
           </TextBtn>
 
         </BotaoPrincipal>
-
-      </>
-
-      
-
       <FlatList
-        ListEmptyComponent={
-          <Text style={{ marginTop: 40, textAlign: 'center', color: '#000', fontFamily: 'Roboto-Light' }}>
-            Você ainda não cadastrou nenhum vendedor para seu atendimento via whatsapp.
-          </Text>
-        }
         data={vendedores}
         renderItem={({ item }) => <RenderItem data={item} />}
         ListHeaderComponent={
-          <Text style={{fontFamily:'Roboto-Medium', fontSize:16, textAlign:"center",color:'#000',marginBottom:15}}>Vendedores Cadastrados</Text>
+          <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 16, textAlign: "center", color: '#000', marginBottom: 15 }}>Vendedores Cadastrados</Text>
         }
       />
+
+      </>
+
+
+
 
     </Tela>
   )

@@ -53,11 +53,22 @@ export default function CadastrarProduto() {
         CarregaCategorias()
     }, [])
 
-
+    function SizesFormatted(tams) {
+        const sizesDefault = arrTamanhos;
+        const array = tams;
+    
+        array.sort((firstElement, secondElement) => {
+          const positionInDefaultA = sizesDefault.indexOf(firstElement);
+          const positionInDefaultB = sizesDefault.indexOf(secondElement);
+          return positionInDefaultA - positionInDefaultB;
+        });
+    
+        return array;
+      };
 
     const Fotografar = () => {
         ImagePicker.openCamera({
-            width: 800, height: 800, cropping: true,
+            width: 700, height: 900, cropping: true,
             mediaType: 'photo',
             showCropGuidelines: true,
             hideBottomControls:true
@@ -71,7 +82,7 @@ export default function CadastrarProduto() {
 
     const BuscarImagem = () => {
         ImagePicker.openPicker({
-            width: 800, height: 800, cropping: true,
+            width: 700, height: 900, cropping: true,
             mediaType: 'photo',
             showCropGuidelines: true,
             hideBottomControls:true
@@ -125,8 +136,8 @@ export default function CadastrarProduto() {
             try {
                 var result = await ImageResizer.createResizedImage(
                     preview[i].path,
-                    800,
-                    800,
+                    700,
+                    900,
                     'JPEG',
                     100,  //verificar a qualidade da foto e mudar se necessario
                 );
@@ -363,7 +374,7 @@ export default function CadastrarProduto() {
                     <FlatList
                         ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
                         horizontal
-                        data={tamanho.sort()}
+                        data={SizesFormatted(tamanho)}
                         renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
                     />
 

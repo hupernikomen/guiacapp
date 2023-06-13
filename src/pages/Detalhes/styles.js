@@ -22,14 +22,13 @@ export const ProdutoNome = styled(Texto)`
     font-size: 22px;
     font-family: Roboto-Bold;
     text-transform: uppercase;
-    margin-vertical: 10px
 
 
 `
 export const ContainerPreco = styled.View`
     flex-direction: row;
     align-items: baseline;
-    margin-vertical: 25px
+    margin-vertical: 15px
 `
 export const TxtPreco = styled(Texto)`
     font-family: Roboto-Bold;

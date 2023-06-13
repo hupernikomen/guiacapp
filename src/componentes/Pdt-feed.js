@@ -1,4 +1,4 @@
-import {memo} from 'react'
+import { memo } from 'react'
 import {
   Image,
   Dimensions,
@@ -17,7 +17,7 @@ import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, Container
 
 function ProdutoFeed({ item }) {
 
-  const { preco, oferta, campanha, imagens, nome, loja } = item
+  const { preco, oferta, campanha, imagens, nome, loja, id } = item
 
   const navigation = useNavigation();
   const { name } = useRoute()
@@ -44,14 +44,14 @@ function ProdutoFeed({ item }) {
 
     <ProdutoContainer
       largura={(WIDTH / 2) - 12}
-      onPress={() => navigation.navigate("DetalheProduto", { id: item.id })}
+      onPress={() => navigation.navigate("DetalheProduto", { id })}
       activeOpacity={.9}>
 
       {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}
       <View>
 
         <Image
-          style={{ aspectRatio: 1, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
+          style={{ aspectRatio: 8 / 9, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
           source={{ uri: imagens[0]?.location }} />
 
         {campanha?.nome &&
