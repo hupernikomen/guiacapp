@@ -1,4 +1,4 @@
-package com.guiacapp;
+package com.guiacomercial.app;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

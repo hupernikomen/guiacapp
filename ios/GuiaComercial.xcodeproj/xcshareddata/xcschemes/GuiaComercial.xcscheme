@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "guiacapp.app"
-               BlueprintName = "guiacapp"
-               ReferencedContainer = "container:guiacapp.xcodeproj">
+               BuildableName = "GuiaComercial.app"
+               BlueprintName = "GuiaComercial"
+               ReferencedContainer = "container:GuiaComercial.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "guiacappTests.xctest"
-               BlueprintName = "guiacappTests"
-               ReferencedContainer = "container:guiacapp.xcodeproj">
+               BuildableName = "GuiaComercialTests.xctest"
+               BlueprintName = "GuiaComercialTests"
+               ReferencedContainer = "container:GuiaComercial.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "guiacapp.app"
-            BlueprintName = "guiacapp"
-            ReferencedContainer = "container:guiacapp.xcodeproj">
+            BuildableName = "GuiaComercial.app"
+            BlueprintName = "GuiaComercial"
+            ReferencedContainer = "container:GuiaComercial.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "guiacapp.app"
-            BlueprintName = "guiacapp"
-            ReferencedContainer = "container:guiacapp.xcodeproj">
+            BuildableName = "GuiaComercial.app"
+            BlueprintName = "GuiaComercial"
+            ReferencedContainer = "container:GuiaComercial.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
