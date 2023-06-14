@@ -1,5 +1,5 @@
 import { useContext, useState, useCallback } from 'react';
-import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl } from 'react-native';
+import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl,StatusBar } from 'react-native';
 import { BtnIcone } from '../../styles'
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'

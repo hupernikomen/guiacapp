@@ -8,8 +8,8 @@ import Maps from '../../componentes/Mapa';
 
 import api from '../../servicos/api';
 
-import { Card } from './styles';
 import { TextoPadrao } from '../../styles';
+import Animated, {SlideInUp} from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get("window")
 export default function Mapa() {
@@ -51,8 +51,21 @@ export default function Mapa() {
     return (
         <>
        
-            <Card
-            
+            <Animated.View
+            style={{
+                position: 'absolute',
+                zIndex: 99,
+                alignSelf: 'center',
+                top: 10,
+                width: '95%',
+                borderRadius: 10,
+                paddingHorizontal: 20,
+                paddingVertical:10,
+                elevation: 3,
+                backgroundColor: '#ffffff',
+                opacity: .9
+            }}
+            entering={SlideInUp.delay(500)}
                 width={width - 40}>
                 <TextoPadrao>
                     {me?.endereco}
@@ -61,7 +74,7 @@ export default function Mapa() {
                 <TextoPadrao>
                     {me?.referencia}
                 </TextoPadrao>
-            </Card>
+            </Animated.View>
             <Maps
                 width={width}
                 height={height}

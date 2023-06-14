@@ -8,7 +8,7 @@ import api from '../../servicos/api';
 
 import { ProdutoContext } from '../../contexts/produtoContext';
 
-import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo, TextoAvista } from './styles'
+import { ContainerLoja, NomeLoja, TxtPreco, TxtPrecoAntigo, TextoAvista } from './styles'
 import Avatar from '../../componentes/Avatar';
 import Load from '../../componentes/Load';
 import Animated, { FadeInRight } from 'react-native-reanimated';
@@ -22,7 +22,6 @@ export default function Detalhes() {
 
   const navigation = useNavigation()
   const route = useRoute()
-
 
   const { width: WIDTH } = Dimensions.get('window')
 
@@ -117,7 +116,7 @@ export default function Detalhes() {
         <Avatar DATA={produto.loja} WIDTH={40} SIZE={12} />
 
         <Animated.View
-          entering={FadeInRight.duration(500).delay(200)}
+          entering={FadeInRight.duration(500)}
           style={{ marginLeft: 15 }}>
           <NomeLoja>{produto.loja?.nome}</NomeLoja>
           <Text style={{ fontSize: 12, fontFamily: 'Roboto-Light', color: '#000' }}>Acessar página da loja</Text>
@@ -135,9 +134,23 @@ export default function Detalhes() {
         </View>}
 
         <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>Categoria: {produto.categoria?.nome}</Text>
-        <ProdutoNome>{produto.nome?.trim()}</ProdutoNome>
+        <Animated.Text 
+        entering={FadeInRight.duration(500).delay(200)}
+        style={{
+          fontSize: 22,
+          fontFamily: 'Roboto-Bold',
+          textTransform: 'uppercase',
+          color:'#000'
+        }}>{produto.nome?.trim()}</Animated.Text>
 
-        <ContainerPreco>
+        <Animated.Text
+        entering={FadeInRight.duration(500).delay(300)}
+        style={{
+          fontSize: 22,
+          fontFamily: 'Roboto-Bold',
+          textTransform: 'uppercase',
+          color:'#000'
+        }}>
           {!!produto.oferta ?
             <View>
               <TxtPrecoAntigo>{formateValor(produto.preco)}</TxtPrecoAntigo>
@@ -149,7 +162,7 @@ export default function Detalhes() {
             <TxtPreco>{formateValor(produto.preco)} <TextoAvista>à vista</TextoAvista></TxtPreco>
           }
 
-        </ContainerPreco>
+        </Animated.Text>
 
 
         {produto.tamanho?.length > 0 && <View style={{ flexDirection: 'row' }}>
