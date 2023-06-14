@@ -41,9 +41,6 @@ export default function Loja() {
 
         BuscaLoja()
 
-        console.log(loja.latlng);
-
-
     }, [])
 
 
