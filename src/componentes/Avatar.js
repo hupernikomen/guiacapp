@@ -8,13 +8,18 @@ export default function Avatar({ DATA, WIDTH, SIZE }) {
 
     useEffect(() => {
         setDados({ DATA, WIDTH, SIZE })
-        setIniciais(dados.DATA?.nome?.trim()
-            .split(' ')[0]
-            .substring(0, 1) +
-            dados.DATA?.nome?.trim()
-                .split(' ')[1]
-                .substring(0, 1))
+        // setIniciais(dados.DATA?.nome?.trim()
+        //     .split(' ')[0]
+        //     .substring(0, 1) +
+        //     dados.DATA?.nome?.trim()
+        //         .split(' ')[1]
+        //         .substring(0, 1))
+        pegaIniciais()
     }, [])
+
+    const pegaIniciais = () => {
+        console.log(dados);
+    }
 
     return (
 
@@ -40,12 +45,12 @@ export default function Avatar({ DATA, WIDTH, SIZE }) {
                 </Text>
                 :
                 <Image
+                    source={{ uri: dados.DATA?.avatar?.location }}
                     style={{
                         width: WIDTH,
                         flex: 1,
                         resizeMode: 'contain'
                     }}
-                    source={{ uri: dados.DATA?.avatar?.location }}
                 />
             }
         </View>

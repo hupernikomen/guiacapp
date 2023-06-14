@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { BtnIcone } from '../../styles'
 
@@ -23,21 +23,20 @@ export default function Home() {
 
   useFocusEffect(
 
-    
+
     useCallback(() => {
       let ativo = true
       onRefresh()
-      
+
       return () => {
         ativo = false
       }
     }, [])
-    )
-
+  )
 
 
   if (load) {
-    return <Load/>
+    return <Load />
   }
 
   const onRefresh = () => {
@@ -92,7 +91,7 @@ export default function Home() {
             flex: 1,
             marginLeft: 15,
             fontFamily: 'Roboto-Medium',
-            fontSize: 20,
+            fontSize: 22,
             color: '#fff',
           }}>Guia Comercial</Text>
 

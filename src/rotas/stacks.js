@@ -39,14 +39,8 @@ export default function RotasStack() {
     <Stack.Navigator
       initialRouteName={'Home'}
       screenOptions={{
-        // headerStyle: {
-        //   backgroundColor: colors.tema,
-        // },
         headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontFamily: 'Roboto-Medium',
-          fontSize: 20
-        }
+
       }}
     >
 
@@ -54,7 +48,8 @@ export default function RotasStack() {
         name='Home'
         component={Home}
         options={{
-          headerShown: false
+          headerShown: false,
+
         }}
       />
 
@@ -64,6 +59,7 @@ export default function RotasStack() {
         options={{
           headerShown: false,
 
+
         }}
       />
 
@@ -71,8 +67,8 @@ export default function RotasStack() {
         name='Signin'
         component={Signin}
         options={{
-          title:'',
-          headerShadowVisible:false,
+          title: '',
+          headerShadowVisible: false,
           headerTintColor: "#000",
           headerStyle: {
             backgroundColor: '#f9f9f9',
@@ -97,6 +93,7 @@ export default function RotasStack() {
           headerStyle: {
             backgroundColor: colors.tema,
           },
+
         }}
       />
 
@@ -105,7 +102,7 @@ export default function RotasStack() {
         component={DetalheProduto}
         options={{
           title: "",
-          headerTransparent:true,
+          headerTransparent: true,
         }}
       />
 
@@ -136,16 +133,7 @@ export default function RotasStack() {
         }}
       />
 
-      <Stack.Screen
-        name='CadastrarVendedor'
-        component={CadastrarVendedor}
-        options={{
-          title: "Nossos Vendedores",
-          headerStyle: {
-            backgroundColor: colors.tema,
-          },
-        }}
-      />
+
 
 
 
@@ -204,12 +192,12 @@ export default function RotasStack() {
       <Stack.Screen
         name="CadastrarDados"
         component={CadastrarDados}
-        options={{ 
-          title: "Dados" ,
+        options={{
+          title: "Dados",
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor:'#000'
+          headerTintColor: '#000'
         }}
       />
 
@@ -222,22 +210,35 @@ export default function RotasStack() {
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor:'#000'
+          headerTintColor: '#000'
         }}
       />
 
       <Stack.Screen
         name="VendedoresControle"
         component={VendedoresControle}
-        options={{ 
+        options={{
           title: "Vendedores",
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor:'#000'
-       }}
+          headerTintColor: '#000'
+        }}
       />
 
+      <Stack.Screen
+        name='CadastrarVendedor'
+        component={CadastrarVendedor}
+        options={{
+          title: "Cadastrar Vendedor",
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTintColor: '#000'
+        }}
+      />
 
       <Stack.Screen
         name='EditaProduto'
@@ -247,7 +248,7 @@ export default function RotasStack() {
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor:'#000'
+          headerTintColor: '#000'
         }}
       />
 
@@ -255,11 +256,11 @@ export default function RotasStack() {
         name="MapaControle"
         component={MapaControle}
         options={{
-          title:'Mapa',
+          title: 'Mapa',
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor:'#000'
+          headerTintColor: '#000'
         }}
       />
 

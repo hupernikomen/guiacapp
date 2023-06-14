@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'

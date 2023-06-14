@@ -1,29 +1,27 @@
-import React, { useContext, useState, useCallback } from 'react';
-import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl, StatusBar } from 'react-native';
-import { BtnIcone, BtnCanto } from '../../styles'
+import { useContext, useState, useCallback } from 'react';
+import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl } from 'react-native';
+import { BtnIcone } from '../../styles'
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 
 import { LojaContext } from '../../contexts/lojaContext';
-import ImageResizer from '@bam.tech/react-native-image-resizer';
-import { launchImageLibrary } from 'react-native-image-picker';
 import ProdutoControle from '../../componentes/Pdt-controle';
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-
 import Avatar from '../../componentes/Avatar';
 
-import api from '../../servicos/api';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import { launchImageLibrary } from 'react-native-image-picker';
 import Animated, { SlideInDown } from 'react-native-reanimated';
+
+import api from '../../servicos/api';
 
 export default function HomeControle() {
 
   const { credenciais, signOut } = useContext(LojaContext)
   const navigation = useNavigation()
-
-  const [loja, setLoja] = useState([])
-
   const { colors } = useTheme()
 
+  const [loja, setLoja] = useState([])
   const [load, setLoad] = useState(false)
 
   useFocusEffect(
@@ -32,7 +30,6 @@ export default function HomeControle() {
 
     }, [])
   )
-
 
   const onRefresh = () => {
     BuscaLoja()
@@ -57,20 +54,14 @@ export default function HomeControle() {
     }
     await api.get(`/me?lojaID=${credenciais.id}`, { headers })
       .then((response) => {
-
         setLoja(response.data)
         setLoad(false)
-
-
       })
       .catch((error) => {
         ToastErro(error.status)
         setLoad(false)
       })
-
   }
-
-
 
   const options = {
     options: {
@@ -78,9 +69,6 @@ export default function HomeControle() {
 
     },
   }
-
-
-
 
   async function Logo() {
     await launchImageLibrary(options, ({ error, didCancel, assets }) => {
@@ -91,9 +79,6 @@ export default function HomeControle() {
       }
     })
   }
-
-
-
 
   async function CadastrarLogo(assets) {
     try {
@@ -153,7 +138,6 @@ export default function HomeControle() {
     ]
     return (
       <View style={{
-        elevation: 5,
         backgroundColor: '#fff',
         zIndex: 999
 
@@ -184,10 +168,8 @@ export default function HomeControle() {
             <Material name={'pencil-box'} size={18} color='#ECEFF1'
               style={{ position: 'absolute', zIndex: 9, right: 5, bottom: 5 }} />
 
-
             <Avatar DATA={loja} WIDTH={40} SIZE={14} />
           </Pressable>
-
 
           <Text
             numberOfLines={1}
@@ -198,14 +180,12 @@ export default function HomeControle() {
               color: '#000',
             }}>{loja.nome}</Text>
 
-
           <BtnIcone
             onPress={signOut}
             lado={'center'}
           >
             <Material name='logout-variant' size={24} color={'#000'} />
           </BtnIcone>
-
 
         </View>
 
@@ -218,7 +198,6 @@ export default function HomeControle() {
             backgroundColor: '#fff',
           }}
         >
-
           {paginas.map((item, index) => (
             <Pressable
               key={index}
@@ -245,12 +224,9 @@ export default function HomeControle() {
     )
   }
 
-
-
   return (
     <>
       <Header />
-
       <FlatList
 
         data={loja?.produtos}
@@ -260,7 +236,6 @@ export default function HomeControle() {
         numColumns={2}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-
         refreshControl={
           <RefreshControl
             refreshing={load}
@@ -269,9 +244,8 @@ export default function HomeControle() {
         }
       />
 
-
-
       <Animated.View
+        entering={SlideInDown.delay(500)}
         style={{
           width: 55,
           aspectRatio: 1,
@@ -283,8 +257,6 @@ export default function HomeControle() {
           backgroundColor: colors.tema,
           elevation: 5
         }}
-        entering={SlideInDown.delay(500)}
-
       >
         <Pressable
           style={{
@@ -302,6 +274,3 @@ export default function HomeControle() {
     </>
   );
 }
-
-
-

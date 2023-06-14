@@ -6,10 +6,9 @@ import {
   Text
 } from "react-native";
 
-import Entrega from "./Entrega";
-import Off from "./Off";
-
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation, useRoute } from "@react-navigation/native";
+import Off from "./Off";
 
 const { width: WIDTH } = Dimensions.get('window')
 
@@ -69,8 +68,6 @@ function ProdutoFeed({ item }) {
         }
       </View>
 
-
-
       <ContainerInfo>
         <Produto
           numberOfLines={1}
@@ -84,7 +81,11 @@ function ProdutoFeed({ item }) {
 
         <ContainerLoja>
           {name !== "Loja" && <LojaNome numberOfLines={1} lineBreakMode="tail">{loja?.nome}</LojaNome>}
-          {loja?.entrega && <Entrega />}
+          {loja?.entrega &&
+            <Material
+              name='truck-outline'
+              size={18}
+              color={'#333'} />}
         </ContainerLoja>
 
       </ContainerInfo>

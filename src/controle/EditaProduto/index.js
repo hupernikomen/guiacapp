@@ -23,7 +23,7 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { Input, TituloInput, ContainerInput, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela, BtnIcone } from "../../styles";
 
-import Animated,{ FadeIn, FlipInXDown, RollInLeft, SlideInDown, SlideInUp, StretchInX, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeIn, FlipInXDown, RollInLeft, SlideInDown, SlideInUp, StretchInX, ZoomIn } from 'react-native-reanimated';
 export default function EditaProduto() {
   const { credenciais } = useContext(LojaContext)
   const { arrTamanhos } = useContext(ProdutoContext)
@@ -67,7 +67,7 @@ export default function EditaProduto() {
   useEffect(() => {
 
     if (produto.oferta === null) setProduto({ ...produto, campanhaID: null });
-  },[produto.oferta])
+  }, [produto.oferta])
 
 
   async function BuscaCampanhas() {
@@ -196,7 +196,7 @@ export default function EditaProduto() {
     <Tela>
 
       <ScrollView
-        style={{paddingVertical:25}}
+        style={{ paddingVertical: 25 }}
         showsVerticalScrollIndicator={false}>
 
         <ContainerInput>
@@ -258,7 +258,7 @@ export default function EditaProduto() {
             borderColor: "#777",
             marginVertical: 10,
             minHeight: 55,
-            paddingLeft:10
+            paddingLeft: 10
           }}>
             <TituloInput>
               Campanha
@@ -285,7 +285,7 @@ export default function EditaProduto() {
               })}
             </Picker>
           </View>
-       }
+        }
 
         <View>
           <SimulaInput>
@@ -323,7 +323,6 @@ export default function EditaProduto() {
       </ScrollView>
 
       <Modal
-        animationType="fade"
         transparent={true}
         visible={modalVisible}
         statusBarTranslucent
@@ -331,7 +330,9 @@ export default function EditaProduto() {
 
       >
 
-        <View style={{ flex: 1 }}>
+        <Animated.View
+          entering={SlideInUp}
+          style={{ flex: 1 }}>
 
           <Pressable
             activeOpacity={1}
@@ -353,7 +354,7 @@ export default function EditaProduto() {
           </View>
 
 
-        </View>
+        </Animated.View>
       </Modal>
     </Tela>
   );
