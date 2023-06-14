@@ -269,25 +269,35 @@ export default function HomeControle() {
         }
       />
 
-      <Animated.View
-        entering={SlideInDown.delay(800)}
 
+
+      <Animated.View
         style={{
+          width: 55,
+          aspectRatio: 1,
+          borderRadius: 55 / 2,
           position: 'absolute',
           zIndex: 9999,
           right: 15,
           bottom: 25,
           backgroundColor: colors.tema,
-          width: 55,
-          aspectRatio: 1,
-          borderRadius: 30,
-          alignItems: 'center',
-          justifyContent: 'center',
           elevation: 5
         }}
-        onPress={() => navigation.navigate("CadastrarProduto")}>
-        <Material name='plus-thick' size={24} color='#fff' />
-      </Animated.View>
+        entering={SlideInDown.delay(500)}
+
+      >
+        <Pressable
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          background={colors.tema}
+          onPress={() => navigation.navigate("CadastrarProduto")}>
+
+          <Material name='plus-thick' size={26} color='#fff' />
+        </Pressable >
+      </Animated.View >
 
     </>
   );

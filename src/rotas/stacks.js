@@ -18,6 +18,7 @@ import Signin from '../pages/Signin'
 
 import CadastrarProduto from '../controle/CadastrarProduto';
 import EditaProduto from '../controle/EditaProduto';
+import CadastrarVendedor from '../controle/CadastrarVendedor';
 import CadastrarDados from '../controle/CadastrarDados';
 import MapaControle from '../controle/Mapa';
 import VendedoresControle from '../controle/Vendedores';
@@ -74,7 +75,7 @@ export default function RotasStack() {
           headerShadowVisible:false,
           headerTintColor: "#000",
           headerStyle: {
-            backgroundColor: '#f1f1f1',
+            backgroundColor: '#f9f9f9',
           },
         }}
       />
@@ -134,6 +135,18 @@ export default function RotasStack() {
           },
         }}
       />
+
+      <Stack.Screen
+        name='CadastrarVendedor'
+        component={CadastrarVendedor}
+        options={{
+          title: "Nossos Vendedores",
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
+        }}
+      />
+
 
 
 

@@ -16,7 +16,7 @@ export const ContainerLoja = styled.Pressable`
 `
 export const NomeLoja = styled(Texto)`
     font-family: Roboto-Medium;
-    font-size: 16px
+    font-size: 17px
 `
 export const ProdutoNome = styled(Texto)`
     font-size: 22px;

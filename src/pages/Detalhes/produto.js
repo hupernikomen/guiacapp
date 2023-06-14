@@ -11,13 +11,14 @@ import { ProdutoContext } from '../../contexts/produtoContext';
 import { ContainerLoja, NomeLoja, ProdutoNome, ContainerPreco, TxtPreco, TxtPrecoAntigo, TextoAvista } from './styles'
 import Avatar from '../../componentes/Avatar';
 import Load from '../../componentes/Load';
+import Animated, { FadeInRight } from 'react-native-reanimated';
 
 
 export default function Detalhes() {
 
   const [load, setLoad] = useState(false)
 
-  const {arrTamanhos} = useContext(ProdutoContext)
+  const { arrTamanhos } = useContext(ProdutoContext)
 
   const navigation = useNavigation()
   const route = useRoute()
@@ -30,7 +31,7 @@ export default function Detalhes() {
   useEffect(() => {
     PegaItem()
 
-    
+
 
   }, [route])
 
@@ -102,7 +103,7 @@ export default function Detalhes() {
 
 
       <FlatList
-        style={{ width: WIDTH, aspectRatio: 7/9, backgroundColor: '#f1f1f1' }}
+        style={{ width: WIDTH, aspectRatio: 7 / 9, backgroundColor: '#f1f1f1' }}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         data={produto.imagens}
@@ -115,10 +116,12 @@ export default function Detalhes() {
         onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
         <Avatar DATA={produto.loja} WIDTH={40} SIZE={12} />
 
-        <View style={{ marginLeft: 10 }}>
+        <Animated.View
+          entering={FadeInRight.duration(500).delay(200)}
+          style={{ marginLeft: 15 }}>
           <NomeLoja>{produto.loja?.nome}</NomeLoja>
           <Text style={{ fontSize: 12, fontFamily: 'Roboto-Light', color: '#000' }}>Acessar página da loja</Text>
-        </View>
+        </Animated.View>
       </ContainerLoja>
 
       <View style={{
