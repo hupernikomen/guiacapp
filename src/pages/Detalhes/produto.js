@@ -40,7 +40,7 @@ export default function Detalhes() {
 
   async function PegaItem() {
     setLoad(true)
-    await api.get(`/detalhe?produtoID=${route.params.id}`)
+    await api.get(`/detalhe/produto?produtoID=${route.params.id}`)
       .then((response) => {
 
         setProduto(response.data);

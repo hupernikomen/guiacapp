@@ -8,8 +8,6 @@ import api from '../../servicos/api';
 
 export default function Categorias() {
 
-  console.log('Pagina Categorias')
-
   const [produtos, setProdutos] = useState([])
 
   const {params} = useRoute()
@@ -17,7 +15,6 @@ export default function Categorias() {
 
   useEffect(() => {
 
-    console.log(params.id,"id");
     navigation.setOptions({
       title: params?.nome
 
@@ -30,7 +27,6 @@ export default function Categorias() {
   async function ProdutosPorCategoria() {
     await api.get(`/porcategoria?categoriaID=${params?.id}`)
     .then(({data}) => {
-      console.log(data);
       setProdutos(data);
 
     })

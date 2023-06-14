@@ -13,10 +13,9 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Avatar from '../../componentes/Avatar';
 
 import api from '../../servicos/api';
+import Animated, { SlideInDown } from 'react-native-reanimated';
 
 export default function HomeControle() {
-
-  console.log("Controle - Home | RENDER")
 
   const { credenciais, signOut } = useContext(LojaContext)
   const navigation = useNavigation()
@@ -154,11 +153,11 @@ export default function HomeControle() {
     ]
     return (
       <View style={{
-        elevation:5,
+        elevation: 5,
         backgroundColor: '#fff',
         zIndex: 999
 
-        }}>
+      }}>
         <View style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -270,12 +269,25 @@ export default function HomeControle() {
         }
       />
 
-      <BtnCanto
-        background={colors.tema}
-        lado={'flex-end'}
+      <Animated.View
+        entering={SlideInDown.delay(800)}
+
+        style={{
+          position: 'absolute',
+          zIndex: 9999,
+          right: 15,
+          bottom: 25,
+          backgroundColor: colors.tema,
+          width: 55,
+          aspectRatio: 1,
+          borderRadius: 30,
+          alignItems: 'center',
+          justifyContent: 'center',
+          elevation: 5
+        }}
         onPress={() => navigation.navigate("CadastrarProduto")}>
         <Material name='plus-thick' size={24} color='#fff' />
-      </BtnCanto>
+      </Animated.View>
 
     </>
   );

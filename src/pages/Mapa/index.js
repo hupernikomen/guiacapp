@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions,View,Text } from 'react-native';
+
 
 import { useRoute } from '@react-navigation/native';
 
@@ -49,7 +50,9 @@ export default function Mapa() {
 
     return (
         <>
+       
             <Card
+            
                 width={width - 40}>
                 <TextoPadrao>
                     {me?.endereco}

@@ -47,7 +47,7 @@ export default function Home() {
 
   async function BuscaProdutos() {
     setLoad(true)
-    await api.get('/produtos')
+    await api.get('/feed')
       .then((response) => {
         setProdutos(shuffle(response.data))
         setLoad(false)

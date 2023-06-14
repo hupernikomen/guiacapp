@@ -15,6 +15,7 @@ import Avatar from '../../componentes/Avatar';
 
 import { BtnIcone, BtnCanto } from '../../styles'
 import Load from '../../componentes/Load';
+import Animated, {SlideInDown} from 'react-native-reanimated';
 
 export default function Loja() {
 
@@ -161,11 +162,27 @@ export default function Loja() {
                 numColumns={2}
             />
 
-            <BtnCanto
+            <Animated.View
+            entering={SlideInDown.delay(800)}
+            
+            style={{
+                position:'absolute',
+                zIndex: 9999,
+                right: 15,
+                bottom:25,
+                backgroundColor:colors.tema,
+                width:55,
+                aspectRatio: 1,
+                borderRadius: 30,
+                alignItems: 'center',
+                justifyContent:'center',
+                elevation: 5
+            }}
+            
                 background={colors.tema}
                 onPress={() => navigation.navigate("Vendedores", loja.id)}>
                 <Material name='whatsapp' size={26} color='#fff' />
-            </BtnCanto>
+            </Animated.View>
         </>
-    );
+    )
 }

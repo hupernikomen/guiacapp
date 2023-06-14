@@ -16,7 +16,6 @@ import { Picker } from "@react-native-picker/picker";
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 import { LojaContext } from "../../contexts/lojaContext"
 import { ProdutoContext } from '../../contexts/produtoContext';
-
 import api from '../../servicos/api';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -24,6 +23,7 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { Input, TituloInput, ContainerInput, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela, BtnIcone } from "../../styles";
 
+import Animated,{ FadeIn, FlipInXDown, RollInLeft, SlideInDown, SlideInUp, StretchInX, ZoomIn } from 'react-native-reanimated';
 export default function EditaProduto() {
   const { credenciais } = useContext(LojaContext)
   const { arrTamanhos } = useContext(ProdutoContext)
@@ -295,7 +295,7 @@ export default function EditaProduto() {
 
               ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
               horizontal
-              data={SizesFormatted(produto.tamanho)}
+              data={produto.tamanho}
               renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }}>{item}</Text>}
             />
 

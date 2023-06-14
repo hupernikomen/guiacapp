@@ -68,7 +68,7 @@ export default function Search() {
   }, [busca])
 
   async function CarregaProdutos() {
-    const response = await api.get('/produtos')
+    const response = await api.get('/feed')
     setListaProdutos(response.data)
 
   }
