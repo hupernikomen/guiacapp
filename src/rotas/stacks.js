@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Home from '../pages/Home';
+import Feed from '../pages/Feed';
 import DetalheProduto from '../pages/Detalhes/produto';
 import DetalheServico from '../pages/Detalhes/servico';
 import Servicos from '../pages/Servicos';
@@ -37,7 +37,7 @@ export default function RotasStack() {
 
   return (
     <Stack.Navigator
-      initialRouteName={'Home'}
+      initialRouteName={'Feed'}
       screenOptions={{
         headerTintColor: "#fff",
 
@@ -45,8 +45,8 @@ export default function RotasStack() {
     >
 
       <Stack.Screen
-        name='Home'
-        component={Home}
+        name='Feed'
+        component={Feed}
         options={{
           headerShown: false,
 

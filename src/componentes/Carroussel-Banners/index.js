@@ -29,7 +29,7 @@ export default function CarrosselBanners() {
 
         timeoutRef.current = setTimeout(() => {
             setIndex(old => (old === banners.length - 1 ? 0 : old + 1));
-        }, 8000);
+        }, 3000);
 
         scrollRef.current?.scrollToIndex({
             index,

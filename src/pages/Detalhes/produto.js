@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Dimensions, ScrollView, FlatList, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -8,7 +8,7 @@ import api from '../../servicos/api';
 
 import { ProdutoContext } from '../../contexts/produtoContext';
 
-import { ContainerLoja, NomeLoja, TxtPreco, TxtPrecoAntigo, TextoAvista } from './styles'
+import estilo from './estilo'
 import Avatar from '../../componentes/Avatar';
 import Load from '../../componentes/Load';
 import Animated, { FadeInRight } from 'react-native-reanimated';
@@ -29,8 +29,6 @@ export default function Detalhes() {
 
   useEffect(() => {
     PegaItem()
-
-
 
   }, [route])
 
@@ -93,13 +91,7 @@ export default function Detalhes() {
 
     <ScrollView
       showsVerticalScrollIndicator={false}
-
-      style={{
-        flex: 1,
-        backgroundColor: '#fff'
-      }}>
-
-
+      style={estilo.pagina}>
       <FlatList
         initialNumToRender={5}
         style={{ width: WIDTH, aspectRatio: 7 / 9, backgroundColor: '#f1f1f1' }}
@@ -110,18 +102,20 @@ export default function Detalhes() {
         renderItem={({ item }) => <RenderItem data={item} />}
       />
 
-      <ContainerLoja
-
+      <View
+        style={estilo.container_loja}
         onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
         <Avatar DATA={produto.loja} WIDTH={40} SIZE={12} />
 
         <Animated.View
           entering={FadeInRight.duration(500)}
           style={{ marginLeft: 15 }}>
-          <NomeLoja>{produto.loja?.nome}</NomeLoja>
-          <Text style={{ fontSize: 12, fontFamily: 'Roboto-Light', color: '#000' }}>Acessar página da loja</Text>
+          <Text
+            style={estilo.nome_loja}>{produto.loja?.nome}</Text>
+
+          <Text style={estilo.info_botao_loja}>Acessar página da loja</Text>
         </Animated.View>
-      </ContainerLoja>
+      </View>
 
       <View style={{
         paddingHorizontal: 20,
@@ -133,7 +127,7 @@ export default function Detalhes() {
           <Text style={{ borderRadius: 4, backgroundColor: '#000000', color: '#fff', paddingHorizontal: 10, paddingVertical: 2, fontSize: 10, position: 'absolute' }}>{produto?.campanha?.nome}</Text>
         </View>}
 
-        <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>Categoria: {produto.categoria?.nome}</Text>
+        <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>{produto.categoria?.nome}</Text>
         <Animated.Text
           entering={FadeInRight.duration(500).delay(200)}
           style={{
@@ -155,11 +149,11 @@ export default function Detalhes() {
             <View>
               <TxtPrecoAntigo>{formateValor(produto.preco)}</TxtPrecoAntigo>
 
-              <TxtPreco>{formateValor(produto.oferta)} <TextoAvista>à vista</TextoAvista></TxtPreco>
+              <Text style={estilo.preco}>{formateValor(produto.oferta)} <Text style={estilo.avista}>à vista</Text></Text>
             </View>
             :
 
-            <TxtPreco>{formateValor(produto.preco)} <TextoAvista>à vista</TextoAvista></TxtPreco>
+            <Text style={estilo.preco}>{formateValor(produto.preco)} <Text style={estilo.avista}>à vista</Text></Text>
           }
 
         </Animated.Text>
@@ -188,7 +182,7 @@ export default function Detalhes() {
 
         <View style={{ marginVertical: 15 }}>
 
-          <TextoAvista style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</TextoAvista>
+          <Text style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</Text>
           <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>
             {produto.descricao}
           </Text>

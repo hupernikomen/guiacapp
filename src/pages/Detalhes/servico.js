@@ -7,16 +7,17 @@ import {
   useNavigation
 } from '@react-navigation/native'
 
+
 const WIDTH = Dimensions.get('window').width
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import estilo from './estilo';
 
 export default function DetalheServico() {
-  const navigation = useNavigation()
   const route = useRoute()
 
-  const [{ nome, tipoServico, bio, endereco, aDomicilio, latlng, telefone, foto }, setServico] = useState([])
+  const [{ nome, tipoServico, bio, telefone, foto }, setServico] = useState([])
   const [preview, setPreview] = useState(route.params.foto[0].location)
 
 
@@ -26,7 +27,7 @@ export default function DetalheServico() {
   }, [])
 
   return (
-    <ScrollView style={styles.tela}>
+    <ScrollView style={estilo.pagina}>
 
       <View style={styles.detalheFoto}>
         <Image
@@ -96,58 +97,3 @@ export default function DetalheServico() {
   );
 }
 
-const styles = StyleSheet.create({
-  tela: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  detalheFoto: {
-
-    backgroundColor: '#f1f1f1'
-  },
-  detalhes: {
-    paddingHorizontal: 20,
-    marginTop: 20
-  },
-  servico: {
-    fontFamily: "Roboto-Bold",
-    fontSize: 22,
-    color: '#000',
-    marginBottom: 5
-  },
-  bio: {
-    color: '#000',
-    fontFamily: 'Roboto-Light'
-  },
-  adomicilio: {
-    marginTop: 20,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  infoendereco: {
-    color: '#000',
-    fontFamily: 'Roboto-Light',
-  },
-  infodomicilio: {
-    marginLeft: 20
-  },
-  tituloendereco: {
-    fontFamily: "Roboto-Bold",
-    fontSize: 22,
-    color: '#000',
-    marginBottom: 5
-  },
-  endereco: {
-    marginTop: 20
-  },
-  btnmapa: {
-    marginTop: 40,
-    borderRadius: 10,
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  txtmapa: {
-    color: '#fff'
-  }
-})

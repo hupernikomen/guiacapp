@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
-import { BtnIcone } from '../../styles'
+import { FlatList, RefreshControl, Text, View, Pressable } from 'react-native';
 
 import Produto from '../../componentes/Produto-Feed';
 import ListaCategorias from '../../componentes/Lista-Categorias';
@@ -12,8 +11,10 @@ import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/nativ
 
 import api from '../../servicos/api';
 import Load from '../../componentes/Load';
+import estilo from './estilo';
+import CarrosselBanners from '../../componentes/Carroussel-Banners';
 
-export default function Home() {
+export default function Feed() {
   const navigation = useNavigation()
   const { colors } = useTheme()
 
@@ -22,8 +23,6 @@ export default function Home() {
   // const [servico, setServico] = useState([])
 
   useFocusEffect(
-
-
     useCallback(() => {
       let ativo = true
       onRefresh()
@@ -68,40 +67,25 @@ export default function Home() {
 
   function Header() {
     return (
-      <View style={{
-        backgroundColor: colors.tema,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        height: 57,
-        elevation: 5,
-        zIndex: 999
-      }}>
+      <View style={[estilo.container_header, { backgroundColor: colors.tema, }]}>
 
-        <BtnIcone
-          lado={'center'}
+        <Pressable
+          style={estilo.icone}
           onPress={() => navigation.openDrawer()}>
           <Material name='menu' size={24} color={'#fff'} />
-        </BtnIcone>
+        </Pressable>
 
 
         <Text
           numberOfLines={1}
-          style={{
-            flex: 1,
-            marginLeft: 15,
-            fontFamily: 'Roboto-Medium',
-            fontSize: 22,
-            color: '#fff',
-          }}>Guia Comercial</Text>
+          style={estilo.titulo}>Guia Comercial</Text>
 
 
-        <BtnIcone
-          lado={'center'}
+        <Pressable
+          style={estilo.icone}
           onPress={() => navigation.navigate("Search")}>
           <Material name='magnify' size={24} color='#fff' />
-        </BtnIcone>
-
+        </Pressable>
 
       </View>
     )
