@@ -6,7 +6,7 @@ import api from '../../servicos/api';
 import Maps from '../../componentes/Mapa';
 import Avatar from '../../componentes/Avatar';
 import Load from '../../componentes/Load';
-import Produto from '../../componentes/Pdt-feed';
+import Produto from '../../componentes/Produto-Feed';
 
 import { BtnIcone } from '../../styles'
 
@@ -158,9 +158,9 @@ export default function Loja() {
 
       <Animated.View
         style={{
-          width: 55,
+          width: 60,
           aspectRatio: 1,
-          borderRadius: 55 / 2,
+          borderRadius: 60 / 2,
           position: 'absolute',
           zIndex: 9999,
           right: 15,
@@ -168,7 +168,7 @@ export default function Loja() {
           backgroundColor: colors.tema,
           elevation: 5
         }}
-        entering={SlideInDown.delay(800)}
+        entering={SlideInDown.delay(500)}
 
       >
         <Pressable

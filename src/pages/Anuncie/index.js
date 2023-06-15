@@ -10,7 +10,6 @@ export default function Anuncie() {
   const d2 = Date.now();
   const diffInMs = new Date(d1) - new Date(d2)
   const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-  console.log(diffInDays)
 
 
   return (

@@ -27,8 +27,6 @@ import { Picker } from "@react-native-picker/picker";
 
 export default function CadastrarProduto() {
 
-  console.log("Controle - Cadastrar Produto | RENDER")
-
   const navigation = useNavigation()
 
   const { colors } = useTheme()

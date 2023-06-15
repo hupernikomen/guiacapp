@@ -120,7 +120,7 @@ export default function Mapa() {
       })
       .catch((err) => {
         // TRATAR ESSE MOMENTO DE ERRO
-        console.log("errou");
+        console.log(err);
       })
 
   }

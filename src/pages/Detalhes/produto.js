@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { View, Text, Dimensions, ScrollView, FlatList, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -37,6 +37,7 @@ export default function Detalhes() {
   if (load) {
     return <Load />
   }
+
 
   async function PegaItem() {
     setLoad(true)
@@ -92,9 +93,7 @@ export default function Detalhes() {
 
     <ScrollView
       showsVerticalScrollIndicator={false}
-      onScroll={event => {
-        console.log(event);
-      }}
+
       style={{
         flex: 1,
         backgroundColor: '#fff'
@@ -102,6 +101,7 @@ export default function Detalhes() {
 
 
       <FlatList
+        initialNumToRender={5}
         style={{ width: WIDTH, aspectRatio: 7 / 9, backgroundColor: '#f1f1f1' }}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
@@ -134,23 +134,23 @@ export default function Detalhes() {
         </View>}
 
         <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>Categoria: {produto.categoria?.nome}</Text>
-        <Animated.Text 
-        entering={FadeInRight.duration(500).delay(200)}
-        style={{
-          fontSize: 22,
-          fontFamily: 'Roboto-Bold',
-          textTransform: 'uppercase',
-          color:'#000'
-        }}>{produto.nome?.trim()}</Animated.Text>
+        <Animated.Text
+          entering={FadeInRight.duration(500).delay(200)}
+          style={{
+            fontSize: 22,
+            fontFamily: 'Roboto-Bold',
+            textTransform: 'uppercase',
+            color: '#000'
+          }}>{produto.nome?.trim()}</Animated.Text>
 
         <Animated.Text
-        entering={FadeInRight.duration(500).delay(300)}
-        style={{
-          fontSize: 22,
-          fontFamily: 'Roboto-Bold',
-          textTransform: 'uppercase',
-          color:'#000'
-        }}>
+          entering={FadeInRight.duration(500).delay(350)}
+          style={{
+            fontSize: 22,
+            marginVertical: 20,
+            fontFamily: 'Roboto-Bold',
+            color: '#000'
+          }}>
           {!!produto.oferta ?
             <View>
               <TxtPrecoAntigo>{formateValor(produto.preco)}</TxtPrecoAntigo>

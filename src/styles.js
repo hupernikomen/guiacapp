@@ -15,6 +15,12 @@ export const ContainerInput = styled.View`
     position: relative;
     margin-vertical: 10px;
 `
+export const ContainerInputInline = styled.View`
+    flex-direction:row;
+    justify-content:space-around;
+    position: relative;
+    margin-vertical: 10px;
+`
 export const Input = styled.TextInput`
     font-size: 16px;
     font-family: Roboto-Regular;
@@ -25,6 +31,18 @@ export const Input = styled.TextInput`
     color: #000;
     border-radius: 28px;
 `
+export const InputInine = styled.TextInput`
+    font-size: 14px;
+    font-family: Roboto-Regular;
+    height: 55px;
+    min-width: 20%;
+    border-width: .5px;
+    border-color: #777;
+    padding-horizontal: 25px;
+    color: #000;
+    border-radius: 28px;
+`
+
 export const CurrencyInputs =styled(CurrencyInput)`
 font-size: 16px;
 font-family: Roboto-Regular;
@@ -63,6 +81,19 @@ export const TituloInput = styled(Texto)`
     padding-vertical:2px;
     padding-horizontal: 10px;
 `
+export const TituloInputInline = styled(Texto)`
+    font-family: Roboto-Regular;
+    font-size: 13px;
+    position: absolute;
+    background-color:#fff;
+    border-radius: 10px;
+    z-index: 99;
+    top: -12px;
+    margin-left: 15px;
+    padding-vertical:2px;
+    padding-horizontal: 10px;
+`
+
 export const SimulaInput = styled.View`
     justify-content: space-between;
     margin-vertical: 10px;

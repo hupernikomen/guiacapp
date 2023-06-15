@@ -2,8 +2,8 @@ import { useCallback, useState } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { BtnIcone } from '../../styles'
 
-import Produto from '../../componentes/Pdt-feed';
-import ListaCategorias from '../../componentes/ListaCategorias';
+import Produto from '../../componentes/Produto-Feed';
+import ListaCategorias from '../../componentes/Lista-Categorias';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 

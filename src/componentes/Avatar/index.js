@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View, Image, Text } from 'react-native';
+import estilo from './estilo';
 
 export default function Avatar({ DATA, WIDTH, SIZE }) {
 
@@ -8,32 +9,18 @@ export default function Avatar({ DATA, WIDTH, SIZE }) {
 
     useEffect(() => {
         setDados({ DATA, WIDTH, SIZE })
-        // setIniciais(dados.DATA?.nome?.trim()
-        //     .split(' ')[0]
-        //     .substring(0, 1) +
-        //     dados.DATA?.nome?.trim()
-        //         .split(' ')[1]
-        //         .substring(0, 1))
-        pegaIniciais()
+        setIniciais(dados.DATA?.nome?.trim()
+            .split(' ')[0]
+            .substring(0, 1) +
+            dados.DATA?.nome?.trim()
+                .split(' ')[1]
+                .substring(0, 1))
     }, [])
 
-    const pegaIniciais = () => {
-        console.log(dados);
-    }
 
     return (
 
-        <View style={{
-            width: WIDTH,
-            borderRadius: WIDTH / 2,
-            aspectRatio: 1,
-            overflow: "hidden",
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 1,
-            borderColor: "#ddd",
-            backgroundColor: '#fff',
-        }}>
+        <View style={[estilo.container, { width: WIDTH, borderRadius: WIDTH / 2, }]}>
             {!dados.DATA?.avatar ?
 
                 <Text style={{

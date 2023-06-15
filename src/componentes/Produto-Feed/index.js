@@ -3,16 +3,17 @@ import {
   Image,
   Dimensions,
   View,
-  Text
+  Text,
+  Pressable
 } from "react-native";
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation, useRoute } from "@react-navigation/native";
-import Off from "./Off";
+import Off from "../Off";
 
 const { width: WIDTH } = Dimensions.get('window')
 
-import { ProdutoContainer, ContainerInfo, Produto, LojaNome, TxtPreco, ContainerLoja } from "./styles";
+import estilo from './estilo';
 
 function ProdutoFeed({ item }) {
 
@@ -41,56 +42,53 @@ function ProdutoFeed({ item }) {
 
   return (
 
-    <ProdutoContainer
+    <Pressable
+      style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 12 }]}
       largura={(WIDTH / 2) - 12}
-      onPress={() => navigation.navigate("DetalheProduto", { id })}
-      activeOpacity={.9}>
+      onPress={() => navigation.navigate("DetalheProduto", { id })}>
 
       {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}
       <View>
 
         <Image
-          style={{ aspectRatio: 8 / 9, borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
+          style={estilo.foto}
           source={{ uri: imagens[0]?.location }} />
 
         {campanha?.nome &&
-          <Text style={{
-            position: 'absolute',
-            bottom: -1,
-            left: -1,
-            borderRadius: 2,
-            backgroundColor: campanha?.tema,
-            paddingVertical: 2,
-            paddingHorizontal: 4,
-            color: '#fff',
-            fontSize: 11
-          }}>{campanha?.nome}</Text>
+          <Text style={[estilo.tag_campanha, { backgroundColor: campanha?.tema }]}>{campanha?.nome}</Text>
         }
       </View>
 
-      <ContainerInfo>
-        <Produto
+      <View
+        style={estilo.informacoes_do_produto}>
+        <Text
+          style={estilo.nome_produto}
           numberOfLines={1}
           ellipsizeMode={"tail"}>
           {Capitalize(nome)}
-        </Produto>
+        </Text>
 
-        <TxtPreco>
+        <Text
+          style={estilo.preco}>
           {formateValor(!!oferta ? oferta : preco)}
-        </TxtPreco>
+        </Text>
 
-        <ContainerLoja>
-          {name !== "Loja" && <LojaNome numberOfLines={1} lineBreakMode="tail">{loja?.nome}</LojaNome>}
+        <View
+          style={estilo.container_loja}>
+          {name !== "Loja" && 
+          <Text
+          style={estilo.nome_loja}
+           numberOfLines={1} lineBreakMode="tail">{loja?.nome}</Text>}
           {loja?.entrega &&
             <Material
               name='truck-outline'
               size={18}
               color={'#333'} />}
-        </ContainerLoja>
+        </View>
 
-      </ContainerInfo>
+      </View>
 
-    </ProdutoContainer>
+    </Pressable>
   );
 }
 

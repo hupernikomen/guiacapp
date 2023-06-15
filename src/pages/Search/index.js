@@ -3,7 +3,7 @@ import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
-import ProdutoFeed from '../../componentes/Pdt-feed';
+import ProdutoFeed from '../../componentes/Produto-Feed';
 
 import api from '../../servicos/api';
 

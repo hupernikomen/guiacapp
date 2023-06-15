@@ -4,7 +4,9 @@ import { Linking, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 
-import { LojaContext } from '../contexts/lojaContext';
+
+import { LojaContext } from '../../contexts/lojaContext';
+import estilo from './estilo';
 
 export default function DrawerCustom(props) {
 
@@ -15,22 +17,22 @@ export default function DrawerCustom(props) {
   return (
     <DrawerContentScrollView {...props}>
 
-      <View style={{ borderColor: '#811818', borderBottomWidth: 1 }}>
+      <View style={estilo.paginas}>
 
         <DrawerItem
-          labelStyle={{ fontFamily: 'Roboto-Regular' }}
+          labelStyle={estilo.fonte}
           label="Feed"
           inactiveTintColor='#fff'
           onPress={() => navigation.navigate("Home")}
         />
         <DrawerItem
-          labelStyle={{ fontFamily: 'Roboto-Regular' }}
+          labelStyle={estilo.fonte}
           label="Lojas Cadastradas"
           inactiveTintColor='#fff'
           onPress={() => navigation.navigate("Lojas")}
         />
         {/* <DrawerItem
-                    labelStyle={{ fontFamily: 'Roboto-Regular' }}
+                         labelStyle={estilo.fonte}
                     label="Serviços Profissionais"
                     inactiveTintColor='#fff'
                     onPress={() => navigation.navigate("Servicos")}
@@ -41,13 +43,13 @@ export default function DrawerCustom(props) {
 
       {!autenticado ?
         <DrawerItem
-          labelStyle={{ fontFamily: 'Roboto-Regular' }}
+          labelStyle={estilo.fonte}
           label="Login"
           inactiveTintColor='#fff'
           onPress={() => navigation.navigate("Signin")}
         /> :
         <DrawerItem
-          labelStyle={{ fontFamily: 'Roboto-Regular' }}
+          labelStyle={estilo.fonte}
           label="Minha Loja"
           inactiveTintColor='#fff'
           onPress={() => navigation.navigate("HomeControle")}
@@ -57,13 +59,13 @@ export default function DrawerCustom(props) {
 
 
       <DrawerItem
-        labelStyle={{ fontFamily: 'Roboto-Regular' }}
+        labelStyle={estilo.fonte}
         label="Seja um anunciante"
         inactiveTintColor='#fff'
         onPress={() => navigation.navigate("Anuncie")}
       />
       <DrawerItem
-        labelStyle={{ fontFamily: 'Roboto-Regular' }}
+        labelStyle={estilo.fonte}
         label="Fale com o Guia"
         inactiveTintColor='#fff'
         onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}

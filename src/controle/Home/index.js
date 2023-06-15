@@ -5,7 +5,7 @@ import { BtnIcone } from '../../styles'
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 
 import { LojaContext } from '../../contexts/lojaContext';
-import ProdutoControle from '../../componentes/Pdt-controle';
+import ProdutoControle from '../../componentes/Produto-Controle';
 import Avatar from '../../componentes/Avatar';
 
 import ImageResizer from '@bam.tech/react-native-image-resizer';

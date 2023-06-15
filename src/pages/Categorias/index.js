@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
-import Produto from '../../componentes/Pdt-feed';
+import Produto from '../../componentes/Produto-Feed';
 
 import api from '../../servicos/api';
 

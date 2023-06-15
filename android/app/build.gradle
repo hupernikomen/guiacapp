@@ -90,7 +90,7 @@ def reactNativeArchitectures() {
 
 android {
     compileSdkVersion 31
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "30.0.3"
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion

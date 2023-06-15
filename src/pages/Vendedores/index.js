@@ -9,36 +9,54 @@ export default function Vendedores() {
   const route = useRoute()
   const [vendedores, setVendedores] = useState([])
 
-  const [horarioAtendimento, setHorarioAtendimento] = useState(false)
 
   useEffect(() => {
     BuscaVendedores()
-    Horario()
+
   }, [])
 
   async function BuscaVendedores() {
     await api.get(`/vendedores?lojaID=${route.params}`)
       .then((response) => {
-        setVendedores(response.data);
+        setVendedores(shuffle(response.data));
       })
   }
 
   // Melhorar a configuração dessa função
-  const Horario = () => {
+  function Horario({ horario }) {
+
+    const horarionovo = JSON.parse(horario)
+
     const atual = new Date()
 
-    if (atual.getHours() > 8 && atual.getHours() < 18) {
-      setHorarioAtendimento(true)
+    if (atual.getHours() > Number(horarionovo?.e) && atual.getHours() < Number(horarionovo?.a) || atual.getHours() > Number(horarionovo?.r) && atual.getHours() < Number(horarionovo?.s)) {
+      return true
     } else {
-      setHorarioAtendimento(false)
+      return false
     }
 
   }
 
+  
+  function shuffle(arr) {
+
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr
+  }
+
+
   function RenderItem({ data }) {
+
+    const disponivel = Horario(data)
+
     return (
       <Pressable
-        disabled={!horarioAtendimento}
+      style={{opacity:disponivel?1:.6}}
+        disabled={!disponivel}
         onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${data.whatsapp}`)}>
         <Animated.View
           entering={FadeInUp}
@@ -46,10 +64,11 @@ export default function Vendedores() {
             flexDirection: 'row',
             alignItems: 'center',
             flex: 1,
-            padding: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 15,
             marginVertical: 5,
             borderRadius: 6,
-            backgroundColor: '#fff'
+            backgroundColor: '#fff',
           }}>
 
           <Image
@@ -61,7 +80,7 @@ export default function Vendedores() {
               marginRight: 15
             }} />
 
-          <View>
+          <View style={{ flex: 1 }}>
             <Text
               numberOfLines={1}
               style={{
@@ -69,28 +88,43 @@ export default function Vendedores() {
                 color: '#000',
                 fontSize: 18
               }}>
+
               {data.nome}
             </Text>
 
-            <Text style={{
-              fontFamily: 'Roboto-Light',
-              color: '#000',
-              fontSize: 13
-            }}>Setor: {data.setor}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+
+
+              <Text style={{
+                fontFamily: 'Roboto-Light',
+                color: '#000',
+                fontSize: 13
+              }}>Setor: {data.setor}
+              </Text>
+
+              <View style={{ alignItems: "center", flexDirection: 'row' }}>
+
+                <View style={{ width: 8, height: 8, backgroundColor: disponivel ? '#388E3C' : '#aaa', borderRadius: 5 }} />
+                <Text style={{ fontSize: 13, marginLeft: 5, color: disponivel ? '#388E3C' : '#aaa' }}>{disponivel ? 'Online' : 'Off'}</Text>
+
+              </View>
+            </View>
 
           </View>
+
+
 
         </Animated.View>
       </Pressable>
     )
   }
 
-  return (
+  return (<>
     <FlatList
       data={vendedores}
       renderItem={({ item }) => <RenderItem data={item} />}
       contentContainerStyle={{ paddingHorizontal: 15 }}
     />
+  </>
   );
 }
