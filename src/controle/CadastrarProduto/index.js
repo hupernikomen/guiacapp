@@ -24,6 +24,7 @@ import { ProdutoContext } from "../../contexts/produtoContext";
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function CadastrarProduto() {
 
@@ -205,6 +206,30 @@ export default function CadastrarProduto() {
       <ScrollView
         showsVerticalScrollIndicator={false}>
 
+        {preview.length < 5 &&
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+
+
+            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 15, gap: 30 }}>
+              <Pressable
+                style={{ padding: 10, alignItems: 'center' }}
+                onPress={Fotografar}>
+                <Material name='camera' size={30} />
+                <Text>Fotografar</Text>
+              </Pressable>
+              <Pressable
+                style={{ padding: 10, alignItems: 'center' }}
+                onPress={BuscarImagem}>
+                <Material name='image' size={31} />
+                <Text>Galeria</Text>
+              </Pressable>
+            </View>
+
+          </View>
+
+        }
+
         <View style={{
           flexDirection: "row",
           justifyContent: "center",
@@ -225,32 +250,8 @@ export default function CadastrarProduto() {
             }
           })}
 
-
-
         </View>
-        {preview.length < 5 &&
 
-          <ContainerInput>
-            <TituloInput>
-              Fotos do Produto
-            </TituloInput>
-
-            <View style={{ justifyContent: 'center', flexWrap: 'wrap', flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
-              <Pressable style={{ backgroundColor: '#dedede', marginHorizontal: 5, paddingHorizontal: 5 }}
-                onPress={Fotografar}>
-                <Text style={{ color: colors.link }}>Tirar Foto</Text>
-              </Pressable>
-              <Text>ou</Text>
-              <Pressable
-                onPress={BuscarImagem}
-                style={{ backgroundColor: '#ddd', marginHorizontal: 5, paddingHorizontal: 5 }}>
-                <Text style={{ color: colors.link }}>Escolher de minhas imagens</Text>
-              </Pressable>
-            </View>
-
-          </ContainerInput>
-
-        }
 
         <ContainerInput>
           <TituloInput>

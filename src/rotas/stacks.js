@@ -197,6 +197,7 @@ export default function RotasStack() {
           headerStyle: {
             backgroundColor: '#fff',
           },
+          headerShadowVisible:false,
           headerTintColor: '#000'
         }}
       />
@@ -210,6 +211,7 @@ export default function RotasStack() {
           headerStyle: {
             backgroundColor: '#fff',
           },
+          headerShadowVisible:false,
           headerTintColor: '#000'
         }}
       />
@@ -225,7 +227,7 @@ export default function RotasStack() {
           },
           headerTintColor: '#000'
         }}
-      />
+        />
 
       <Stack.Screen
         name='CadastrarVendedor'
@@ -238,13 +240,14 @@ export default function RotasStack() {
           },
           headerTintColor: '#000'
         }}
-      />
+        />
 
       <Stack.Screen
         name='EditaProduto'
         component={EditaProduto}
         options={{
           title: '',
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor: '#fff',
           },

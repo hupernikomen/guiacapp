@@ -15,7 +15,8 @@ export default estilo = StyleSheet.create({
   },
   nome_loja: {
     fontFamily: 'Roboto-Medium',
-    fontSize: 17
+    fontSize: 17,
+    color:'#000'
   },
   info_botao_loja: {
     fontSize: 12,
@@ -25,11 +26,16 @@ export default estilo = StyleSheet.create({
   preco: {
     fontFamily: 'Roboto-Bold',
     fontSize: 26,
-    marginTop: -5
+    marginTop: -5,
+    color:'#000'
   },
   avista:{
     fontSize:16,
     fontFamily:'Roboto-Regular'
+  },
+  preco_antigo:{
+    marginLeft:2,
+    textDecorationLine:'line-through',
   },
 
   //Serviço

@@ -23,7 +23,7 @@ export default function DrawerCustom(props) {
           labelStyle={estilo.fonte}
           label="Feed"
           inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("Feed")}
         />
         <DrawerItem
           labelStyle={estilo.fonte}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Dimensions, ScrollView, FlatList, Image } from 'react-native';
+import { View, Text, Dimensions, ScrollView, FlatList, Image, Pressable } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Pinchable from 'react-native-pinchable';
@@ -68,41 +68,36 @@ export default function Detalhes() {
     }).format(valor)
   }
 
-
-
-  function RenderItem({ data }) {
-    return (
-      <Pinchable minimumZoomScale={.8} maximumZoomScale={2.9}>
-        <Image
-          source={{ uri: data.location }}
-          style={{
-            width: WIDTH,
-            flex: 1,
-            resizeMode: 'contain',
-          }}
-        />
-
-      </Pinchable>
-
-    )
-  }
-
   return (
 
     <ScrollView
       showsVerticalScrollIndicator={false}
       style={estilo.pagina}>
-      <FlatList
-        initialNumToRender={5}
-        style={{ width: WIDTH, aspectRatio: 7 / 9, backgroundColor: '#f1f1f1' }}
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-        data={produto.imagens}
-        horizontal
-        renderItem={({ item }) => <RenderItem data={item} />}
-      />
 
-      <View
+      <ScrollView
+        pagingEnabled
+        horizontal
+        style={{ width: WIDTH, aspectRatio: 7 / 9, backgroundColor: '#f1f1f1' }} >
+        {produto.imagens?.map((item, index) => {
+          return (
+            <Pinchable minimumZoomScale={.8} maximumZoomScale={2.9}>
+              <Image
+                key={index}
+                source={{ uri: item.location }}
+                style={{
+                  width: WIDTH,
+                  flex: 1,
+                  resizeMode: 'contain',
+                }}
+              />
+
+            </Pinchable>
+
+          )
+        })}
+      </ScrollView>
+
+      <Pressable
         style={estilo.container_loja}
         onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
         <Avatar DATA={produto.loja} WIDTH={40} SIZE={12} />
@@ -115,7 +110,7 @@ export default function Detalhes() {
 
           <Text style={estilo.info_botao_loja}>Acessar página da loja</Text>
         </Animated.View>
-      </View>
+      </Pressable>
 
       <View style={{
         paddingHorizontal: 20,
@@ -147,7 +142,7 @@ export default function Detalhes() {
           }}>
           {!!produto.oferta ?
             <View>
-              <TxtPrecoAntigo>{formateValor(produto.preco)}</TxtPrecoAntigo>
+              <Text style={estilo.preco_antigo}>{formateValor(produto.preco)}</Text>
 
               <Text style={estilo.preco}>{formateValor(produto.oferta)} <Text style={estilo.avista}>à vista</Text></Text>
             </View>
