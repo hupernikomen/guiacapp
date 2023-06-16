@@ -39,17 +39,16 @@ export default function Feed() {
     await api.get('/feed')
       .then((response) => {
         setProdutos(shuffle(response.data))
+        
         setLoad(false)
       })
       .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
 
   async function BuscaCategorias() {
-    setLoad(true)
     await api.get('/categorias')
       .then((response) => {
         setCategorias(shuffle(response.data))
-        setLoad(false)
       })
       .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
@@ -83,7 +82,11 @@ export default function Feed() {
       refreshControl={
         <RefreshControl
           refreshing={load}
-          onRefresh={BuscaProdutos}
+          onRefresh={() => {
+            BuscaProdutos()
+            BuscaCategorias()
+
+          }}
         />
       }
 

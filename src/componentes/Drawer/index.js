@@ -25,6 +25,7 @@ export default function DrawerCustom(props) {
           inactiveTintColor='#fff'
           onPress={() => navigation.navigate("Feed")}
         />
+
         <DrawerItem
           labelStyle={estilo.fonte}
           label="Lojas Cadastradas"

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useCallback } from 'react';
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ import { LojaContext } from '../../contexts/lojaContext';
 
 import Geolocation from 'react-native-geolocation-service';
 
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function Mapa() {
@@ -43,6 +43,16 @@ export default function Mapa() {
     ...delta
   })
 
+
+  useFocusEffect(
+    useCallback(() => {
+      let ativo = true
+      CarregaLocUsuario()
+      return () => {
+        ativo = false
+      }
+    }, [])
+  )
 
   // Verificar se o app permissão para acessar localização
   const permissaoLocalizacao = async () => {

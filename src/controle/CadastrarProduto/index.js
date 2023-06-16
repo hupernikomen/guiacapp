@@ -84,12 +84,13 @@ export default function CadastrarProduto() {
       width: 700, height: 900, cropping: true,
       mediaType: 'photo',
       showCropGuidelines: true,
-      hideBottomControls: true
-
+      hideBottomControls: true,
     }).then(image => {
+      
       setPreview(img => [...img, image])
 
-    }).catch(() => {
+    }).catch((error) => {
+      console.log(error);
       return
     });
   }
@@ -146,7 +147,9 @@ export default function CadastrarProduto() {
           name: result.name
         });
       }
-      catch (error) { Alert.alert('Não foi possivel redimensionar') } // Caso nao tenha sido possivel redimensionar imagem
+      catch (error) {
+        console.log(error);
+       } // Caso nao tenha sido possivel redimensionar imagem
 
     }
 

@@ -1,5 +1,5 @@
-import { useContext, useState, useCallback } from 'react';
-import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl,StatusBar } from 'react-native';
+import { useContext, useState, useCallback, useEffect } from 'react';
+import { View, FlatList, Text, ToastAndroid, ScrollView, Pressable, RefreshControl, StatusBar } from 'react-native';
 import { BtnIcone } from '../../styles'
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
@@ -17,17 +17,15 @@ import api from '../../servicos/api';
 
 export default function HomeControle() {
 
-  const { credenciais, signOut } = useContext(LojaContext)
+  const { credenciais, loja, BuscaLoja } = useContext(LojaContext)
   const navigation = useNavigation()
   const { colors } = useTheme()
-
-  const [loja, setLoja] = useState([])
-  const [load, setLoad] = useState(false)
 
   useFocusEffect(
     useCallback(() => {
       let ativo = true
-      onRefresh()
+      BuscaLoja()
+
 
       return () => {
         ativo = false
@@ -35,37 +33,7 @@ export default function HomeControle() {
     }, [])
   )
 
-  const onRefresh = () => {
-    BuscaLoja()
 
-  };
-
-  const ToastErro = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
-
-  async function BuscaLoja() {
-    setLoad(true)
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${credenciais.token}`
-    }
-    await api.get(`/me?lojaID=${credenciais.id}`, { headers })
-      .then((response) => {
-        setLoja(response.data)
-        setLoad(false)
-      })
-      .catch((error) => {
-        ToastErro(error.status)
-        setLoad(false)
-      })
-  }
 
   const options = {
     options: {
@@ -125,112 +93,112 @@ export default function HomeControle() {
 
 
 
-  function Header() {
-    const paginas = [
-      {
-        nome: 'Dados',
-        link: 'CadastrarDados',
-      },
-      {
-        nome: 'Vendedores',
-        link: 'VendedoresControle',
-      },
-      {
-        nome: 'Mapa',
-        link: 'MapaControle',
-      },
-    ]
-    return (
-      <View style={{
-        backgroundColor: '#fff',
-        zIndex: 999
+  // function Header() {
+  //   const paginas = [
+  //     {
+  //       nome: 'Dados',
+  //       link: 'CadastrarDados',
+  //     },
+  //     {
+  //       nome: 'Vendedores',
+  //       link: 'VendedoresControle',
+  //     },
+  //     {
+  //       nome: 'Mapa',
+  //       link: 'MapaControle',
+  //     },
+  //   ]
+  //   return (
+  //     <View style={{
+  //       backgroundColor: '#fff',
+  //       zIndex: 999
 
-      }}>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          maxHeight: 55,
-          height: 55,
-        }}>
+  //     }}>
+  //       <View style={{
+  //         flexDirection: 'row',
+  //         alignItems: 'center',
+  //         maxHeight: 55,
+  //         height: 55,
+  //       }}>
 
-          <BtnIcone
-            lado={'center'}
-            onPress={() => navigation.openDrawer()}>
-            <Material name='menu' size={24} color={'#000'} />
-          </BtnIcone>
+  //         <BtnIcone
+  //           lado={'center'}
+  //           onPress={() => navigation.openDrawer()}>
+  //           <Material name='menu' size={24} color={'#000'} />
+  //         </BtnIcone>
 
-          <Pressable
-            style={{
-              minWidth: 55,
-              width: 55,
-              aspectRatio: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: 10
-            }}
-            onPress={Logo}>
-            <Material name={'pencil-box'} size={18} color='#ECEFF1'
-              style={{ position: 'absolute', zIndex: 9, right: 5, bottom: 5 }} />
+  //         <Pressable
+  //           style={{
+  //             minWidth: 55,
+  //             width: 55,
+  //             aspectRatio: 1,
+  //             alignItems: 'center',
+  //             justifyContent: 'center',
+  //             marginRight: 10
+  //           }}
+  //           onPress={Logo}>
+  //           <Material name={'pencil-box'} size={18} color='#ECEFF1'
+  //             style={{ position: 'absolute', zIndex: 9, right: 5, bottom: 5 }} />
 
-            <Avatar DATA={loja} WIDTH={40} SIZE={14} />
-          </Pressable>
+  //           <Avatar DATA={loja} WIDTH={40} SIZE={14} />
+  //         </Pressable>
 
-          <Text
-            numberOfLines={1}
-            style={{
-              flex: 1,
-              fontFamily: 'Roboto-Medium',
-              fontSize: 20,
-              color: '#000',
-            }}>{loja.nome}</Text>
+  //         <Text
+  //           numberOfLines={1}
+  //           style={{
+  //             flex: 1,
+  //             fontFamily: 'Roboto-Medium',
+  //             fontSize: 20,
+  //             color: '#000',
+  //           }}>{loja.nome}</Text>
 
-          <BtnIcone
-            onPress={signOut}
-            lado={'center'}
-          >
-            <Material name='logout-variant' size={24} color={'#000'} />
-          </BtnIcone>
+  //         <BtnIcone
+  //           onPress={signOut}
+  //           lado={'center'}
+  //         >
+  //           <Material name='logout-variant' size={24} color={'#000'} />
+  //         </BtnIcone>
 
-        </View>
+  //       </View>
 
-        <ScrollView
-          horizontal
-          style={{
-            maxHeight: 55,
-            height: 55,
-            width: '100%',
-            backgroundColor: '#fff',
-          }}
-        >
-          {paginas.map((item, index) => (
-            <Pressable
-              key={index}
-              style={{
-                justifyContent: 'center',
-                alignItems: "center",
-                paddingHorizontal: 5,
-                marginHorizontal: 10
-              }}
-              onPress={() => navigation.navigate(item.link)}
-            >
-              <Text style={{
-                textTransform: 'uppercase',
-                fontFamily: 'Roboto-Regular',
-                fontSize: 13,
-                color: '#000',
-              }}>{item.nome}</Text>
-            </Pressable>
-          ))}
+  //       <ScrollView
+  //         horizontal
+  //         style={{
+  //           maxHeight: 55,
+  //           height: 55,
+  //           width: '100%',
+  //           backgroundColor: '#fff',
+  //         }}
+  //       >
+  //         {paginas.map((item, index) => (
+  //           <Pressable
+  //             key={index}
+  //             style={{
+  //               justifyContent: 'center',
+  //               alignItems: "center",
+  //               paddingHorizontal: 5,
+  //               marginHorizontal: 10
+  //             }}
+  //             onPress={() => navigation.navigate(item.link)}
+  //           >
+  //             <Text style={{
+  //               textTransform: 'uppercase',
+  //               fontFamily: 'Roboto-Regular',
+  //               fontSize: 13,
+  //               color: '#000',
+  //             }}>{item.nome}</Text>
+  //           </Pressable>
+  //         ))}
 
-        </ScrollView>
-      </View>
+  //       </ScrollView>
+  //     </View>
 
-    )
-  }
+  //   )
+  // }
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <FlatList
 
         data={loja?.produtos}
@@ -240,12 +208,7 @@ export default function HomeControle() {
         numColumns={2}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={load}
-            onRefresh={onRefresh}
-          />
-        }
+        
       />
 
       <Animated.View

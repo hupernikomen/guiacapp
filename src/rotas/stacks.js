@@ -1,3 +1,4 @@
+import { useEffect, useState, useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Pressable } from 'react-native';
 
@@ -26,7 +27,9 @@ import CadastrarDados from '../controle/CadastrarDados';
 import MapaControle from '../controle/Mapa';
 import VendedoresControle from '../controle/Vendedores';
 
-import HomeControle from '../controle/Home';
+import { LojaContext } from '../contexts/lojaContext';
+
+import Tabs from './tabs';
 
 
 import { useTheme, useNavigation } from '@react-navigation/native';
@@ -35,8 +38,13 @@ const Stack = createNativeStackNavigator()
 
 export default function RotasStack() {
 
+  const { loja } = useContext(LojaContext)
+
+  const [nomeLoja, setNomeLoja]=useState('')
+
   const { colors } = useTheme()
   const navigation = useNavigation()
+
 
   return (
     <Stack.Navigator
@@ -80,12 +88,22 @@ export default function RotasStack() {
       />
 
       <Stack.Screen
-        name='HomeControle'
-        component={HomeControle}
+        name={'HomeControle'}
+        component={Tabs}
         options={{
-          headerShown: false,
-
-
+          title: loja.nome||"",
+          headerRight: () => {
+            return (
+              <Pressable
+                lado={'center'}
+                onPress={{}}>
+                <Material name='dots-vertical' size={22} color={'#fff'} />
+              </Pressable>
+            )
+          },
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
         }}
       />
 

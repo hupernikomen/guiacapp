@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { View, Text, Pressable, FlatList, Alert, Image } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { LojaContext } from '../../contexts/lojaContext';
 
-import { useTheme, useNavigation } from '@react-navigation/native';
+import { useTheme, useNavigation, useFocusEffect } from '@react-navigation/native';
 import Animated, { FadeInUp, SlideInDown } from 'react-native-reanimated';
 import api from '../../servicos/api';
 
@@ -20,11 +20,17 @@ export default function Vendedores() {
 
   const [vendedores, setVendedores] = useState([])
 
+  useFocusEffect(
+    useCallback(() => {
+      let ativo = true
+      BuscarVendedores()
 
-  useEffect(() => {
-    BuscarVendedores()
 
-  }, [])
+      return () => {
+        ativo = false
+      }
+    }, [])
+  )
 
 
   async function BuscarVendedores() {

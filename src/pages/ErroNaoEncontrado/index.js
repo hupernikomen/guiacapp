@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
+import estilo from './estilo';
 
 export default function ErroNaoEncontrado() {
 
@@ -11,23 +12,28 @@ export default function ErroNaoEncontrado() {
   useEffect(() => {
     
     setTimeout(() => {
-      navigation.navigate("Feed")
       clearInterval(contagem)
+      navigation.navigate("Feed")
     }, 5000);
-
+    
     let contagem = setInterval(() => {
       setRegressiva(regressiva => regressiva - 1)
     }, 1000);
+    
+    return() => {
+      clearInterval(contagem)
+
+    }
 
   }, [])
 
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 30 }}></Text>
-      <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 22, color: '#000', textAlign: 'center' }}>Ops...{'\n'}Produto não encontrado</Text>
+    <View style={estilo.pagina}>
 
-      <Text style={{ marginTop: 15 }}>Redirecionando em {regressiva} segundos</Text>
+      <Text style={estilo.mensagem}>Ops...{'\n'}Produto excluído recentemente</Text>
+      <Text style={estilo.contagem}>Redirecionando em {regressiva} segundos</Text>
+      
     </View>
   );
 }

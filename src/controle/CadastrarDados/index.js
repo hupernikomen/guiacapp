@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useCallback, useState } from 'react';
 import { View, Text, Switch, ScrollView, ToastAndroid } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
-import { useTheme, useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 import Load from '../../componentes/Load';
 
 import api from '../../servicos/api';
@@ -17,13 +17,21 @@ export default function CadastrarDados() {
   const [load, setLoad] = useState(false)
   const [loja, setLoja] = useState([])
 
-  useEffect(() => {
-    BuscaLoja()
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      let ativo = true
+      BuscaLoja()
+
+
+      return () => {
+        ativo = false
+      }
+    }, [])
+  )
+
 
   const toggleSwitch = e => setLoja({ ...loja, entrega: e });
 
-  if (load) return <Load />
 
   async function BuscaLoja() {
     setLoad(true)
@@ -52,6 +60,7 @@ export default function CadastrarDados() {
 
     await api.put(`/loja`, loja, { headers })
       .then(() => {
+        navigation.navigate('Home')
         ToastAtualizaDados()
       })
       .catch((error) => console.log(error.response, "catch Error"))
