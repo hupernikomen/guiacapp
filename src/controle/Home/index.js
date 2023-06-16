@@ -26,8 +26,12 @@ export default function HomeControle() {
 
   useFocusEffect(
     useCallback(() => {
+      let ativo = true
       onRefresh()
 
+      return () => {
+        ativo = false
+      }
     }, [])
   )
 

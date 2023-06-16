@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text, View, Pressable } from 'react-native';
 
 import Produto from '../../componentes/Produto-Feed';
@@ -20,28 +20,19 @@ export default function Feed() {
 
   const [load, setLoad] = useState(false)
   const [produtos, setProdutos] = useState([])
+  const [categorias, setCategorias] = useState([])
   // const [servico, setServico] = useState([])
 
-  useFocusEffect(
-    useCallback(() => {
-      let ativo = true
-      onRefresh()
+  useEffect(() => {
 
-      return () => {
-        ativo = false
-      }
-    }, [])
-  )
+    BuscaProdutos()
+    BuscaCategorias()
+  }, [])
 
 
   if (load) {
     return <Load />
   }
-
-  const onRefresh = () => {
-    BuscaProdutos()
-
-  };
 
   async function BuscaProdutos() {
     setLoad(true)
@@ -52,6 +43,17 @@ export default function Feed() {
       })
       .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
+
+  async function BuscaCategorias() {
+    setLoad(true)
+    await api.get('/categorias')
+      .then((response) => {
+        setCategorias(shuffle(response.data))
+        setLoad(false)
+      })
+      .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
+  }
+
 
 
   function shuffle(arr) {
@@ -65,63 +67,26 @@ export default function Feed() {
   }
 
 
-  function Header() {
-    return (
-      <View style={[estilo.container_header, { backgroundColor: colors.tema, }]}>
-
-        <Pressable
-          style={estilo.icone}
-          onPress={() => navigation.openDrawer()}>
-          <Material name='menu' size={24} color={'#fff'} />
-        </Pressable>
-
-
-        <Text
-          numberOfLines={1}
-          style={estilo.titulo}>Guia Comercial</Text>
-
-
-        <Pressable
-          style={estilo.icone}
-          onPress={() => navigation.navigate("Search")}>
-          <Material name='magnify' size={24} color='#fff' />
-        </Pressable>
-
-      </View>
-    )
-  }
-
-
-
-
   return (
-    <>
-      <Header />
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
-        ListHeaderComponent={
-          <>
-            <ListaCategorias />
-            {/* <CarrosselBanners/> */}
-            {/* {servico.length > 0 && <CarrosselServicos data={servico} />} */}
-          </>
-        }
-        stickyHeaderHiddenOnScroll={true}
-        stickyHeaderIndices={[0]}
-        data={produtos}
-        renderItem={({ item }) => <Produto item={item} />}
-        numColumns={2}
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
+      ListHeaderComponent={
+        <ListaCategorias data={categorias} />
+      }
+      stickyHeaderHiddenOnScroll={true}
+      stickyHeaderIndices={[0]}
+      data={produtos}
+      renderItem={({ item }) => <Produto item={item} />}
+      numColumns={2}
 
-        refreshControl={
-          <RefreshControl
-            refreshing={load}
-            onRefresh={onRefresh}
-          />
-        }
+      refreshControl={
+        <RefreshControl
+          refreshing={load}
+          onRefresh={BuscaProdutos}
+        />
+      }
 
-      />
-
-    </>
+    />
   )
 }

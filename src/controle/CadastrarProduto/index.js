@@ -211,7 +211,7 @@ export default function CadastrarProduto() {
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
 
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 15, gap: 30 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, gap: 30 }}>
               <Pressable
                 style={{ padding: 10, alignItems: 'center' }}
                 onPress={Fotografar}>
@@ -235,7 +235,7 @@ export default function CadastrarProduto() {
           justifyContent: "center",
           alignItems: 'center',
           gap: 5,
-          marginBottom: 25,
+          marginVertical: 25,
         }}>
           {preview.map((camera, index) => {
             if (index < 5) {

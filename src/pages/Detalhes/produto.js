@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Dimensions, ScrollView, FlatList, Image, Pressable } from 'react-native';
+import { View, Text, Dimensions, ScrollView, Image, Pressable } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Pinchable from 'react-native-pinchable';
@@ -41,7 +41,10 @@ export default function Detalhes() {
     setLoad(true)
     await api.get(`/detalhe/produto?produtoID=${route.params.id}`)
       .then((response) => {
-
+        if (response.data == null) {
+          navigation.navigate("ErroNaoEncontrado")
+          return
+        }
         setProduto(response.data);
         setLoad(false)
       })
@@ -80,9 +83,9 @@ export default function Detalhes() {
         style={{ width: WIDTH, aspectRatio: 7 / 9, backgroundColor: '#f1f1f1' }} >
         {produto.imagens?.map((item, index) => {
           return (
-            <Pinchable minimumZoomScale={.8} maximumZoomScale={2.9}>
+            <Pinchable key={index} minimumZoomScale={.8} maximumZoomScale={2.9}>
               <Image
-                key={index}
+                
                 source={{ uri: item.location }}
                 style={{
                   width: WIDTH,

@@ -7,7 +7,7 @@ export default estilo = StyleSheet.create({
     paddingVertical: 10,
     height: 57,
     elevation: 5,
-    zIndex: 999
+    zIndex:999
   },
   titulo:{
     flex: 1,

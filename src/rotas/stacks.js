@@ -1,5 +1,7 @@
-import React, { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Pressable } from 'react-native';
+
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import Feed from '../pages/Feed';
 import DetalheProduto from '../pages/Detalhes/produto';
@@ -13,6 +15,7 @@ import Categorias from '../pages/Categorias';
 import Search from '../pages/Search';
 import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
+import ErroNaoEncontrado from '../pages/ErroNaoEncontrado'
 
 import Signin from '../pages/Signin'
 
@@ -26,19 +29,20 @@ import VendedoresControle from '../controle/Vendedores';
 import HomeControle from '../controle/Home';
 
 
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
 const Stack = createNativeStackNavigator()
 
 
 export default function RotasStack() {
 
   const { colors } = useTheme()
-
+  const navigation = useNavigation()
 
   return (
     <Stack.Navigator
       initialRouteName={'Feed'}
       screenOptions={{
+        unmountOnBlur: true,
         headerTintColor: "#fff",
 
       }}
@@ -48,8 +52,30 @@ export default function RotasStack() {
         name='Feed'
         component={Feed}
         options={{
-          headerShown: false,
+          title: 'Guia Comercial',
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
+          headerLeft: () => {
+            return (
+              <Pressable
+                style={{ marginRight: 25 }}
+                onPress={() => navigation.openDrawer()}>
+                <Material name='menu' size={24} color={'#fff'} />
+              </Pressable>
 
+            )
+          },
+          headerRight: () => {
+            return (
+              <Pressable
+                style={estilo.icone}
+                onPress={() => navigation.navigate("Search")}>
+                <Material name='magnify' size={24} color='#fff' />
+              </Pressable>
+
+            )
+          },
         }}
       />
 
@@ -188,6 +214,16 @@ export default function RotasStack() {
           title: ""
         }}
       />
+      <Stack.Screen
+        name='ErroNaoEncontrado'
+        component={ErroNaoEncontrado}
+        options={{
+          title: "",
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
+        }}
+      />
 
       <Stack.Screen
         name="CadastrarDados"
@@ -197,7 +233,7 @@ export default function RotasStack() {
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerShadowVisible:false,
+          headerShadowVisible: false,
           headerTintColor: '#000'
         }}
       />
@@ -211,7 +247,7 @@ export default function RotasStack() {
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerShadowVisible:false,
+          headerShadowVisible: false,
           headerTintColor: '#000'
         }}
       />
@@ -227,7 +263,7 @@ export default function RotasStack() {
           },
           headerTintColor: '#000'
         }}
-        />
+      />
 
       <Stack.Screen
         name='CadastrarVendedor'
@@ -240,7 +276,7 @@ export default function RotasStack() {
           },
           headerTintColor: '#000'
         }}
-        />
+      />
 
       <Stack.Screen
         name='EditaProduto'
