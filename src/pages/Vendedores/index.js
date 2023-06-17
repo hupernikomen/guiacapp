@@ -27,9 +27,11 @@ export default function Vendedores() {
 
     const horarionovo = JSON.parse(horario)
 
-    const atual = new Date()
+    const atual = new Date().toLocaleTimeString()
 
-    if (atual.getHours() > Number(horarionovo?.e) && atual.getHours() < Number(horarionovo?.a) || atual.getHours() > Number(horarionovo?.r) && atual.getHours() < Number(horarionovo?.s)) {
+    if (
+      atual > new Date(horarionovo?.e).toLocaleTimeString() && atual < new Date(horarionovo?.a).toLocaleTimeString() ||
+      atual > new Date(horarionovo?.r).toLocaleTimeString() && atual < new Date(horarionovo?.s).toLocaleTimeString()) {
       return true
     } else {
       return false
@@ -37,7 +39,7 @@ export default function Vendedores() {
 
   }
 
-  
+
   function shuffle(arr) {
 
     for (let i = arr.length - 1; i > 0; i--) {
@@ -53,9 +55,12 @@ export default function Vendedores() {
 
     const disponivel = Horario(data)
 
+
     return (
       <Pressable
-      style={{opacity:disponivel?1:.6}}
+        style={{
+          opacity: disponivel ? 1 : .5,
+        }}
         disabled={!disponivel}
         onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${data.whatsapp}`)}>
         <Animated.View

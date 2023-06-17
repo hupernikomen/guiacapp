@@ -7,8 +7,6 @@ export default estilo = StyleSheet.create({
     overflow: "hidden",
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: "#ddd",
     backgroundColor: '#fff',
   }
 })

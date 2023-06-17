@@ -3,7 +3,6 @@ import { View, Text, Switch, ScrollView, ToastAndroid } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
-import Load from '../../componentes/Load';
 
 import api from '../../servicos/api';
 

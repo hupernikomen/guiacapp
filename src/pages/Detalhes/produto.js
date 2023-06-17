@@ -103,7 +103,7 @@ export default function Detalhes() {
       <Pressable
         style={estilo.container_loja}
         onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
-        <Avatar DATA={produto.loja} WIDTH={40} SIZE={12} />
+        <Avatar DATA={produto.loja} WIDTH={42} SIZE={12} />
 
         <Animated.View
           entering={FadeInRight.duration(500)}

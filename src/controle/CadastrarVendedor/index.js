@@ -1,18 +1,19 @@
 import { useState, useContext } from 'react';
-import { View, Pressable, Image } from 'react-native';
+import { View, Pressable, Image, Text, Alert } from 'react-native';
 
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import ImagePicker from 'react-native-image-crop-picker'
+import DatePicker from 'react-native-date-picker'
 
 import { LojaContext } from '../../contexts/lojaContext';
 import { useTheme, useNavigation } from '@react-navigation/native';
 
 import api from '../../servicos/api';
 
-import { Tela, BotaoPrincipal, TextBtn, TituloInput, TituloInputInline, ContainerInput, ContainerInputInline, Input, InputInine } from '../../styles'
+import { BotaoPrincipal, TextBtn, TituloInput, ContainerInput, ContainerInputInline, Input } from '../../styles'
 
 export default function CadastrarVendedor() {
 
@@ -24,8 +25,17 @@ export default function CadastrarVendedor() {
   const [nome, setNome] = useState("")
   const [whatsapp, setWhatsapp] = useState("")
   const [setor, setSetor] = useState("")
-  const [horario, setHorario] = useState({ e: '8', a: '12', r: '14', s: '18' })
 
+
+  const [entrada, setEntrada] = useState(new Date(Date.UTC(2023, 1, 1, 11, 0, 0)))
+  const [almoco, setAlmoco] = useState(new Date(Date.UTC(2023, 1, 1, 15, 0, 0)))
+  const [retorno, setRetorno] = useState(new Date(Date.UTC(2023, 1, 1, 16, 0, 0)))
+  const [saida, setSaida] = useState(new Date(Date.UTC(2023, 1, 1, 20, 0, 0)))
+
+  const [openEntrada, setOpenEntrada] = useState(false)
+  const [openAlmoco, setOpenAlmoco] = useState(false)
+  const [openRetorno, setOpenRetorno] = useState(false)
+  const [openSaida, setOpenSaida] = useState(false)
 
   const BuscarImagem = () => {
     ImagePicker.openPicker({
@@ -43,6 +53,7 @@ export default function CadastrarVendedor() {
     });
   }
 
+
   async function CriarVendedores() {
 
     if (!nome || !whatsapp) {
@@ -57,6 +68,12 @@ export default function CadastrarVendedor() {
 
     const formData = new FormData()
 
+    const horario = {
+      e: entrada.getTime(),
+      a: almoco.getTime(),
+      r: retorno.getTime(),
+      s: saida.getTime()
+    }
 
     formData.append("nome", nome)
     formData.append("setor", setor)
@@ -106,6 +123,7 @@ export default function CadastrarVendedor() {
         }
       </Pressable>
 
+
       <ContainerInput>
 
         <TituloInput>
@@ -131,6 +149,7 @@ export default function CadastrarVendedor() {
           onChangeText={setSetor} />
 
       </ContainerInput>
+
       <ContainerInput>
 
         <TituloInput>
@@ -138,6 +157,7 @@ export default function CadastrarVendedor() {
         </TituloInput>
 
         <Input
+          keyboardType='phone-pad'
           maxLength={25}
           value={whatsapp}
           onChangeText={setWhatsapp} />
@@ -146,69 +166,106 @@ export default function CadastrarVendedor() {
 
       <ContainerInputInline>
 
+        <Pressable onPress={() => setOpenEntrada(true)} >
+          <Text style={{fontFamily:'Roboto-Regular',color:'#000'}}>Entrada</Text>
+          <Text>{entrada.toLocaleTimeString().substring(0, 5)}</Text>
+        </Pressable>
 
-        <ContainerInput>
+        <Pressable onPress={() => setOpenAlmoco(true)} >
+          <Text style={{fontFamily:'Roboto-Regular',color:'#000'}}>Almoço</Text>
+          <Text>{almoco.toLocaleTimeString().substring(0, 5)}</Text>
+        </Pressable>
 
-          <TituloInputInline>
-            Entr.
-          </TituloInputInline>
+        <Pressable onPress={() => setOpenRetorno(true)} >
+          <Text style={{fontFamily:'Roboto-Regular',color:'#000'}}>Retorno</Text>
+          <Text>{retorno.toLocaleTimeString().substring(0, 5)}</Text>
+        </Pressable>
 
-          <InputInine
-            placeholder={'8:00'}
-            maxLength={4}
-            value={String(horario.e)}
-            onChangeText={hora => setHorario({ ...horario, e: hora })} />
+        <Pressable onPress={() => setOpenSaida(true)} >
+          <Text style={{fontFamily:'Roboto-Regular',color:'#000'}}>Saida</Text>
+          <Text>{saida.toLocaleTimeString().substring(0, 5)}</Text>
+        </Pressable>
 
-        </ContainerInput>
+        <DatePicker
+          modal
+          title='Horário de entrada'
+          confirmText='Confirma'
+          cancelText='Cancelar'
+          minuteInterval={15}
+          mode='time'
+          open={openEntrada}
+          date={entrada}
+          onConfirm={(entrada) => {
+            setOpenEntrada(false)
+            setEntrada(entrada)
+          }}
+          onCancel={() => {
+            setOpenEntrada(false)
+          }}
+        />
 
-        <ContainerInput>
+        <DatePicker
+          modal
+          title='Horário de almoço'
+          confirmText='Confirma'
+          cancelText='Cancelar'
+          minuteInterval={15}
+          locale='pt-BR'
+          mode='time'
+          open={openAlmoco}
+          date={almoco}
+          onConfirm={(almoco) => {
+            setOpenAlmoco(false)
+            setAlmoco(almoco)
+          }}
+          onCancel={() => {
+            setOpenAlmoco(false)
+          }}
+        />
 
-          <TituloInputInline>
-            Alm.
-          </TituloInputInline>
+        <DatePicker
+          modal
+          title='Horário de retorno do almoço'
+          confirmText='Confirma'
+          cancelText='Cancelar'
+          minuteInterval={15}
+          mode='time'
+          open={openRetorno}
+          date={retorno}
+          onConfirm={(retorno) => {
+            setOpenRetorno(false)
+            setRetorno(retorno)
+          }}
+          onCancel={() => {
+            setOpenRetorno(false)
+          }}
+        />
 
-          <InputInine
-            placeholder={'12:00'}
-            maxLength={4}
-            value={String(horario.a)}
-            onChangeText={hora => setHorario({ ...horario, a: hora })} />
-
-        </ContainerInput>
-
-        <ContainerInput>
-
-          <TituloInputInline>
-            Retor.
-          </TituloInputInline>
-
-          <InputInine
-            placeholder={'14:00'}
-            maxLength={4}
-            value={String(horario.r)}
-            onChangeText={hora => setHorario({ ...horario, r: hora })} />
-
-        </ContainerInput>
-
-        <ContainerInput>
-
-          <TituloInputInline>
-            Saída
-          </TituloInputInline>
-
-          <InputInine
-            placeholder={'18:00'}
-            maxLength={4}
-            value={String(horario.s)}
-            onChangeText={hora => setHorario({ ...horario, s: hora })} />
-
-        </ContainerInput>
+        <DatePicker
+          modal
+          title='Horário de saída'
+          confirmText='Confirma'
+          cancelText='Cancelar'
+          minuteInterval={15}
+          locale='pt-BR'
+          mode='time'
+          open={openSaida}
+          date={saida}
+          onConfirm={(saida) => {
+            setOpenSaida(false)
+            setSaida(saida)
+          }}
+          onCancel={() => {
+            setOpenSaida(false)
+          }}
+        />
 
 
       </ContainerInputInline>
 
       <BotaoPrincipal
         onPress={CriarVendedores}
-        style={{ marginBottom: 50 }}
+        style={{ marginVertical: 50 }}
         background={colors.tema}
       >
 
@@ -217,6 +274,7 @@ export default function CadastrarVendedor() {
         </TextBtn>
 
       </BotaoPrincipal>
+
     </View>
   );
 }

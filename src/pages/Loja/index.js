@@ -168,7 +168,7 @@ export default function Loja() {
           backgroundColor: colors.tema,
           elevation: 5
         }}
-        entering={SlideInDown.delay(500)}
+        entering={SlideInDown}
 
       >
         <Pressable

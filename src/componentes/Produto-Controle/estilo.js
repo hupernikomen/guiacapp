@@ -9,7 +9,7 @@ export default estilo = StyleSheet.create({
     marginHorizontal: 4,
   },
   foto: { 
-    aspectRatio: 8 / 9, 
+    aspectRatio: 9/10, 
     borderTopLeftRadius: 4, 
     borderTopRightRadius: 4 
   },
@@ -35,6 +35,7 @@ export default estilo = StyleSheet.create({
   preco:{
     fontFamily:'Roboto-Bold',
     fontSize:17,
-    color:'#000'
+    color:'#000',
+    marginTop:-2
   }
 })

@@ -18,21 +18,23 @@ export default function Tabs() {
       initialRouteName='Home'
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: colors.tema
-        },
-        tabBarScrollEnabled: true,
-        tabBarItemStyle: { width: 105 },
-        tabBarIndicatorStyle: {
           backgroundColor: '#fff'
         },
-        tabBarInactiveTintColor: '#ffffff90'
+        tabBarActiveTintColor:'#000',
+        tabBarScrollEnabled: true,
+        tabBarItemStyle: { width: 100 },
+        tabBarIndicatorStyle: {
+          backgroundColor: colors.tema,
+          height:1
+        },
+        tabBarInactiveTintColor: '#000000'
       }}>
 
       <Tab.Screen name="Home" component={HomeControle} options={{ title: 'Loja' }} />
       <Tab.Screen name="CadastrarDados" component={CadastrarDados} options={{ title: 'Dados' }} />
       <Tab.Screen name="VendedoresControle" component={VendedoresControle} options={{ title: 'Vendedor' }} />
       <Tab.Screen name="MapaControle" component={MapaControle} options={{ title: 'Mapa' }} />
-      
+
     </Tab.Navigator>
   );
 }

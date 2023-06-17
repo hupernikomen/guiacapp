@@ -38,9 +38,7 @@ const Stack = createNativeStackNavigator()
 
 export default function RotasStack() {
 
-  const { loja } = useContext(LojaContext)
-
-  const [nomeLoja, setNomeLoja]=useState('')
+  const { loja, signOut } = useContext(LojaContext)
 
   const { colors } = useTheme()
   const navigation = useNavigation()
@@ -91,12 +89,22 @@ export default function RotasStack() {
         name={'HomeControle'}
         component={Tabs}
         options={{
-          title: loja.nome||"",
+          title: loja?.nome || "",
+          headerLeft: () => {
+            return (
+              <Pressable
+                lado={'center'}
+                style={{ marginRight: 25 }}
+                onPress={() => navigation.openDrawer()}>
+                <Material name='menu' size={22} color={'#fff'} />
+              </Pressable>
+            )
+          },
           headerRight: () => {
             return (
               <Pressable
                 lado={'center'}
-                onPress={{}}>
+                onPress={signOut}>
                 <Material name='dots-vertical' size={22} color={'#fff'} />
               </Pressable>
             )
@@ -146,7 +154,9 @@ export default function RotasStack() {
         component={DetalheProduto}
         options={{
           title: "",
-          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: colors.tema,
+          }
         }}
       />
 

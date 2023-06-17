@@ -86,7 +86,7 @@ export default function CadastrarProduto() {
       showCropGuidelines: true,
       hideBottomControls: true,
     }).then(image => {
-      
+
       setPreview(img => [...img, image])
 
     }).catch((error) => {
@@ -149,7 +149,7 @@ export default function CadastrarProduto() {
       }
       catch (error) {
         console.log(error);
-       } // Caso nao tenha sido possivel redimensionar imagem
+      } // Caso nao tenha sido possivel redimensionar imagem
 
     }
 
@@ -209,49 +209,56 @@ export default function CadastrarProduto() {
       <ScrollView
         showsVerticalScrollIndicator={false}>
 
-        {preview.length < 5 &&
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginVertical: 15,
+            padding:5
+          }}>
 
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: 'center',
+              gap: 5,
+            }}>
+            {preview.map((camera, index) => {
+              if (index < 5) {
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, gap: 30 }}>
-              <Pressable
-                style={{ padding: 10, alignItems: 'center' }}
-                onPress={Fotografar}>
-                <Material name='camera' size={30} />
-                <Text>Fotografar</Text>
-              </Pressable>
-              <Pressable
-                style={{ padding: 10, alignItems: 'center' }}
-                onPress={BuscarImagem}>
-                <Material name='image' size={31} />
-                <Text>Galeria</Text>
-              </Pressable>
-            </View>
+                return (
+
+                  <Image
+                    key={index}
+                    style={{ width: 50, aspectRatio: 1, borderRadius: 6 }}
+                    source={{ uri: camera.path }} />
+                )
+              }
+            })}
 
           </View>
 
-        }
+          {preview.length < 5 &&
 
-        <View style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: 'center',
-          gap: 5,
-          marginVertical: 25,
-        }}>
-          {preview.map((camera, index) => {
-            if (index < 5) {
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+              <Pressable
+                style={{ padding: 10, alignItems: 'center', borderWidth:.5, borderColor:'#bbb' }}
+                onPress={Fotografar}>
+                <Material name='camera' size={30} />
+              </Pressable>
+              <Pressable
+                style={{ padding: 10, alignItems: 'center', borderWidth:.5, borderColor:'#bbb' }}
+                onPress={BuscarImagem}>
+                <Material name='image' size={31} />
+              </Pressable>
+            </View>
+          }
 
-              return (
 
-                <Image
-                  key={index}
-                  style={{ width: 50, aspectRatio: 1, borderRadius: 6 }}
-                  source={{ uri: camera.path }} />
-              )
-            }
-          })}
+
 
         </View>
 

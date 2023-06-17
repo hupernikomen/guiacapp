@@ -10,7 +10,7 @@ export default estilo = StyleSheet.create({
 
   },
   foto: {
-    aspectRatio: 8 / 9,
+    aspectRatio: 9 / 10,
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4
   },
@@ -36,13 +36,14 @@ export default estilo = StyleSheet.create({
   preco:{
     fontFamily:'Roboto-Bold',
     fontSize:17,
+    marginTop:-2,
     color:'#000'
   },
   container_loja:{
     flexDirection: 'row', 
     alignItems: 'center', 
     justifyContent: 'space-between',
-    marginTop:4
+    marginTop:2
   },
   nome_loja:{
     fontFamily:'Roboto-Light',

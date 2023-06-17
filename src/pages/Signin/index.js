@@ -31,6 +31,7 @@ export default function Login() {
       <ContainerInput>
         <Input
           placeholder={"email@email.com"}
+          keyboardType='email-address'
           placeholderTextColor={'#aaa'}
           maxLength={405}
           onChangeText={setEmail}

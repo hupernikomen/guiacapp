@@ -140,7 +140,7 @@ export function LojaProvider({ children }) {
           email: '',
           token: ''
         })
-        navigation.navigate("Home")
+        navigation.navigate("Feed")
       })
   }
 
