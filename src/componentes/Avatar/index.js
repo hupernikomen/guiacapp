@@ -4,8 +4,6 @@ import estilo from './estilo';
 
 export default function Avatar({ DATA, WIDTH, SIZE }) {
 
-    console.log(DATA,"data");
-
     const [dados, setDados] = useState({})
     const [iniciais, setIniciais] = useState("")
 

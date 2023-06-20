@@ -108,7 +108,7 @@ export default function RotasStack() {
               <Pressable
                 lado={'center'}
                 onPress={signOut}>
-                <Material name='dots-vertical' size={22} color={'#fff'} />
+                <Material name='power-standby' size={22} color={'#fff'} />
               </Pressable>
             )
           },

@@ -31,16 +31,23 @@ export default function Vendedores() {
   }
 
 
-  // Função para retornar informação de vendedor
+  // Função para retornar informação de atendimento do vendedor
   function StatusVendedor({ horario }) {
     const { e: entrada, a: almoco, r: retorno, s: saida } = JSON.parse(horario)
-
     const hora_atual = new Date().toLocaleTimeString()
+    const data_atual = new Date().getDay()
 
     if (
+      data_atual != 0 && // Domingo
       hora_atual > converteHorario(entrada) && hora_atual < converteHorario(almoco) ||
       hora_atual > converteHorario(retorno) && hora_atual < converteHorario(saida)) {
       return { status: true, mensagem: "Volto às " + converteHorario(retorno) }
+
+    } else if (
+      data_atual != 0 && // Domingo
+      hora_atual > "06:00:00" && hora_atual < converteHorario(entrada)) {
+
+      return { status: false, mensagem: "Entrará às " + converteHorario(entrada).substring(0, 5) + ' hs' }
     } else {
       return { status: false, mensagem: "Fora do horário de atendimento" }
     }
@@ -94,8 +101,6 @@ export default function Vendedores() {
 
               </View>
             </View>
-
-
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               {status ?
