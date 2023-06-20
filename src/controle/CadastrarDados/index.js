@@ -1,12 +1,16 @@
 import React, { useContext, useCallback, useState } from 'react';
-import { View, Text, Switch, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, Switch, ScrollView, ToastAndroid, Pressable, Image } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
+import ImageResizer from '@bam.tech/react-native-image-resizer';
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import { launchImageLibrary } from 'react-native-image-picker';
 
 import api from '../../servicos/api';
 
 import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
+import Avatar from '../../componentes/Avatar';
 
 export default function CadastrarDados() {
   const { colors } = useTheme()
@@ -30,6 +34,64 @@ export default function CadastrarDados() {
 
 
   const toggleSwitch = e => setLoja({ ...loja, entrega: e });
+
+
+  const options = {
+    options: {
+      mediaType: 'photo',
+
+    },
+  }
+
+  async function CadastrarLogo(assets) {
+    try {
+      var result = await ImageResizer.createResizedImage(
+        assets.uri,
+        200,
+        200,
+        'JPEG',
+        90,
+      );
+
+    } catch (error) {
+      Alert.alert('Unable to resize the photo');
+    }
+
+
+    const formData = new FormData()
+
+    formData.append('avatar', {
+      uri: result.uri,
+      type: 'image/jpeg', // ou 'image/png', dependendo do tipo de imagem
+      name: result.name
+    });
+
+    await api.put(`/loja?lojaID=${credenciais.id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${credenciais.token}`
+      }
+    })
+      .then(({ data }) => {
+        BuscaLoja()
+
+      })
+      .catch((error) => {
+        console.log("error from image :", error);
+      })
+  }
+
+
+
+  async function Logo() {
+    await launchImageLibrary(options, ({ error, didCancel, assets }) => {
+      if (error || didCancel) {
+        return;
+      } else {
+        CadastrarLogo(assets[0])
+      }
+    })
+  }
 
 
   async function BuscaLoja() {
@@ -83,6 +145,34 @@ export default function CadastrarDados() {
         style={{ paddingVertical: 25 }}
         showsVerticalScrollIndicator={false}
       >
+
+
+        <Pressable
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 25
+          }}
+          onPress={Logo}>
+          <Text
+            style={{
+              fontFamily: 'Roboto-Regular',
+              fontSize: 13,
+              backgroundColor: '#fff',
+              borderRadius: 10,
+              marginLeft: 15,
+              color: '#000',
+              paddingHorizontal: 10,
+            }}>Logo</Text>
+
+
+          {loja?.avatar && <Image
+            source={{ uri: loja?.avatar?.location }}
+            style={{ width: 55, aspectRatio: 1, borderRadius: 55/2, borderColor:'#fff', borderWidth:4 }}
+          />}
+        </Pressable>
 
         <ContainerInput>
           <TituloInput>

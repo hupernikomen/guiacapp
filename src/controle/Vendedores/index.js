@@ -6,7 +6,7 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { LojaContext } from '../../contexts/lojaContext';
 
 import { useTheme, useNavigation, useFocusEffect } from '@react-navigation/native';
-import Animated, { FadeInUp, SlideInDown } from 'react-native-reanimated';
+import Animated, { FadeInRight,  SlideInDown } from 'react-native-reanimated';
 import api from '../../servicos/api';
 
 
@@ -16,7 +16,7 @@ export default function Vendedores() {
   const { colors } = useTheme()
   const navigation = useNavigation()
 
-
+  const [idSelecionado, setIdSelecionado] = useState(null)
 
   const [vendedores, setVendedores] = useState([])
 
@@ -25,13 +25,12 @@ export default function Vendedores() {
       let ativo = true
       BuscarVendedores()
 
-
       return () => {
+        setIdSelecionado(null)
         ativo = false
       }
     }, [])
   )
-
 
   async function BuscarVendedores() {
     await api.get(`/vendedores?lojaID=${credenciais.id}`)
@@ -39,10 +38,6 @@ export default function Vendedores() {
         setVendedores(response.data);
       })
   }
-
-
-
-
 
   async function Excluir(id) {
     const headers = {
@@ -71,51 +66,77 @@ export default function Vendedores() {
 
 
   function RenderItem({ data }) {
+
+    const { e, a, r, s } = JSON.parse(data.horario)
+
+    const horario = {
+      e: new Date(e).toLocaleTimeString().substring(0, 5),
+      a: new Date(a).toLocaleTimeString().substring(0, 5),
+      r: new Date(r).toLocaleTimeString().substring(0, 5),
+      s: new Date(s).toLocaleTimeString().substring(0, 5)
+    }
+
     return (
       <Pressable
-        onPress={() => Excluir(data.id)}>
-        <Animated.View
-          entering={FadeInUp}
+
+        onLongPress={() => setIdSelecionado(data.id)}
+      >
+        <View
+
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'space-between',
             flex: 1,
-            padding: 10,
             marginVertical: 5,
+            marginHorizontal: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 15,
             borderRadius: 6,
             backgroundColor: '#fff'
           }}>
+          <View style={{ flexDirection: "row" }}>
 
-          <Image
-            source={{ uri: data.avatar?.location }}
-            style={{
-              width: 55,
-              aspectRatio: 1,
-              borderRadius: 55 / 2,
-              marginRight: 15
-            }} />
-
-          <View>
-            <Text
-              numberOfLines={1}
+            <Image
+              source={{ uri: data.avatar?.location }}
               style={{
-                fontFamily: 'Roboto-Bold',
-                color: '#000',
-                fontSize: 18
-              }}>
-              {data.nome}
-            </Text>
+                width: 50,
+                aspectRatio: 1,
+                borderRadius: 55 / 2,
+                marginRight: 15
+              }} />
 
-            <Text style={{
-              fontFamily: 'Roboto-Light',
-              color: '#000',
-              fontSize: 13
-            }}>Setor: {data.setor}
-            </Text>
+            <View>
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontFamily: 'Roboto-Bold',
+                  color: '#000',
+                  fontSize: 18
+                }}>
+                {data.nome}
+              </Text>
 
+
+              <Text style={{ fontFamily: "Roboto-Light", color: '#000', fontSize: 13 }}>{horario.e} - {horario.a} - {horario.r} - {horario.s} </Text>
+            </View>
           </View>
 
-        </Animated.View>
+
+          {idSelecionado === data.id &&
+            <Animated.View
+              entering={FadeInRight}
+            >
+
+              <Pressable
+                style={{ backgroundColor: colors.tema, borderRadius: 6, width: 40, aspectRatio: 1, alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center' }}
+                onPress={() => Excluir(data.id)}>
+                <Material name='delete' size={25} color='#fff' />
+              </Pressable>
+            </Animated.View>
+          }
+
+        </View>
       </Pressable>
     )
   }
@@ -130,7 +151,7 @@ export default function Vendedores() {
       />
 
 
-      <Animated.View
+      <View
         style={{
           width: 55,
           aspectRatio: 1,
@@ -142,7 +163,6 @@ export default function Vendedores() {
           backgroundColor: colors.tema,
           elevation: 5
         }}
-        entering={SlideInDown.delay(500)}
 
       >
         <Pressable
@@ -156,7 +176,7 @@ export default function Vendedores() {
 
           <Material name='plus-thick' size={26} color='#fff' />
         </Pressable >
-      </Animated.View >
+      </View >
 
     </>
   )

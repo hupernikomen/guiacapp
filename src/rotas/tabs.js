@@ -30,7 +30,7 @@ export default function Tabs() {
         tabBarInactiveTintColor: '#000000'
       }}>
 
-      <Tab.Screen name="Home" component={HomeControle} options={{ title: 'Loja' }} />
+      <Tab.Screen name="Home" component={HomeControle} options={{ title: 'Produtos' }} />
       <Tab.Screen name="CadastrarDados" component={CadastrarDados} options={{ title: 'Dados' }} />
       <Tab.Screen name="VendedoresControle" component={VendedoresControle} options={{ title: 'Vendedor' }} />
       <Tab.Screen name="MapaControle" component={MapaControle} options={{ title: 'Mapa' }} />

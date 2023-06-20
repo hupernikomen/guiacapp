@@ -4,6 +4,8 @@ import estilo from './estilo';
 
 export default function Avatar({ DATA, WIDTH, SIZE }) {
 
+    console.log(DATA,"data");
+
     const [dados, setDados] = useState({})
     const [iniciais, setIniciais] = useState("")
 
@@ -32,7 +34,7 @@ export default function Avatar({ DATA, WIDTH, SIZE }) {
                 </Text>
                 :
                 <Image
-                    source={{ uri: dados.DATA?.avatar?.location }}
+                    source={{ uri: DATA?.avatar?.location }}
                     style={{
                         width: WIDTH,
                         flex: 1,

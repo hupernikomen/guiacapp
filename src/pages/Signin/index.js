@@ -1,12 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-import { Text, Linking,Pressable } from 'react-native'
+import { Text, Linking, Pressable } from 'react-native'
 
 import { LojaContext } from "../../contexts/lojaContext"
-import { useTheme, useNavigation, useIsFocused } from "@react-navigation/native";
+import { useTheme, useNavigation, useIsFocused, StackActions  } from "@react-navigation/native";
 
 import { Tela } from '../../styles'
 import { ContainerInput, BotaoPrincipal, TextBtn, Input } from './styles'
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function Login() {
 
@@ -21,7 +20,7 @@ export default function Login() {
 
   useEffect(() => {
 
-    autenticado && navigation.navigate('HomeControle')
+    autenticado && navigation.reset({ index: 0, routes: [{ name: 'HomeControle' }] })
 
   }, [focus])
 
@@ -63,9 +62,9 @@ export default function Login() {
 
       <Pressable
         style={{
-          alignItems:'center',
-          paddingVertical:10,
-          marginTop:5
+          alignItems: 'center',
+          paddingVertical: 10,
+          marginTop: 5
         }}
 
         onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
@@ -76,18 +75,15 @@ export default function Login() {
 
       <Pressable
         style={{
-          alignItems:'center',
-          paddingVertical:10,
-          marginTop:5
+          alignItems: 'center',
+          paddingVertical: 10,
+          marginTop: 5
         }}
         onPress={() => navigation.navigate("HomeScreen")}>
 
         <Text>Cadastrar minha loja</Text>
 
       </Pressable>
-
-
-
 
     </Tela>
   );

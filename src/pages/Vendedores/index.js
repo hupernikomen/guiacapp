@@ -5,43 +5,50 @@ import { useRoute } from '@react-navigation/native'
 import api from '../../servicos/api';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
+import styles from './styles';
+
 export default function Vendedores() {
   const route = useRoute()
   const [vendedores, setVendedores] = useState([])
 
 
   useEffect(() => {
+
+    async function BuscaVendedores() {
+      await api.get(`/vendedores?lojaID=${route.params}`)
+        .then((response) => {
+          setVendedores(shuffle(response.data));
+        })
+    }
     BuscaVendedores()
 
   }, [])
 
-  async function BuscaVendedores() {
-    await api.get(`/vendedores?lojaID=${route.params}`)
-      .then((response) => {
-        setVendedores(shuffle(response.data));
-      })
+
+  // Pega o horario dovendedor e converte em um hora calculavel
+  const converteHorario = (ponto) => {
+    return new Date(ponto).toLocaleTimeString()
   }
 
-  // Melhorar a configuração dessa função
-  function Horario({ horario }) {
 
-    const horarionovo = JSON.parse(horario)
+  // Função para retornar informação de vendedor
+  function StatusVendedor({ horario }) {
+    const { e: entrada, a: almoco, r: retorno, s: saida } = JSON.parse(horario)
 
-    const atual = new Date().toLocaleTimeString()
+    const hora_atual = new Date().toLocaleTimeString()
 
     if (
-      atual > new Date(horarionovo?.e).toLocaleTimeString() && atual < new Date(horarionovo?.a).toLocaleTimeString() ||
-      atual > new Date(horarionovo?.r).toLocaleTimeString() && atual < new Date(horarionovo?.s).toLocaleTimeString()) {
-      return true
+      hora_atual > converteHorario(entrada) && hora_atual < converteHorario(almoco) ||
+      hora_atual > converteHorario(retorno) && hora_atual < converteHorario(saida)) {
+      return { status: true, mensagem: "Volto às " + converteHorario(retorno) }
     } else {
-      return false
+      return { status: false, mensagem: "Fora do horário de atendimento" }
     }
 
   }
 
-
+  // Embaralhar Vendedores
   function shuffle(arr) {
-
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -52,84 +59,64 @@ export default function Vendedores() {
 
 
   function RenderItem({ data }) {
-
-    const disponivel = Horario(data)
-
+    const { status, mensagem } = StatusVendedor(data)
 
     return (
       <Pressable
         style={{
-          opacity: disponivel ? 1 : .5,
+          opacity: status ? 1 : .5,
         }}
-        disabled={!disponivel}
+        disabled={!status}
         onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${data.whatsapp}`)}>
         <Animated.View
           entering={FadeInUp}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            flex: 1,
-            paddingHorizontal: 10,
-            paddingVertical: 15,
-            marginVertical: 5,
-            borderRadius: 6,
-            backgroundColor: '#fff',
-          }}>
+          style={styles.container_vendedor}>
 
           <Image
             source={{ uri: data.avatar?.location }}
-            style={{
-              width: 55,
-              aspectRatio: 1,
-              borderRadius: 55 / 2,
-              marginRight: 15
-            }} />
-
-          <View style={{ flex: 1 }}>
-            <Text
-              numberOfLines={1}
-              style={{
-                fontFamily: 'Roboto-Bold',
-                color: '#000',
-                fontSize: 18
-              }}>
-
-              {data.nome}
-            </Text>
-
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            style={styles.foto_vendedor} />
 
 
-              <Text style={{
-                fontFamily: 'Roboto-Light',
-                color: '#000',
-                fontSize: 13
-              }}>Setor: {data.setor}
+          <View style={styles.container_info}>
+            <View style={styles.container_nome_info}>
+
+              <Text
+                numberOfLines={1}
+                style={styles.nome_vendedor}>
+
+                {data.nome}
               </Text>
 
-              <View style={{ alignItems: "center", flexDirection: 'row' }}>
+              <View style={styles.container_status}>
 
-                <View style={{ width: 8, height: 8, backgroundColor: disponivel ? '#388E3C' : '#aaa', borderRadius: 5 }} />
-                <Text style={{ fontSize: 13, marginLeft: 5, color: disponivel ? '#388E3C' : '#aaa' }}>{disponivel ? 'Online' : 'Off'}</Text>
+                <View style={[styles.dot_status, { backgroundColor: status ? '#388E3C' : '#aaa' }]} />
+                <Text style={[styles.info_status, { color: status ? '#388E3C' : '#aaa' }]}>{status ? 'Online' : 'Off'}</Text>
 
               </View>
             </View>
 
+
+
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              {status ?
+                <Text style={styles.setor}>{data.setor}</Text> :
+                <Text style={styles.mensagem}>{mensagem}</Text>
+              }
+            </View>
+
           </View>
-
-
 
         </Animated.View>
       </Pressable>
     )
   }
 
-  return (<>
+  return (
     <FlatList
       data={vendedores}
       renderItem={({ item }) => <RenderItem data={item} />}
       contentContainerStyle={{ paddingHorizontal: 15 }}
     />
-  </>
   );
 }
+

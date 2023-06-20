@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react';
-import { View, Pressable, Image, Text, Alert } from 'react-native';
+import { useState, useContext, useEffect } from 'react';
+import { View, Pressable, Image, Text, ToastAndroid } from 'react-native';
 
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
@@ -37,6 +37,7 @@ export default function CadastrarVendedor() {
   const [openRetorno, setOpenRetorno] = useState(false)
   const [openSaida, setOpenSaida] = useState(false)
 
+
   const BuscarImagem = () => {
     ImagePicker.openPicker({
       width: 300, height: 300, cropping: true,
@@ -53,20 +54,24 @@ export default function CadastrarVendedor() {
     });
   }
 
+  const Toast = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
 
   async function CriarVendedores() {
 
-    if (!nome || !whatsapp) {
-      Alert.alert('Campos não preenchidos ou invalidos. nome e whatsapp', [
-        {
-          text: "Tentar Novamente",
-          onPress: () => setModalVisible(true),
-        }
-      ])
+    if (!nome || !whatsapp || avatar.length == 0 || entrada >= almoco || almoco >= retorno || retorno >= saida) {
+      Toast("Cadastro incompleto ou inválido")
       return
     }
 
-    const formData = new FormData()
 
     const horario = {
       e: entrada.getTime(),
@@ -75,6 +80,8 @@ export default function CadastrarVendedor() {
       s: saida.getTime()
     }
 
+
+    const formData = new FormData()
     formData.append("nome", nome)
     formData.append("setor", setor)
     formData.append("whatsapp", whatsapp)
@@ -167,22 +174,22 @@ export default function CadastrarVendedor() {
       <ContainerInputInline>
 
         <Pressable onPress={() => setOpenEntrada(true)} >
-          <Text style={{fontFamily:'Roboto-Regular',color:'#000'}}>Entrada</Text>
+          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000' }}>Entrada</Text>
           <Text>{entrada.toLocaleTimeString().substring(0, 5)}</Text>
         </Pressable>
 
         <Pressable onPress={() => setOpenAlmoco(true)} >
-          <Text style={{fontFamily:'Roboto-Regular',color:'#000'}}>Almoço</Text>
+          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000' }}>Almoço</Text>
           <Text>{almoco.toLocaleTimeString().substring(0, 5)}</Text>
         </Pressable>
 
         <Pressable onPress={() => setOpenRetorno(true)} >
-          <Text style={{fontFamily:'Roboto-Regular',color:'#000'}}>Retorno</Text>
+          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000' }}>Retorno</Text>
           <Text>{retorno.toLocaleTimeString().substring(0, 5)}</Text>
         </Pressable>
 
         <Pressable onPress={() => setOpenSaida(true)} >
-          <Text style={{fontFamily:'Roboto-Regular',color:'#000'}}>Saida</Text>
+          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000' }}>Saida</Text>
           <Text>{saida.toLocaleTimeString().substring(0, 5)}</Text>
         </Pressable>
 

@@ -38,17 +38,20 @@ const Stack = createNativeStackNavigator()
 
 export default function RotasStack() {
 
-  const { loja, signOut } = useContext(LojaContext)
+  const { loja, signOut,MenuDots } = useContext(LojaContext)
 
   const { colors } = useTheme()
   const navigation = useNavigation()
+
+
+  
 
 
   return (
     <Stack.Navigator
       initialRouteName={'Feed'}
       screenOptions={{
-        unmountOnBlur: true,
+        // unmountOnBlur: true,
         headerTintColor: "#fff",
 
       }}
