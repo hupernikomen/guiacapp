@@ -12,11 +12,11 @@ export default function Off({  valor }) {
             alignItems: 'center',
             position: 'absolute',
             zIndex: 99,
-            left: -10,
+            left: -9,
             top: -7
         }}>
 
-            <Material name='bookmark' size={46} color={colors.tema} />
+            <Material name='bookmark' size={48} color={colors.tema} />
             <View
                 style={{
                     position: 'absolute',

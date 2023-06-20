@@ -9,7 +9,6 @@ import api from '../../servicos/api';
 import { ProdutoContext } from '../../contexts/produtoContext';
 
 import estilo from './estilo'
-import Avatar from '../../componentes/Avatar';
 import Load from '../../componentes/Load';
 import Animated, { FadeInRight } from 'react-native-reanimated';
 

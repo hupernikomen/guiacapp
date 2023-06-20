@@ -4,7 +4,6 @@ import { View, Text, FlatList, Pressable,Image } from 'react-native';
 import api from '../../servicos/api';
 
 import Maps from '../../componentes/Mapa';
-import Avatar from '../../componentes/Avatar';
 import Load from '../../componentes/Load';
 import Produto from '../../componentes/Produto-Feed';
 

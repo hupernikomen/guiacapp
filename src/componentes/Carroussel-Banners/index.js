@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, View, Image, FlatList, Animated } from 'react-native';
 
-import estilo from '../Avatar/estilo';
+import estilo from './estilo';
 
 const WIDTH = Dimensions.get('window').width;
 

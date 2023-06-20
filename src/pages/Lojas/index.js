@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Pressable, Image, RefreshControl } from 'react-native';
-import Avatar from '../../componentes/Avatar';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import api from '../../servicos/api';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 
-import { BtnIcone } from '../../styles'
 
 export default function Lojas() {
 
@@ -96,7 +94,13 @@ export default function Lojas() {
         onPress={() => navigation.navigate('Loja', item.id)}
         style={{ flexDirection: "row", alignItems: 'center', marginVertical: 2 }}>
 
-        <Avatar DATA={item} WIDTH={40} SIZE={12} />
+
+        {
+          item?.avatar &&
+          <Image
+            style={{ width: 40, aspectRatio: 1, borderRadius:20 }}
+            source={{ uri: item?.avatar?.location }} />
+        }
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, flex: 1, borderRadius: 6 }}>
 
