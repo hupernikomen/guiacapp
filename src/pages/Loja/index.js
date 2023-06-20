@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text, FlatList, Pressable,Image } from 'react-native';
 
 import api from '../../servicos/api';
 
@@ -81,7 +81,13 @@ export default function Loja() {
           <Material name='arrow-left' size={24} color='#fff' />
         </BtnIcone>
 
-        <Avatar DATA={loja} WIDTH={40} SIZE={18} />
+
+        {
+          loja?.avatar &&
+          <Image
+            style={{ width: 40, aspectRatio: 1, borderRadius:20 }}
+            source={{ uri: loja?.avatar?.location }} />
+        }
 
         <Text
           numberOfLines={1}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {
-  View,
-  Text,
+  View, Text,
   ScrollView,
   Alert,
   Pressable,
+  TextInput,
   Modal,
   FlatList,
   Dimensions,
@@ -21,9 +21,11 @@ import api from '../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
-import { Input, TituloInput, ContainerInput, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela, BtnIcone } from "../../styles";
+import { SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, BtnIcone } from "../../styles";
 
-import Animated, { FadeIn, FlipInXDown, RollInLeft, SlideInDown, SlideInUp, StretchInX, ZoomIn } from 'react-native-reanimated';
+import Animated, { SlideInUp } from 'react-native-reanimated';
+import estilo from './estilo';
+
 export default function EditaProduto() {
   const { credenciais } = useContext(LojaContext)
   const { arrTamanhos } = useContext(ProdutoContext)
@@ -68,6 +70,17 @@ export default function EditaProduto() {
 
     if (produto.oferta === null) setProduto({ ...produto, campanhaID: null });
   }, [produto.oferta])
+
+
+  const Toast = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
 
 
   async function BuscaCampanhas() {
@@ -134,6 +147,9 @@ export default function EditaProduto() {
   }
 
   function SizesFormatted(tams) {
+
+    if (!tams) { return }
+
     const sizesDefault = arrTamanhos;
     const array = tams;
 
@@ -147,22 +163,17 @@ export default function EditaProduto() {
   };
 
 
-  function RenderItem({ data }) {
+  function BotoesTamanhos({ data }) {
 
     const response = produto.tamanho.indexOf(data)
     return (
 
       <Pressable
-        style={{
-          aspectRatio: 1,
-          height: (width / 7) - 10,
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: 4,
-          borderRadius: 4,
+        style={[estilo.container_botoes_tamanho, {
           backgroundColor: response == -1 ? "#fff" : colors.tema,
-          borderWidth: response == -1 ? .5 : 0
-        }}
+          borderWidth: response == -1 ? .5 : 0,
+          height: (width / 7) - 10
+        }]}
         onPress={() => {
           if (response == -1) {
             const i = produto.tamanho
@@ -179,75 +190,66 @@ export default function EditaProduto() {
     )
   }
 
-  const Toast = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
-
-
 
 
   return (
-    <Tela>
+    <View style={estilo.tela}>
 
       <ScrollView
         style={{ paddingVertical: 25 }}
         showsVerticalScrollIndicator={false}>
 
-        <ContainerInput>
+        <View style={estilo.container_input}>
 
-          <TituloInput>
+          <Text style={estilo.titulo_input}>
             Produto
-          </TituloInput>
+          </Text>
 
-          <Input
+          <TextInput
+            style={estilo.inputs}
             value={produto.nome}
             onChangeText={e => setProduto({ ...produto, nome: e })}
           />
-        </ContainerInput>
+        </View>
 
-        <ContainerInput>
+        <View style={estilo.container_input}>
 
-          <TituloInput>
+          <Text style={estilo.titulo_input}>
             Descrição
-          </TituloInput>
+          </Text>
 
-          <Input
+          <TextInput
+          style={estilo.inputs}
             multiline={true}
             numberOfLines={0}
             verticalAlign={'top'}
             value={produto.descricao}
             onChangeText={e => setProduto({ ...produto, descricao: e })} />
-        </ContainerInput>
+        </View >
 
 
-        <ContainerInput focusable={false}>
+        <View style={estilo.container_input} focusable={false}>
 
-          <TituloInput>
+          <Text style={estilo.titulo_input}>
             Preço R$ - ( Não editavel )
-          </TituloInput>
+          </Text>
 
           <CurrencyInputs value={produto.preco} />
 
-        </ContainerInput>
+        </View>
 
 
-        <ContainerInput>
+        <View style={estilo.container_input}>
 
-          <TituloInput>
+          <Text style={estilo.titulo_input}>
             Oferta R$
-          </TituloInput>
+          </Text>
           <CurrencyInputs
 
             value={produto.oferta}
             onChangeValue={e => setProduto({ ...produto, oferta: e })} />
 
-        </ContainerInput>
+        </View>
 
 
         {!!produto.oferta &&
@@ -260,9 +262,9 @@ export default function EditaProduto() {
             minHeight: 55,
             paddingLeft: 10
           }}>
-            <TituloInput>
+            <Text style={estilo.titulo_input}>
               Campanha
-            </TituloInput>
+            </Text>
             <Picker
               mode="dialog"
               selectedValue={produto.campanhaID}
@@ -290,12 +292,12 @@ export default function EditaProduto() {
         <View>
           <SimulaInput>
 
-            <TituloInput>Tamanhos Disponiveis</TituloInput>
+            <Text style={estilo.titulo_input}>Tamanhos Disponiveis</Text>
             <FlatList
 
               ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
               horizontal
-              data={produto.tamanho}
+              data={SizesFormatted(produto?.tamanho)}
               renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }}>{item}</Text>}
             />
 
@@ -347,7 +349,7 @@ export default function EditaProduto() {
               contentContainerStyle={{ padding: 20, alignItems: 'center' }}
               numColumns={6}
               data={arrTamanhos}
-              renderItem={({ item }) => <RenderItem data={item} />}
+              renderItem={({ item }) => <BotoesTamanhos data={item} />}
 
             />
 
@@ -356,6 +358,6 @@ export default function EditaProduto() {
 
         </Animated.View>
       </Modal>
-    </Tela>
+    </View>
   );
 }

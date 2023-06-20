@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-import { FlatList, RefreshControl, Text, View, Pressable } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 
 import Produto from '../../componentes/Produto-Feed';
 import ListaCategorias from '../../componentes/Lista-Categorias';
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-
-import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/native'
-
+import {  useNavigation, useTheme } from '@react-navigation/native'
 
 import api from '../../servicos/api';
 import Load from '../../componentes/Load';
@@ -16,7 +13,6 @@ import CarrosselBanners from '../../componentes/Carroussel-Banners';
 
 export default function Feed() {
   const navigation = useNavigation()
-  const { colors } = useTheme()
 
   const [load, setLoad] = useState(false)
   const [produtos, setProdutos] = useState([])
@@ -39,7 +35,6 @@ export default function Feed() {
     await api.get('/feed')
       .then((response) => {
         setProdutos(shuffle(response.data))
-        
         setLoad(false)
       })
       .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
@@ -52,7 +47,6 @@ export default function Feed() {
       })
       .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
   }
-
 
 
   function shuffle(arr) {

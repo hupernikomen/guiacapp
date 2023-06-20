@@ -85,7 +85,7 @@ export default function Detalhes() {
           return (
             <Pinchable key={index} minimumZoomScale={.8} maximumZoomScale={2.9}>
               <Image
-                
+
                 source={{ uri: item.location }}
                 style={{
                   width: WIDTH,
@@ -103,10 +103,16 @@ export default function Detalhes() {
       <Pressable
         style={estilo.container_loja}
         onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
-        <Avatar DATA={produto.loja} WIDTH={42} SIZE={12} />
+
+        {
+          produto?.loja?.avatar &&
+          <Image
+            style={{ width: 50, aspectRatio: 1, borderRadius: 25 }}
+            source={{ uri: produto?.loja?.avatar?.location }} />
+        }
 
         <Animated.View
-          entering={FadeInRight.duration(500)}
+          entering={FadeInRight.duration(600)}
           style={{ marginLeft: 15 }}>
           <Text
             style={estilo.nome_loja}>{produto.loja?.nome}</Text>
@@ -127,7 +133,7 @@ export default function Detalhes() {
 
         <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>{produto.categoria?.nome}</Text>
         <Animated.Text
-          entering={FadeInRight.duration(500).delay(200)}
+          entering={FadeInRight.duration(600).delay(150)}
           style={{
             fontSize: 22,
             fontFamily: 'Roboto-Bold',
@@ -136,7 +142,7 @@ export default function Detalhes() {
           }}>{produto.nome?.trim()}</Animated.Text>
 
         <Animated.Text
-          entering={FadeInRight.duration(500).delay(350)}
+          entering={FadeInRight.duration(600).delay(250)}
           style={{
             fontSize: 22,
             marginVertical: 20,

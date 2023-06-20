@@ -4,21 +4,20 @@ import { LojaContext } from "../../contexts/lojaContext"
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import { launchImageLibrary } from 'react-native-image-picker';
 
 import api from '../../servicos/api';
 
 import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
-import Avatar from '../../componentes/Avatar';
 
 export default function CadastrarDados() {
   const { colors } = useTheme()
-  const { credenciais } = useContext(LojaContext)
+  const { credenciais, BuscaLoja, loja } = useContext(LojaContext)
   const navigation = useNavigation()
 
-  const [load, setLoad] = useState(false)
-  const [loja, setLoja] = useState([])
+
+  const selecaoEntrega = e => setLoja({ ...loja, entrega: e });
+
 
   useFocusEffect(
     useCallback(() => {
@@ -33,7 +32,16 @@ export default function CadastrarDados() {
   )
 
 
-  const toggleSwitch = e => setLoja({ ...loja, entrega: e });
+  const Toast = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
 
 
   const options = {
@@ -72,7 +80,7 @@ export default function CadastrarDados() {
         'Authorization': `Bearer ${credenciais.token}`
       }
     })
-      .then(({ data }) => {
+      .then(() => {
         BuscaLoja()
 
       })
@@ -94,24 +102,6 @@ export default function CadastrarDados() {
   }
 
 
-  async function BuscaLoja() {
-    setLoad(true)
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${credenciais.token}`
-    }
-    await api.get('/me', { headers })
-      .then(response => {
-        setLoja(response.data)
-        setLoad(false)
-      })
-      .catch((error) => {
-        ToastErro(error.status)
-        setLoad(false)
-        navigation.goBack()
-      })
-  }
-
   async function Atualizar() {
 
     const headers = {
@@ -122,21 +112,13 @@ export default function CadastrarDados() {
     await api.put(`/loja`, loja, { headers })
       .then(() => {
         navigation.navigate('Home')
-        ToastAtualizaDados()
+        Toast('Atualizamos seus dados!')
       })
       .catch((error) => console.log(error.response, "catch Error"))
   }
 
 
-  const ToastAtualizaDados = () => {
-    ToastAndroid.showWithGravityAndOffset(
-      'Atualizamos seus dados!',
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
+
 
   return (
     <Tela>
@@ -170,7 +152,7 @@ export default function CadastrarDados() {
 
           {loja?.avatar && <Image
             source={{ uri: loja?.avatar?.location }}
-            style={{ width: 55, aspectRatio: 1, borderRadius: 55/2, borderColor:'#fff', borderWidth:4 }}
+            style={{ width: 55, aspectRatio: 1, borderRadius: 55 / 2, borderColor: '#fff', borderWidth: 4 }}
           />}
         </Pressable>
 
@@ -252,7 +234,7 @@ export default function CadastrarDados() {
           <Switch
             trackColor={{ false: '#767577', true: '#ddd' }}
             thumbColor={loja.entrega ? colors.tema : '#f4f3f4'}
-            onValueChange={toggleSwitch}
+            onValueChange={selecaoEntrega}
             value={loja.entrega}
           />
         </View>

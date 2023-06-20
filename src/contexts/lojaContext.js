@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-import { View,Text } from "react-native";
 import { ToastAndroid } from "react-native";
 import api from '../servicos/api'
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,6 +19,7 @@ export function LojaProvider({ children }) {
   })
 
   const [loading, setLoading] = useState(true)
+  const [load, setLoad] = useState(false)
   const [loja,setLoja] = useState([])
 
 
@@ -33,15 +33,18 @@ export function LojaProvider({ children }) {
 
 
   async function BuscaLoja() {
+    setLoad(true)
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
     }
     await api.get(`/me?lojaID=${credenciais.id}`, { headers })
-      .then((response) => {
+    .then((response) => {
+        setLoad(false)
         setLoja(response.data)
       })
       .catch((error) => {
+        setLoad(false)
         console.log(error);
       })
   }
@@ -151,6 +154,7 @@ export function LojaProvider({ children }) {
       credenciais,
       autenticado,
       loading,
+      load,
       loja,
       BuscaLoja,
       signIn,

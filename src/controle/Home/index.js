@@ -15,14 +15,13 @@ export default function HomeControle() {
   const navigation = useNavigation()
   const { colors } = useTheme()
 
+
   useFocusEffect(
     useCallback(() => {
       BuscaLoja()
 
     }, [])
   )
-
-
 
   return (
     <>
@@ -35,9 +34,7 @@ export default function HomeControle() {
         numColumns={2}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-
       />
-
 
       <Animated.View
         entering={SlideInDown.delay(500)}

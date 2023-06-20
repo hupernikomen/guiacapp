@@ -1,12 +1,12 @@
 import React, { useState, useContext, useCallback } from 'react';
-import { View, Text, Pressable, FlatList, Alert, Image } from 'react-native';
+import { View, Text, Pressable, FlatList, ToastAndroid, Image } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { LojaContext } from '../../contexts/lojaContext';
 
 import { useTheme, useNavigation, useFocusEffect } from '@react-navigation/native';
-import Animated, { FadeInRight,  SlideInDown } from 'react-native-reanimated';
+import Animated, { FadeInRight } from 'react-native-reanimated';
 import api from '../../servicos/api';
 
 
@@ -22,15 +22,23 @@ export default function Vendedores() {
 
   useFocusEffect(
     useCallback(() => {
-      let ativo = true
       BuscarVendedores()
 
       return () => {
         setIdSelecionado(null)
-        ativo = false
       }
     }, [])
   )
+
+  const Toast = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
 
   async function BuscarVendedores() {
     await api.get(`/vendedores?lojaID=${credenciais.id}`)
@@ -45,44 +53,29 @@ export default function Vendedores() {
       'Authorization': `Bearer ${credenciais.token}`
     }
 
+    await api.delete(`/vendedor?vendedorID=${id}`, { headers })
+      .then(() => {
+        Toast("Vendedor Excluido")
+        BuscarVendedores()
+      })
 
-    Alert.alert("Excluir", "Excluir este vendedor", [
-      {
-        text: "Sim",
-        onPress: async () => {
-          await api.delete(`/vendedor?vendedorID=${id}`, { headers })
-            .then(() => {
-              BuscarVendedores()
-            }
-            )
-            .catch((error) => console.log(error.response))
-        },
-      },
-      { text: "Não" },
-    ])
   }
 
 
+  // Pega o horario do vendedor e converte em um hora calculavel
+  const converteHorario = (ponto) => {
+    return new Date(ponto).toLocaleTimeString().substring(0, 5)
+  }
 
 
   function RenderItem({ data }) {
-
-    const { e, a, r, s } = JSON.parse(data.horario)
-
-    const horario = {
-      e: new Date(e).toLocaleTimeString().substring(0, 5),
-      a: new Date(a).toLocaleTimeString().substring(0, 5),
-      r: new Date(r).toLocaleTimeString().substring(0, 5),
-      s: new Date(s).toLocaleTimeString().substring(0, 5)
-    }
+    const { e: entrada, a: almoco, r: retorno, s: saida } = JSON.parse(data.horario)
 
     return (
       <Pressable
+        onLongPress={() => setIdSelecionado(data.id)}>
 
-        onLongPress={() => setIdSelecionado(data.id)}
-      >
         <View
-
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -118,7 +111,7 @@ export default function Vendedores() {
               </Text>
 
 
-              <Text style={{ fontFamily: "Roboto-Light", color: '#000', fontSize: 13 }}>{horario.e} - {horario.a} - {horario.r} - {horario.s} </Text>
+              <Text style={{ fontFamily: "Roboto-Light", color: '#000', fontSize: 13 }}>{converteHorario(entrada)} - {converteHorario(almoco)} - {converteHorario(retorno)} - {converteHorario(saida)} </Text>
             </View>
           </View>
 
@@ -147,9 +140,7 @@ export default function Vendedores() {
       <FlatList
         data={vendedores}
         renderItem={({ item }) => <RenderItem data={item} />}
-
       />
-
 
       <View
         style={{
@@ -162,9 +153,8 @@ export default function Vendedores() {
           bottom: 25,
           backgroundColor: colors.tema,
           elevation: 5
-        }}
+        }}>
 
-      >
         <Pressable
           style={{
             flex: 1,
@@ -173,7 +163,6 @@ export default function Vendedores() {
           }}
           background={colors.tema}
           onPress={() => navigation.navigate("CadastrarVendedor")}>
-
           <Material name='plus-thick' size={26} color='#fff' />
         </Pressable >
       </View >

@@ -11,7 +11,6 @@ export default function Vendedores() {
   const route = useRoute()
   const [vendedores, setVendedores] = useState([])
 
-
   useEffect(() => {
 
     async function BuscaVendedores() {
@@ -24,12 +23,10 @@ export default function Vendedores() {
 
   }, [])
 
-
   // Pega o horario dovendedor e converte em um hora calculavel
   const converteHorario = (ponto) => {
     return new Date(ponto).toLocaleTimeString()
   }
-
 
   // Função para retornar informação de atendimento do vendedor
   function StatusVendedor({ horario }) {
@@ -37,21 +34,20 @@ export default function Vendedores() {
     const hora_atual = new Date().toLocaleTimeString()
     const data_atual = new Date().getDay()
 
-    if (
+    if ( // Condição para horarios de trabalho
       data_atual != 0 && // Domingo
-      hora_atual > converteHorario(entrada) && hora_atual < converteHorario(almoco) ||
-      hora_atual > converteHorario(retorno) && hora_atual < converteHorario(saida)) {
-      return { status: true, mensagem: "Volto às " + converteHorario(retorno) }
+      hora_atual > converteHorario(entrada) && hora_atual < converteHorario(almoco) || // Trabahando de manha
+      hora_atual > converteHorario(retorno) && hora_atual < converteHorario(saida)) { // Trabalhando a tarde
+      return { status: true, mensagem: "" }
 
-    } else if (
+    } else if ( // Condição antes da entrada do vendedor
       data_atual != 0 && // Domingo
       hora_atual > "06:00:00" && hora_atual < converteHorario(entrada)) {
-
       return { status: false, mensagem: "Entrará às " + converteHorario(entrada).substring(0, 5) + ' hs' }
+
     } else {
       return { status: false, mensagem: "Fora do horário de atendimento" }
     }
-
   }
 
   // Embaralhar Vendedores

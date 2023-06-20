@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from "react-native";
 
-export default styles = {
+export default estilo = StyleSheet.create({
   container_vendedor:{
     flexDirection: 'row',
     alignItems: 'center',
@@ -54,4 +54,4 @@ export default styles = {
     fontSize: 13
   }
 
-}
+})

@@ -15,13 +15,13 @@ export default estilo = StyleSheet.create({
   },
   nome_loja: {
     fontFamily: 'Roboto-Medium',
-    fontSize: 17,
+    fontSize: 18,
     color:'#000'
   },
   info_botao_loja: {
-    fontSize: 12,
-    fontFamily: 'Roboto-Light',
-    color: '#000'
+    fontSize: 13,
+    fontFamily: 'Roboto-REgular',
+    color: '#455A64'
   },
   preco: {
     fontFamily: 'Roboto-Bold',
