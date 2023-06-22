@@ -29,7 +29,6 @@ export default function ListaCategorias({data}) {
     return (
         <FlatList
             contentContainerStyle={{ marginHorizontal: 5}}
-            style={{ backgroundColor: colors.tema}}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={data}

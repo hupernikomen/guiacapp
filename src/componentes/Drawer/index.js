@@ -17,7 +17,23 @@ export default function DrawerCustom(props) {
   return (
     <DrawerContentScrollView {...props}>
 
+        {!autenticado ?
+          <DrawerItem
+            labelStyle={estilo.fonte}
+            label="Login"
+            inactiveTintColor='#fff'
+            onPress={() => navigation.navigate("Signin")}
+          /> :
+          <DrawerItem
+            labelStyle={estilo.fonte}
+            label="Minha Loja"
+            inactiveTintColor='#fff'
+            onPress={() => navigation.navigate("HomeControle")}
+          />
+
+        }
       <View style={estilo.paginas}>
+
 
         <DrawerItem
           labelStyle={estilo.fonte}
@@ -28,35 +44,27 @@ export default function DrawerCustom(props) {
 
         <DrawerItem
           labelStyle={estilo.fonte}
-          label="Lojas Cadastradas"
+          label="Lojas"
           inactiveTintColor='#fff'
           onPress={() => navigation.navigate("Lojas")}
         />
-        {/* <DrawerItem
-                         labelStyle={estilo.fonte}
-                    label="Serviços Profissionais"
-                    inactiveTintColor='#fff'
-                    onPress={() => navigation.navigate("Servicos")}
-                /> */}
+        <DrawerItem
+          labelStyle={estilo.fonte}
+          label="Serviços"
+          inactiveTintColor='#fff'
+          onPress={() => navigation.navigate("Servicos")}
+        />
+        <DrawerItem
+          labelStyle={estilo.fonte}
+          label="Restaurantes"
+          inactiveTintColor='#fff'
+          onPress={() => navigation.navigate("Servicos")}
+        />
 
 
       </View>
 
-      {!autenticado ?
-        <DrawerItem
-          labelStyle={estilo.fonte}
-          label="Login"
-          inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("Signin")}
-        /> :
-        <DrawerItem
-          labelStyle={estilo.fonte}
-          label="Minha Loja"
-          inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("HomeControle")}
-        />
 
-      }
 
 
       <DrawerItem

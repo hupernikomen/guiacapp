@@ -4,22 +4,22 @@ export default estilo = StyleSheet.create({
   container_produto: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 1,
-    borderRadius: 4,
+    padding: 2,
+    borderRadius: 6,
     marginHorizontal: 4,
 
   },
   foto: {
-    aspectRatio: 9 / 10,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4
+    aspectRatio:1,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6
   },
   tag_campanha: {
     position: 'absolute',
     bottom: -1,
-    left: -1,
+    left:0,
     borderRadius: 2,
-    paddingVertical: 2,
+    paddingVertical: 4,
     paddingHorizontal: 4,
     color: '#fff',
     fontSize: 11

@@ -1,5 +1,5 @@
 import React, { useContext, useCallback, useState } from 'react';
-import { View, Text, Switch, ScrollView, ToastAndroid, Pressable, Image } from 'react-native';
+import { View, Text, Switch, ScrollView, ToastAndroid, Pressable, Image, ActivityIndicator } from 'react-native';
 import { LojaContext } from "../../contexts/lojaContext"
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
@@ -12,9 +12,11 @@ import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } fro
 
 export default function CadastrarDados() {
   const { colors } = useTheme()
-  const { credenciais, BuscaLoja, loja } = useContext(LojaContext)
+  const { credenciais } = useContext(LojaContext)
   const navigation = useNavigation()
 
+  const [load, setLoad] = useState(false)
+  const [loja, setLoja] = useState([])
 
   const selecaoEntrega = e => setLoja({ ...loja, entrega: e });
 
@@ -23,7 +25,6 @@ export default function CadastrarDados() {
     useCallback(() => {
       let ativo = true
       BuscaLoja()
-
 
       return () => {
         ativo = false
@@ -43,6 +44,20 @@ export default function CadastrarDados() {
   };
 
 
+  async function BuscaLoja() {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${credenciais.token}`
+    }
+    await api.get('/me', { headers })
+      .then(response => {
+        setLoja(response.data)
+      })
+      .catch((error) => {
+        ToastErro(error.status)
+        navigation.goBack()
+      })
+  }
 
   const options = {
     options: {
@@ -103,7 +118,7 @@ export default function CadastrarDados() {
 
 
   async function Atualizar() {
-
+    setLoad(true)
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
@@ -113,6 +128,7 @@ export default function CadastrarDados() {
       .then(() => {
         navigation.navigate('Home')
         Toast('Atualizamos seus dados!')
+        setLoad(false)
       })
       .catch((error) => console.log(error.response, "catch Error"))
   }
@@ -244,8 +260,9 @@ export default function CadastrarDados() {
           activeOpacity={1}
           background={colors.tema}
           onPress={Atualizar}>
-
-          <TextBtn cor={'#fff'}>Atualizar</TextBtn>
+          {load ? <ActivityIndicator color={'#fff'} /> :
+            <TextBtn cor={'#fff'}>Atualizar</TextBtn>
+          }
         </BotaoPrincipal>
 
         <View style={{ marginVertical: 15 }} />

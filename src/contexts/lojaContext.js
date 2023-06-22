@@ -3,7 +3,6 @@ import { ToastAndroid } from "react-native";
 import api from '../servicos/api'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 import { useNavigation } from "@react-navigation/native";
 
 export const LojaContext = createContext({})
@@ -18,19 +17,27 @@ export function LojaProvider({ children }) {
     token: ''
   })
 
-  const [loading, setLoading] = useState(true)
   const [load, setLoad] = useState(false)
-  const [loja,setLoja] = useState([])
-
+  const [loja, setLoja] = useState([])
 
   const autenticado = !!credenciais.email
 
   useEffect(() => {
     CredencialDoUsuario()
 
-
   }, [])
 
+  
+  const Toast = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      0,
+      50,
+    );
+  };
+  
 
   async function BuscaLoja() {
     setLoad(true)
@@ -39,7 +46,7 @@ export function LojaProvider({ children }) {
       'Authorization': `Bearer ${credenciais.token}`
     }
     await api.get(`/me?lojaID=${credenciais.id}`, { headers })
-    .then((response) => {
+      .then((response) => {
         setLoad(false)
         setLoja(response.data)
       })
@@ -48,9 +55,6 @@ export function LojaProvider({ children }) {
         console.log(error);
       })
   }
-
-
-  //---------------------------------------------------------------------
 
 
 
@@ -74,43 +78,23 @@ export function LojaProvider({ children }) {
       AsyncStorage.clear()
     }
 
-    setLoading(false)
   }
 
 
-
- 
-
-
-  //---------------------------------------------------------------------
-
-  
-  
-
-  const ToastErroLogin = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      0,
-      50,
-    );
-  };
 
   async function signIn({ email, senha }) {
     if (!email || !senha) {
       return
     }
-    setLoading(true)
+    setLoad(true)
 
     await api.post('/login', { email, senha })
       .then(async (response) => {
-
         const { id, token } = response.data
         const data = { ...response.data }
-
+        
         await AsyncStorage.setItem('@authGuiaComercial', JSON.stringify(data))
-
+        
         //Passar para todas as requisições o token do lojista logado
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`
         setCredenciais({
@@ -119,23 +103,20 @@ export function LojaProvider({ children }) {
           token,
         })
         navigation.navigate("HomeControle")
-        setLoading(false)
+        setLoad(false)
       })
       .catch(({ response }) => {
         if (response.status == '503') {
           Alert.alert("Manutenção", "Estamos melhorando as coisas por aqui, volte em alguns instantes...")
         } else {
-          ToastErroLogin(response.data?.error)
-          // Alert.alert("Ops...", response.data?.error)
+          Toast(response.data?.error)
         }
-        setLoading(false)
+        setLoad(false)
       })
-
-
   }
 
   async function signOut() {
-    
+
     await AsyncStorage.clear()
       .then(() => {
         setCredenciais({
@@ -144,16 +125,14 @@ export function LojaProvider({ children }) {
           token: ''
         })
         navigation.navigate("Feed")
+        Toast(('Você foi deslogado'))
       })
   }
-
-  // signOut()
 
   return (
     <LojaContext.Provider value={{
       credenciais,
       autenticado,
-      loading,
       load,
       loja,
       BuscaLoja,

@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import { View, Text, FlatList, RefreshControl, Image, AppState } from 'react-native';
 
 import Produto from '../../componentes/Produto-Feed';
 import ListaCategorias from '../../componentes/Lista-Categorias';
 
-import {  useNavigation, useTheme } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import api from '../../servicos/api';
 import Load from '../../componentes/Load';
 import estilo from './estilo';
 import CarrosselBanners from '../../componentes/Carroussel-Banners';
+import CarrosselServicos from '../../componentes/Carroussel-Servicos';
 
 export default function Feed() {
   const navigation = useNavigation()
@@ -17,12 +19,13 @@ export default function Feed() {
   const [load, setLoad] = useState(false)
   const [produtos, setProdutos] = useState([])
   const [categorias, setCategorias] = useState([])
-  // const [servico, setServico] = useState([])
+  const [servicos, setServicos] = useState([])
 
   useEffect(() => {
 
     BuscaProdutos()
     BuscaCategorias()
+
   }, [])
 
 
@@ -49,6 +52,7 @@ export default function Feed() {
   }
 
 
+
   function shuffle(arr) {
 
     for (let i = arr.length - 1; i > 0; i--) {
@@ -60,30 +64,38 @@ export default function Feed() {
   }
 
 
+
   return (
-    <FlatList
-      showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
-      ListHeaderComponent={
-        <ListaCategorias data={categorias} />
-      }
-      stickyHeaderHiddenOnScroll={true}
-      stickyHeaderIndices={[0]}
-      data={produtos}
-      renderItem={({ item }) => <Produto item={item} />}
-      numColumns={2}
+    <>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
+        ListHeaderComponent={
+          <>
+            <CarrosselServicos/>
 
-      refreshControl={
-        <RefreshControl
-          refreshing={load}
-          onRefresh={() => {
-            BuscaProdutos()
-            BuscaCategorias()
+            {/* <Text style={{fontSize:18, fontFamily:'Roboto-Regular',color:'#000',paddingLeft:15,marginBottom:5}}>O que temos pra hoje</Text> */}
+            <ListaCategorias data={categorias} />
+          </>
+        }
+        // stickyHeaderHiddenOnScroll={true}
+        // stickyHeaderIndices={[0]}
+        data={produtos}
+        renderItem={({ item }) => <Produto item={item} />}
+        numColumns={2}
 
-          }}
-        />
-      }
+        refreshControl={
+          <RefreshControl
+            refreshing={load}
+            onRefresh={() => {
+              BuscaProdutos()
+              BuscaCategorias()
 
-    />
+            }}
+          />
+        }
+
+      />
+    </>
   )
 }

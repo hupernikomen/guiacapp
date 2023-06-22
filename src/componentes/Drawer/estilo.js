@@ -3,7 +3,8 @@ import { StyleSheet } from "react-native";
 export default estilo = StyleSheet.create({
   paginas: {
     borderColor: '#811818', 
-    borderBottomWidth: 1 
+    borderBottomWidth: 1, 
+    borderTopWidth: 1 
   },
   fonte:{
     fontFamily: 'Roboto-Regular' 

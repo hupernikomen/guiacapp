@@ -17,7 +17,7 @@ const MyTheme = {
     link: '#0288D1',
     vartema: '#EDAA25',
     destaque: '#00838F',
-    background: '#f9f9f9',
+    background: '#f5f5f5',
   }
 };
 

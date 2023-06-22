@@ -8,11 +8,12 @@ import Feed from '../pages/Feed';
 import DetalheProduto from '../pages/Detalhes/produto';
 import DetalheServico from '../pages/Detalhes/servico';
 import Servicos from '../pages/Servicos';
+import Profissionais from '../pages/Profissionais';
 import Loja from '../pages/Loja';
 import Vendedores from '../pages/Vendedores';
 import Lojas from '../pages/Lojas';
 import Mapa from '../pages/Mapa';
-import Categorias from '../pages/Categorias';
+import Categorias from '../pages/PorCategoria';
 import Search from '../pages/Search';
 import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
@@ -132,7 +133,21 @@ export default function RotasStack() {
         name='Servicos'
         component={Servicos}
         options={{
-          title: 'Serviços Profissionais'
+          title: 'Serviços Profissionais',
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name='Profissionais'
+        component={Profissionais}
+        options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
         }}
       />
 

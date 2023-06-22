@@ -70,7 +70,7 @@ export default function CadastrarProduto() {
       width: 700, height: 900, cropping: true,
       mediaType: 'photo',
       showCropGuidelines: true,
-      hideBottomControls: true
+      hideBottomControls: true,
     }).then(image => {
       setPreview(img => [...img, image])
 

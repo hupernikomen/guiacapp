@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions,Text } from 'react-native';
 
 
 import { useRoute } from '@react-navigation/native';
@@ -67,9 +67,9 @@ export default function Mapa() {
           opacity: .9
         }}
         entering={SlideInUp.duration(800).delay(800)}>
-        <TextoPadrao>
+        <Text style={{fontFamily:'Roboto-Bold'}}>
           {me?.endereco}
-        </TextoPadrao>
+        </Text>
 
         <TextoPadrao>
           {me?.referencia}

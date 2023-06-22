@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import { Text, Linking, Pressable } from 'react-native'
+import { Text, Linking, Pressable,ActivityIndicator } from 'react-native'
 
 import { LojaContext } from "../../contexts/lojaContext"
-import { useTheme, useNavigation, useIsFocused, StackActions  } from "@react-navigation/native";
+import { useTheme, useNavigation, useIsFocused, StackActions } from "@react-navigation/native";
 
 import { Tela } from '../../styles'
 import { ContainerInput, BotaoPrincipal, TextBtn, Input } from './styles'
@@ -12,7 +12,7 @@ export default function Login() {
   const navigation = useNavigation()
 
   const focus = useIsFocused()
-  const { signIn, autenticado } = useContext(LojaContext)
+  const { signIn, autenticado, load } = useContext(LojaContext)
   const { colors } = useTheme()
 
   const [email, setEmail] = useState("")
@@ -56,7 +56,9 @@ export default function Login() {
         onPress={() => signIn({ email, senha })}
         disabled={!email && !senha ? true : false}>
 
-        <TextBtn cor={'#fff'}>Entrar</TextBtn>
+        {load ? <ActivityIndicator color='#fff'/> :
+          <TextBtn cor={'#fff'}>Entrar</TextBtn>
+        }
 
       </BotaoPrincipal>
 
