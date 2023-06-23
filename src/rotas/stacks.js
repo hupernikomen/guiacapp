@@ -1,13 +1,11 @@
-import { useEffect, useState, useContext } from 'react';
+import { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Pressable } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import Feed from '../pages/Feed';
 import DetalheProduto from '../pages/Detalhes/produto';
 import DetalheServico from '../pages/Detalhes/servico';
-import Servicos from '../pages/Servicos';
 import Profissionais from '../pages/Profissionais';
 import Loja from '../pages/Loja';
 import Vendedores from '../pages/Vendedores';
@@ -30,7 +28,8 @@ import VendedoresControle from '../controle/Vendedores';
 
 import { LojaContext } from '../contexts/lojaContext';
 
-import Tabs from './tabs';
+import Tabs_Controle from './tabs-controle';
+import Tabs_App from './tabs-app'
 
 
 import { useTheme, useNavigation } from '@react-navigation/native';
@@ -55,8 +54,8 @@ export default function RotasStack() {
     >
 
       <Stack.Screen
-        name='Feed'
-        component={Feed}
+        name='HomeFeed'
+        component={Tabs_App}
         options={{
           title: 'Guia Comercial',
           headerStyle: {
@@ -87,7 +86,7 @@ export default function RotasStack() {
 
       <Stack.Screen
         name={'HomeControle'}
-        component={Tabs}
+        component={Tabs_Controle}
         options={{
           title: loja?.nome || "",
           headerLeft: () => {
@@ -128,17 +127,6 @@ export default function RotasStack() {
         }}
       />
 
-
-      <Stack.Screen
-        name='Servicos'
-        component={Servicos}
-        options={{
-          title: 'Serviços Profissionais',
-          headerStyle: {
-            backgroundColor: colors.tema,
-          },
-        }}
-      />
 
       <Stack.Screen
         name='Profissionais'

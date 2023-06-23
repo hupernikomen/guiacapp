@@ -41,6 +41,7 @@ export default function Servicos() {
 
 
   const RenderItem = ({ data }) => {
+
     return (
       <Pressable
         activeOpacity={.9}
@@ -61,6 +62,7 @@ export default function Servicos() {
 
 
   return (
+
     <FlatList
 
       showsVerticalScrollIndicator={false}

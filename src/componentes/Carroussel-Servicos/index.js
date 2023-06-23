@@ -6,10 +6,7 @@ import api from '../../servicos/api';
 
 import { useNavigation } from '@react-navigation/native';
 
-
 export default function CarrosselServicos({ data }) {
-
-
 
   const navigation = useNavigation()
   const [servicos, setServicos] = useState([])
@@ -38,37 +35,54 @@ export default function CarrosselServicos({ data }) {
   }
 
 
+  function RenderItem({ data }) {
+
+    if (data._count?.profissional === 0 || !data.profissional[0].statusGuia) return
+
+    return (
+      <Pressable
+        onPress={() => navigation.navigate("Profissionais", data)}
+        style={{
+          width: 110,
+          aspectRatio: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#fff',
+          borderRadius: 6,
+          marginRight:5
+        }}>
+
+        <Material name={data?.icone} size={32} color='#000' />
+        <View style={{ marginTop: 5 }}>
+
+          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000', fontSize: 14 }}>{data?.nome}</Text>
+        </View>
+      </Pressable>
+    )
+  }
+
+
   return (
 
     <View
-
       style={{ paddingVertical: 15 }}>
-      <Text style={{
-        fontFamily: 'Roboto-Medium',
-        fontSize: 18,
-        color: '#000',
-        paddingLeft: 15,
-        marginBottom: 5
-      }}>Serviços</Text>
+          <Text
+            style={{
+              fontFamily: 'Roboto-Medium',
+              fontSize: 18,
+              color: '#000',
+              paddingLeft: 15,
+              marginBottom:15
+            }}>
+            Serviços
+          </Text>
+
       <FlatList
-        contentContainerStyle={{ gap: 5, paddingHorizontal: 10 }}
+        contentContainerStyle={{ paddingHorizontal: 10 }}
         showsHorizontalScrollIndicator={false}
         horizontal
         data={servicos}
-        renderItem={({ item }) =>
-          <Pressable
-            onPress={() => navigation.navigate("Profissionais", item)}
-            style={{ alignItems: 'center', backgroundColor: '#fff', padding: 24, borderRadius: 6 }}>
-
-            <Material name={item.icone} size={32} color='#000' />
-
-            <View style={{ marginTop: 5 }}>
-
-              <Text style={{ fontFamily: 'Roboto-Regular', color: '#000', fontSize: 14 }}>{item.nome}</Text>
-            </View>
-          </Pressable>
-
-        }
+        renderItem={({ item }) => <RenderItem data={item} />}
       />
     </View>
   )
