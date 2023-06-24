@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, RefreshControl, Image, AppState } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 
 import Produto from '../../componentes/Produto-Feed';
-import ListaCategorias from '../../componentes/Lista-Categorias';
 
-import { useNavigation, useTheme } from '@react-navigation/native'
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import { useNavigation } from '@react-navigation/native'
+import { Picker } from "@react-native-picker/picker";
 import api from '../../servicos/api';
 import Load from '../../componentes/Load';
-import CarrosselBanners from '../../componentes/Carroussel-Banners';
 
 export default function Produtos() {
   const navigation = useNavigation()
@@ -17,7 +14,7 @@ export default function Produtos() {
   const [load, setLoad] = useState(false)
   const [produtos, setProdutos] = useState([])
   const [categorias, setCategorias] = useState([])
-  const [servicos, setServicos] = useState([])
+  const [categoria, setCategoria] = useState("")
 
   useEffect(() => {
 
@@ -64,31 +61,52 @@ export default function Produtos() {
 
 
   return (
-    <>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
-        ListHeaderComponent={
-            <ListaCategorias data={categorias} />
-        }
-        stickyHeaderHiddenOnScroll={true}
-        stickyHeaderIndices={[0]}
-        data={produtos}
-        renderItem={({ item }) => <Produto item={item} />}
-        numColumns={2}
-
-        refreshControl={
-          <RefreshControl
-            refreshing={load}
-            onRefresh={() => {
-              BuscaProdutos()
-              BuscaCategorias()
-
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
+      ListHeaderComponent={
+        <Picker
+          mode="dialog"
+          selectedValue={categoria}
+          onValueChange={(itemValue) => {
+            setCategoria(itemValue);
+          }}>
+          <Picker.Item
+            label="Selecione uma categoria"
+            style={{
+              color: '#aaa',
+              fontSize: 15
             }}
           />
-        }
 
-      />
-    </>
+          {categorias.map((item) => {
+            return (
+              <Picker.Item
+                key={item.id}
+                value={item}
+                label={item.nome}
+              />
+            );
+          })}
+        </Picker>
+      }
+      // stickyHeaderHiddenOnScroll={true}
+      // stickyHeaderIndices={[0]}
+      data={produtos}
+      renderItem={({ item }) => <Produto item={item} />}
+      numColumns={2}
+
+      refreshControl={
+        <RefreshControl
+          refreshing={load}
+          onRefresh={() => {
+            BuscaProdutos()
+            BuscaCategorias()
+
+          }}
+        />
+      }
+
+    />
   )
 }

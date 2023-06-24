@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Linking, View } from 'react-native';
+import { Image, Linking, View, Text, Pressable } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native'
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
@@ -17,29 +17,45 @@ export default function DrawerCustom(props) {
   return (
     <DrawerContentScrollView {...props}>
 
-        {!autenticado ?
-          <DrawerItem
-            labelStyle={estilo.fonte}
-            label="Login"
-            inactiveTintColor='#fff'
-            onPress={() => navigation.navigate("Signin")}
-          /> :
-          <DrawerItem
-            labelStyle={estilo.fonte}
-            label="Minha Loja"
-            inactiveTintColor='#fff'
-            onPress={() => navigation.navigate("HomeControle")}
-          />
+      <View
+        style={{ height: 100, padding: 15 }}>
 
-        }
-      <View style={estilo.paginas}>
+        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
 
+          <Image
+            source={require('../../../assets/imagem/ic_launcher_round.png')} />
 
+          <Text style={{
+            color: '#fff',
+            marginLeft: 15,
+            fontSize: 16,
+            fontFamily: 'Roboto-Medium'
+          }}>Guia Comercial {`\n`}Dirceu</Text>
+        </View>
+
+      </View>
+
+      {!autenticado ?
         <DrawerItem
           labelStyle={estilo.fonte}
-          label="Produtos"
+          label="Login"
           inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("Produtos")}
+          onPress={() => navigation.navigate("Signin")}
+        /> :
+        <DrawerItem
+          labelStyle={estilo.fonte}
+          label="Minha Loja"
+          inactiveTintColor='#fff'
+          onPress={() => navigation.navigate("HomeControle")}
+        />
+
+      }
+      <View style={estilo.paginas}>
+        <DrawerItem
+          labelStyle={estilo.fonte}
+          label="Feed"
+          inactiveTintColor='#fff'
+          onPress={() => navigation.navigate("HomeFeed")}
         />
 
         <DrawerItem
@@ -48,19 +64,6 @@ export default function DrawerCustom(props) {
           inactiveTintColor='#fff'
           onPress={() => navigation.navigate("Lojas")}
         />
-        <DrawerItem
-          labelStyle={estilo.fonte}
-          label="Serviços"
-          inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("Servicos")}
-        />
-        <DrawerItem
-          labelStyle={estilo.fonte}
-          label="Restaurantes"
-          inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("Servicos")}
-        />
-
 
       </View>
 

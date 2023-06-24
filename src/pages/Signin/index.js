@@ -15,6 +15,7 @@ export default function Login() {
   const { signIn, autenticado, load } = useContext(LojaContext)
   const { colors } = useTheme()
 
+  const [conta, setConta] = useState("")
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
 
@@ -26,6 +27,15 @@ export default function Login() {
 
   return (
     <Tela>
+
+      <ContainerInput>
+        <Input
+          placeholder={""}
+          placeholderTextColor={'#aaa'}
+          maxLength={405}
+          onChangeText={setConta}
+          value={conta} />
+      </ContainerInput>
 
       <ContainerInput>
         <Input

@@ -5,7 +5,7 @@ import api from '../../servicos/api';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { useNavigation, useTheme } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
 import estilo from './estilo';
 import Load from '../../componentes/Load';
@@ -39,22 +39,24 @@ export default function Servicos() {
 
   }
 
-
   const RenderItem = ({ data }) => {
+    if (data._count?.profissional === 0) return
 
     return (
       <Pressable
         activeOpacity={.9}
         onPress={() => navigation.navigate("Profissionais", data)}
         style={estilo.card}>
+        <View style={{ flexDirection: 'row', alignItems: "center" }}>
+          <Material name={data.icone} size={28} color='#000' />
+          <Text
+            style={estilo.nome}>
+            {data.nome}
+          </Text>
 
-        <Text
-          style={estilo.nome}>
-          {data.nome}
-        </Text>
+        </View>
+        <Text>{data._count?.profissional}</Text>
 
-
-        <Material name={data.icone} size={24} color='#000' />
 
       </Pressable>
     )
@@ -64,7 +66,6 @@ export default function Servicos() {
   return (
 
     <FlatList
-
       showsVerticalScrollIndicator={false}
       data={listaServicos}
       renderItem={({ item }) => <RenderItem data={item} />}

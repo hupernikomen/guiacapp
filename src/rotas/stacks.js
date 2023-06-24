@@ -17,6 +17,8 @@ import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
 import ErroNaoEncontrado from '../pages/ErroNaoEncontrado'
 
+import Redireciona from '../pages/Redireciona';
+
 import Signin from '../pages/Signin'
 
 import CadastrarProduto from '../controle/CadastrarProduto';
@@ -110,6 +112,19 @@ export default function RotasStack() {
           },
           headerStyle: {
             backgroundColor: colors.tema,
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name='Redireciona'
+        component={Redireciona}
+        options={{
+          title: '',
+          headerShadowVisible: false,
+          headerTintColor: "#000",
+          headerStyle: {
+            backgroundColor: '#f9f9f9',
           },
         }}
       />

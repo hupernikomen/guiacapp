@@ -26,22 +26,31 @@ export default function Profissionais() {
   async function BuscaProProfissao() {
     await api.get(`porprofissao?servicoID=${route.params?.id}`)
       .then((response) => {
-        setProfissionais(response.data);
+        setProfissionais(shuffle(response.data));
       })
   }
+
+  
+  function shuffle(arr) {
+
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr
+  }
+
 
   function RenderItem({ data }) {
     return (
       <Pressable
-        style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 12 }]}
-        largura={(WIDTH / 2) - 12}
+        style={[estilo.container_produto, { maxWidth: (WIDTH / 3) - 6 }]}
         onPress={() => navigation.navigate("DetalheProduto", { id })}>
-        <View>
-          <Image
-            style={estilo.foto}
-            source={{ uri: data?.avatar?.location }} />
+        <Image
+          style={estilo.foto}
+          source={{ uri: data?.avatar?.location }} />
 
-        </View>
 
         <View style={estilo.info}>
           <Text numberOfLines={2} style={estilo.nome}>{data.nome}</Text>
@@ -55,6 +64,8 @@ export default function Profissionais() {
 
   return (
     <FlatList
+      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
+      numColumns={3}
       data={profissionais}
       renderItem={({ item }) => <RenderItem data={item} />}
     />

@@ -102,7 +102,7 @@ export function LojaProvider({ children }) {
           email,
           token,
         })
-        navigation.navigate("HomeControle")
+        navigation.navigate("Redireciona")
         setLoad(false)
       })
       .catch(({ response }) => {
@@ -124,7 +124,7 @@ export function LojaProvider({ children }) {
           email: '',
           token: ''
         })
-        navigation.navigate("Feed")
+        navigation.navigate("HomeFeed")
         Toast(('Você foi deslogado'))
       })
   }
