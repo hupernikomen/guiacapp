@@ -43,7 +43,6 @@ function ProdutoFeed({ item }) {
 
     <Pressable
       style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 4 }]}
-      largura={(WIDTH / 2) - 4}
       onPress={() => navigation.navigate("DetalheProduto", { id })}>
 
       {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}
@@ -74,11 +73,11 @@ function ProdutoFeed({ item }) {
 
         <View
           style={estilo.container_loja}>
-          {name !== "Loja" && 
-          <Text
-          style={estilo.nome_loja}
-           numberOfLines={1} lineBreakMode="tail">{loja?.nome}</Text>}
-          {loja?.entrega &&
+          {name !== "Loja" &&
+            <Text
+              style={estilo.nome_loja}
+              numberOfLines={1} lineBreakMode="tail">{loja?.nome}</Text>}
+          {loja?.delivery &&
             <Material
               name='truck-outline'
               size={18}

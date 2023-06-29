@@ -11,7 +11,7 @@ const Drawer = createDrawerNavigator()
 export default function Rotas() {
   const WIDTH = Dimensions.get('window').width
 
-  const { colors } = useTheme()
+  const { app } = useTheme()
 
   return (
     <Drawer.Navigator
@@ -23,13 +23,13 @@ export default function Rotas() {
         unmountOnBlur: true,
 
         headerStyle: {
-          backgroundColor: colors.tema
+          backgroundColor: app.tema
         },
         headerTintColor: '#fff',
 
         drawerStyle: {
           width: WIDTH - 65,
-          backgroundColor: colors.tema,
+          backgroundColor: app.tema,
         },
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#fff',

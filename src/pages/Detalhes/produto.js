@@ -99,8 +99,6 @@ export default function Detalhes() {
         })}
       </ScrollView>
 
-{console.log(produto?.loja?.usuarioID)}
-
       <Pressable
         style={estilo.container_loja}
         onPress={() => navigation.navigate("Loja", produto?.loja?.usuarioID)}>

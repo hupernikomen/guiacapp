@@ -44,9 +44,8 @@ export default function RotasStack() {
 
   const { loja, signOut } = useContext(LojaContext)
 
-  const { colors } = useTheme()
+  const { app, admin } = useTheme()
   const navigation = useNavigation()
-
 
   return (
     <Stack.Navigator
@@ -62,15 +61,16 @@ export default function RotasStack() {
         component={Tabs_App}
         options={{
           title: 'Guia Comercial',
+          headerTintColor: app.texto,
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
           headerLeft: () => {
             return (
               <Pressable
-                style={{ marginRight: 25 }}
+                style={{ padding: 10, marginLeft: -10, marginRight: 10 }}
                 onPress={() => navigation.openDrawer()}>
-                <Material name='menu' size={24} color={'#fff'} />
+                <Material name='menu' size={24} color={app.texto} />
               </Pressable>
 
             )
@@ -79,17 +79,19 @@ export default function RotasStack() {
             return (
               <View style={{
                 flexDirection: 'row',
-                gap: 20
+                marginRight: -10
+
               }}>
                 <Pressable
-                  style={estilo.icone}
+                  style={{ padding: 10 }}
                   onPress={() => navigation.navigate("CategoriasFavoritas")}>
-                  <Material name='filter-outline' size={24} color='#fff' />
+                  <Material name='filter-outline' size={24} color={app.texto} />
                 </Pressable>
+
                 <Pressable
-                  style={estilo.icone}
+                  style={{ padding: 10 }}
                   onPress={() => navigation.navigate("Search")}>
-                  <Material name='magnify' size={24} color='#fff' />
+                  <Material name='magnify' size={24} color={app.texto} />
                 </Pressable>
 
               </View>
@@ -98,48 +100,9 @@ export default function RotasStack() {
         }}
       />
 
-      <Stack.Screen
-        name={'HomeControle'}
-        component={Tabs_Controle}
-        options={{
-          title: loja?.nome || "",
-          headerLeft: () => {
-            return (
-              <Pressable
-                lado={'center'}
-                style={{ marginRight: 25 }}
-                onPress={() => navigation.openDrawer()}>
-                <Material name='menu' size={22} color={'#fff'} />
-              </Pressable>
-            )
-          },
-          headerRight: () => {
-            return (
-              <Pressable
-                lado={'center'}
-                onPress={signOut}>
-                <Material name='power-standby' size={22} color={'#fff'} />
-              </Pressable>
-            )
-          },
-          headerStyle: {
-            backgroundColor: colors.tema,
-          },
-        }}
-      />
 
-      <Stack.Screen
-        name='Redireciona'
-        component={Redireciona}
-        options={{
-          title: '',
-          headerShadowVisible: false,
-          headerTintColor: "#000",
-          headerStyle: {
-            backgroundColor: '#f9f9f9',
-          },
-        }}
-      />
+
+
 
       <Stack.Screen
         name='Profissional'
@@ -150,12 +113,12 @@ export default function RotasStack() {
               <Pressable
                 lado={'center'}
                 onPress={signOut}>
-                <Material name='power-standby' size={22} color={'#fff'} />
+                <Material name='power-standby' size={22} color={admin.texto} />
               </Pressable>
             )
           },
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
         }}
       />
@@ -165,11 +128,8 @@ export default function RotasStack() {
         component={Signin}
         options={{
           title: '',
-          headerShadowVisible: false,
-          headerTintColor: "#000",
-          headerStyle: {
-            backgroundColor: '#f9f9f9',
-          },
+          headerTransparent: true,
+          headerTintColor: admin.texto,
         }}
       />
 
@@ -180,7 +140,7 @@ export default function RotasStack() {
         options={{
           title: '',
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
         }}
       />
@@ -191,7 +151,7 @@ export default function RotasStack() {
         options={{
           title: 'Lojas Cadastradas',
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
 
         }}
@@ -201,9 +161,9 @@ export default function RotasStack() {
         name='CategoriasFavoritas'
         component={CategoriasFavoritas}
         options={{
-          title: 'Lojas Cadastradas',
+          title: 'Categorias Favoritas',
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
 
         }}
@@ -215,9 +175,6 @@ export default function RotasStack() {
         options={{
           headerTransparent: true,
           title: "",
-          // headerStyle: {
-          //   backgroundColor: colors.tema,
-          // }
         }}
       />
 
@@ -233,8 +190,9 @@ export default function RotasStack() {
         name='Loja'
         component={Loja}
         options={{
+          title: '',
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
         }}
       />
@@ -245,7 +203,7 @@ export default function RotasStack() {
         options={{
           title: "Nossos Vendedores",
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
         }}
       />
@@ -256,7 +214,7 @@ export default function RotasStack() {
         options={{
           title: "Localização da Loja",
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           }
         }}
       />
@@ -266,7 +224,7 @@ export default function RotasStack() {
         component={Categorias}
         options={{
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
         }}
       />
@@ -277,7 +235,7 @@ export default function RotasStack() {
         options={{
           title: "",
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
         }}
       />
@@ -287,7 +245,7 @@ export default function RotasStack() {
         component={Anuncie}
         options={{
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
         }}
       />
@@ -306,24 +264,64 @@ export default function RotasStack() {
         options={{
           title: "",
           headerStyle: {
-            backgroundColor: colors.tema,
+            backgroundColor: app.tema,
           },
         }}
       />
+
+
+
+
+
+
+      {/* ----------------------------------------------- */}
+
 
       <Stack.Screen
-        name="CadastrarDados"
-        component={CadastrarDados}
+        name='Redireciona'
+        component={Redireciona}
         options={{
-          title: "Dados",
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerShadowVisible: false,
-          headerTintColor: '#000'
+          headerShown: false
         }}
       />
 
+      {/* ----------------------------------------------- */}
+
+
+
+
+
+      <Stack.Screen
+        name={'HomeControle'}
+        component={Tabs_Controle}
+        options={{
+          title: loja?.nome || "",
+          headerTintColor: admin.texto,
+          headerStyle: {
+            backgroundColor: admin.tema,
+          },
+          headerLeft: () => {
+            return (
+              <Pressable
+                lado={'center'}
+                style={{ marginRight: 25 }}
+                onPress={() => navigation.openDrawer()}>
+                <Material name='menu' size={22} color={admin.texto} />
+              </Pressable>
+            )
+          },
+          headerRight: () => {
+            return (
+              <Pressable
+                lado={'center'}
+                onPress={signOut}>
+                <Material name='power-standby' size={22} color={admin.texto} />
+              </Pressable>
+            )
+          },
+
+        }}
+      />
 
       <Stack.Screen
         name='CadastrarProduto'
@@ -331,10 +329,10 @@ export default function RotasStack() {
         options={{
           title: 'Cadastrar Produto',
           headerStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: admin.tema,
           },
           headerShadowVisible: false,
-          headerTintColor: '#000'
+          headerTintColor: admin.texto
         }}
       />
 
@@ -345,9 +343,9 @@ export default function RotasStack() {
           title: "Vendedores",
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: admin.tema,
           },
-          headerTintColor: '#000'
+          headerTintColor: admin.texto
         }}
       />
 
@@ -358,9 +356,9 @@ export default function RotasStack() {
           title: "Cadastrar Vendedor",
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: admin.tema,
           },
-          headerTintColor: '#000'
+          headerTintColor: admin.texto
         }}
       />
 
@@ -371,9 +369,9 @@ export default function RotasStack() {
           title: '',
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: admin.tema,
           },
-          headerTintColor: '#000'
+          headerTintColor: admin.texto
         }}
       />
 
@@ -383,12 +381,30 @@ export default function RotasStack() {
         options={{
           title: 'Mapa',
           headerStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: admin.tema,
           },
-          headerTintColor: '#000'
+          headerTintColor: admin.texto
         }}
       />
+
+
+      <Stack.Screen
+        name="CadastrarDados"
+        component={CadastrarDados}
+        options={{
+          title: "Dados",
+          headerStyle: {
+            backgroundColor: admin.tema,
+          },
+          headerShadowVisible: false,
+          headerTintColor: admin.texto
+        }}
+      />
+
+
     </Stack.Navigator>
+
+
 
   )
 

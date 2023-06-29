@@ -5,7 +5,7 @@ import { useTheme } from '@react-navigation/native';
 
 export default function Off({  valor }) {
 
-    const {colors} = useTheme()
+    const {app} = useTheme()
 
     return (
         <View style={{
@@ -16,7 +16,7 @@ export default function Off({  valor }) {
             top: -7
         }}>
 
-            <Material name='bookmark' size={48} color={colors.tema} />
+            <Material name='bookmark' size={48} color={app.tema} />
             <View
                 style={{
                     position: 'absolute',

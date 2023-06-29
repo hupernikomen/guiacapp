@@ -13,8 +13,6 @@ export default function Contato() {
 
   useEffect(() => {
 
-    console.log(route.params,"okkokokok");
-
     async function BuscaContatos() {
       await api.get(`/contatos?usuarioID=${route.params}`)
         .then((response) => {

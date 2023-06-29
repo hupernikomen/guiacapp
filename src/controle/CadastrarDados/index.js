@@ -11,7 +11,7 @@ import api from '../../servicos/api';
 import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
 
 export default function CadastrarDados() {
-  const { colors } = useTheme()
+  const { admin } = useTheme()
   const { credenciais } = useContext(LojaContext)
   const navigation = useNavigation()
 
@@ -259,7 +259,7 @@ export default function CadastrarDados() {
 
           <Switch
             trackColor={{ false: '#767577', true: '#ddd' }}
-            thumbColor={loja.delivery ? colors.tema : '#f4f3f4'}
+            thumbColor={loja.delivery ? admin.botao : '#f4f3f4'}
             onValueChange={selecaoEntrega}
             value={loja.delivery}
           />
@@ -268,7 +268,7 @@ export default function CadastrarDados() {
 
         <BotaoPrincipal
           activeOpacity={1}
-          background={colors.tema}
+          background={admin.botao}
           onPress={Atualizar}>
           {load ? <ActivityIndicator color={'#fff'} /> :
             <TextBtn cor={'#fff'}>Atualizar</TextBtn>

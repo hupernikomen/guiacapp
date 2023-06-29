@@ -29,7 +29,7 @@ export default function CadastrarProduto() {
 
   const navigation = useNavigation()
 
-  const { colors } = useTheme()
+  const { admin } = useTheme()
   const { credenciais, loja, BuscaLoja } = useContext(LojaContext)
   const { arrTamanhos } = useContext(ProdutoContext)
 
@@ -176,7 +176,7 @@ export default function CadastrarProduto() {
 
       <BtnIcone
         lado={'center'}
-        style={{ backgroundColor: response == -1 ? "#fff" : colors.tema, borderRadius: 20 }}
+        style={{ backgroundColor: response == -1 ? "#fff" : app.tema, borderRadius: 20 }}
         onPress={() => {
           setTamanho(response == -1 ? itensTam => [...itensTam, data] :
             tamanho.filter((item) => item != data))
@@ -392,7 +392,7 @@ export default function CadastrarProduto() {
 
         <BotaoPrincipal
           disabled={load}
-          background={colors.tema}
+          background={admin.botao}
           activeOpacity={1}
           onPress={Postar}>
           {load ? <ActivityIndicator color='#fff' /> :

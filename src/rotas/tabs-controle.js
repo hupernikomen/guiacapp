@@ -11,7 +11,7 @@ import { useTheme } from '@react-navigation/native';
 
 export default function Tabs() {
 
-  const { colors } = useTheme()
+  const { admin } = useTheme()
 
   return (
     <Tab.Navigator
@@ -24,7 +24,7 @@ export default function Tabs() {
         tabBarScrollEnabled: true,
         tabBarItemStyle: { width: 125 },
         tabBarIndicatorStyle: {
-          backgroundColor: colors.tema,
+          backgroundColor: admin.texto,
           height:1
         },
         tabBarInactiveTintColor: '#00000090'

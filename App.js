@@ -1,19 +1,29 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 
 import Rotas from './src/rotas';
 
-import { LojaProvider } from './src/contexts/lojaContext'
+import { LojaProvider, LojaContext } from './src/contexts/lojaContext'
 import { ProdutoProvider } from './src/contexts/produtoContext'
 
-const MyTheme = {
+const Theme = {
   dark: true,
   ...DefaultTheme,
-  colors: {
+  app: {
     tema: '#a82424',
-    temalojas: "#333",
+    texto: '#fff',
+    cards: '#a82424',
+    link: '#0288D1',
+    vartema: '#EDAA25',
+    destaque: '#00838F',
+    background: '#f5f5f5',
+  },
+  admin: {
+    tema: '#fff',
+    texto: "#000",
+    botao: '#a82424',
     link: '#0288D1',
     vartema: '#EDAA25',
     destaque: '#00838F',
@@ -24,14 +34,15 @@ const MyTheme = {
 
 
 export default function App() {
+
   return (
-    <NavigationContainer theme={MyTheme}>
+    <NavigationContainer theme={Theme}>
 
       <LojaProvider>
         <ProdutoProvider>
 
           <StatusBar
-            backgroundColor={MyTheme.colors.tema}
+            backgroundColor={Theme.app.tema}
             translucent={false} />
           <Rotas />
 

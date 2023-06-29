@@ -13,7 +13,7 @@ export default function Login() {
 
   const focus = useIsFocused()
   const { signIn, autenticado, load } = useContext(LojaContext)
-  const { colors } = useTheme()
+  const { app } = useTheme()
 
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
@@ -50,8 +50,8 @@ export default function Login() {
 
 
       <BotaoPrincipal
-        background={colors.tema}
-        cor={colors.tema}
+        background={app.tema}
+        cor={app.tema}
         activeOpacity={0.7}
         onPress={() => signIn({ email, senha })}
         disabled={!email && !senha ? true : false}>

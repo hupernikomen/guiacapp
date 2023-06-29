@@ -1,6 +1,10 @@
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, StatusBar } from 'react-native';
+
+import { useTheme } from '@react-navigation/native';
 
 export default function Feed() {
+
+  const {colors} =useTheme()
 
   const arr = [
     {
@@ -55,7 +59,8 @@ export default function Feed() {
 
   return (
     <View>
-      <Text style={{fontSize:18, fontFamily:'Roboto-Medium', color:'#000', margin:10}}>Postos de Combustíveis</Text>
+
+      <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', color: '#000', margin: 10 }}>Postos de Combustíveis</Text>
       <FlatList
         snapToInterval={150}
         showsHorizontalScrollIndicator={false}

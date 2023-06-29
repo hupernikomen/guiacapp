@@ -15,28 +15,24 @@ import { useTheme } from '@react-navigation/native';
 
 export default function Tabs() {
 
-  const { colors } = useTheme()
+  const { app } = useTheme()
 
   return (
     <Tab.Navigator
-      initialRouteName='Produtos'
-      tabBar={props => <TabBarFeed {...props} />}
+      initialRouteName='Feed'
+      // tabBar={props => <TabBarFeed {...props} />}
       screenOptions={{
+        tabBarActiveTintColor: '#fff',
         tabBarStyle: {
-          backgroundColor: colors.tema
+          backgroundColor: app.tema
         },
-        swipeEnabled:false,
         tabBarIndicatorStyle: {
           backgroundColor: '#fff',
         },
         tabBarInactiveTintColor: '#ffffff80',
       }}>
 
-      <Tab.Screen name="Feed" component={Feed} options={{
-          tabBarIcon: ({ color, size }) => (
-            <Material name="home" color={color} size={size} />
-          ),
-      }}/>
+      <Tab.Screen name="Feed" component={Feed} options={{}} />
       <Tab.Screen name="Produtos" component={Produtos} options={{ title: 'Produtos' }} />
       <Tab.Screen name="Servicos" component={Servicos} options={{ title: 'Serviços' }} />
 

@@ -17,7 +17,7 @@ export default function Loja() {
 
   const navigation = useNavigation()
   const route = useRoute()
-  const { colors } = useTheme()
+  const { app } = useTheme()
 
   const [loja, setLoja] = useState([])
   const [load, setLoad] = useState(false)
@@ -37,7 +37,7 @@ export default function Loja() {
   useEffect(() => {
     BuscaLoja()
 
-    console.log(route.params,"route");
+
   
 
   }, [])
@@ -52,6 +52,10 @@ export default function Loja() {
     await api.get(`/loja?usuarioID=${route.params}`)
       .then(({data}) => {
         setLoja(data)
+
+        navigation.setOptions({
+          title: data?.nome
+        })
 
         const { latitude, longitude } = JSON.parse(data?.latlng)
         
@@ -72,7 +76,7 @@ export default function Loja() {
   function Bio() {
     return (
       <View style={{
-        backgroundColor: colors.tema,
+        backgroundColor: app.tema,
         padding: 15,
         alignItems: "flex-start",
         gap: 15,
@@ -93,7 +97,7 @@ export default function Loja() {
 
       <FlatList
         showsVerticalScrollIndicator={false}
-        columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
+        columnWrapperStyle={{ marginVertical: 2 }}
         ListHeaderComponent={
           <View>
             {!!loja?.bio && <Bio />}
@@ -133,7 +137,7 @@ export default function Loja() {
           zIndex: 9999,
           right: 15,
           bottom: 25,
-          backgroundColor: colors.tema,
+          backgroundColor: app.tema,
           elevation: 5
         }}
         entering={SlideInDown}
@@ -145,7 +149,7 @@ export default function Loja() {
             alignItems: 'center',
             justifyContent: 'center'
           }}
-          background={colors.tema}
+          background={app.tema}
           onPress={() => navigation.navigate("Vendedores", loja.usuarioID)}>
 
           <Material name='whatsapp' size={26} color='#fff' />

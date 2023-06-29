@@ -13,7 +13,7 @@ import api from '../../servicos/api';
 export default function Contato() {
 
   const { credenciais } = useContext(LojaContext)
-  const { colors } = useTheme()
+  const { admin } = useTheme()
   const navigation = useNavigation()
 
   const [idSelecionado, setIdSelecionado] = useState(null)
@@ -69,8 +69,6 @@ export default function Contato() {
 
 
   function RenderItem({ data }) {
-
-    console.log(data);
 
     if (data.horario == null) {
       return
@@ -129,7 +127,7 @@ export default function Contato() {
             >
 
               <Pressable
-                style={{ backgroundColor: colors.tema, borderRadius: 6, width: 40, aspectRatio: 1, alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center' }}
+                style={{ backgroundColor: admin.tema, borderRadius: 6, width: 40, aspectRatio: 1, alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center' }}
                 onPress={() => Excluir(data.id)}>
                 <Material name='delete' size={25} color='#fff' />
               </Pressable>
@@ -158,7 +156,7 @@ export default function Contato() {
           zIndex: 9999,
           right: 15,
           bottom: 25,
-          backgroundColor: colors.tema,
+          backgroundColor: admin.botao,
           elevation: 5
         }}>
 
@@ -168,7 +166,6 @@ export default function Contato() {
             alignItems: 'center',
             justifyContent: 'center'
           }}
-          background={colors.tema}
           onPress={() => navigation.navigate("CadastrarVendedor")}>
           <Material name='plus-thick' size={26} color='#fff' />
         </Pressable >

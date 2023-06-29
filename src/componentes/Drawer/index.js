@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Image, Linking, View, Text, Pressable } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation,useTheme } from '@react-navigation/native'
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 
 
@@ -13,6 +13,7 @@ export default function DrawerCustom(props) {
   const { autenticado } = useContext(LojaContext)
 
   const navigation = useNavigation()
+  const {colors} = useTheme()
 
   return (
     <DrawerContentScrollView {...props}>

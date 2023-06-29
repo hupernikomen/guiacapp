@@ -34,7 +34,6 @@ export default function CategoriasFavoritas() {
       arr.push(...favoritas,nome)
       
     }
-    console.log(arr);
     setFavoritas(arr)
     arr=[]
     
@@ -90,7 +89,6 @@ export default function CategoriasFavoritas() {
         data={categorias}
         renderItem={({ item }) => <RenderItem data={item} />}
       />
-      {console.log(favoritas, "fav")}
     </>
   );
 }

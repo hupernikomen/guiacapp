@@ -4,11 +4,13 @@ import { View, TouchableOpacity, Animated } from 'react-native';
 
 import { useTheme } from '@react-navigation/native'
 
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+
 export default function TabBarFeed({ state, descriptors, navigation, position }) {
 
-  const { colors } = useTheme()
+  const { app } = useTheme()
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: colors.tema, height: 45, alignItems: 'center', justifyContent: 'space-around' }}>
+    <View style={{ flexDirection: 'row', backgroundColor: app.tema, height: 45, alignItems: 'center', justifyContent: 'space-around' }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -40,18 +42,19 @@ export default function TabBarFeed({ state, descriptors, navigation, position })
         });
 
         return (
-          <View key={index} style={{ borderBottomWidth: isFocused ? 3 : 0, borderColor: '#fff', flex: label == "Feed" ? 1.2 : 3, height: 45 }}>
-            <View style={{ height: 42, alignItems: 'center', justifyContent: 'center' }}>
+          <View key={index} style={{ borderBottomWidth: isFocused ? 2 : 0, borderColor: '#fff', flex:1,  height: 45 }}>
+            <View style={{ height: 45, alignItems: 'center', justifyContent: 'center' }}>
               <TouchableOpacity
                 style={{ width: '100%' }}
                 activeOpacity={1}
                 
                 onPress={onPress}
               >
+                
                 <Animated.Text
-                  style={{ opacity, color: '#fff', textAlign: 'center',height:42,verticalAlign:"middle" }}
+                  style={{ opacity, color: '#fff', textAlign: 'center',height:45,verticalAlign:"middle" }}
                   key={index}>
-                  {label}
+                  {label == "Feed" ? <Material name={isFocused?'home':'home-outline'} size={24}/>: label}
                 </Animated.Text>
               </TouchableOpacity>
             </View>

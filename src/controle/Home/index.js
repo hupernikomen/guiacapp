@@ -1,5 +1,5 @@
 import { useContext, useCallback } from 'react';
-import { FlatList, Pressable } from 'react-native';
+import { FlatList, Pressable,StatusBar } from 'react-native';
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 
@@ -13,7 +13,7 @@ export default function HomeControle() {
 
   const { loja, BuscaLoja } = useContext(LojaContext)
   const navigation = useNavigation()
-  const { colors } = useTheme()
+  const { admin } = useTheme()
 
 
   useFocusEffect(
@@ -25,11 +25,12 @@ export default function HomeControle() {
 
   return (
     <>
+
+
       <FlatList
 
         data={loja?.produtos}
-        contentContainerStyle={{ marginTop: 4 }}
-        columnWrapperStyle={{ margin: 4 }}
+        columnWrapperStyle={{ marginVertical: 2 }}
         renderItem={({ item }) => <ProdutoControle item={item} />}
         numColumns={2}
         keyExtractor={(item) => item.id}
@@ -46,7 +47,7 @@ export default function HomeControle() {
           zIndex: 9999,
           right: 15,
           bottom: 25,
-          backgroundColor: colors.tema,
+          backgroundColor: admin.botao,
           elevation: 5
         }}
       >
@@ -56,7 +57,6 @@ export default function HomeControle() {
             alignItems: 'center',
             justifyContent: 'center'
           }}
-          background={colors.tema}
           onPress={() => navigation.navigate("CadastrarProduto")}>
 
           <Material name='plus-thick' size={26} color='#fff' />

@@ -9,7 +9,8 @@ import {
   FlatList,
   Dimensions,
   ToastAndroid,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import { Picker } from "@react-native-picker/picker";
 
@@ -21,7 +22,13 @@ import api from '../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
-import { SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, BtnIcone } from "../../styles";
+import {
+  SimulaInput,
+  CurrencyInputs,
+  BotaoPrincipal,
+  TextBtn,
+  BtnIcone
+} from "../../styles";
 
 import Animated, { SlideInUp } from 'react-native-reanimated';
 import estilo from './estilo';
@@ -32,7 +39,7 @@ export default function EditaProduto() {
 
   const route = useRoute()
   const navigation = useNavigation()
-  const { colors } = useTheme()
+  const { admin } = useTheme()
 
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -54,12 +61,11 @@ export default function EditaProduto() {
       headerRight: () => {
         return (
 
-          <BtnIcone
-            lado={'flex-end'}
+          <TouchableOpacity
             onPress={ConfirmaExclusao}
           >
-            <Material name='delete-outline' size={30} color={colors.tema} />
-          </BtnIcone>
+            <Material name='delete-outline' size={30} color={admin.texto} />
+          </TouchableOpacity>
         )
       }
     })
@@ -84,7 +90,7 @@ export default function EditaProduto() {
 
 
   async function BuscaCampanhas() {
-    await api.get('/campanhas/ativas')
+    await api.get('/campanhas')
       .then((response) => {
         setListaCampanha(response.data)
       })
@@ -170,7 +176,7 @@ export default function EditaProduto() {
 
       <Pressable
         style={[estilo.container_botoes_tamanho, {
-          backgroundColor: response == -1 ? "#fff" : colors.tema,
+          backgroundColor: response == -1 ? "#fff" : admin.tema,
           borderWidth: response == -1 ? .5 : 0,
           height: (width / 7) - 10
         }]}
@@ -219,7 +225,7 @@ export default function EditaProduto() {
           </Text>
 
           <TextInput
-          style={estilo.inputs}
+            style={estilo.inputs}
             multiline={true}
             numberOfLines={0}
             verticalAlign={'top'}
@@ -313,7 +319,7 @@ export default function EditaProduto() {
 
         <BotaoPrincipal
           activeOpacity={1}
-          background={colors.tema}
+          background={admin.botao}
           onPress={Atualizar}>
           {load ? <ActivityIndicator color={'#fff'} /> : <TextBtn cor={'#fff'}>Atualizar</TextBtn>}
         </BotaoPrincipal>
