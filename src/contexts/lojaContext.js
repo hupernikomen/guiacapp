@@ -14,7 +14,8 @@ export function LojaProvider({ children }) {
   const [credenciais, setCredenciais] = useState({
     id: '',
     email: '',
-    token: ''
+    token: '',
+    conta:''
   })
 
   const [load, setLoad] = useState(false)
@@ -34,19 +35,26 @@ export function LojaProvider({ children }) {
       ToastAndroid.LONG,
       ToastAndroid.BOTTOM,
       0,
-      50,
+      0,
     );
   };
   
 
   async function BuscaLoja() {
+
+
     setLoad(true)
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
     }
-    await api.get(`/me?lojaID=${credenciais.id}`, { headers })
+    await api.get(`/loja/logado?usuarioID=${credenciais.id}`, { headers })
       .then((response) => {
+
+        if (!response.data?.usuario?.status) {
+          signOut()
+        }
+
         setLoad(false)
         setLoja(response.data)
       })
@@ -71,7 +79,8 @@ export function LojaProvider({ children }) {
       setCredenciais({
         id: _lojastorage.id,
         email: _lojastorage.email,
-        token: _lojastorage.token
+        token: _lojastorage.token,
+        conta: _lojastorage.conta
       })
 
     } else {
@@ -90,17 +99,18 @@ export function LojaProvider({ children }) {
 
     await api.post('/login', { email, senha })
       .then(async (response) => {
-        const { id, token } = response.data
+
+        const { id, token, conta } = response.data
         const data = { ...response.data }
         
         await AsyncStorage.setItem('@authGuiaComercial', JSON.stringify(data))
         
-        //Passar para todas as requisições o token do lojista logado
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`
         setCredenciais({
           id,
           email,
           token,
+          conta
         })
         navigation.navigate("Redireciona")
         setLoad(false)
@@ -110,6 +120,7 @@ export function LojaProvider({ children }) {
           Alert.alert("Manutenção", "Estamos melhorando as coisas por aqui, volte em alguns instantes...")
         } else {
           Toast(response.data?.error)
+          
         }
         setLoad(false)
       })
@@ -122,12 +133,15 @@ export function LojaProvider({ children }) {
         setCredenciais({
           id: '',
           email: '',
-          token: ''
+          token: '',
+          conta:''
         })
         navigation.navigate("HomeFeed")
         Toast(('Você foi deslogado'))
       })
   }
+
+  // signOut()
 
   return (
     <LojaContext.Provider value={{
@@ -135,6 +149,7 @@ export function LojaProvider({ children }) {
       autenticado,
       load,
       loja,
+      Toast,
       BuscaLoja,
       signIn,
       signOut,

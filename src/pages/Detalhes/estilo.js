@@ -11,16 +11,16 @@ export default estilo = StyleSheet.create({
     justifContent: 'flex-start',
     borderBottomColor: '#f1f1f1',
     borderBottomWidth: 1,
-    padding: 20,
+    padding: 15,
   },
   nome_loja: {
     fontFamily: 'Roboto-Medium',
-    fontSize: 18,
+    fontSize: 16,
     color:'#000'
   },
   info_botao_loja: {
-    fontSize: 13,
-    fontFamily: 'Roboto-REgular',
+    fontSize: 12,
+    fontFamily: 'Roboto-Light',
     color: '#455A64'
   },
   preco: {

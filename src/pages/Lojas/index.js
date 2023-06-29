@@ -90,7 +90,7 @@ export default function Lojas() {
 
     return (
       <Pressable
-        onPress={() => navigation.navigate('Loja', item.id)}
+        onPress={() => navigation.navigate('Loja', item?.usuarioID)}
         style={{ flexDirection: "row", alignItems: 'center', paddingHorizontal: 15, height: 80, backgroundColor: "#fff", borderRadius: 6 }}>
 
         <View style={{ width: 50, aspectRatio: 1, borderRadius: 25, borderColor: '#fff', borderWidth: 3, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>

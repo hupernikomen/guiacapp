@@ -7,19 +7,21 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 
 import styles from './styles';
 
-export default function Vendedores() {
+export default function Contato() {
   const route = useRoute()
-  const [vendedores, setVendedores] = useState([])
+  const [contato, setContato] = useState([])
 
   useEffect(() => {
 
-    async function BuscaVendedores() {
-      await api.get(`/vendedores?lojaID=${route.params}`)
+    console.log(route.params,"okkokokok");
+
+    async function BuscaContatos() {
+      await api.get(`/contatos?usuarioID=${route.params}`)
         .then((response) => {
-          setVendedores(shuffle(response.data));
+          setContato(shuffle(response.data));
         })
     }
-    BuscaVendedores()
+    BuscaContatos()
 
   }, [])
 
@@ -114,7 +116,7 @@ export default function Vendedores() {
 
   return (
     <FlatList
-      data={vendedores}
+      data={contato}
       renderItem={({ item }) => <RenderItem data={item} />}
       contentContainerStyle={{ paddingHorizontal: 15 }}
     />

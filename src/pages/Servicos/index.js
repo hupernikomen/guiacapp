@@ -30,7 +30,7 @@ export default function Servicos() {
 
   async function CarregaServicos() {
     setLoad(true)
-    await api.get('/servicos')
+    await api.get('/profissionais')
       .then((response) => {
 
         setLoad(false)

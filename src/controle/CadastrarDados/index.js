@@ -18,7 +18,7 @@ export default function CadastrarDados() {
   const [load, setLoad] = useState(false)
   const [loja, setLoja] = useState([])
 
-  const selecaoEntrega = e => setLoja({ ...loja, entrega: e });
+  const selecaoEntrega = e => setLoja({ ...loja, delivery: e });
 
 
   useFocusEffect(
@@ -38,8 +38,8 @@ export default function CadastrarDados() {
       mensagem,
       ToastAndroid.LONG,
       ToastAndroid.BOTTOM,
-      25,
-      50,
+      0,
+      0,
     );
   };
 
@@ -49,7 +49,7 @@ export default function CadastrarDados() {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
     }
-    await api.get('/me', { headers })
+    await api.get(`/loja/logado?usuarioID=${credenciais.id}`, { headers })
       .then(response => {
         setLoja(response.data)
       })
@@ -126,7 +126,6 @@ export default function CadastrarDados() {
 
     await api.put(`/loja`, loja, { headers })
       .then(() => {
-        navigation.navigate('Home')
         Toast('Atualizamos seus dados!')
         setLoad(false)
       })
@@ -165,11 +164,22 @@ export default function CadastrarDados() {
               paddingHorizontal: 10,
             }}>Logo</Text>
 
+          <View style={{
+            width: 60, 
+            alignItems:'center',
+            justifyContent:'center',
+            overflow:'hidden',
+            aspectRatio: 1, 
+            borderRadius: 60 / 2,
+            borderColor: '#fff', 
+            borderWidth: 4
+          }}>
 
-          {loja?.avatar && <Image
-            source={{ uri: loja?.avatar?.location }}
-            style={{ width: 55, aspectRatio: 1, borderRadius: 55 / 2, borderColor: '#fff', borderWidth: 4 }}
-          />}
+            {loja?.avatar && <Image
+              source={{ uri: loja?.avatar?.location }}
+              style={{ width: 52, aspectRatio: 1 }}
+            />}
+          </View>
         </Pressable>
 
         <ContainerInput>
@@ -214,8 +224,8 @@ export default function CadastrarDados() {
           </TituloInput>
 
           <Input
-            onChangeText={(e) => setLoja({ ...loja, referencia: e })}
-            value={loja.referencia}
+            onChangeText={(e) => setLoja({ ...loja, ponto_ref: e })}
+            value={loja.ponto_ref}
             maxLength={40} />
         </ContainerInput>
 
@@ -249,9 +259,9 @@ export default function CadastrarDados() {
 
           <Switch
             trackColor={{ false: '#767577', true: '#ddd' }}
-            thumbColor={loja.entrega ? colors.tema : '#f4f3f4'}
+            thumbColor={loja.delivery ? colors.tema : '#f4f3f4'}
             onValueChange={selecaoEntrega}
-            value={loja.entrega}
+            value={loja.delivery}
           />
         </View>
 

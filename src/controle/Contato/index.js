@@ -10,7 +10,7 @@ import Animated, { FadeInRight } from 'react-native-reanimated';
 import api from '../../servicos/api';
 
 
-export default function Vendedores() {
+export default function Contato() {
 
   const { credenciais } = useContext(LojaContext)
   const { colors } = useTheme()
@@ -18,11 +18,11 @@ export default function Vendedores() {
 
   const [idSelecionado, setIdSelecionado] = useState(null)
 
-  const [vendedores, setVendedores] = useState([])
+  const [contato, setContato] = useState([])
 
   useFocusEffect(
     useCallback(() => {
-      BuscarVendedores()
+      BuscaContato()
 
       return () => {
         setIdSelecionado(null)
@@ -35,15 +35,15 @@ export default function Vendedores() {
       mensagem,
       ToastAndroid.LONG,
       ToastAndroid.BOTTOM,
-      25,
-      50,
+      0,
+      0,
     );
   };
 
-  async function BuscarVendedores() {
-    await api.get(`/vendedores?lojaID=${credenciais.id}`)
+  async function BuscaContato() {
+    await api.get(`/contatos?usuarioID=${credenciais.id}`)
       .then((response) => {
-        setVendedores(response.data);
+        setContato(response.data);
       })
   }
 
@@ -56,7 +56,7 @@ export default function Vendedores() {
     await api.delete(`/vendedor?vendedorID=${id}`, { headers })
       .then(() => {
         Toast("Vendedor Excluido")
-        BuscarVendedores()
+        BuscaContato()
       })
 
   }
@@ -69,7 +69,14 @@ export default function Vendedores() {
 
 
   function RenderItem({ data }) {
-    const { e: entrada, a: almoco, r: retorno, s: saida } = JSON.parse(data.horario)
+
+    console.log(data);
+
+    if (data.horario == null) {
+      return
+    }
+
+    const { e: entrada, a: almoco, r: retorno, s: saida } = JSON.parse(data?.horario)
 
     return (
       <Pressable
@@ -138,7 +145,7 @@ export default function Vendedores() {
   return (
     <>
       <FlatList
-        data={vendedores}
+        data={contato}
         renderItem={({ item }) => <RenderItem data={item} />}
       />
 

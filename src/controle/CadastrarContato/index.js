@@ -15,7 +15,7 @@ import api from '../../servicos/api';
 
 import { BotaoPrincipal, TextBtn, TituloInput, ContainerInput, ContainerInputInline, Input } from '../../styles'
 
-export default function CadastrarVendedor() {
+export default function CadastrarContato() {
 
   const { colors } = useTheme()
   const { credenciais } = useContext(LojaContext)
@@ -83,8 +83,8 @@ export default function CadastrarVendedor() {
 
     const formData = new FormData()
     formData.append("nome", nome)
-    formData.append("setor", setor)
     formData.append("whatsapp", whatsapp)
+    formData.append("setor", setor)
     formData.append("horario", JSON.stringify(horario))
 
     var result = await ImageResizer.createResizedImage(
@@ -100,7 +100,7 @@ export default function CadastrarVendedor() {
       name: result.name
     });
 
-    await api.post(`/vendedor?lojaID=${credenciais.id}`, formData, {
+    await api.post(`/contato?usuarioID=${credenciais.id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${credenciais.token}`

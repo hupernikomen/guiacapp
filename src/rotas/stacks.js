@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Pressable } from 'react-native';
+import { View, Pressable } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -8,7 +8,7 @@ import DetalheProduto from '../pages/Detalhes/produto';
 import DetalheServico from '../pages/Detalhes/servico';
 import Profissionais from '../pages/Profissionais';
 import Loja from '../pages/Loja';
-import Vendedores from '../pages/Vendedores';
+import Vendedores from '../pages/Contato';
 import Lojas from '../pages/Lojas';
 import Mapa from '../pages/Mapa';
 import Categorias from '../pages/PorCategoria';
@@ -16,17 +16,19 @@ import Search from '../pages/Search';
 import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
 import ErroNaoEncontrado from '../pages/ErroNaoEncontrado'
+import CategoriasFavoritas from '../pages/CategoriasFavoritas';
 
 import Redireciona from '../pages/Redireciona';
 
 import Signin from '../pages/Signin'
 
+import Profissional from '../controle/Profissional';
 import CadastrarProduto from '../controle/CadastrarProduto';
 import EditaProduto from '../controle/EditaProduto';
-import CadastrarVendedor from '../controle/CadastrarVendedor';
+import CadastrarContato from '../controle/CadastrarContato';
 import CadastrarDados from '../controle/CadastrarDados';
 import MapaControle from '../controle/Mapa';
-import VendedoresControle from '../controle/Vendedores';
+import VendedoresControle from '../controle/Contato';
 
 import { LojaContext } from '../contexts/lojaContext';
 
@@ -75,12 +77,22 @@ export default function RotasStack() {
           },
           headerRight: () => {
             return (
-              <Pressable
-                style={estilo.icone}
-                onPress={() => navigation.navigate("Search")}>
-                <Material name='magnify' size={24} color='#fff' />
-              </Pressable>
+              <View style={{
+                flexDirection: 'row',
+                gap: 20
+              }}>
+                <Pressable
+                  style={estilo.icone}
+                  onPress={() => navigation.navigate("CategoriasFavoritas")}>
+                  <Material name='filter-outline' size={24} color='#fff' />
+                </Pressable>
+                <Pressable
+                  style={estilo.icone}
+                  onPress={() => navigation.navigate("Search")}>
+                  <Material name='magnify' size={24} color='#fff' />
+                </Pressable>
 
+              </View>
             )
           },
         }}
@@ -130,6 +142,25 @@ export default function RotasStack() {
       />
 
       <Stack.Screen
+        name='Profissional'
+        component={Profissional}
+        options={{
+          headerRight: () => {
+            return (
+              <Pressable
+                lado={'center'}
+                onPress={signOut}>
+                <Material name='power-standby' size={22} color={'#fff'} />
+              </Pressable>
+            )
+          },
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
+        }}
+      />
+
+      <Stack.Screen
         name='Signin'
         component={Signin}
         options={{
@@ -167,13 +198,26 @@ export default function RotasStack() {
       />
 
       <Stack.Screen
+        name='CategoriasFavoritas'
+        component={CategoriasFavoritas}
+        options={{
+          title: 'Lojas Cadastradas',
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
+
+        }}
+      />
+
+      <Stack.Screen
         name='DetalheProduto'
         component={DetalheProduto}
         options={{
+          headerTransparent: true,
           title: "",
-          headerStyle: {
-            backgroundColor: colors.tema,
-          }
+          // headerStyle: {
+          //   backgroundColor: colors.tema,
+          // }
         }}
       />
 
@@ -189,7 +233,9 @@ export default function RotasStack() {
         name='Loja'
         component={Loja}
         options={{
-          headerShown: false,
+          headerStyle: {
+            backgroundColor: colors.tema,
+          },
         }}
       />
 
@@ -307,7 +353,7 @@ export default function RotasStack() {
 
       <Stack.Screen
         name='CadastrarVendedor'
-        component={CadastrarVendedor}
+        component={CadastrarContato}
         options={{
           title: "Cadastrar Vendedor",
           headerShadowVisible: false,

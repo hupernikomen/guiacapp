@@ -16,7 +16,6 @@ const { width: WIDTH } = Dimensions.get('window')
 import estilo from './estilo';
 
 function ProdutoFeed({ item }) {
-
   const { preco, oferta, campanha, imagens, nome, loja, id } = item
 
   const navigation = useNavigation();
@@ -24,7 +23,7 @@ function ProdutoFeed({ item }) {
 
 
   function Capitalize(nome) {
-    novonome = nome.trim().toLowerCase().split(" ")
+    let novonome = nome.trim().toLowerCase().split(" ")
 
     for (let i = 0; i < novonome.length; i++) {
       novonome[i] = novonome[i][0]?.toUpperCase() + novonome[i].substr(1);
@@ -43,8 +42,8 @@ function ProdutoFeed({ item }) {
   return (
 
     <Pressable
-      style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 12 }]}
-      largura={(WIDTH / 2) - 12}
+      style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 4 }]}
+      largura={(WIDTH / 2) - 4}
       onPress={() => navigation.navigate("DetalheProduto", { id })}>
 
       {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}

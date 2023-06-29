@@ -44,12 +44,19 @@ export default function DrawerCustom(props) {
         /> :
         <DrawerItem
           labelStyle={estilo.fonte}
-          label="Minha Loja"
+          label="Parceiros"
           inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("HomeControle")}
+          onPress={() => navigation.navigate("Redireciona")}
         />
-
       }
+      
+      <DrawerItem
+        labelStyle={estilo.fonte}
+        label="Seja um anunciante"
+        inactiveTintColor='#fff'
+        onPress={() => navigation.navigate("Anuncie")}
+      />
+
       <View style={estilo.paginas}>
         <DrawerItem
           labelStyle={estilo.fonte}
@@ -70,12 +77,7 @@ export default function DrawerCustom(props) {
 
 
 
-      <DrawerItem
-        labelStyle={estilo.fonte}
-        label="Seja um anunciante"
-        inactiveTintColor='#fff'
-        onPress={() => navigation.navigate("Anuncie")}
-      />
+
       <DrawerItem
         labelStyle={estilo.fonte}
         label="Fale com o Guia"

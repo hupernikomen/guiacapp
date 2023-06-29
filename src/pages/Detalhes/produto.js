@@ -38,7 +38,7 @@ export default function Detalhes() {
 
   async function PegaItem() {
     setLoad(true)
-    await api.get(`/detalhe/produto?produtoID=${route.params.id}`)
+    await api.get(`/detalhe/produto?produtoID=${route.params?.id}`)
       .then((response) => {
         if (response.data == null) {
           navigation.navigate("ErroNaoEncontrado")
@@ -99,14 +99,16 @@ export default function Detalhes() {
         })}
       </ScrollView>
 
+{console.log(produto?.loja?.usuarioID)}
+
       <Pressable
         style={estilo.container_loja}
-        onPress={() => navigation.navigate("Loja", produto.loja?.id)}>
+        onPress={() => navigation.navigate("Loja", produto?.loja?.usuarioID)}>
 
         {
           produto?.loja?.avatar &&
           <Image
-            style={{ width: 50, aspectRatio: 1, borderRadius: 25 }}
+            style={{ width: 40, aspectRatio: 1, borderRadius: 20 }}
             source={{ uri: produto?.loja?.avatar?.location }} />
         }
 

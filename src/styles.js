@@ -123,7 +123,7 @@ export const BtnIcone = styled.Pressable`
     width: 50px;
     align-items: ${props => props.lado};
     height: 50px;
-    justify-content: center
+    justify-content: center,
 `
 export const TextoPadrao = styled(Texto)`
     font-family: Roboto-Regular

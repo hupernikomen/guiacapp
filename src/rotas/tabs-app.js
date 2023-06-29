@@ -4,6 +4,8 @@ import Feed from '../pages/Feed';
 import Produtos from '../pages/Produtos';
 import Servicos from '../pages/Servicos'
 
+import TabBarFeed from '../componentes/TabBarFeed';
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -17,18 +19,24 @@ export default function Tabs() {
 
   return (
     <Tab.Navigator
-      initialRouteName='Feed'
+      initialRouteName='Produtos'
+      tabBar={props => <TabBarFeed {...props} />}
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colors.tema
         },
+        swipeEnabled:false,
         tabBarIndicatorStyle: {
           backgroundColor: '#fff',
         },
-        tabBarInactiveTintColor: '#ffffff80'
+        tabBarInactiveTintColor: '#ffffff80',
       }}>
 
-      <Tab.Screen name="Feed" component={Feed}/>
+      <Tab.Screen name="Feed" component={Feed} options={{
+          tabBarIcon: ({ color, size }) => (
+            <Material name="home" color={color} size={size} />
+          ),
+      }}/>
       <Tab.Screen name="Produtos" component={Produtos} options={{ title: 'Produtos' }} />
       <Tab.Screen name="Servicos" component={Servicos} options={{ title: 'Serviços' }} />
 

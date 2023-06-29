@@ -24,7 +24,7 @@ export default function Profissionais() {
 
 
   async function BuscaProProfissao() {
-    await api.get(`porprofissao?servicoID=${route.params?.id}`)
+    await api.get(`profissao/profissionais?profissaoID=${route.params?.id}`)
       .then((response) => {
         setProfissionais(shuffle(response.data));
       })

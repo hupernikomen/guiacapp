@@ -6,7 +6,7 @@ export default estilo = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 2,
     borderRadius: 6,
-    marginHorizontal: 4,
+    marginHorizontal: 2,
 
   },
   foto: {

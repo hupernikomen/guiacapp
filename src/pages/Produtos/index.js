@@ -30,12 +30,15 @@ export default function Produtos() {
 
   async function BuscaProdutos() {
     setLoad(true)
-    await api.get('/feed')
+    await api.get('/produtos')
       .then((response) => {
         setProdutos(shuffle(response.data))
         setLoad(false)
       })
-      .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
+      .catch((error) => { 
+        if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } 
+        setLoad(false)
+      })
   }
 
   async function BuscaCategorias() {
@@ -63,33 +66,8 @@ export default function Produtos() {
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
-      ListHeaderComponent={
-        <Picker
-          mode="dialog"
-          selectedValue={categoria}
-          onValueChange={(itemValue) => {
-            setCategoria(itemValue);
-          }}>
-          <Picker.Item
-            label="Selecione uma categoria"
-            style={{
-              color: '#aaa',
-              fontSize: 15
-            }}
-          />
+      columnWrapperStyle={{ marginVertical: 2 }}
 
-          {categorias.map((item) => {
-            return (
-              <Picker.Item
-                key={item.id}
-                value={item}
-                label={item.nome}
-              />
-            );
-          })}
-        </Picker>
-      }
       // stickyHeaderHiddenOnScroll={true}
       // stickyHeaderIndices={[0]}
       data={produtos}

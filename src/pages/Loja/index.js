@@ -37,6 +37,9 @@ export default function Loja() {
   useEffect(() => {
     BuscaLoja()
 
+    console.log(route.params,"route");
+  
+
   }, [])
 
 
@@ -46,7 +49,7 @@ export default function Loja() {
 
   async function BuscaLoja() {
     setLoad(true)
-    await api.get(`/loja?lojaID=${route.params}`)
+    await api.get(`/loja?usuarioID=${route.params}`)
       .then(({data}) => {
         setLoja(data)
 
@@ -62,45 +65,7 @@ export default function Loja() {
       })
   }
 
-  function Header() {
-    return (
-      <View style={{
-        backgroundColor: colors.tema,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        zIndex: 999,
-        height: 55,
-        elevation: 5
-      }}>
 
-        <BtnIcone
-          lado={'center'}
-          onPress={() => navigation.goBack()}>
-          <Material name='arrow-left' size={24} color='#fff' />
-        </BtnIcone>
-
-
-        {
-          loja?.avatar &&
-          <Image
-            style={{ width: 40, aspectRatio: 1, borderRadius:20 }}
-            source={{ uri: loja?.avatar?.location }} />
-        }
-
-        <Text
-          numberOfLines={1}
-          style={{
-            flex: 1,
-            fontFamily: 'Roboto-Medium',
-            fontSize: 20,
-            marginLeft: 10,
-            color: '#fff',
-          }}>{loja.nome}</Text>
-
-      </View>
-    )
-  }
 
 
 
@@ -125,16 +90,15 @@ export default function Loja() {
 
   return (
     <>
-      <Header />
 
       <FlatList
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
         ListHeaderComponent={
           <View>
-            {!!loja.bio && <Bio />}
+            {!!loja?.bio && <Bio />}
 
-            {loja.latlng && <Pressable
+            {loja?.latlng && <Pressable
               style={{
                 margin: 8,
                 backgroundColor: '#fff',
@@ -154,11 +118,10 @@ export default function Loja() {
             </Pressable>}
           </View>
         }
-        data={loja.produtos}
+        data={loja?.produtos}
         renderItem={({ item }) => <Produto item={item} />}
         numColumns={2}
       />
-
 
 
       <Animated.View
@@ -183,7 +146,7 @@ export default function Loja() {
             justifyContent: 'center'
           }}
           background={colors.tema}
-          onPress={() => navigation.navigate("Vendedores", loja.id)}>
+          onPress={() => navigation.navigate("Vendedores", loja.usuarioID)}>
 
           <Material name='whatsapp' size={26} color='#fff' />
         </Pressable >

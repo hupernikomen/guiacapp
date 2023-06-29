@@ -8,7 +8,6 @@ import {
   Modal,
   ActivityIndicator,
   ToastAndroid,
-  Alert,
   FlatList,
 } from 'react-native'
 
@@ -31,7 +30,7 @@ export default function CadastrarProduto() {
   const navigation = useNavigation()
 
   const { colors } = useTheme()
-  const { credenciais } = useContext(LojaContext)
+  const { credenciais, loja, BuscaLoja } = useContext(LojaContext)
   const { arrTamanhos } = useContext(ProdutoContext)
 
   const [load, setLoad] = useState(false)
@@ -49,6 +48,7 @@ export default function CadastrarProduto() {
 
 
   useEffect(() => {
+    BuscaLoja()
     CarregaCategorias()
   }, [])
 
@@ -95,9 +95,6 @@ export default function CadastrarProduto() {
     });
   }
 
-
-
-
   async function CarregaCategorias() {
 
     await api.get('/categorias')
@@ -116,10 +113,9 @@ export default function CadastrarProduto() {
 
     setLoad(true)
 
-
     const formData = new FormData()
 
-    formData.append('cod', cod)
+    formData.append('codigo', cod)
     formData.append('nome', nome)
     formData.append('descricao', descricao)
     formData.append('preco', preco)
@@ -159,7 +155,7 @@ export default function CadastrarProduto() {
       'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer ${credenciais.token}`
     }
-    await api.post(`/produto`, formData, { headers })
+    await api.post(`/produto?lojaID=${loja.id}`, formData, { headers })
       .then(() => {
         navigation.goBack()
         Toast('Produto postado com sucesso!')
@@ -196,8 +192,8 @@ export default function CadastrarProduto() {
       mensagem,
       ToastAndroid.LONG,
       ToastAndroid.BOTTOM,
-      25,
-      50,
+      0,
+      0,
     );
   };
 
@@ -216,7 +212,7 @@ export default function CadastrarProduto() {
             alignItems: 'center',
             justifyContent: 'space-between',
             marginVertical: 15,
-            padding:5
+            padding: 5
           }}>
 
           <View
@@ -245,12 +241,12 @@ export default function CadastrarProduto() {
 
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
               <Pressable
-                style={{ padding: 10, alignItems: 'center', borderWidth:.5, borderColor:'#bbb' }}
+                style={{ padding: 10, alignItems: 'center', borderWidth: .5, borderColor: '#bbb' }}
                 onPress={Fotografar}>
                 <Material name='camera' size={30} />
               </Pressable>
               <Pressable
-                style={{ padding: 10, alignItems: 'center', borderWidth:.5, borderColor:'#bbb' }}
+                style={{ padding: 10, alignItems: 'center', borderWidth: .5, borderColor: '#bbb' }}
                 onPress={BuscarImagem}>
                 <Material name='image' size={31} />
               </Pressable>

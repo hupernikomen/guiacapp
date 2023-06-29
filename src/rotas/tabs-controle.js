@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import HomeControle from '../controle/Home';
 import CadastrarDados from '../controle/CadastrarDados';
 import MapaControle from '../controle/Mapa';
-import VendedoresControle from '../controle/Vendedores';
+import Contato from '../controle/Contato';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -32,7 +32,7 @@ export default function Tabs() {
 
       <Tab.Screen name="Home" component={HomeControle} options={{ title: 'Produtos' }} />
       <Tab.Screen name="CadastrarDados" component={CadastrarDados} options={{ title: 'Dados' }} />
-      <Tab.Screen name="VendedoresControle" component={VendedoresControle} options={{ title: 'Vendedores' }} />
+      <Tab.Screen name="Contato" component={Contato} options={{ title: 'Contatos' }} />
       <Tab.Screen name="MapaControle" component={MapaControle} options={{ title: 'Mapa' }} />
 
     </Tab.Navigator>

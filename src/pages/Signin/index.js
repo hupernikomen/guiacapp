@@ -15,27 +15,17 @@ export default function Login() {
   const { signIn, autenticado, load } = useContext(LojaContext)
   const { colors } = useTheme()
 
-  const [conta, setConta] = useState("")
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
 
   useEffect(() => {
 
-    autenticado && navigation.reset({ index: 0, routes: [{ name: 'HomeControle' }] })
+    autenticado && navigation.reset({ index: 0, routes: [{ name: 'Redireciona' }] })
 
   }, [focus])
 
   return (
     <Tela>
-
-      <ContainerInput>
-        <Input
-          placeholder={""}
-          placeholderTextColor={'#aaa'}
-          maxLength={405}
-          onChangeText={setConta}
-          value={conta} />
-      </ContainerInput>
 
       <ContainerInput>
         <Input
@@ -85,17 +75,6 @@ export default function Login() {
 
       </Pressable>
 
-      <Pressable
-        style={{
-          alignItems: 'center',
-          paddingVertical: 10,
-          marginTop: 5
-        }}
-        onPress={() => navigation.navigate("HomeScreen")}>
-
-        <Text>Cadastrar minha loja</Text>
-
-      </Pressable>
 
     </Tela>
   );
