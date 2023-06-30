@@ -98,10 +98,10 @@ export default function Search() {
 
   return (
     <FlatList
-      contentContainerStyle={{ marginVertical: 6 }}
+      columnWrapperStyle={{ marginVertical: 2 }}
+      contentContainerStyle={{padding:2}}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={<ListaVazia />}
-      columnWrapperStyle={{ marginHorizontal: 8, marginVertical: 5 }}
       data={produtos}
       renderItem={({ item }) => <ProdutoFeed item={item} />}
       numColumns={2}

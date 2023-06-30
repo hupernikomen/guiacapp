@@ -1,10 +1,10 @@
 import { useContext, useCallback } from 'react';
-import { FlatList, Pressable,StatusBar } from 'react-native';
+import { FlatList, Pressable } from 'react-native';
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 
-import { LojaContext } from '../../contexts/lojaContext';
-import ProdutoControle from '../../componentes/Produto-Controle';
+import { LojaContext } from '../../../contexts/lojaContext';
+import ProdutoControle from '../../../componentes/Produto-Controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Animated, { SlideInDown } from 'react-native-reanimated';
 
@@ -31,6 +31,7 @@ export default function HomeControle() {
 
         data={loja?.produtos}
         columnWrapperStyle={{ marginVertical: 2 }}
+        contentContainerStyle={{padding:2}}
         renderItem={({ item }) => <ProdutoControle item={item} />}
         numColumns={2}
         keyExtractor={(item) => item.id}

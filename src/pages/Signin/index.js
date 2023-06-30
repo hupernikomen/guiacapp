@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Text, Linking, Pressable,ActivityIndicator } from 'react-native'
 
 import { LojaContext } from "../../contexts/lojaContext"
-import { useTheme, useNavigation, useIsFocused, StackActions } from "@react-navigation/native";
+import { useTheme, useNavigation } from "@react-navigation/native";
 
 import { Tela } from '../../styles'
 import { ContainerInput, BotaoPrincipal, TextBtn, Input } from './styles'
@@ -11,7 +11,6 @@ export default function Login() {
 
   const navigation = useNavigation()
 
-  const focus = useIsFocused()
   const { signIn, autenticado, load } = useContext(LojaContext)
   const { app } = useTheme()
 
@@ -22,7 +21,7 @@ export default function Login() {
 
     autenticado && navigation.reset({ index: 0, routes: [{ name: 'Redireciona' }] })
 
-  }, [focus])
+  }, [])
 
   return (
     <Tela>

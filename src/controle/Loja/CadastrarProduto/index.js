@@ -11,15 +11,15 @@ import {
   FlatList,
 } from 'react-native'
 
-import { Input, TituloInput, ContainerInput, BtnIcone, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela } from "../../styles";
+import { Input, TituloInput, ContainerInput, BtnIcone, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela } from "../../../styles";
 
-import api from '../../servicos/api'
+import api from '../../../servicos/api'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { LojaContext } from "../../contexts/lojaContext"
-import { ProdutoContext } from "../../contexts/produtoContext";
+import { LojaContext } from "../../../contexts/lojaContext"
+import { ProdutoContext } from "../../../contexts/produtoContext";
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 

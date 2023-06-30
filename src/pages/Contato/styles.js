@@ -7,7 +7,7 @@ export default estilo = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     paddingVertical: 15,
-    marginVertical: 5,
+    marginVertical: 4,
     borderRadius: 6,
     backgroundColor: '#fff',
   },
@@ -15,7 +15,7 @@ export default estilo = StyleSheet.create({
     width: 55,
     aspectRatio: 1,
     borderRadius: 55 / 2,
-    marginRight: 15
+    marginRight: 25
   },
   container_info :{ 
     flex: 1 
@@ -41,7 +41,6 @@ export default estilo = StyleSheet.create({
   },
   info_status:{
     fontSize: 13, 
-    marginLeft: 5, 
   },
   setor:{
     fontFamily: 'Roboto-Light',

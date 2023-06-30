@@ -15,9 +15,9 @@ import {
 import { Picker } from "@react-native-picker/picker";
 
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
-import { LojaContext } from "../../contexts/lojaContext"
-import { ProdutoContext } from '../../contexts/produtoContext';
-import api from '../../servicos/api';
+import { LojaContext } from "../../../contexts/lojaContext"
+import { ProdutoContext } from '../../../contexts/produtoContext';
+import api from '../../../servicos/api';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -28,7 +28,7 @@ import {
   BotaoPrincipal,
   TextBtn,
   BtnIcone
-} from "../../styles";
+} from "../../../styles";
 
 import Animated, { SlideInUp } from 'react-native-reanimated';
 import estilo from './estilo';

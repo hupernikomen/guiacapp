@@ -16,15 +16,15 @@ export default function Profissionais() {
 
   useEffect(() => {
 
-    BuscaProProfissao()
+    BuscaPorProfissao()
     navigation.setOptions({
       title: route.params?.nome
     })
   }, [])
 
 
-  async function BuscaProProfissao() {
-    await api.get(`profissao/profissionais?profissaoID=${route.params?.id}`)
+  async function BuscaPorProfissao() {
+    await api.get(`/profissao/profissionais?profissaoID=${route.params?.id}`)
       .then((response) => {
         setProfissionais(shuffle(response.data));
       })
@@ -45,7 +45,7 @@ export default function Profissionais() {
   function RenderItem({ data }) {
     return (
       <Pressable
-        style={[estilo.container_produto, { maxWidth: (WIDTH / 3) - 6 }]}
+      style={[estilo.container_produto]}
         onPress={() => navigation.navigate("DetalheProduto", { id })}>
         <Image
           style={estilo.foto}
@@ -64,8 +64,6 @@ export default function Profissionais() {
 
   return (
     <FlatList
-      columnWrapperStyle={{ marginHorizontal: 4, marginVertical: 4 }}
-      numColumns={3}
       data={profissionais}
       renderItem={({ item }) => <RenderItem data={item} />}
     />

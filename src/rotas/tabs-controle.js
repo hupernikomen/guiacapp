@@ -1,9 +1,9 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import HomeControle from '../controle/Home';
-import CadastrarDados from '../controle/CadastrarDados';
+import HomeControle from '../controle/Loja/Home';
+import CadastrarDados from '../controle/Loja/CadastrarDados';
 import MapaControle from '../controle/Mapa';
-import Contato from '../controle/Contato';
+import Contato from '../controle/Loja/Contato';
 
 const Tab = createMaterialTopTabNavigator();
 

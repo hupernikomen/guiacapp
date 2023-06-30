@@ -31,7 +31,8 @@ export default estilo = StyleSheet.create({
   },
   nome_produto: {
     fontFamily: 'Roboto-Regular',
-    color:'#000'
+    color:'#000',
+    fontSize:14
   },
   preco:{
     fontFamily:'Roboto-Bold',
@@ -43,7 +44,7 @@ export default estilo = StyleSheet.create({
     flexDirection: 'row', 
     alignItems: 'center', 
     justifyContent: 'space-between',
-    marginTop:2
+    marginTop:3
   },
   nome_loja:{
     fontFamily:'Roboto-Light',

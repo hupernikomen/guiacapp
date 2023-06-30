@@ -30,7 +30,7 @@ export default function Servicos() {
 
   async function CarregaServicos() {
     setLoad(true)
-    await api.get('/profissionais')
+    await api.get('/profissoes')
       .then((response) => {
 
         setLoad(false)
@@ -48,7 +48,7 @@ export default function Servicos() {
         onPress={() => navigation.navigate("Profissionais", data)}
         style={estilo.card}>
         <View style={{ flexDirection: 'row', alignItems: "center" }}>
-          <Material name={data.icone} size={28} color='#000' />
+          <Material name={data.avatar} size={28} color='#000' />
           <Text
             style={estilo.nome}>
             {data.nome}

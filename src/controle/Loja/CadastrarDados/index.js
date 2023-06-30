@@ -1,14 +1,14 @@
 import React, { useContext, useCallback, useState } from 'react';
 import { View, Text, Switch, ScrollView, ToastAndroid, Pressable, Image, ActivityIndicator } from 'react-native';
-import { LojaContext } from "../../contexts/lojaContext"
+import { LojaContext } from "../../../contexts/lojaContext"
 
 import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 import { launchImageLibrary } from 'react-native-image-picker';
 
-import api from '../../servicos/api';
+import api from '../../../servicos/api';
 
-import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } from "../../styles";
+import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } from "../../../styles";
 
 export default function CadastrarDados() {
   const { admin } = useTheme()

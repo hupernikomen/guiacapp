@@ -5,7 +5,7 @@ export default styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     borderRadius: 8,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     marginVertical: 2,
     height: 70,
     flexDirection: 'row',
@@ -16,7 +16,7 @@ export default styles = StyleSheet.create({
 
   nome: {
     fontFamily: 'Roboto-Medium',
-    fontSize: 16,
+    fontSize: 18,
     color: '#000',
     marginLeft: 15
   }

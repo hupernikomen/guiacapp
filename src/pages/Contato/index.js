@@ -42,7 +42,7 @@ export default function Contato() {
 
     } else if ( // Condição antes da entrada do vendedor
       data_atual != 0 && // Domingo
-      hora_atual > "06:00:00" && hora_atual < converteHorario(entrada)) {
+      hora_atual > "05:00:00" && hora_atual < converteHorario(entrada)) {
       return { status: false, mensagem: "Entrará às " + converteHorario(entrada).substring(0, 5) + ' hs' }
 
     } else {
@@ -90,17 +90,12 @@ export default function Contato() {
                 {data.nome}
               </Text>
 
-              <View style={styles.container_status}>
 
-                <View style={[styles.dot_status, { backgroundColor: status ? '#388E3C' : '#aaa' }]} />
-                <Text style={[styles.info_status, { color: status ? '#388E3C' : '#aaa' }]}>{status ? 'Online' : 'Off'}</Text>
-
-              </View>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               {status ?
-                <Text style={styles.setor}>{data.setor}</Text> :
+                <Text style={[styles.info_status, { color: status ? '#388E3C' : '#aaa' }]}>{status && 'Online' }</Text> :
                 <Text style={styles.mensagem}>{mensagem}</Text>
               }
             </View>
@@ -116,7 +111,7 @@ export default function Contato() {
     <FlatList
       data={contato}
       renderItem={({ item }) => <RenderItem data={item} />}
-      contentContainerStyle={{ paddingHorizontal: 15 }}
+      contentContainerStyle={{ paddingHorizontal: 8 }}
     />
   );
 }

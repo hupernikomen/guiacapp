@@ -67,6 +67,7 @@ export default function Produtos() {
     <FlatList
       showsVerticalScrollIndicator={false}
       columnWrapperStyle={{ marginVertical: 2 }}
+      contentContainerStyle={{padding:2}}
 
       // stickyHeaderHiddenOnScroll={true}
       // stickyHeaderIndices={[0]}

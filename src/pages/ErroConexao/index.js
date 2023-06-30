@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -11,13 +10,17 @@ export default function ErroConexao() {
 
     function VerificaConexao() {
 
-        NetInfo.fetch().then(state => {
+        NetInfo.fetch()
+        .then(state => {
             if (state.isConnected) {
-                navigation.navigate("Home")
+                navigation.navigate("Feed")
             }
             console.log("Connection type", state.type);
             console.log("Is connected?", state.isConnected);
-        });
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
     return (

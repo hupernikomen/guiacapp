@@ -98,6 +98,7 @@ export default function Loja() {
       <FlatList
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{ marginVertical: 2 }}
+        contentContainerStyle={{padding:2}}
         ListHeaderComponent={
           <View>
             {!!loja?.bio && <Bio />}

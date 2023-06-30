@@ -23,12 +23,12 @@ import Redireciona from '../pages/Redireciona';
 import Signin from '../pages/Signin'
 
 import Profissional from '../controle/Profissional';
-import CadastrarProduto from '../controle/CadastrarProduto';
-import EditaProduto from '../controle/EditaProduto';
+import CadastrarProduto from '../controle/Loja/CadastrarProduto';
+import EditaProduto from '../controle/Loja/EditaProduto';
 import CadastrarContato from '../controle/CadastrarContato';
-import CadastrarDados from '../controle/CadastrarDados';
+import CadastrarDados from '../controle/Loja/CadastrarDados';
 import MapaControle from '../controle/Mapa';
-import VendedoresControle from '../controle/Contato';
+import VendedoresControle from '../controle/Loja/Contato';
 
 import { LojaContext } from '../contexts/lojaContext';
 
@@ -108,12 +108,22 @@ export default function RotasStack() {
         name='Profissional'
         component={Profissional}
         options={{
+          headerLeft: () => {
+            return (
+              <Pressable
+                style={{ padding: 10, marginLeft: -10, marginRight: 10 }}
+                onPress={() => navigation.openDrawer()}>
+                <Material name='menu' size={24} color={app.texto} />
+              </Pressable>
+
+            )
+          },
           headerRight: () => {
             return (
               <Pressable
                 lado={'center'}
                 onPress={signOut}>
-                <Material name='power-standby' size={22} color={admin.texto} />
+                <Material name='power-standby' size={22} color={app.texto} />
               </Pressable>
             )
           },

@@ -3,11 +3,11 @@ import { View, Text, Pressable, FlatList, ToastAndroid, Image } from 'react-nati
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { LojaContext } from '../../contexts/lojaContext';
+import { LojaContext } from '../../../contexts/lojaContext';
 
 import { useTheme, useNavigation, useFocusEffect } from '@react-navigation/native';
 import Animated, { FadeInRight } from 'react-native-reanimated';
-import api from '../../servicos/api';
+import api from '../../../servicos/api';
 
 
 export default function Contato() {

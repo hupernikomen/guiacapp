@@ -6,19 +6,21 @@ export default estilo = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 2,
     borderRadius: 6,
-    marginHorizontal:2
+    marginHorizontal:2,
+    flexDirection:'row'
 
   },
   foto: {
+    width:80,
     aspectRatio:1,
-    borderRadius: 6,
 
   },
   info:{
     padding:8
   },
   nome:{
-    fontFamily:'Roboto-Regular',
-    color:'#000'
+    fontFamily:'Roboto-Medium',
+    color:'#000',
+    fontSize:16
   }
 })
