@@ -8,7 +8,7 @@ import DetalheProduto from '../pages/Detalhes/produto';
 import DetalheServico from '../pages/Detalhes/servico';
 import Profissionais from '../pages/Profissionais';
 import Loja from '../pages/Loja';
-import Vendedores from '../pages/Contato';
+import Contato from '../pages/Contato';
 import Lojas from '../pages/Lojas';
 import Mapa from '../pages/Mapa';
 import Categorias from '../pages/PorCategoria';
@@ -208,10 +208,10 @@ export default function RotasStack() {
       />
 
       <Stack.Screen
-        name='Vendedores'
-        component={Vendedores}
+        name='Contato'
+        component={Contato}
         options={{
-          title: "Nossos Vendedores",
+          title: "Nossos Contatos",
           headerStyle: {
             backgroundColor: app.tema,
           },
@@ -350,7 +350,7 @@ export default function RotasStack() {
         name="VendedoresControle"
         component={VendedoresControle}
         options={{
-          title: "Vendedores",
+          title: "Contato",
           headerShadowVisible: false,
           headerStyle: {
             backgroundColor: admin.tema,

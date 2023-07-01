@@ -1,24 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { Dimensions,Text } from 'react-native';
+import React, { useState, useContext,useCallback } from 'react';
+import {
+  View,
+  Dimensions,
+  PermissionsAndroid,
+  ToastAndroid
+} from 'react-native';
 
-
-import { useRoute } from '@react-navigation/native';
-
-import Maps from '../../componentes/Mapa';
+const { width, height } = Dimensions.get("window")
 
 import api from '../../servicos/api';
 
-import { TextoPadrao } from '../../styles';
-import Animated, { SlideInUp } from 'react-native-reanimated';
+import { LojaContext } from '../../contexts/lojaContext';
 
-const { width, height } = Dimensions.get("window")
+import { useTheme, useFocusEffect } from '@react-navigation/native';
+import MapView, { Marker } from 'react-native-maps';
+
 export default function Mapa() {
 
-  const { params } = useRoute()
+  const { credenciais } = useContext(LojaContext)
 
-  const [me, setMe] = useState([])
 
   const [marker, setMarker] = useState(null)
+
+  const { colors } = useTheme()
 
   const delta = {
     latitudeDelta: 0.0922,
@@ -30,59 +34,99 @@ export default function Mapa() {
     ...delta
   })
 
-  useEffect(() => {
-    BuscaMeLoja()
-  }, [])
 
-  async function BuscaMeLoja() {
-    await api.get(`/loja?lojaID=${params}`)
+  useFocusEffect(
+    useCallback(() => {
+      let ativo = true
+      CarregaLocUsuario()
+      return () => {
+        ativo = false
+      }
+    }, [])
+  )
+
+  // Verificar se o app permissão para acessar localização
+  const permissaoLocalizacao = async () => {
+    try {
+      const autorizado = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Permissão de Geolocalização',
+          message: 'Podemos acessar sua localização?',
+          buttonNeutral: 'Lembre-me mais tarde',
+          buttonNegative: 'Cancelar',
+          buttonPositive: 'OK',
+        },
+      );
+
+      if (autorizado === 'granted') {
+        return true
+      } else {
+        return false
+      }
+
+    } catch (err) {
+      return false;
+    }
+  };
+
+
+
+
+  const Toast = (mensagem) => {
+    ToastAndroid.showWithGravityAndOffset(
+      mensagem,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
+
+
+  async function CarregaLocUsuario() {
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${credenciais.token}`
+    }
+    await api.get(`/mapa?usuarioID=${credenciais.id}`, { headers })
       .then((response) => {
-        setMe(response.data)
+        const { latitude, longitude } = response.data?.latlng
 
-        const { latitude, longitude } = JSON.parse(response.data?.latlng)
-
-        setRegion({ latitude: latitude, longitude: longitude, ...delta });
         setMarker({ latitude: latitude, longitude: longitude });
+        setRegion({ latitude: latitude, longitude: longitude, ...delta });
+
       })
+      .catch((err) => {
+        // TRATAR ESSE MOMENTO DE ERRO
+        console.log(err);
+      })
+
   }
 
 
-
   return (
-    <>
-      <Animated.View
-        style={{
-          position: 'absolute',
-          zIndex: 99,
-          alignSelf: 'center',
-          marginHorizontal: 15,
-          top: 15,
-          right: 0,
-          left: 0,
-          borderRadius: 10,
-          paddingHorizontal: 20,
-          paddingVertical: 15,
-          elevation: 3,
-          backgroundColor: '#ffffff',
-          opacity: .9
-        }}
-        entering={SlideInUp.duration(800).delay(800)}>
-        <Text style={{fontFamily:'Roboto-Bold'}}>
-          {me?.endereco}
-        </Text>
+    <View>
 
-        <TextoPadrao>
-          {me?.referencia}
-        </TextoPadrao>
-      </Animated.View>
-      <Maps
-        width={width}
-        height={height}
+      <MapView
+        maxZoomLevel={20}
+        loadingEnabled={true}
+        minZoomLevel={12}
+        mapType='standard'
+        style={{ width, height }}
         region={region}
-        marker={marker}
-        zoom={11}
-      />
-    </>
+      >
+        <Marker
+          coordinate={marker || {
+            latitude: -5.1036423,
+            longitude: -42.7516067,
+          }}
+          pinColor={colors.tema}
+          loadingEnabled
+        />
+      </MapView>
+    </View>
   );
 }
-

@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, Pressable,Image } from 'react-native';
+import { View, Text, FlatList, Pressable } from 'react-native';
 
 import api from '../../servicos/api';
 
-import Maps from '../../componentes/Mapa';
 import Load from '../../componentes/Load';
 import Produto from '../../componentes/Produto-Feed';
 
-import { BtnIcone } from '../../styles'
 
 import Material from "react-native-vector-icons/MaterialCommunityIcons"
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
@@ -37,10 +35,30 @@ export default function Loja() {
   useEffect(() => {
     BuscaLoja()
 
-
-  
-
+    
   }, [])
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: loja?.nome,
+      headerRight: () => {
+        return (
+          <View style={{ flexDirection: 'row', gap: 20 }}>
+
+            <Pressable
+              onPress={() => navigation.navigate("Contato", loja?.usuario?.id)}>
+              <Material name='whatsapp' size={26} color='#fff' />
+            </Pressable>
+            {loja?.usuario?.mapa && <Pressable
+              onPress={() => navigation.navigate('Mapa', loja?.usuario?.mapa[0]?.latlng)}>
+              <Material name='google-maps' size={26} color={app.texto} />
+            </Pressable>}
+          </View>
+
+        )
+      }
+    })
+  },[loja])
 
 
   if (load) {
@@ -50,28 +68,17 @@ export default function Loja() {
   async function BuscaLoja() {
     setLoad(true)
     await api.get(`/loja?usuarioID=${route.params}`)
-      .then(({data}) => {
+      .then(({ data }) => {
         setLoja(data)
 
-        navigation.setOptions({
-          title: data?.nome
-        })
 
-        const { latitude, longitude } = JSON.parse(data?.latlng)
-        
-        setRegion({ latitude: latitude, longitude: longitude, ...delta });
-        setMarker({ latitude: latitude, longitude: longitude });
         setLoad(false)
       })
       .catch(() => {
         setLoad(false)
-        
+
       })
   }
-
-
-
-
 
   function Bio() {
     return (
@@ -90,72 +97,16 @@ export default function Loja() {
     )
   }
 
-
-
   return (
-    <>
 
       <FlatList
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{ marginVertical: 2 }}
-        contentContainerStyle={{padding:2}}
-        ListHeaderComponent={
-          <View>
-            {!!loja?.bio && <Bio />}
-
-            {loja?.latlng && <Pressable
-              style={{
-                margin: 8,
-                backgroundColor: '#fff',
-                alignItems: "flex-start",
-                elevation: 1
-              }}
-              onPress={() => navigation.navigate("Mapa", loja.id)}
-            >
-
-              <Maps
-                width={'100%'}
-                height={100}
-                region={region}
-                marker={marker}
-                zoom={16}
-              />
-            </Pressable>}
-          </View>
-        }
+        contentContainerStyle={{ padding: 2 }}
         data={loja?.produtos}
         renderItem={({ item }) => <Produto item={item} />}
         numColumns={2}
       />
 
-
-      <Animated.View
-        style={{
-          width: 60,
-          aspectRatio: 1,
-          borderRadius: 60 / 2,
-          position: 'absolute',
-          zIndex: 9999,
-          right: 15,
-          bottom: 25,
-          backgroundColor: app.tema,
-          elevation: 5
-        }}
-        entering={SlideInDown}
-
-      >
-        <Pressable
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          background={app.tema}
-          onPress={() => navigation.navigate("Vendedores", loja.usuarioID)}>
-
-          <Material name='whatsapp' size={26} color='#fff' />
-        </Pressable >
-      </Animated.View >
-    </>
   )
 }
