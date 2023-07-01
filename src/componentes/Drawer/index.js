@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { Image, Linking, View, Text, Pressable } from 'react-native';
+import { Image, Linking, View, Text } from 'react-native';
 
-import { useNavigation,useTheme } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 
 
@@ -13,7 +13,6 @@ export default function DrawerCustom(props) {
   const { autenticado } = useContext(LojaContext)
 
   const navigation = useNavigation()
-  const {colors} = useTheme()
 
   return (
     <DrawerContentScrollView {...props}>
@@ -25,13 +24,20 @@ export default function DrawerCustom(props) {
 
           <Image
             source={require('../../../assets/imagem/ic_launcher_round.png')} />
-
-          <Text style={{
-            color: '#fff',
-            marginLeft: 15,
-            fontSize: 16,
-            fontFamily: 'Roboto-Medium'
-          }}>Guia Comercial {`\n`}Dirceu</Text>
+          <View>
+            <Text style={{
+              color: '#fff',
+              marginLeft: 15,
+              fontSize: 18,
+              fontFamily: 'Roboto-Bold'
+            }}>Guia Comercial</Text>
+            <Text style={{
+              color: '#fff',
+              marginLeft: 15,
+              fontSize: 14,
+              fontFamily: 'Roboto-Light'
+            }}>Grande Dirceu</Text>
+          </View>
         </View>
 
       </View>
@@ -50,7 +56,7 @@ export default function DrawerCustom(props) {
           onPress={() => navigation.navigate("Redireciona")}
         />
       }
-      
+
       <DrawerItem
         labelStyle={estilo.fonte}
         label="Seja um anunciante"

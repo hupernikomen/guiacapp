@@ -32,7 +32,7 @@ export default function Tabs() {
         tabBarInactiveTintColor: '#ffffff80',
       }}>
 
-      <Tab.Screen name="Feed" component={Feed} options={{}} />
+      {/* <Tab.Screen name="Feed" component={Feed} options={{}} /> */}
       <Tab.Screen name="Produtos" component={Produtos} options={{ title: 'Produtos' }} />
       <Tab.Screen name="Servicos" component={Servicos} options={{ title: 'Serviços' }} />
 

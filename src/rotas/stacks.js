@@ -23,12 +23,11 @@ import Redireciona from '../pages/Redireciona';
 import Signin from '../pages/Signin'
 
 import Profissional from '../controle/Profissional';
-import CadastrarProduto from '../controle/Loja/CadastrarProduto';
+import CadastrarProduto from '../controle/Loja/_Produto';
 import EditaProduto from '../controle/Loja/EditaProduto';
 import CadastrarContato from '../controle/CadastrarContato';
-import CadastrarDados from '../controle/Loja/CadastrarDados';
-import MapaControle from '../controle/Mapa';
-import VendedoresControle from '../controle/Loja/Contato';
+import CadastrarDados from '../controle/Loja/_Dados';
+import VendedoresControle from '../controle/Loja/_Contato';
 
 import { LojaContext } from '../contexts/lojaContext';
 
@@ -385,17 +384,7 @@ export default function RotasStack() {
         }}
       />
 
-      <Stack.Screen
-        name="MapaControle"
-        component={MapaControle}
-        options={{
-          title: 'Mapa',
-          headerStyle: {
-            backgroundColor: admin.tema,
-          },
-          headerTintColor: admin.texto
-        }}
-      />
+
 
 
       <Stack.Screen

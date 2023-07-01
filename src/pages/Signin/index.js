@@ -1,27 +1,20 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { Text, Linking, Pressable,ActivityIndicator } from 'react-native'
 
 import { LojaContext } from "../../contexts/lojaContext"
-import { useTheme, useNavigation } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 
 import { Tela } from '../../styles'
 import { ContainerInput, BotaoPrincipal, TextBtn, Input } from './styles'
 
 export default function Login() {
 
-  const navigation = useNavigation()
-
-  const { signIn, autenticado, load } = useContext(LojaContext)
+  const { signIn, load } = useContext(LojaContext)
   const { app } = useTheme()
 
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
 
-  useEffect(() => {
-
-    autenticado && navigation.reset({ index: 0, routes: [{ name: 'Redireciona' }] })
-
-  }, [])
 
   return (
     <Tela>
@@ -68,7 +61,7 @@ export default function Login() {
           marginTop: 5
         }}
 
-        onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
+        onPress={() => Linking.openURL(`https://wa.me/${558694773403}`)}
       >
         <Text>Esqueci minha senha</Text>
 

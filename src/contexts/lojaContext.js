@@ -102,6 +102,7 @@ export function LojaProvider({ children }) {
 
         const { id, token, conta } = response.data
         const data = { ...response.data }
+
         
         await AsyncStorage.setItem('@authGuiaComercial', JSON.stringify(data))
         
@@ -112,7 +113,10 @@ export function LojaProvider({ children }) {
           token,
           conta
         })
-        navigation.navigate("Redireciona")
+
+        
+        // navigation.navigate("Redireciona")
+        navigation.reset({ index: 0, routes: [{ name: 'Redireciona' }] })
         setLoad(false)
       })
       .catch(({ response }) => {

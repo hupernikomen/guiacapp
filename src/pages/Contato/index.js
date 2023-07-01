@@ -70,7 +70,7 @@ export default function Contato() {
           opacity: status ? 1 : .5,
         }}
         disabled={!status}
-        onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${data.whatsapp}`)}>
+        onPress={() => Linking.openURL(`https://wa.me/${data.whatsapp}`)}>
         <Animated.View
           entering={FadeInUp}
           style={styles.container_vendedor}>
