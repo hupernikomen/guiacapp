@@ -140,7 +140,8 @@ export function LojaProvider({ children }) {
           token: '',
           conta:''
         })
-        navigation.navigate("HomeFeed")
+        // navigation.navigate("HomeFeed")
+        navigation.reset({ index: 0, routes: [{ name: 'HomeFeed' }] })
         Toast(('Você foi deslogado'))
       })
   }

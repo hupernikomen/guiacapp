@@ -51,6 +51,7 @@ export default function RotasStack() {
       initialRouteName={'Feed'}
       screenOptions={{
         headerTintColor: "#fff",
+        orientation:'portrait'
 
       }}
     >
@@ -81,11 +82,11 @@ export default function RotasStack() {
                 marginRight: -10
 
               }}>
-                <Pressable
+                {/* <Pressable
                   style={{ padding: 10 }}
                   onPress={() => navigation.navigate("CategoriasFavoritas")}>
                   <Material name='filter-outline' size={24} color={app.texto} />
-                </Pressable>
+                </Pressable> */}
 
                 <Pressable
                   style={{ padding: 10 }}

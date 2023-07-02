@@ -50,7 +50,7 @@ export default function Loja() {
               <Material name='whatsapp' size={26} color='#fff' />
             </Pressable>
             {loja?.usuario?.mapa && <Pressable
-              onPress={() => navigation.navigate('Mapa', loja?.usuario?.mapa[0]?.latlng)}>
+              onPress={() => navigation.navigate('Mapa', loja?.usuario?.id)}>
               <Material name='google-maps' size={26} color={app.texto} />
             </Pressable>}
           </View>

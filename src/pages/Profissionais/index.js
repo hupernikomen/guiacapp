@@ -5,6 +5,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import api from '../../servicos/api';
 import estilo from './estilo';
 
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function Profissionais() {
 
@@ -30,7 +31,17 @@ export default function Profissionais() {
       })
   }
 
-  
+  function Capitalize(nome) {
+    let novonome = nome.trim().toLowerCase().split(" ")
+
+    for (let i = 0; i < novonome.length; i++) {
+      novonome[i] = novonome[i][0]?.toUpperCase() + novonome[i].substr(1);
+    }
+
+    return novonome.join(" ")
+  }
+
+
   function shuffle(arr) {
 
     for (let i = arr.length - 1; i > 0; i--) {
@@ -44,16 +55,24 @@ export default function Profissionais() {
 
   function RenderItem({ data }) {
     return (
+
       <Pressable
-      style={[estilo.container_produto]}
+        style={[estilo.container, { maxWidth: (WIDTH / 2) - 4 }]}
         onPress={() => navigation.navigate("DetalheProduto", { id })}>
-        <Image
-          style={estilo.foto}
-          source={{ uri: data?.avatar?.location }} />
 
+        <View>
 
-        <View style={estilo.info}>
-          <Text numberOfLines={2} style={estilo.nome}>{data.nome}</Text>
+          <Image
+            style={estilo.imagem}
+            source={{ uri: data.avatar.location }} />
+
+          <Text
+            style={estilo.nome}
+            numberOfLines={1}
+            ellipsizeMode={"tail"}>
+            {Capitalize(data.nome)}
+          </Text>
+
 
         </View>
 
@@ -65,6 +84,10 @@ export default function Profissionais() {
   return (
     <FlatList
       data={profissionais}
+      showsVerticalScrollIndicator={false}
+      columnWrapperStyle={{ marginVertical: 2 }}
+      contentContainerStyle={{ padding: 2 }}
+      numColumns={2}
       renderItem={({ item }) => <RenderItem data={item} />}
     />
   );

@@ -1,4 +1,4 @@
-import React, { useState, useContext,useCallback } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import {
   View,
   Dimensions,
@@ -12,14 +12,14 @@ import api from '../../servicos/api';
 
 import { LojaContext } from '../../contexts/lojaContext';
 
-import { useTheme, useFocusEffect } from '@react-navigation/native';
+import { useTheme, useFocusEffect, useRoute } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function Mapa() {
 
   const { credenciais } = useContext(LojaContext)
 
-
+  const route = useRoute()
   const [marker, setMarker] = useState(null)
 
   const { colors } = useTheme()
@@ -87,11 +87,8 @@ export default function Mapa() {
 
   async function CarregaLocUsuario() {
 
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${credenciais.token}`
-    }
-    await api.get(`/mapa?usuarioID=${credenciais.id}`, { headers })
+
+    await api.get(`/mapa?usuarioID=${route.params}`)
       .then((response) => {
         const { latitude, longitude } = response.data?.latlng
 

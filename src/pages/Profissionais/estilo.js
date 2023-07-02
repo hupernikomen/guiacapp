@@ -1,26 +1,19 @@
 import { StyleSheet } from "react-native"
 
 export default estilo = StyleSheet.create({
-  container_produto: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 2,
-    borderRadius: 6,
-    marginHorizontal:2,
-    flexDirection:'row'
-
+  container: {
+    flex:1
   },
-  foto: {
-    width:80,
-    aspectRatio:1,
-
+  imagem:{
+    flex:1,
+    height: 100,
+    borderRadius:6,
+    backgroundColor:'#fff'
   },
-  info:{
-    padding:8
-  },
-  nome:{
-    fontFamily:'Roboto-Medium',
+  nome: {
+    fontFamily:'Roboto-Regular',
     color:'#000',
-    fontSize:16
+    marginLeft:5,
+    marginTop:5
   }
 })

@@ -89,7 +89,7 @@ export default function CadastrarDados() {
       name: result.name
     });
 
-    await api.put(`/loja?lojaID=${credenciais.id}`, formData, {
+    await api.put(`/loja?usuarioID=${credenciais.id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${credenciais.token}`
@@ -124,7 +124,7 @@ export default function CadastrarDados() {
       'Authorization': `Bearer ${credenciais.token}`
     }
 
-    await api.put(`/loja`, loja, { headers })
+    await api.put(`/loja?usuarioID=${credenciais.id}`, loja, { headers })
       .then(() => {
         Toast('Atualizamos seus dados!')
         setLoad(false)
