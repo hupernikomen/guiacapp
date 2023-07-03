@@ -1,4 +1,6 @@
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
 
 import Feed from '../pages/Feed';
 import Produtos from '../pages/Produtos';
@@ -6,10 +8,8 @@ import Servicos from '../pages/Servicos'
 
 import TabBarFeed from '../componentes/TabBarFeed';
 
-
-const Tab = createMaterialTopTabNavigator();
-
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+
 
 import { useTheme } from '@react-navigation/native';
 
@@ -20,8 +20,9 @@ export default function Tabs() {
   return (
     <Tab.Navigator
       initialRouteName='Feed'
-      // tabBar={props => <TabBarFeed {...props} />}
+      tabBar={props => <TabBarFeed {...props} />}
       screenOptions={{
+        headerShown:false,
         tabBarActiveTintColor: '#fff',
         tabBarStyle: {
           backgroundColor: app.tema
@@ -32,9 +33,16 @@ export default function Tabs() {
         tabBarInactiveTintColor: '#ffffff80',
       }}>
 
-      {/* <Tab.Screen name="Feed" component={Feed} options={{}} /> */}
-      <Tab.Screen name="Produtos" component={Produtos} options={{ title: 'Produtos' }} />
-      <Tab.Screen name="Servicos" component={Servicos} options={{ title: 'Serviços' }} />
+      <Tab.Screen name="Feed" component={Feed} options={{
+         tabBarIcon:'flag'
+      }} />
+      <Tab.Screen name="Produtos" component={Produtos} options={{ 
+        tabBarIcon:'tag'
+        }} />
+
+      <Tab.Screen name="Servicos" component={Servicos} options={{ 
+        tabBarIcon:'users'
+        }} />
 
     </Tab.Navigator>
   );

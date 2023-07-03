@@ -59,6 +59,7 @@ export default function RotasStack() {
         component={Tabs_App}
         options={{
           title: 'Guia Comercial',
+          headerShown:false,
           headerTintColor: app.texto,
           headerStyle: {
             backgroundColor: app.tema,

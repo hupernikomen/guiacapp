@@ -235,12 +235,7 @@ export default function Detalhes() {
         renderItem={({ item }) => <ProdutoFeed item={item} />}
         numColumns={2}
 
-
-
       />
-
-
     </>
-
   );
 }

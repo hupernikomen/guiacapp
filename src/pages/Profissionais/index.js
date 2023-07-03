@@ -80,6 +80,8 @@ export default function Profissionais() {
     )
   }
 
+  
+
 
   return (
     <FlatList

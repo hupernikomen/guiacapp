@@ -1,6 +1,10 @@
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Pressable  } from 'react-native';
+import { useTheme } from '@react-navigation/native'
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function Feed() {
+
+  const { app } = useTheme()
 
   const arr = [
     {
@@ -53,8 +57,63 @@ export default function Feed() {
   }
 
 
+  function Header() {
+    return (
+      <View style={{
+        height: 58,
+        backgroundColor: app.tema,
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        elevation:5
+      }}>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center'
+        }}>
+
+          <View style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 58,
+            width: 58
+          }}>
+            <Pressable
+              onPress={() => navigation.openDrawer()}>
+              <Material name='menu' size={24} color={app.texto} />
+            </Pressable>
+          </View>
+          <Text style={{
+            fontFamily: 'Roboto-Medium',
+            marginLeft: 10,
+            color: '#fff',
+            fontSize: 20
+          }}>Guia Comercial</Text>
+        </View>
+
+
+        <View style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: 58,
+          width: 58
+        }}>
+          {/* <Pressable
+            style={{ padding: 10 }}
+            onPress={() => navigation.navigate("Search")}>
+            <Material name='magnify' size={24} color={app.texto} />
+          </Pressable> */}
+
+        </View>
+      </View>
+    )
+  }
+
+
   return (
     <View>
+
+      <Header/>
 
       <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', color: '#000', margin: 10 }}>Postos de Combustíveis</Text>
       <FlatList
