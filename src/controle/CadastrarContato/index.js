@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { View, Pressable, Image, Text, ToastAndroid } from 'react-native';
+import { View, Pressable, Image, Text } from 'react-native';
 
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
@@ -17,8 +17,8 @@ import { BotaoPrincipal, TextBtn, TituloInput, ContainerInput, ContainerInputInl
 
 export default function CadastrarContato() {
 
-  const { colors } = useTheme()
-  const { credenciais } = useContext(LojaContext)
+  const { app } = useTheme()
+  const { credenciais, Toast } = useContext(LojaContext)
   const navigation = useNavigation()
 
   const [avatar, setAvatar] = useState([])
@@ -54,15 +54,7 @@ export default function CadastrarContato() {
     });
   }
 
-  const Toast = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
+
 
 
   async function CriarVendedores() {
@@ -273,7 +265,7 @@ export default function CadastrarContato() {
       <BotaoPrincipal
         onPress={CriarVendedores}
         style={{ marginVertical: 50 }}
-        background={colors.tema}
+        background={app.tema}
       >
 
         <TextBtn cor={'#fff'}>

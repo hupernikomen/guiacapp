@@ -40,7 +40,7 @@ function ProdutoControle({ item }) {
   return (
 
     <Pressable
-      style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 4 }]}
+      style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 6 }]}
       onPress={() => navigation.navigate("EditaProduto", item)}>
       {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}
       <View>

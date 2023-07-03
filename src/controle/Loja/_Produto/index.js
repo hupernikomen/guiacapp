@@ -7,7 +7,6 @@ import {
   Image,
   Modal,
   ActivityIndicator,
-  ToastAndroid,
   FlatList,
 } from 'react-native'
 
@@ -30,7 +29,7 @@ export default function CadastrarProduto() {
   const navigation = useNavigation()
 
   const { admin } = useTheme()
-  const { credenciais, loja, BuscaLoja } = useContext(LojaContext)
+  const { credenciais, loja, BuscaLoja, Toast } = useContext(LojaContext)
   const { arrTamanhos } = useContext(ProdutoContext)
 
   const [load, setLoad] = useState(false)
@@ -159,6 +158,7 @@ export default function CadastrarProduto() {
       .then(() => {
         navigation.goBack()
         Toast('Produto postado com sucesso!')
+        BuscaLoja()
         setLoad(false)
       })
 
@@ -186,16 +186,6 @@ export default function CadastrarProduto() {
       </BtnIcone>
     )
   }
-
-  const Toast = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      0,
-      0,
-    );
-  };
 
 
 

@@ -36,6 +36,9 @@ export default function Servicos() {
         setLoad(false)
         setListaServicos(response.data)
       })
+      .catch((error) => {
+        console.log("Error Carrega Serviços:", error);
+      })
 
   }
 
@@ -43,20 +46,19 @@ export default function Servicos() {
     if (data._count?.profissional === 0) return
 
     return (
-      <Pressable
+      <Pressable style={estilo.card}
         activeOpacity={.9}
-        onPress={() => navigation.navigate("Profissionais", data)}
-        style={estilo.card}>
+        onPress={() => navigation.navigate("Profissionais", data)}>
+
         <View style={{ flexDirection: 'row', alignItems: "center" }}>
           <Material name={data.avatar} size={28} color='#000' />
-          <Text
-            style={estilo.nome}>
+
+          <Text style={estilo.nome}>
             {data.nome}
           </Text>
-
         </View>
+        
         <Text>{data._count?.profissional}</Text>
-
 
       </Pressable>
     )

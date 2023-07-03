@@ -1,38 +1,39 @@
-import { useContext, useCallback } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import { FlatList, Pressable } from 'react-native';
 
-import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
 
 import { LojaContext } from '../../../contexts/lojaContext';
 import ProdutoControle from '../../../componentes/Produto-Controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Animated, { SlideInDown } from 'react-native-reanimated';
 
+import Load from '../../../componentes/Load';
 
 export default function HomeControle() {
 
-  const { loja, BuscaLoja } = useContext(LojaContext)
+  const { loja, BuscaLoja, load } = useContext(LojaContext)
   const navigation = useNavigation()
   const { admin } = useTheme()
 
 
-  useFocusEffect(
-    useCallback(() => {
-      BuscaLoja()
+  useLayoutEffect(() => {
+    BuscaLoja()
 
-    }, [])
-  )
-  
+  }, [])
+
+
+  if (load) {
+    <Load />
+  }
+
 
   return (
     <>
-
-
       <FlatList
-
         data={loja?.produtos}
         columnWrapperStyle={{ marginVertical: 2 }}
-        contentContainerStyle={{padding:2}}
+        contentContainerStyle={{ padding: 2 }}
         renderItem={({ item }) => <ProdutoControle item={item} />}
         numColumns={2}
         keyExtractor={(item) => item.id}

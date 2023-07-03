@@ -18,8 +18,6 @@ import ErroConexao from '../pages/ErroConexao';
 import ErroNaoEncontrado from '../pages/ErroNaoEncontrado'
 import CategoriasFavoritas from '../pages/CategoriasFavoritas';
 
-import Redireciona from '../pages/Redireciona';
-
 import Signin from '../pages/Signin'
 
 import Profissional from '../controle/Profissional';
@@ -286,16 +284,6 @@ export default function RotasStack() {
 
       {/* ----------------------------------------------- */}
 
-
-      <Stack.Screen
-        name='Redireciona'
-        component={Redireciona}
-        options={{
-          headerShown: false
-        }}
-      />
-
-      {/* ----------------------------------------------- */}
 
 
 

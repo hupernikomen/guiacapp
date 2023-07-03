@@ -1,8 +1,8 @@
-import React, { useContext, useCallback, useState } from 'react';
-import { View, Text, Switch, ScrollView, ToastAndroid, Pressable, Image, ActivityIndicator } from 'react-native';
+import React, { useContext, useLayoutEffect } from 'react';
+import { View, Text, Switch, ScrollView, Pressable, Image, ActivityIndicator } from 'react-native';
 import { LojaContext } from "../../../contexts/lojaContext"
 
-import { useNavigation, useTheme, useFocusEffect } from '@react-navigation/native'
+import { useTheme } from '@react-navigation/native'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 import { launchImageLibrary } from 'react-native-image-picker';
 
@@ -12,52 +12,18 @@ import { Input, TituloInput, ContainerInput, BotaoPrincipal, TextBtn, Tela } fro
 
 export default function CadastrarDados() {
   const { admin } = useTheme()
-  const { credenciais } = useContext(LojaContext)
-  const navigation = useNavigation()
-
-  const [load, setLoad] = useState(false)
-  const [loja, setLoja] = useState([])
-
-  const selecaoEntrega = e => setLoja({ ...loja, delivery: e });
+  const { credenciais, BuscaLoja, Atualizar, SetLoja, loja, load } = useContext(LojaContext)
 
 
-  useFocusEffect(
-    useCallback(() => {
-      let ativo = true
-      BuscaLoja()
-
-      return () => {
-        ativo = false
-      }
-    }, [])
-  )
+  const selecaoEntrega = e => SetLoja({ ...loja, delivery: e });
 
 
-  const Toast = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      0,
-      0,
-    );
-  };
+  useLayoutEffect(() => {
+    BuscaLoja()
+
+  }, [])
 
 
-  async function BuscaLoja() {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${credenciais.token}`
-    }
-    await api.get(`/loja/logado?usuarioID=${credenciais.id}`, { headers })
-      .then(response => {
-        setLoja(response.data)
-      })
-      .catch((error) => {
-        ToastErro(error.status)
-        navigation.goBack()
-      })
-  }
 
   const options = {
     options: {
@@ -77,7 +43,7 @@ export default function CadastrarDados() {
       );
 
     } catch (error) {
-      Alert.alert('Unable to resize the photo');
+      Toast('Imagem não redimensionada');
     }
 
 
@@ -117,24 +83,6 @@ export default function CadastrarDados() {
   }
 
 
-  async function Atualizar() {
-    setLoad(true)
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${credenciais.token}`
-    }
-
-    await api.put(`/loja?usuarioID=${credenciais.id}`, loja, { headers })
-      .then(() => {
-        Toast('Atualizamos seus dados!')
-        setLoad(false)
-      })
-      .catch((error) => console.log(error.response, "catch Error"))
-  }
-
-
-
-
   return (
     <Tela>
 
@@ -165,13 +113,13 @@ export default function CadastrarDados() {
             }}>Logo</Text>
 
           <View style={{
-            width: 60, 
-            alignItems:'center',
-            justifyContent:'center',
-            overflow:'hidden',
-            aspectRatio: 1, 
+            width: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            aspectRatio: 1,
             borderRadius: 60 / 2,
-            borderColor: '#fff', 
+            borderColor: '#fff',
             borderWidth: 4
           }}>
 
@@ -190,7 +138,7 @@ export default function CadastrarDados() {
           <Input
 
             value={loja.nome}
-            onChangeText={(e) => setLoja({ ...loja, nome: e })}
+            onChangeText={(e) => SetLoja({ ...loja, nome: e })}
             maxLength={25} />
         </ContainerInput>
 
@@ -202,7 +150,7 @@ export default function CadastrarDados() {
           <Input
             multiline numberOfLines={0}
             verticalAlign={'top'}
-            onChangeText={(e) => setLoja({ ...loja, endereco: e })}
+            onChangeText={(e) => SetLoja({ ...loja, endereco: e })}
             value={loja.endereco}
             maxLength={50} />
         </ContainerInput>
@@ -213,7 +161,7 @@ export default function CadastrarDados() {
           </TituloInput>
 
           <Input
-            onChangeText={(e) => setLoja({ ...loja, bairro: e })}
+            onChangeText={(e) => SetLoja({ ...loja, bairro: e })}
             value={loja.bairro}
             maxLength={40} />
         </ContainerInput>
@@ -224,7 +172,7 @@ export default function CadastrarDados() {
           </TituloInput>
 
           <Input
-            onChangeText={(e) => setLoja({ ...loja, ponto_ref: e })}
+            onChangeText={(e) => SetLoja({ ...loja, ponto_ref: e })}
             value={loja.ponto_ref}
             maxLength={40} />
         </ContainerInput>
@@ -239,7 +187,7 @@ export default function CadastrarDados() {
             multiline numberOfLines={0}
             verticalAlign={'top'}
             maxLength={200}
-            onChangeText={(e) => setLoja({ ...loja, bio: e })}
+            onChangeText={(e) => SetLoja({ ...loja, bio: e })}
             value={loja.bio}
           />
           <Text

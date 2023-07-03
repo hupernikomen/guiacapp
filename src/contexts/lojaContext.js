@@ -28,6 +28,16 @@ export function LojaProvider({ children }) {
 
   }, [])
 
+
+  function RedirecionaLogin(conta) {
+    if (conta?.loja) {
+      navigation.reset({ index: 0, routes: [{ name: 'HomeControle' }] })
+      
+    } else if (conta?.profissional) {
+      navigation.reset({ index: 0, routes: [{ name: 'Profissional' }] })
+    }
+  }
+
   
   const Toast = (mensagem) => {
     ToastAndroid.showWithGravityAndOffset(
@@ -38,10 +48,33 @@ export function LojaProvider({ children }) {
       0,
     );
   };
+
+  function SetLoja(params) {
+    setLoja(params)
+  }
+
+
+  
+
+  async function Atualizar() {
+    setLoad(true)
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${credenciais.token}`
+    }
+
+    await api.put(`/loja?usuarioID=${credenciais.id}`, loja, { headers })
+      .then(() => {
+        Toast('Atualizamos seus dados!')
+        BuscaLoja()
+        setLoad(false)
+      })
+      .catch((error) => console.log(error.response, "catch Error"))
+  }
+
   
 
   async function BuscaLoja() {
-
 
     setLoad(true)
     const headers = {
@@ -102,7 +135,6 @@ export function LojaProvider({ children }) {
 
         const { id, token, conta } = response.data
         const data = { ...response.data }
-
         
         await AsyncStorage.setItem('@authGuiaComercial', JSON.stringify(data))
         
@@ -114,10 +146,9 @@ export function LojaProvider({ children }) {
           conta
         })
 
-        
-        // navigation.navigate("Redireciona")
-        navigation.reset({ index: 0, routes: [{ name: 'Redireciona' }] })
+        RedirecionaLogin(conta)
         setLoad(false)
+
       })
       .catch(({ response }) => {
         if (response.status == '503') {
@@ -128,6 +159,7 @@ export function LojaProvider({ children }) {
         }
         setLoad(false)
       })
+
   }
 
   async function signOut() {
@@ -155,6 +187,8 @@ export function LojaProvider({ children }) {
       load,
       loja,
       Toast,
+      SetLoja,
+      Atualizar,
       BuscaLoja,
       signIn,
       signOut,

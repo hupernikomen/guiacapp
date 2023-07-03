@@ -10,7 +10,7 @@ import estilo from './estilo';
 
 export default function DrawerCustom(props) {
 
-  const { autenticado } = useContext(LojaContext)
+  const { autenticado, credenciais, signIn } = useContext(LojaContext)
 
   const navigation = useNavigation()
 
@@ -53,7 +53,7 @@ export default function DrawerCustom(props) {
           labelStyle={estilo.fonte}
           label="Parceiros"
           inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("Redireciona")}
+          onPress={() => navigation.navigate("HomeControle")}
         />
       }
 

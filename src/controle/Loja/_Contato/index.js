@@ -1,18 +1,18 @@
-import React, { useState, useContext, useCallback } from 'react';
-import { View, Text, Pressable, FlatList, ToastAndroid, Image } from 'react-native';
+import React, { useState, useContext, useLayoutEffect } from 'react';
+import { View, Text, Pressable, FlatList, Image } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { LojaContext } from '../../../contexts/lojaContext';
 
-import { useTheme, useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useTheme, useNavigation} from '@react-navigation/native';
 import Animated, { FadeInRight } from 'react-native-reanimated';
 import api from '../../../servicos/api';
 
 
 export default function Contato() {
 
-  const { credenciais } = useContext(LojaContext)
+  const { credenciais, Toast } = useContext(LojaContext)
   const { admin } = useTheme()
   const navigation = useNavigation()
 
@@ -20,25 +20,12 @@ export default function Contato() {
 
   const [contato, setContato] = useState([])
 
-  useFocusEffect(
-    useCallback(() => {
+  useLayoutEffect(()=>{
       BuscaContato()
 
-      return () => {
-        setIdSelecionado(null)
-      }
     }, [])
-  )
 
-  const Toast = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      0,
-      0,
-    );
-  };
+
 
   async function BuscaContato() {
     await api.get(`/contatos?usuarioID=${credenciais.id}`)

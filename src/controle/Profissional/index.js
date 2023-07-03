@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, ActivityIndicator, ToastAndroid, Pressable,Image } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator, Pressable,Image } from 'react-native';
 
-import { useTheme, useNavigation } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
 
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -17,9 +17,8 @@ import api from '../../servicos/api';
 export default function Profissional() {
 
   const { admin } = useTheme()
-  const { credenciais } = useContext(LojaContext)
+  const { credenciais, Toast } = useContext(LojaContext)
   const [load, setLoad] = useState(false)
-  const navigation = useNavigation()
 
 
   const [profissional, setProfissional] = useState([])
@@ -36,15 +35,6 @@ export default function Profissional() {
       })
   }
 
-  const Toast = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
 
   const options = {
     options: {

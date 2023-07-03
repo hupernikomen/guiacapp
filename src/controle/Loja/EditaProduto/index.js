@@ -8,7 +8,6 @@ import {
   Modal,
   FlatList,
   Dimensions,
-  ToastAndroid,
   ActivityIndicator,
   TouchableOpacity
 } from 'react-native';
@@ -27,14 +26,13 @@ import {
   CurrencyInputs,
   BotaoPrincipal,
   TextBtn,
-  BtnIcone
 } from "../../../styles";
 
 import Animated, { SlideInUp } from 'react-native-reanimated';
 import estilo from './estilo';
 
 export default function EditaProduto() {
-  const { credenciais } = useContext(LojaContext)
+  const { credenciais, BuscaLoja, Toast } = useContext(LojaContext)
   const { arrTamanhos } = useContext(ProdutoContext)
 
   const route = useRoute()
@@ -78,16 +76,6 @@ export default function EditaProduto() {
   }, [produto.oferta])
 
 
-  const Toast = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
-
 
   async function BuscaCampanhas() {
     await api.get('/campanhas')
@@ -118,6 +106,7 @@ export default function EditaProduto() {
     await api.delete(`/produto?produtoID=${id}`, { headers })
       .then(() => {
         navigation.goBack()
+        BuscaLoja()
         Toast('Produto excluido com sucesso!')
       })
       .catch((error) => {
@@ -142,8 +131,8 @@ export default function EditaProduto() {
 
     await api.put(`/produto?produtoID=${produto.id}`, produto, { headers })
       .then(() => {
-        setLoad(false)
         navigation.goBack()
+        BuscaLoja()
         Toast('Atualizamos seu produto!')
       })
       .catch((error) => {

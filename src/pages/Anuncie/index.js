@@ -1,9 +1,6 @@
 import React from 'react';
 import { View, Text, Linking, Pressable } from 'react-native';
 
-import { Tela } from '../../styles'
-
-
 export default function Anuncie() {
 
   const d1 = '2023-06-30';

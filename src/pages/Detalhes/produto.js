@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Dimensions, ScrollView, Image, Pressable } from 'react-native';
+import { View, Text, Dimensions, ScrollView, Image, Pressable, FlatList } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Pinchable from 'react-native-pinchable';
@@ -7,6 +7,8 @@ import Pinchable from 'react-native-pinchable';
 import api from '../../servicos/api';
 
 import { ProdutoContext } from '../../contexts/produtoContext';
+
+import ProdutoFeed from '../../componentes/Produto-Feed';
 
 import estilo from './estilo'
 import Load from '../../componentes/Load';
@@ -25,14 +27,32 @@ export default function Detalhes() {
   const { width: WIDTH } = Dimensions.get('window')
 
   const [produto, setProduto] = useState([])
+  const [produtosPorCategoria, setProdutosPorCategoria] = useState([])
 
   useEffect(() => {
     PegaItem()
 
   }, [route])
 
+  useEffect(() => {
+    BuscaProdutoPorCategoria()
+  }, [produto])
+
+
+
   if (load) {
     return <Load />
+  }
+
+  async function BuscaProdutoPorCategoria() {
+    await api.get(`/produtos/categoria?categoriaID=${produto?.categoria?.id}`)
+      .then((response) => {
+        const arr = response.data.filter((item) => item.id != route.params?.id )
+        setProdutosPorCategoria(arr)
+      })
+      .catch((error) => {
+        console.log('Error BuscaProdutoPorCategoria', error);
+      })
   }
 
 
@@ -71,131 +91,156 @@ export default function Detalhes() {
   }
 
   return (
+    <>
+      <FlatList
 
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={estilo.pagina}>
+        ListHeaderComponent={
+          <View
+            showsVerticalScrollIndicator={false}
+            style={estilo.pagina}>
 
-      <ScrollView
-        pagingEnabled
-        horizontal
-        style={{ width: WIDTH, aspectRatio: 7 / 9, backgroundColor: '#f1f1f1' }} >
-        {produto.imagens?.map((item, index) => {
-          return (
-            <Pinchable key={index} minimumZoomScale={.8} maximumZoomScale={2.9}>
-              <Image
+            <ScrollView
+              pagingEnabled
+              horizontal
+              style={{ width: WIDTH, aspectRatio: 7 / 9, backgroundColor: '#f1f1f1' }} >
+              {produto.imagens?.map((item, index) => {
+                return (
+                  <Pinchable key={index} minimumZoomScale={.8} maximumZoomScale={2.9}>
+                    <Image
 
-                source={{ uri: item.location }}
+                      source={{ uri: item.location }}
+                      style={{
+                        width: WIDTH,
+                        flex: 1,
+                        resizeMode: 'contain',
+                      }}
+                    />
+
+                  </Pinchable>
+
+                )
+              })}
+            </ScrollView>
+
+            <Pressable
+              style={estilo.container_loja}
+              onPress={() => navigation.navigate("Loja", produto?.loja?.usuarioID)}>
+
+              {
+                produto?.loja?.avatar &&
+                <Image
+                  style={{ width: 40, aspectRatio: 1, borderRadius: 20 }}
+                  source={{ uri: produto?.loja?.avatar?.location }} />
+              }
+
+              <Animated.View
+                entering={FadeInRight.duration(600)}
+                style={{ marginLeft: 15 }}>
+                <Text
+                  style={estilo.nome_loja}>{produto.loja?.nome}</Text>
+
+                <Text style={estilo.info_botao_loja}>Acessar página da loja</Text>
+              </Animated.View>
+            </Pressable>
+
+            <View style={{
+              paddingHorizontal: 20,
+            }}>
+
+
+
+              {produto.campanha && <View style={{ position: 'relative', height: 20, marginTop: 15 }}>
+                <Text style={{ borderRadius: 4, backgroundColor: '#000000', color: '#fff', paddingHorizontal: 10, paddingVertical: 2, fontSize: 10, position: 'absolute' }}>{produto?.campanha?.nome}</Text>
+              </View>}
+
+              <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>{produto.categoria?.nome}</Text>
+              <Animated.Text
+                entering={FadeInRight.duration(600).delay(150)}
                 style={{
-                  width: WIDTH,
-                  flex: 1,
-                  resizeMode: 'contain',
+                  fontSize: 22,
+                  fontFamily: 'Roboto-Bold',
+                  textTransform: 'uppercase',
+                  color: '#000'
+                }}>{produto.nome?.trim()}</Animated.Text>
+
+              <Animated.View
+                entering={FadeInRight.duration(600).delay(250)}
+                style={{
+                  marginVertical: 20,
                 }}
-              />
+              >
+                {!!produto.oferta ?
+                  <View>
+                    <Text style={estilo.preco_antigo}>{formateValor(produto.preco)}</Text>
 
-            </Pinchable>
+                    <Text style={estilo.preco}>{formateValor(produto.oferta)} <Text style={estilo.avista}>à vista</Text></Text>
+                  </View>
+                  :
 
-          )
-        })}
-      </ScrollView>
+                  <Text style={estilo.preco}>{formateValor(produto.preco)} <Text style={estilo.avista}>à vista</Text></Text>
+                }
 
-      <Pressable
-        style={estilo.container_loja}
-        onPress={() => navigation.navigate("Loja", produto?.loja?.usuarioID)}>
-
-        {
-          produto?.loja?.avatar &&
-          <Image
-            style={{ width: 40, aspectRatio: 1, borderRadius: 20 }}
-            source={{ uri: produto?.loja?.avatar?.location }} />
-        }
-
-        <Animated.View
-          entering={FadeInRight.duration(600)}
-          style={{ marginLeft: 15 }}>
-          <Text
-            style={estilo.nome_loja}>{produto.loja?.nome}</Text>
-
-          <Text style={estilo.info_botao_loja}>Acessar página da loja</Text>
-        </Animated.View>
-      </Pressable>
-
-      <View style={{
-        paddingHorizontal: 20,
-      }}>
+              </Animated.View>
 
 
+              {produto.tamanho?.length > 0 && <View style={{ flexDirection: 'row' }}>
 
-        {produto.campanha && <View style={{ position: 'relative', height: 20, marginTop: 15 }}>
-          <Text style={{ borderRadius: 4, backgroundColor: '#000000', color: '#fff', paddingHorizontal: 10, paddingVertical: 2, fontSize: 10, position: 'absolute' }}>{produto?.campanha?.nome}</Text>
-        </View>}
+                <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Tamanhos Disponiveis:</Text>
 
-        <Text style={{ fontFamily: 'Roboto-Light', color: '#000', marginTop: 15 }}>{produto.categoria?.nome}</Text>
-        <Animated.Text
-          entering={FadeInRight.duration(600).delay(150)}
-          style={{
-            fontSize: 22,
-            fontFamily: 'Roboto-Bold',
-            textTransform: 'uppercase',
-            color: '#000'
-          }}>{produto.nome?.trim()}</Animated.Text>
 
-        <Animated.Text
-          entering={FadeInRight.duration(600).delay(250)}
-          style={{
-            fontSize: 22,
-            marginVertical: 20,
-            fontFamily: 'Roboto-Bold',
-            color: '#000'
-          }}>
-          {!!produto.oferta ?
-            <View>
-              <Text style={estilo.preco_antigo}>{formateValor(produto.preco)}</Text>
+                {SizesFormatted(produto.tamanho)?.map((item, index) => {
+                  return (
 
-              <Text style={estilo.preco}>{formateValor(produto.oferta)} <Text style={estilo.avista}>à vista</Text></Text>
+                    <Text
+                      key={index}
+                      style={{
+                        color: '#000',
+                        borderRadius: 6,
+                        marginLeft: 5,
+                      }}>
+                      {index != 0 && '- '}{item}
+                    </Text>
+                  )
+                })}
+              </View>}
+
+              <View style={{ marginVertical: 15 }}>
+
+                <Text style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</Text>
+                <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>
+                  {produto.descricao}
+                </Text>
+              </View>
+
+
             </View>
-            :
 
-            <Text style={estilo.preco}>{formateValor(produto.preco)} <Text style={estilo.avista}>à vista</Text></Text>
-          }
+            {!!produtosPorCategoria.length > 0 &&
+              <Text style={{
+                fontFamily: 'Roboto-Medium',
+                color: '#000',
+                fontSize: 18,
+                marginTop: 30,
+                marginLeft: 10,
+                marginBottom: 15
+              }}>Outros itens desta categoria</Text>
+            }
 
-        </Animated.Text>
-
-
-        {produto.tamanho?.length > 0 && <View style={{ flexDirection: 'row' }}>
-
-          <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>Tamanhos Disponiveis:</Text>
-
-
-          {SizesFormatted(produto.tamanho)?.map((item, index) => {
-            return (
-
-              <Text
-                key={index}
-                style={{
-                  color: '#000',
-                  borderRadius: 6,
-                  marginLeft: 5,
-                }}>
-                {index != 0 && '- '}{item}
-              </Text>
-            )
-          })}
-        </View>}
-
-        <View style={{ marginVertical: 15 }}>
-
-          <Text style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</Text>
-          <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>
-            {produto.descricao}
-          </Text>
-        </View>
+          </View>
+        }
+        showsVerticalScrollIndicator={false}
+        columnWrapperStyle={{ marginVertical: 2 }}
+        contentContainerStyle={{ padding: 2 }}
+        data={produtosPorCategoria}
+        renderItem={({ item }) => <ProdutoFeed item={item} />}
+        numColumns={2}
 
 
-      </View>
+
+      />
 
 
-    </ScrollView>
+    </>
 
   );
 }

@@ -1,10 +1,6 @@
-import { View, Text, FlatList, StatusBar } from 'react-native';
-
-import { useTheme } from '@react-navigation/native';
+import { View, Text, FlatList } from 'react-native';
 
 export default function Feed() {
-
-  const {colors} =useTheme()
 
   const arr = [
     {

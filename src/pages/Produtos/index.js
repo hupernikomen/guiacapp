@@ -4,7 +4,6 @@ import { FlatList, RefreshControl } from 'react-native';
 import Produto from '../../componentes/Produto-Feed';
 
 import { useNavigation } from '@react-navigation/native'
-import { Picker } from "@react-native-picker/picker";
 import api from '../../servicos/api';
 import Load from '../../componentes/Load';
 
@@ -13,13 +12,10 @@ export default function Produtos() {
 
   const [load, setLoad] = useState(false)
   const [produtos, setProdutos] = useState([])
-  const [categorias, setCategorias] = useState([])
-  const [categoria, setCategoria] = useState("")
 
   useEffect(() => {
 
     BuscaProdutos()
-    BuscaCategorias()
 
   }, [])
 
@@ -41,16 +37,6 @@ export default function Produtos() {
       })
   }
 
-  async function BuscaCategorias() {
-    await api.get('/categorias')
-      .then((response) => {
-        setCategorias(shuffle(response.data))
-      })
-      .catch((error) => { if (error == "AxiosError: Network Error") { navigation.navigate("ErroConexao") } })
-  }
-
-
-
   function shuffle(arr) {
 
     for (let i = arr.length - 1; i > 0; i--) {
@@ -62,15 +48,11 @@ export default function Produtos() {
   }
 
 
-
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
       columnWrapperStyle={{ marginVertical: 2 }}
       contentContainerStyle={{padding:2}}
-
-      // stickyHeaderHiddenOnScroll={true}
-      // stickyHeaderIndices={[0]}
       data={produtos}
       renderItem={({ item }) => <Produto item={item} />}
       numColumns={2}
@@ -80,7 +62,6 @@ export default function Produtos() {
           refreshing={load}
           onRefresh={() => {
             BuscaProdutos()
-            BuscaCategorias()
 
           }}
         />
