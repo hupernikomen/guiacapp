@@ -8,8 +8,6 @@ import ProdutoControle from '../../../componentes/Produto-Controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Animated, { SlideInDown } from 'react-native-reanimated';
 
-import Load from '../../../componentes/Load';
-
 export default function HomeControle() {
 
   const { loja, BuscaLoja, load } = useContext(LojaContext)
@@ -21,11 +19,6 @@ export default function HomeControle() {
     BuscaLoja()
 
   }, [])
-
-
-  if (load) {
-    <Load />
-  }
 
 
   return (

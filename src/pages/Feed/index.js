@@ -1,14 +1,16 @@
-import { View, Text, FlatList, Pressable  } from 'react-native';
-import { useTheme } from '@react-navigation/native'
+import { View, Text, FlatList, Pressable } from 'react-native';
+import { useTheme, useNavigation } from '@react-navigation/native'
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function Feed() {
 
   const { app } = useTheme()
+  const navigation = useNavigation()
 
   const arr = [
     {
-      nome: "Ipiranga",
+      bandeira: 'Ipiranga',
+      nome: "São Raimundo",
       tabela: {
         alcool: 4.80,
         gasolina: 5.29,
@@ -16,6 +18,7 @@ export default function Feed() {
       }
     },
     {
+      bandeira: 'BR',
       nome: "BR",
       tabela: {
         alcool: 4.82,
@@ -24,6 +27,7 @@ export default function Feed() {
       }
     },
     {
+      bandeira: 'Shell',
       nome: "Shell",
       tabela: {
         alcool: 4.80,
@@ -35,21 +39,17 @@ export default function Feed() {
 
   function RenderItem({ data }) {
     return (
-      <View style={{ backgroundColor: '#fff', margin: 5, overflow: 'hidden', width: 140, borderRadius: 8, marginBottom: 15 }}>
-        <View style={{ height: 80, backgroundColor: '#ddd' }}>
+      <View style={{ backgroundColor: '#fff', margin: 2, overflow: 'hidden', width: 110, height: 150, borderRadius: 8 }}>
 
-          <Text style={{ position: 'absolute', bottom: -4, right: 4, fontFamily: 'Roboto-Medium', color: '#fff', backgroundColor: '#a82424', fontSize: 11, padding: 3, borderRadius: 4 }}>24h</Text>
+        <View style={{ flex: 1, paddingVertical: 15, paddingHorizontal: 10 }}>
 
-        </View>
-        <View style={{ paddingVertical: 15, paddingHorizontal: 10 }}>
-
-          <Text style={{ fontFamily: 'Roboto-Medium', color: '#000', marginBottom: 5 }}>
+          <Text style={{ fontFamily: 'Roboto-Medium', color: '#000', marginBottom: 5, flex: 1 }}>
             {data.nome}
           </Text>
-          <View>
-            <Text style={{ fontFamily: 'Roboto-Light', color: '#000', fontSize: 13, marginBottom: -2 }}>Gasolina: {Number(data?.tabela?.gasolina).toFixed(2)}</Text>
-            <Text style={{ fontFamily: 'Roboto-Light', color: '#000', fontSize: 13, marginBottom: -2 }}>Álcool: {Number(data?.tabela?.alcool).toFixed(2)}</Text>
-            <Text style={{ fontFamily: 'Roboto-Light', color: '#000', fontSize: 13, marginBottom: -2 }}>Diesel: {Number(data?.tabela?.diesel).toFixed(2)}</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={{ backgroundColor: '#43A047', padding: 2, paddingHorizontal: 5, fontFamily: 'Roboto-Light', color: '#fff', fontSize: 12, marginBottom: -2 }}>G - R$ {Number(data?.tabela?.gasolina).toFixed(2)}</Text>
+            <Text style={{ backgroundColor: '', fontFamily: 'Roboto-Light', color: '#000', fontSize: 13, marginBottom: -2 }}>E {Number(data?.tabela?.alcool).toFixed(2)}</Text>
+            <Text style={{ backgroundColor: '', fontFamily: 'Roboto-Light', color: '#000', fontSize: 13, marginBottom: -2 }}>D {Number(data?.tabela?.diesel).toFixed(2)}</Text>
           </View>
         </View>
       </View>
@@ -65,7 +65,7 @@ export default function Feed() {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        elevation:5
+        elevation: 5
       }}>
         <View style={{
           flexDirection: 'row',
@@ -113,7 +113,7 @@ export default function Feed() {
   return (
     <View>
 
-      <Header/>
+      <Header />
 
       <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', color: '#000', margin: 10 }}>Postos de Combustíveis</Text>
       <FlatList

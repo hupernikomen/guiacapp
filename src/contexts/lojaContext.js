@@ -3,6 +3,8 @@ import { ToastAndroid } from "react-native";
 import api from '../servicos/api'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import Load from "../componentes/Load";
+
 import { useNavigation } from "@react-navigation/native";
 
 export const LojaContext = createContext({})
@@ -22,6 +24,11 @@ export function LojaProvider({ children }) {
   const [loja, setLoja] = useState([])
 
   const autenticado = !!credenciais.email
+
+  
+  if (load) {
+    <Load />
+  }
 
   useEffect(() => {
     CredencialDoUsuario()

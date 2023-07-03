@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Pressable } from 'react-native';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import Feather from 'react-native-vector-icons/Feather'
 
 import DetalheProduto from '../pages/Detalhes/produto';
 import DetalheServico from '../pages/Detalhes/servico';
@@ -49,7 +50,7 @@ export default function RotasStack() {
       initialRouteName={'Feed'}
       screenOptions={{
         headerTintColor: "#fff",
-        orientation:'portrait'
+        orientation: 'portrait'
 
       }}
     >
@@ -59,7 +60,7 @@ export default function RotasStack() {
         component={Tabs_App}
         options={{
           title: 'Guia Comercial',
-          headerShown:false,
+          headerShown: false,
           headerTintColor: app.texto,
           headerStyle: {
             backgroundColor: app.tema,
@@ -122,7 +123,7 @@ export default function RotasStack() {
               <Pressable
                 lado={'center'}
                 onPress={signOut}>
-                <Material name='power-standby' size={22} color={app.texto} />
+                <Feather name='log-out' size={22} color={app.texto} />
               </Pressable>
             )
           },
@@ -314,7 +315,7 @@ export default function RotasStack() {
               <Pressable
                 lado={'center'}
                 onPress={signOut}>
-                <Material name='power-standby' size={22} color={admin.texto} />
+                <Feather name='log-out' size={22} color={admin.texto} />
               </Pressable>
             )
           },

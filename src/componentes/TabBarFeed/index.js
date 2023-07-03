@@ -2,12 +2,11 @@ import { View, Pressable } from 'react-native';
 
 import { useTheme } from '@react-navigation/native'
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Feather from 'react-native-vector-icons/Feather'
 import estilo from './estilo';
 
 export default function TabBarFeed({ state, descriptors, navigation, position }) {
-const {app} = useTheme()
+  const { app } = useTheme()
   return (
     <View style={estilo.tabbar}>
 
@@ -34,24 +33,24 @@ const {app} = useTheme()
           };
           return (
             <Pressable
-            key={index}
+              key={index}
               accessibilityRole="button"
               accessibilityState={isFocused ? { selected: true } : {}}
               accessibilityLabel={options.tabBarAccessibilityLabel}
               testID={options.tabBarTestID}
               onPress={onPress}
-              
+
             >
               <View style={{
-                backgroundColor: isFocused?app.tema:'#fff', 
-                padding:5, 
-                borderRadius:99, 
-                padding:14,
-                alignItems:'center',
-                justifyContent:'center'
+                backgroundColor: isFocused ? app.tema : '#fff',
+                padding: 5,
+                borderRadius: 99,
+                padding: 14,
+                alignItems: 'center',
+                justifyContent: 'center'
               }}>
                 <View>
-                  <Feather name={options.tabBarIcon} size={24} color={isFocused?'#fff':'#000'}/>
+                  <Feather name={options.tabBarIcon} size={22} color={isFocused ? '#fff' : '#000'} />
                 </View>
               </View>
             </Pressable>

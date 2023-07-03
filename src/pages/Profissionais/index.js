@@ -21,6 +21,8 @@ export default function Profissionais() {
     navigation.setOptions({
       title: route.params?.nome
     })
+
+    console.log(profissionais);
   }, [])
 
 
@@ -57,39 +59,47 @@ export default function Profissionais() {
     return (
 
       <Pressable
-        style={[estilo.container, { maxWidth: (WIDTH / 2) - 4 }]}
+        style={estilo.container}
         onPress={() => navigation.navigate("DetalheProduto", { id })}>
 
-        <View>
-
+        <View style={{ flexDirection: 'row', alignItems: "center" }}>
           <Image
             style={estilo.imagem}
             source={{ uri: data.avatar.location }} />
 
-          <Text
-            style={estilo.nome}
-            numberOfLines={1}
-            ellipsizeMode={"tail"}>
-            {Capitalize(data.nome)}
-          </Text>
+          <View style={{ marginLeft: 15 }}>
 
-
+            <Text
+              style={estilo.nome}
+              numberOfLines={1}
+              ellipsizeMode={"tail"}>
+              {Capitalize(data.nome)}
+            </Text>
+            <Text
+              style={{ fontFamily: 'Roboto-Light', fontSize:13 }}
+              numberOfLines={2}
+              ellipsizeMode={"tail"}>
+              {data.bio}
+            </Text>
+          </View>
         </View>
+
+        <Material name='chevron-right' size={30} color='#000' />
+
+
 
       </Pressable>
     )
   }
 
-  
+
 
 
   return (
     <FlatList
       data={profissionais}
       showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginVertical: 2 }}
       contentContainerStyle={{ padding: 2 }}
-      numColumns={2}
       renderItem={({ item }) => <RenderItem data={item} />}
     />
   );

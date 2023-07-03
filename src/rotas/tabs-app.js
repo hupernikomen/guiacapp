@@ -8,9 +8,6 @@ import Servicos from '../pages/Servicos'
 
 import TabBarFeed from '../componentes/TabBarFeed';
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-
-
 import { useTheme } from '@react-navigation/native';
 
 export default function Tabs() {
@@ -33,15 +30,15 @@ export default function Tabs() {
         tabBarInactiveTintColor: '#ffffff80',
       }}>
 
-      <Tab.Screen name="Feed" component={Feed} options={{
+      {/* <Tab.Screen name="Feed" component={Feed} options={{
          tabBarIcon:'flag'
-      }} />
+      }} /> */}
       <Tab.Screen name="Produtos" component={Produtos} options={{ 
         tabBarIcon:'tag'
         }} />
 
       <Tab.Screen name="Servicos" component={Servicos} options={{ 
-        tabBarIcon:'users'
+        tabBarIcon:'user'
         }} />
 
     </Tab.Navigator>

@@ -16,7 +16,7 @@ export default function Servicos() {
 
   const [listaServicos, setListaServicos] = useState([])
   const [load, setLoad] = useState(false)
-  
+
   const { app } = useTheme()
 
   useEffect(() => {
@@ -45,6 +45,7 @@ export default function Servicos() {
   }
 
   const RenderItem = ({ data }) => {
+
     if (data._count?.profissional === 0) return
 
     return (
@@ -52,15 +53,17 @@ export default function Servicos() {
         activeOpacity={.9}
         onPress={() => navigation.navigate("Profissionais", data)}>
 
-        <View style={{ flexDirection: 'row', alignItems: "center" }}>
-          <Material name={data.avatar} size={28} color='#000' />
+        <View style={{ flexDirection:"row", justifyContent:"space-between" }}>
 
           <Text style={estilo.nome}>
             {data.nome}
           </Text>
+          <Material name='chevron-right' size={30} color='#000' />
         </View>
-        
-        <Text>{data._count?.profissional}</Text>
+
+        <Text style={{ color: '#000', fontFamily: 'Roboto-Light', marginTop:-5 }}>{data._count?.profissional} profissiona{data._count?.profissional > 1 ? 'is':'l'} </Text>
+
+
 
       </Pressable>
     )
@@ -73,7 +76,7 @@ export default function Servicos() {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        elevation:5
+        elevation: 5
       }}>
         <View style={{
           flexDirection: 'row',
@@ -120,10 +123,11 @@ export default function Servicos() {
   return (
 
     <FlatList
-    stickyHeaderHiddenOnScroll={true}
-    stickyHeaderIndices={[0]}
-    ListHeaderComponent={<Header />}
+      stickyHeaderHiddenOnScroll={true}
+      stickyHeaderIndices={[0]}
+      ListHeaderComponent={<Header />}
       showsVerticalScrollIndicator={false}
+      ItemSeparatorComponent={<View style={{ borderColor: '#eee', borderWidth: .5 }} />}
       data={listaServicos}
       renderItem={({ item }) => <RenderItem data={item} />}
     />
