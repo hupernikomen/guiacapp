@@ -15,14 +15,14 @@ export default estilo = StyleSheet.create({
     borderTopRightRadius: 6
   },
   tag_campanha: {
-    position: 'absolute',
-    bottom: -1,
+    opacity:.85,
     left:0,
     borderRadius: 2,
     paddingVertical: 4,
     paddingHorizontal: 4,
     color: '#fff',
-    fontSize: 11
+    fontSize: 11,
+    height:22
   },
   informacoes_do_produto: {
     paddingHorizontal: 8,

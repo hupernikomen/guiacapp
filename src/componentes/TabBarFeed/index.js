@@ -5,6 +5,8 @@ import { useTheme } from '@react-navigation/native'
 import Feather from 'react-native-vector-icons/Feather'
 import estilo from './estilo';
 
+import Animated, {FadeIn} from 'react-native-reanimated';
+
 export default function TabBarFeed({ state, descriptors, navigation, position }) {
   const { app } = useTheme()
   return (
@@ -41,18 +43,18 @@ export default function TabBarFeed({ state, descriptors, navigation, position })
               onPress={onPress}
 
             >
-              <View style={{
+              <Animated.View entering={FadeIn.duration(800).delay(300)} style={{
                 backgroundColor: isFocused ? app.tema : '#fff',
                 padding: 5,
                 borderRadius: 99,
-                padding: 14,
+                padding: 15,
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
                 <View>
-                  <Feather name={options.tabBarIcon} size={22} color={isFocused ? '#fff' : '#000'} />
+                  <Feather name={options.tabBarIcon} size={18} color={isFocused ? '#fff' : '#000'} />
                 </View>
-              </View>
+              </Animated.View>
             </Pressable>
           )
         })}

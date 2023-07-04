@@ -65,38 +65,6 @@ export default function RotasStack() {
           headerStyle: {
             backgroundColor: app.tema,
           },
-          headerLeft: () => {
-            return (
-              <Pressable
-                style={{ padding: 10, marginLeft: -10, marginRight: 10 }}
-                onPress={() => navigation.openDrawer()}>
-                <Material name='menu' size={24} color={app.texto} />
-              </Pressable>
-
-            )
-          },
-          headerRight: () => {
-            return (
-              <View style={{
-                flexDirection: 'row',
-                marginRight: -10
-
-              }}>
-                {/* <Pressable
-                  style={{ padding: 10 }}
-                  onPress={() => navigation.navigate("CategoriasFavoritas")}>
-                  <Material name='filter-outline' size={24} color={app.texto} />
-                </Pressable> */}
-
-                <Pressable
-                  style={{ padding: 10 }}
-                  onPress={() => navigation.navigate("Search")}>
-                  <Material name='magnify' size={24} color={app.texto} />
-                </Pressable>
-
-              </View>
-            )
-          },
         }}
       />
 
@@ -222,7 +190,7 @@ export default function RotasStack() {
         name='Mapa'
         component={Mapa}
         options={{
-          title: "Localização da Loja",
+          title: "Localização",
           headerStyle: {
             backgroundColor: app.tema,
           }

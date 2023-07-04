@@ -5,6 +5,7 @@ export default estilo = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     padding: 10,
+    height:80,
     borderRadius: 6,
     marginHorizontal: 4,
     marginVertical:4,
@@ -14,7 +15,7 @@ export default estilo = StyleSheet.create({
   },
 
   imagem: {
-    width: 60,
+    width: 55,
     borderRadius:99,
     aspectRatio: 1,
   },

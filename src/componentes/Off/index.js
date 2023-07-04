@@ -8,36 +8,32 @@ export default function Off({  valor }) {
     const {app} = useTheme()
 
     return (
-        <View style={{
-            alignItems: 'center',
-            position: 'absolute',
-            zIndex: 99,
-            left: -9,
-            top: -7
-        }}>
+        <View style={{opacity:.85}}>
 
-            <Material name='bookmark' size={48} color={app.tema} />
             <View
                 style={{
                     position: 'absolute',
-                    top: 7
+                    bottom:0,
+                    height:22,
+                    paddingHorizontal:5,
+                    borderRadius:2,
+                    alignItems:'center',
+                    justifyContent:"center",
+                    backgroundColor:app.tema
                 }}>
 
                 <Text style={{
-                    fontFamily: "Roboto-Medium",
-                    alignSelf: 'center',
-                    fontSize: 10,
+                    fontFamily: "Roboto-Regular",
+                    fontSize: 9,
                     color: '#fff',
-                    marginTop: 2
                 }}>
                     {valor + '%'}
                 </Text>
                 <Text style={{
-                    fontFamily: "Roboto-Medium",
-                    fontSize: 9,
+                    fontFamily: "Roboto-Regular",
+                    fontSize: 8,
                     marginTop: -2,
                     color: '#fff',
-                    alignSelf: 'center'
                 }}>OFF</Text>
             </View>
         </View>

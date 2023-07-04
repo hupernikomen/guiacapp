@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import Feather from 'react-native-vector-icons/Feather'
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Off from "../Off";
 
@@ -45,15 +46,19 @@ function ProdutoFeed({ item }) {
       style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 6 }]}
       onPress={() => navigation.navigate("DetalheProduto", { id })}>
 
-      {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}
       <View>
 
         <Image
           style={estilo.foto}
           source={{ uri: imagens[0]?.location }} />
 
-        {campanha?.nome &&
-          <Text style={[estilo.tag_campanha, { backgroundColor: campanha?.tema }]}>{campanha?.nome}</Text>
+        {campanha?.nome ?
+          <View style={{ flexDirection: 'row', position: "absolute", bottom: 0 }}>
+            <Text style={[estilo.tag_campanha, { backgroundColor: campanha?.tema }]}>{campanha?.nome}</Text>
+            <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />
+          </View> :
+          !!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />
+
         }
       </View>
 
@@ -78,9 +83,9 @@ function ProdutoFeed({ item }) {
               style={estilo.nome_loja}
               numberOfLines={1} lineBreakMode="tail">{loja?.nome}</Text>}
           {loja?.delivery &&
-            <Material
-              name='truck-outline'
-              size={18}
+            <Feather
+              name='truck'
+              size={16}
               color={'#333'} />}
         </View>
 

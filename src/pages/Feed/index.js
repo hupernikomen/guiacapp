@@ -1,59 +1,119 @@
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { useState } from 'react'
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { View, Text, FlatList, Pressable, ScrollView, Image } from 'react-native';
 import { useTheme, useNavigation } from '@react-navigation/native'
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import Feather from 'react-native-vector-icons/Feather'
+
+import Animated, { FadeInRight } from 'react-native-reanimated';
+import { useEffect } from 'react';
+import api from '../../servicos/api';
 
 export default function Feed() {
 
   const { app } = useTheme()
   const navigation = useNavigation()
 
-  const arr = [
+  const [postos, setPostos] = useState([])
+
+  const [selecaoCombustivel, setSelecaoCombustivel] = useState(0)
+  const combustiveis = [
     {
-      bandeira: 'Ipiranga',
-      nome: "São Raimundo",
-      tabela: {
-        alcool: 4.80,
-        gasolina: 5.29,
-        diesel: 4.20
-      }
+      tipo: "Gasolina",
+      cor: '#3CB371'
     },
     {
-      bandeira: 'BR',
-      nome: "BR",
-      tabela: {
-        alcool: 4.82,
-        gasolina: 5.34,
-        diesel: 4.30
-      }
+      tipo: "Etanol",
+      cor: '#F0A30A'
     },
     {
-      bandeira: 'Shell',
-      nome: "Shell",
-      tabela: {
-        alcool: 4.80,
-        gasolina: 5.49,
-        diesel: 4.32
-      }
-    },
+      tipo: "Diesel",
+      cor: '#333'
+    }
   ]
 
+  useEffect(() => {
+
+    BuscaPosto()
+    BuscaCombustivel()
+
+  }, [])
+
+  async function BuscaCombustivel() {
+    await AsyncStorage.getItem('@combustivelGuiaComercial')
+      .then((response) => {
+
+        if (response == null) {
+          return
+        }
+
+        setSelecaoCombustivel(JSON.parse(response))
+      })
+
+  }
+
+  async function BuscaPosto() {
+    await api.get('/postos')
+      .then((response) => {
+        setPostos(shuffle(response.data))
+
+      })
+      .catch((error) => {
+        console.log("Erro Postos Feed", error)
+      })
+  }
+
+
+  function shuffle(arr) {
+
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr
+  }
+
+
   function RenderItem({ data }) {
+    
+    const preco = parseFloat(Object.values(JSON.parse(data.tabela))[selecaoCombustivel]).toFixed(2).replace('.',',')
+
     return (
-      <View style={{ backgroundColor: '#fff', margin: 2, overflow: 'hidden', width: 110, height: 150, borderRadius: 8 }}>
+      <Pressable onPress={() => navigation.navigate("Mapa", data.usuarioID)}>
 
-        <View style={{ flex: 1, paddingVertical: 15, paddingHorizontal: 10 }}>
+        <Animated.View entering={FadeInRight.duration(800)} style={{
+          minWidth: 150,
+          backgroundColor: '#fff',
+          paddingVertical: 10,
+          paddingHorizontal: 10,
+          borderRadius: 6
+        }}>
 
-          <Text style={{ fontFamily: 'Roboto-Medium', color: '#000', marginBottom: 5, flex: 1 }}>
-            {data.nome}
-          </Text>
-          <View style={{ flex: 1 }}>
-            <Text style={{ backgroundColor: '#43A047', padding: 2, paddingHorizontal: 5, fontFamily: 'Roboto-Light', color: '#fff', fontSize: 12, marginBottom: -2 }}>G - R$ {Number(data?.tabela?.gasolina).toFixed(2)}</Text>
-            <Text style={{ backgroundColor: '', fontFamily: 'Roboto-Light', color: '#000', fontSize: 13, marginBottom: -2 }}>E {Number(data?.tabela?.alcool).toFixed(2)}</Text>
-            <Text style={{ backgroundColor: '', fontFamily: 'Roboto-Light', color: '#000', fontSize: 13, marginBottom: -2 }}>D {Number(data?.tabela?.diesel).toFixed(2)}</Text>
+          <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+
+            <Text style={{ fontFamily: 'Roboto-Regular', color: '#000', fontSize: 13 }}>{data.nome}</Text>
+            <Image source={{ uri: data.avatar?.location }} style={{
+              width: 18, aspectRatio:1
+            }} />
           </View>
-        </View>
-      </View>
+          <Text style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>R$ {preco}</Text>
+        </Animated.View>
+
+      </Pressable>
     )
+  }
+
+  async function SelecaoCombustivel() {
+    if (selecaoCombustivel >= combustiveis.length - 1) {
+      setSelecaoCombustivel(0)
+      await AsyncStorage.setItem('@combustivelGuiaComercial', JSON.stringify(0))
+      return
+    }
+    setSelecaoCombustivel(selecaoCombustivel + 1)
+
+    await AsyncStorage.setItem('@combustivelGuiaComercial', JSON.stringify(selecaoCombustivel + 1))
   }
 
 
@@ -65,64 +125,76 @@ export default function Feed() {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        elevation: 5
       }}>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center'
-        }}>
-
-          <View style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 58,
-            width: 58
-          }}>
-            <Pressable
-              onPress={() => navigation.openDrawer()}>
-              <Material name='menu' size={24} color={app.texto} />
-            </Pressable>
-          </View>
-          <Text style={{
-            fontFamily: 'Roboto-Medium',
-            marginLeft: 10,
-            color: '#fff',
-            fontSize: 20
-          }}>Guia Comercial</Text>
-        </View>
 
 
-        <View style={{
+        <Pressable style={{
           alignItems: 'center',
           justifyContent: 'center',
           height: 58,
           width: 58
-        }}>
-          {/* <Pressable
-            style={{ padding: 10 }}
-            onPress={() => navigation.navigate("Search")}>
-            <Material name='magnify' size={24} color={app.texto} />
-          </Pressable> */}
+        }}
+          onPress={() => navigation.openDrawer()}>
+          <Feather name='menu' size={24} color={app.texto} />
+        </Pressable>
 
-        </View>
+        <Text style={{
+          fontFamily: 'Roboto-Medium',
+          marginLeft: 10,
+          color: '#fff',
+          fontSize: 22
+        }}>Guia Comercial</Text>
+
+
+        <Pressable
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 58,
+            width: 58
+          }}
+          onPress={() => navigation.navigate("Search")}>
+        </Pressable>
+
       </View>
     )
   }
 
 
   return (
-    <View>
+    <ScrollView>
 
       <Header />
+      <View>
 
-      <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', color: '#000', margin: 10 }}>Postos de Combustíveis</Text>
-      <FlatList
-        snapToInterval={150}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        data={arr}
-        renderItem={({ item }) => <RenderItem data={item} />}
-      />
-    </View>
+        <FlatList
+          contentContainerStyle={{ gap: 5, padding: 10 }}
+          snapToInterval={155}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          data={postos}
+          renderItem={({ item }) => <RenderItem data={item} />}
+        />
+
+        <Pressable onPress={SelecaoCombustivel} style={{
+          flexDirection: 'row',
+          margin: 10,
+          alignSelf: 'flex-end',
+        }}>
+
+          <Text style={{
+            backgroundColor: combustiveis[selecaoCombustivel]?.cor,
+            borderRadius: 8,
+            paddingHorizontal: 14,
+            paddingVertical: 5,
+            fontSize: 12,
+            color: '#fff',
+            elevation: 5,
+            textAlign: 'center',
+            textAlignVertical: 'center'
+          }}>{combustiveis[selecaoCombustivel]?.tipo}</Text>
+        </Pressable>
+      </View>
+    </ScrollView>
   );
 }

@@ -10,14 +10,11 @@ const { width, height } = Dimensions.get("window")
 
 import api from '../../servicos/api';
 
-import { LojaContext } from '../../contexts/lojaContext';
-
 import { useTheme, useFocusEffect, useRoute } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function Mapa() {
 
-  const { credenciais } = useContext(LojaContext)
 
   const route = useRoute()
   const [marker, setMarker] = useState(null)

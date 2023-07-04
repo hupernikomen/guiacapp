@@ -60,7 +60,7 @@ export default function Profissionais() {
 
       <Pressable
         style={estilo.container}
-        onPress={() => navigation.navigate("DetalheProduto", { id })}>
+        onPress={() => navigation.navigate("DetalheServico", { data })}>
 
         <View style={{ flexDirection: 'row', alignItems: "center" }}>
           <Image
@@ -84,7 +84,6 @@ export default function Profissionais() {
           </View>
         </View>
 
-        <Material name='chevron-right' size={30} color='#000' />
 
 
 

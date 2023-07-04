@@ -30,9 +30,9 @@ export default function Tabs() {
         tabBarInactiveTintColor: '#ffffff80',
       }}>
 
-      {/* <Tab.Screen name="Feed" component={Feed} options={{
-         tabBarIcon:'flag'
-      }} /> */}
+      <Tab.Screen name="Feed" component={Feed} options={{
+         tabBarIcon:'umbrella'
+      }} />
       <Tab.Screen name="Produtos" component={Produtos} options={{ 
         tabBarIcon:'tag'
         }} />

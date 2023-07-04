@@ -8,6 +8,7 @@ import api from '../../servicos/api';
 import Load from '../../componentes/Load';
 
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import Feather from 'react-native-vector-icons/Feather'
 
 
 export default function Produtos() {
@@ -61,46 +62,39 @@ export default function Produtos() {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        elevation:5
+        elevation: 5
       }}>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center'
-        }}>
-
-          <View style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 58,
-            width: 58
-          }}>
-            <Pressable
-              onPress={() => navigation.openDrawer()}>
-              <Material name='menu' size={24} color={app.texto} />
-            </Pressable>
-          </View>
-          <Text style={{
-            fontFamily: 'Roboto-Medium',
-            marginLeft: 10,
-            color: '#fff',
-            fontSize: 20
-          }}>Guia Comercial</Text>
-        </View>
 
 
-        <View style={{
+        <Pressable style={{
           alignItems: 'center',
           justifyContent: 'center',
           height: 58,
           width: 58
-        }}>
+        }}
+          onPress={() => navigation.openDrawer()}>
+          <Feather name='menu' size={24} color={app.texto} />
+        </Pressable>
+
+        <Text style={{
+          fontFamily: 'Roboto-Medium',
+          marginLeft: 10,
+          color: '#fff',
+          fontSize: 22
+        }}>Produtos</Text>
+
+
           <Pressable
-            style={{ padding: 10 }}
+             style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 58,
+              width: 58
+            }}
             onPress={() => navigation.navigate("Search")}>
-            <Material name='magnify' size={24} color={app.texto} />
+            <Feather name='search' size={24} color={app.texto} />
           </Pressable>
 
-        </View>
       </View>
     )
   }
