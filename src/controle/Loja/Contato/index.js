@@ -5,9 +5,10 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { LojaContext } from '../../../contexts/lojaContext';
 
-import { useTheme, useNavigation} from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
 import Animated, { FadeInRight } from 'react-native-reanimated';
 import api from '../../../servicos/api';
+import estilo from './estilo';
 
 
 export default function Contato() {
@@ -20,10 +21,10 @@ export default function Contato() {
 
   const [contato, setContato] = useState([])
 
-  useLayoutEffect(()=>{
-      BuscaContato()
+  useLayoutEffect(() => {
+    BuscaContato()
 
-    }, [])
+  }, [])
 
 
 
@@ -69,42 +70,37 @@ export default function Contato() {
 
         <View
           style={{
+            height: 80,
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-between',
             flex: 1,
-            marginVertical: 5,
-            marginHorizontal: 10,
-            paddingHorizontal: 10,
-            paddingVertical: 15,
+            paddingHorizontal: 15,
             borderRadius: 6,
             backgroundColor: '#fff'
           }}>
-          <View style={{ flexDirection: "row" }}>
 
-            <Image
-              source={{ uri: data.avatar?.location }}
+          <Image
+            source={{ uri: data.avatar?.location }}
+            style={{
+              width: 50,
+              aspectRatio: 1,
+              borderRadius: 55 / 2,
+              marginRight: 20
+            }} />
+
+          <View>
+            <Text
+              numberOfLines={1}
               style={{
-                width: 50,
-                aspectRatio: 1,
-                borderRadius: 55 / 2,
-                marginRight: 15
-              }} />
-
-            <View>
-              <Text
-                numberOfLines={1}
-                style={{
-                  fontFamily: 'Roboto-Bold',
-                  color: '#000',
-                  fontSize: 18
-                }}>
-                {data.nome}
-              </Text>
+                fontFamily: 'Roboto-Medium',
+                color: '#000',
+                fontSize: 16
+              }}>
+              {data.nome}
+            </Text>
 
 
-              <Text style={{ fontFamily: "Roboto-Light", color: '#000', fontSize: 13 }}>{converteHorario(entrada)} - {converteHorario(almoco)} - {converteHorario(retorno)} - {converteHorario(saida)} </Text>
-            </View>
+            <Text style={{ fontFamily: "Roboto-Light", color: '#000', fontSize: 12 }}>{converteHorario(entrada)} - {converteHorario(almoco)} - {converteHorario(retorno)} - {converteHorario(saida)} </Text>
           </View>
 
 
@@ -130,30 +126,15 @@ export default function Contato() {
   return (
     <>
       <FlatList
+        contentContainerStyle={{ gap: 5, padding: 5 }}
         data={contato}
         renderItem={({ item }) => <RenderItem data={item} />}
       />
 
-      <View
-        style={{
-          width: 55,
-          aspectRatio: 1,
-          borderRadius: 55 / 2,
-          position: 'absolute',
-          zIndex: 9999,
-          right: 15,
-          bottom: 25,
-          backgroundColor: admin.botao,
-          elevation: 5
-        }}>
+      <View style={[estilo.container_botao_mais, { backgroundColor: admin.botao }]}>
 
-        <Pressable
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          onPress={() => navigation.navigate("CadastrarVendedor")}>
+        <Pressable style={estilo.botao_mais} onPress={() => navigation.navigate("CadastrarVendedor")}>
+
           <Material name='plus-thick' size={26} color='#fff' />
         </Pressable >
       </View >

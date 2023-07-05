@@ -24,11 +24,11 @@ import Signin from '../pages/Signin'
 import Redireciona from '../pages/Redireciona';
 
 import Profissional from '../controle/Profissional';
-import CadastrarProduto from '../controle/Loja/_Produto';
+import CadastrarProduto from '../controle/Loja/Produto';
 import EditaProduto from '../controle/Loja/EditaProduto';
 import CadastrarContato from '../controle/CadastrarContato';
-import CadastrarDados from '../controle/Loja/_Dados';
-import VendedoresControle from '../controle/Loja/_Contato';
+import CadastrarDados from '../controle/Loja/Dados';
+import VendedoresControle from '../controle/Loja/Contato';
 
 import { LojaContext } from '../contexts/lojaContext';
 

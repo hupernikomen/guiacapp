@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import { Picker } from "@react-native-picker/picker";
 
+import CurrencyInput from 'react-native-currency-input';
+
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
 import { LojaContext } from "../../../contexts/lojaContext"
 import { ProdutoContext } from '../../../contexts/produtoContext';
@@ -21,12 +23,6 @@ import api from '../../../servicos/api';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
-import {
-  SimulaInput,
-  CurrencyInputs,
-  BotaoPrincipal,
-  TextBtn,
-} from "../../../styles";
 
 import Animated, { SlideInUp } from 'react-native-reanimated';
 import estilo from './estilo';
@@ -37,8 +33,7 @@ export default function EditaProduto() {
 
   const route = useRoute()
   const navigation = useNavigation()
-  const { admin } = useTheme()
-
+  const { app, admin } = useTheme()
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -59,9 +54,7 @@ export default function EditaProduto() {
       headerRight: () => {
         return (
 
-          <TouchableOpacity
-            onPress={ConfirmaExclusao}
-          >
+          <TouchableOpacity onPress={ConfirmaExclusao} >
             <Material name='delete-outline' size={30} color={admin.texto} />
           </TouchableOpacity>
         )
@@ -71,8 +64,8 @@ export default function EditaProduto() {
   }, [])
 
   useEffect(() => {
+    if (produto.oferta === null) setProduto({ ...produto, campanhaID: null })
 
-    if (produto.oferta === null) setProduto({ ...produto, campanhaID: null });
   }, [produto.oferta])
 
 
@@ -81,6 +74,11 @@ export default function EditaProduto() {
     await api.get('/campanhas')
       .then((response) => {
         setListaCampanha(response.data)
+
+      })
+      .catch((error) => {
+        console.log("Erro ao buscar Campanhas na edição de produtos", error.response);
+
       })
   }
 
@@ -107,10 +105,11 @@ export default function EditaProduto() {
       .then(() => {
         navigation.goBack()
         BuscaLoja()
-        Toast('Produto excluido com sucesso!')
+        Toast('Produto excluido')
       })
       .catch((error) => {
-
+        console.log("Erro ao tentar excluir produto", error.response)
+        Toast("Ops, não conseguimos excluir seu produto")
       })
   }
 
@@ -118,7 +117,7 @@ export default function EditaProduto() {
   async function Atualizar() {
 
     if (produto.oferta >= produto.preco) {
-      Toast("Oferta maior ou igual ao preço")
+      Toast("Oferta deve ser menor que preço")
       return
     }
 
@@ -133,14 +132,17 @@ export default function EditaProduto() {
       .then(() => {
         navigation.goBack()
         BuscaLoja()
-        Toast('Atualizamos seu produto!')
+        Toast('Produto Atualizado')
       })
       .catch((error) => {
+        console.log("Erro ao tentar atualizar produto", error.response)
+        Toast('Não conseguimos atualizar seu produto')
         setLoad(false)
 
       })
   }
 
+  // Organiza faixa de tamanhos na seguencia padrão
   function SizesFormatted(tams) {
 
     if (!tams) { return }
@@ -189,14 +191,10 @@ export default function EditaProduto() {
 
   return (
     <View style={estilo.tela}>
+      <ScrollView style={{ paddingVertical: 25 }} showsVerticalScrollIndicator={false}>
+        <View style={estilo.container_inputs}>
 
-      <ScrollView
-        style={{ paddingVertical: 25 }}
-        showsVerticalScrollIndicator={false}>
-
-        <View style={estilo.container_input}>
-
-          <Text style={estilo.titulo_input}>
+          <Text style={estilo.titulo_inputs}>
             Produto
           </Text>
 
@@ -207,9 +205,9 @@ export default function EditaProduto() {
           />
         </View>
 
-        <View style={estilo.container_input}>
+        <View style={estilo.container_inputs}>
 
-          <Text style={estilo.titulo_input}>
+          <Text style={estilo.titulo_inputs}>
             Descrição
           </Text>
 
@@ -223,23 +221,23 @@ export default function EditaProduto() {
         </View >
 
 
-        <View style={estilo.container_input} focusable={false}>
+        <View style={estilo.container_inputs} focusable={false}>
 
-          <Text style={estilo.titulo_input}>
+          <Text style={estilo.titulo_inputs}>
             Preço R$ - ( Não editavel )
           </Text>
 
-          <CurrencyInputs value={produto.preco} />
+          <CurrencyInput style={estilo.currency_input} value={produto.preco} />
 
         </View>
 
 
-        <View style={estilo.container_input}>
+        <View style={estilo.container_inputs}>
 
-          <Text style={estilo.titulo_input}>
+          <Text style={estilo.titulo_inputs}>
             Oferta R$
           </Text>
-          <CurrencyInputs
+          <CurrencyInput style={estilo.currency_input}
 
             value={produto.oferta}
             onChangeValue={e => setProduto({ ...produto, oferta: e })} />
@@ -260,24 +258,16 @@ export default function EditaProduto() {
             <Text style={estilo.titulo_input}>
               Campanha
             </Text>
-            <Picker
-              mode="dialog"
-              selectedValue={produto.campanhaID}
-              onValueChange={(e) => {
-                setProduto({ ...produto, campanhaID: e });
-              }}>
-              <Picker.Item
-                label="Nenhum"
-                value={null}
-              />
+
+            <Picker mode="dialog" selectedValue={produto.campanhaID} onValueChange={(e) => {
+              setProduto({ ...produto, campanhaID: e });
+            }}>
+
+              <Picker.Item label="Nenhum" value={null} />
 
               {listaCampanha.map((item) => {
                 return (
-                  <Picker.Item
-                    key={item.id}
-                    value={item.id}
-                    label={item.nome}
-                  />
+                  <Picker.Item key={item.id} value={item.id} label={item.nome} />
                 );
               })}
             </Picker>
@@ -285,9 +275,9 @@ export default function EditaProduto() {
         }
 
         <View>
-          <SimulaInput>
+          <View style={estilo.container_tamanhos}>
 
-            <Text style={estilo.titulo_input}>Tamanhos Disponiveis</Text>
+            <Text style={estilo.titulo_inputs}>Tamanhos Disponiveis</Text>
             <FlatList
 
               ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
@@ -300,18 +290,22 @@ export default function EditaProduto() {
               onPress={() => setModalVisible(true)}>
               <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{produto.tamanho?.length > 0 ? 'Editar' : 'Inserir'}</Text>
             </Pressable>
-          </SimulaInput>
+          </View>
 
 
 
         </View>
 
-        <BotaoPrincipal
-          activeOpacity={1}
-          background={admin.botao}
-          onPress={Atualizar}>
-          {load ? <ActivityIndicator color={'#fff'} /> : <TextBtn cor={'#fff'}>Atualizar</TextBtn>}
-        </BotaoPrincipal>
+        <Pressable
+          onPress={Atualizar}
+          style={[estilo.btn_cadastrar, { backgroundColor: app.tema }]}
+        >
+
+          <Text style={estilo.txt_botao}>
+            Atualizar
+          </Text>
+
+        </Pressable>
 
 
         <View style={{ marginVertical: 15 }} />
