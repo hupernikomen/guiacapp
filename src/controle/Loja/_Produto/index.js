@@ -6,11 +6,14 @@ import {
   ScrollView,
   Image,
   Modal,
+  Dimensions,
   ActivityIndicator,
   FlatList,
 } from 'react-native'
-
+import Animated, { SlideInUp } from 'react-native-reanimated';
 import { Input, TituloInput, ContainerInput, BtnIcone, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela } from "../../../styles";
+
+import estilo from "./estilo";
 
 import api from '../../../servicos/api'
 import ImageResizer from '@bam.tech/react-native-image-resizer';
@@ -25,7 +28,7 @@ import { Picker } from "@react-native-picker/picker";
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function CadastrarProduto() {
-
+  const { width } = Dimensions.get('window')
   const navigation = useNavigation()
 
   const { admin } = useTheme()
@@ -143,7 +146,7 @@ export default function CadastrarProduto() {
         });
       }
       catch (error) {
-        console.log(error);
+        console.log("Erro ao postar foto", error.response);
       } // Caso nao tenha sido possivel redimensionar imagem
 
     }
@@ -169,24 +172,27 @@ export default function CadastrarProduto() {
   }
 
 
-  function RenderItem({ data }) {
+
+  function BotoesTamanhos({ data }) {
 
     const response = tamanho.indexOf(data)
     return (
 
-      <BtnIcone
-        lado={'center'}
-        style={{ backgroundColor: response == -1 ? "#fff" : app.tema, borderRadius: 20 }}
+      <Pressable
+        style={[estilo.container_botoes_tamanho, {
+          backgroundColor: response == -1 ? "#fff" : admin.tema,
+          borderWidth: response == -1 ? .5 : 0,
+          height: (width / 7) - 10
+        }]}
         onPress={() => {
           setTamanho(response == -1 ? itensTam => [...itensTam, data] :
             tamanho.filter((item) => item != data))
 
         }}>
         <Text style={{ color: response == -1 ? "#000" : '#fff' }}>{data}</Text>
-      </BtnIcone>
+      </Pressable>
     )
   }
-
 
 
   return (
@@ -331,37 +337,40 @@ export default function CadastrarProduto() {
 
 
         <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          statusBarTranslucent
-          onRequestClose={() => setModalVisible(false)}
-        >
+        transparent={true}
+        visible={modalVisible}
+        statusBarTranslucent
+        onRequestClose={() => setModalVisible(false)}
 
-          <View style={{ flex: 1 }}>
+      >
 
-            <Pressable
-              activeOpacity={1}
-              onPress={() => setModalVisible(false)}
-              style={{ flex: 1, backgroundColor: '#00000070' }}>
+        <Animated.View
+          entering={SlideInUp}
+          style={{ flex: 1 }}>
 
-            </Pressable>
+          <Pressable
+            activeOpacity={1}
+            onPress={() => setModalVisible(false)}
+            style={{ flex: 1, backgroundColor: '#00000070' }}>
 
-            <View style={{ backgroundColor: "#fff" }}>
+          </Pressable>
 
-              <FlatList
-                contentContainerStyle={{ padding: 20, alignItems: 'center' }}
-                numColumns={6}
-                data={arrTamanhos}
-                renderItem={({ item }) => <RenderItem data={item} />}
+          <View style={{ backgroundColor: "#fff" }}>
 
-              />
+            <FlatList
+              contentContainerStyle={{ padding: 20, alignItems: 'center' }}
+              numColumns={6}
+              data={arrTamanhos}
+              renderItem={({ item }) => <BotoesTamanhos data={item} />}
 
-            </View>
-
+            />
 
           </View>
-        </Modal>
+
+
+        </Animated.View>
+      </Modal>
+       
 
         <SimulaInput>
 

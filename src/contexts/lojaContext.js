@@ -42,6 +42,9 @@ export function LojaProvider({ children }) {
       
     } else if (conta?.profissional) {
       navigation.reset({ index: 0, routes: [{ name: 'Profissional' }] })
+    
+    } else if (conta?.posto) {
+      navigation.reset({ index: 0, routes: [{ name: 'Posto' }] })
     }
   }
 
@@ -153,7 +156,8 @@ export function LojaProvider({ children }) {
           conta
         })
 
-        RedirecionaLogin(conta)
+        navigation.navigate("Redireciona")
+        // RedirecionaLogin(conta)
         setLoad(false)
 
       })

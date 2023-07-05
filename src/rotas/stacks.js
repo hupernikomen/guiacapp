@@ -10,6 +10,7 @@ import DetalheServico from '../pages/Detalhes/servico';
 import Profissionais from '../pages/Profissionais';
 import Loja from '../pages/Loja';
 import Contato from '../pages/Contato';
+import Posto from '../pages/Posto'
 import Lojas from '../pages/Lojas';
 import Mapa from '../pages/Mapa';
 import Categorias from '../pages/PorCategoria';
@@ -20,6 +21,7 @@ import ErroNaoEncontrado from '../pages/ErroNaoEncontrado'
 import CategoriasFavoritas from '../pages/CategoriasFavoritas';
 
 import Signin from '../pages/Signin'
+import Redireciona from '../pages/Redireciona';
 
 import Profissional from '../controle/Profissional';
 import CadastrarProduto from '../controle/Loja/_Produto';
@@ -136,6 +138,36 @@ export default function RotasStack() {
       />
 
       <Stack.Screen
+        name='Posto'
+        component={Posto}
+        options={{
+          title: 'Posto de Combustíveis',
+          headerStyle: {
+            backgroundColor: app.tema,
+          },
+          headerLeft: () => {
+            return (
+              <Pressable
+                lado={'center'}
+                style={{ marginRight: 25 }}
+                onPress={() => navigation.openDrawer()}>
+                <Material name='menu' size={22} color={'#fff'} />
+              </Pressable>
+            )
+          },
+          headerRight: () => {
+            return (
+              <Pressable
+                lado={'center'}
+                onPress={signOut}>
+                <Feather name='log-out' size={22} color={'#fff'} />
+              </Pressable>
+            )
+          },
+        }}
+      />
+
+      <Stack.Screen
         name='CategoriasFavoritas'
         component={CategoriasFavoritas}
         options={{
@@ -245,11 +277,21 @@ export default function RotasStack() {
             backgroundColor: app.tema,
           },
         }}
-      />
+        />
+
+        {/* ----------------------------------------------- */}
 
 
-
-
+        <Stack.Screen
+        name='Redireciona'
+        component={Redireciona}
+        options={{
+          title: "",
+          headerStyle: {
+            backgroundColor: app.tema,
+          },
+        }}
+        />
 
 
       {/* ----------------------------------------------- */}

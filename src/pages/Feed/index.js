@@ -77,8 +77,8 @@ export default function Feed() {
 
 
   function RenderItem({ data }) {
-    
-    const preco = parseFloat(Object.values(JSON.parse(data.tabela))[selecaoCombustivel]).toFixed(2).replace('.',',')
+
+    const preco = parseFloat(Object.values(JSON.parse(data.tabela))[selecaoCombustivel]).toFixed(2).replace('.', ',')
 
     return (
       <Pressable onPress={() => navigation.navigate("Mapa", data.usuarioID)}>
@@ -91,29 +91,32 @@ export default function Feed() {
           borderRadius: 6
         }}>
 
-          <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
 
             <Text style={{ fontFamily: 'Roboto-Regular', color: '#000', fontSize: 13 }}>{data.nome}</Text>
             <Image source={{ uri: data.avatar?.location }} style={{
-              width: 18, aspectRatio:1
+              width: 18, aspectRatio: 1
             }} />
           </View>
           <Text style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>R$ {preco}</Text>
+
+          <Text style={{
+            fontSize: 12,
+            alignSelf: 'flex-end',
+            fontFamily: 'Roboto-Light',
+            color: '#000'
+          }}>Ver Mapa</Text>
         </Animated.View>
 
       </Pressable>
     )
   }
 
-  async function SelecaoCombustivel() {
-    if (selecaoCombustivel >= combustiveis.length - 1) {
-      setSelecaoCombustivel(0)
-      await AsyncStorage.setItem('@combustivelGuiaComercial', JSON.stringify(0))
-      return
-    }
-    setSelecaoCombustivel(selecaoCombustivel + 1)
+  async function SelecaoCombustivel(index) {
 
-    await AsyncStorage.setItem('@combustivelGuiaComercial', JSON.stringify(selecaoCombustivel + 1))
+    setSelecaoCombustivel(index)
+
+    await AsyncStorage.setItem('@combustivelGuiaComercial', JSON.stringify(index))
   }
 
 
@@ -165,7 +168,15 @@ export default function Feed() {
     <ScrollView>
 
       <Header />
-      <View>
+      <View style={{
+        marginVertical: 10,
+        paddingVertical: 10,
+        borderBottomWidth: .5,
+        borderBottomColor: '#ccc',
+        borderTopWidth: .5,
+        borderTopColor: '#ccc',
+      }}>
+
 
         <FlatList
           contentContainerStyle={{ gap: 5, padding: 10 }}
@@ -176,24 +187,34 @@ export default function Feed() {
           renderItem={({ item }) => <RenderItem data={item} />}
         />
 
-        <Pressable onPress={SelecaoCombustivel} style={{
+        <View style={{
           flexDirection: 'row',
-          margin: 10,
           alignSelf: 'flex-end',
+          marginRight:10,
+          marginVertical:10,
+          gap:10
         }}>
 
-          <Text style={{
-            backgroundColor: combustiveis[selecaoCombustivel]?.cor,
-            borderRadius: 8,
-            paddingHorizontal: 14,
-            paddingVertical: 5,
-            fontSize: 12,
-            color: '#fff',
-            elevation: 5,
-            textAlign: 'center',
-            textAlignVertical: 'center'
-          }}>{combustiveis[selecaoCombustivel]?.tipo}</Text>
-        </Pressable>
+          {combustiveis.map((item, index) => {
+            return (
+
+              <Pressable key={index} onPress={() => SelecaoCombustivel(index)} style={{
+                backgroundColor: selecaoCombustivel == index ? item.cor : 'transparent',
+                flexDirection: 'row',
+                borderRadius: 8,
+                paddingHorizontal: 10,
+                paddingVertical: 3,
+                
+                
+              }}><Text style={{
+                color:selecaoCombustivel == index ?'#fff' : '#222',
+                fontSize: 12,
+              }}>{item.tipo}</Text>
+              </Pressable>
+            )
+          })}
+        </View>
+
       </View>
     </ScrollView>
   );

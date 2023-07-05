@@ -9,16 +9,15 @@ export default estilo = StyleSheet.create({
     justifyContent: 'center',
   },
   conteudo: {
-    backgroundColor: 'rgba(255, 255, 255, .9)',
-    opacity:.9,
+    backgroundColor: 'rgba(255, 255, 255, .92)',
+    elevation: 5,
     flexDirection: 'row',
     alignItems: "center",
     position: "absolute",
     bottom: 0,
     marginBottom: 10,
     gap: 6,
-    padding: 6,
-    elevation: 4,
+    padding: 4,
     borderRadius: 99
   }
 })

@@ -42,20 +42,12 @@ export default function DrawerCustom(props) {
 
       </View>
 
-      {!autenticado ?
-        <DrawerItem
-          labelStyle={estilo.fonte}
-          label="Login"
-          inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("Signin")}
-        /> :
-        <DrawerItem
-          labelStyle={estilo.fonte}
-          label="Parceiros"
-          inactiveTintColor='#fff'
-          onPress={() => navigation.navigate("HomeControle")}
-        />
-      }
+      <DrawerItem
+        labelStyle={estilo.fonte}
+        label="Login"
+        inactiveTintColor='#fff'
+        onPress={() => navigation.navigate(autenticado ? "Redireciona" : "Signin")}
+      />
 
       <DrawerItem
         labelStyle={estilo.fonte}
