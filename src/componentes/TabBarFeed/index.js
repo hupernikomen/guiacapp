@@ -7,7 +7,10 @@ import estilo from './estilo';
 
 import Animated, { FadeIn } from 'react-native-reanimated';
 
-export default function TabBarFeed({ state, descriptors, navigation, position }) {
+// TabBar Personalizada para a tela PRINCIPAL do app 
+
+export default function TabBarFeed({ state, descriptors, navigation }) {
+
   const { app } = useTheme()
   return (
     <View style={estilo.tabbar}>
@@ -48,9 +51,9 @@ export default function TabBarFeed({ state, descriptors, navigation, position })
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <View>
-                  <Feather name={options.tabBarIcon} size={18} color={isFocused ? '#fff' : '#000'} />
-                </View>
+
+                <Feather name={options.tabBarIcon} size={18} color={isFocused ? '#fff' : '#000'} />
+                
               </Animated.View>
             </Pressable>
           )

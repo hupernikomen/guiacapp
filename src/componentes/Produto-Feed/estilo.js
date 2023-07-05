@@ -6,7 +6,6 @@ export default estilo = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 2,
     borderRadius: 6,
-    marginHorizontal: 2,
 
   },
   foto: {
@@ -27,7 +26,7 @@ export default estilo = StyleSheet.create({
   informacoes_do_produto: {
     paddingHorizontal: 8,
     paddingTop: 5,
-    paddingBottom: 8,
+    paddingBottom: 10,
   },
   nome_produto: {
     fontFamily: 'Roboto-Regular',

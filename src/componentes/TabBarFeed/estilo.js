@@ -9,8 +9,11 @@ export default estilo = StyleSheet.create({
     justifyContent: 'center',
   },
   conteudo: {
-    backgroundColor: 'rgba(255, 255, 255, .92)',
-    elevation: 5,
+    backgroundColor: '#fff',
+    opacity:.92,
+    elevation: 2,
+    borderWidth:1,
+    borderColor:'#eee',
     flexDirection: 'row',
     alignItems: "center",
     position: "absolute",

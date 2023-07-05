@@ -7,7 +7,6 @@ import { useNavigation, useTheme } from '@react-navigation/native'
 import api from '../../servicos/api';
 import Load from '../../componentes/Load';
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Feather from 'react-native-vector-icons/Feather'
 
 
@@ -84,16 +83,16 @@ export default function Produtos() {
         }}>Produtos</Text>
 
 
-          <Pressable
-             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: 58,
-              width: 58
-            }}
-            onPress={() => navigation.navigate("Search")}>
-            <Feather name='search' size={24} color={app.texto} />
-          </Pressable>
+        <Pressable
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 58,
+            width: 58
+          }}
+          onPress={() => navigation.navigate("Search")}>
+          <Feather name='search' size={24} color={app.texto} />
+        </Pressable>
 
       </View>
     )
@@ -105,7 +104,8 @@ export default function Produtos() {
 
       ListHeaderComponent={<Header />}
       showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ margin: 2 }}
+      columnWrapperStyle={{ marginVertical: 2, gap: 4, paddingHorizontal: 4 }}
+      contentContainerStyle={{ paddingBottom: 75 }}
       data={produtos}
       renderItem={({ item }) => <Produto item={item} />}
       numColumns={2}

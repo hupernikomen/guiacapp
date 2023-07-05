@@ -1,9 +1,9 @@
-import { useState, useContext, useEffect } from 'react';
-import { View, Pressable, Image, Text } from 'react-native';
+import { useState, useContext } from 'react';
+import { View, Pressable, Image, Text, TextInput } from 'react-native';
 
 import ImageResizer from '@bam.tech/react-native-image-resizer';
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
+import Feather from 'react-native-vector-icons/Feather'
 
 import ImagePicker from 'react-native-image-crop-picker'
 import DatePicker from 'react-native-date-picker'
@@ -13,7 +13,8 @@ import { useTheme, useNavigation } from '@react-navigation/native';
 
 import api from '../../servicos/api';
 
-import { BotaoPrincipal, TextBtn, TituloInput, ContainerInput, ContainerInputInline, Input } from '../../styles'
+import estilo from './estilo';
+
 
 export default function CadastrarContato() {
 
@@ -55,9 +56,7 @@ export default function CadastrarContato() {
   }
 
 
-
-
-  async function CriarVendedores() {
+  async function CriaContato() {
 
     if (!nome || !whatsapp || avatar.length == 0 || entrada >= almoco || almoco >= retorno || retorno >= saida) {
       Toast("Cadastro incompleto ou inválido")
@@ -100,88 +99,79 @@ export default function CadastrarContato() {
     })
       .then(() => {
         navigation.goBack()
+
+        Toast("Vendedor Cadastrado")
         setNome('')
         setWhatsapp('')
         setSetor('')
       })
 
-      .catch((error) => console.log("error from image :", error.response))
+      .catch((error) => console.log("Erro ao cadastrar contato Vendedor :", error.response))
   }
 
 
   return (
     <View style={{ paddingHorizontal: 15 }}>
-      <Pressable
-        style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', width: 70, aspectRatio: 1, borderRadius: 70 / 2, elevation: 5, alignSelf: 'center', marginVertical: 20 }}
-        onPress={BuscarImagem}>
+
+      <Pressable style={estilo.container_foto} onPress={BuscarImagem}>
         {avatar.length == 0 ?
-          <Material name='account-circle' size={36} />
+          <Feather name='user' size={36} />
           :
           <Image source={{ uri: avatar?.path }}
-            style={{ width: 70, aspectRatio: 1, borderRadius: 70 / 2, borderColor: '#fff', borderWidth: 4 }} />
+            style={estilo.foto} />
         }
       </Pressable>
 
 
-      <ContainerInput>
+      <View style={estilo.container_inputs}>
 
-        <TituloInput>
+        <Text style={estilo.titulo_inputs}>
           Nome do Vendedor
-        </TituloInput>
+        </Text>
 
-        <Input
-          maxLength={25}
-          value={nome}
-          onChangeText={setNome} />
+        <TextInput style={estilo.input} maxLength={25} value={nome} onChangeText={setNome} />
 
-      </ContainerInput>
+      </View>
 
-      <ContainerInput>
+      <View style={estilo.container_inputs}>
 
-        <TituloInput>
+        <Text style={estilo.titulo_inputs}>
           Setor
-        </TituloInput>
+        </Text>
 
-        <Input
-          maxLength={25}
-          value={setor}
-          onChangeText={setSetor} />
+        <TextInput style={estilo.input} maxLength={25} value={setor} onChangeText={setSetor} />
 
-      </ContainerInput>
+      </View>
 
-      <ContainerInput>
+      <View style={estilo.container_inputs}>
 
-        <TituloInput>
+        <Text style={estilo.titulo_inputs}>
           Whatsapp
-        </TituloInput>
+        </Text>
 
-        <Input
-          keyboardType='phone-pad'
-          maxLength={25}
-          value={whatsapp}
-          onChangeText={setWhatsapp} />
+        <TextInput style={estilo.input} keyboardType='phone-pad' maxLength={25} value={whatsapp} onChangeText={setWhatsapp} />
 
-      </ContainerInput>
+      </View>
 
-      <ContainerInputInline>
+      <View style={estilo.container_horarios}>
 
         <Pressable onPress={() => setOpenEntrada(true)} >
-          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000' }}>Entrada</Text>
+          <Text style={estilo.horario}>Entrada</Text>
           <Text>{entrada.toLocaleTimeString().substring(0, 5)}</Text>
         </Pressable>
 
         <Pressable onPress={() => setOpenAlmoco(true)} >
-          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000' }}>Almoço</Text>
+          <Text style={estilo.horario}>Almoço</Text>
           <Text>{almoco.toLocaleTimeString().substring(0, 5)}</Text>
         </Pressable>
 
         <Pressable onPress={() => setOpenRetorno(true)} >
-          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000' }}>Retorno</Text>
+          <Text style={estilo.horario}>Retorno</Text>
           <Text>{retorno.toLocaleTimeString().substring(0, 5)}</Text>
         </Pressable>
 
         <Pressable onPress={() => setOpenSaida(true)} >
-          <Text style={{ fontFamily: 'Roboto-Regular', color: '#000' }}>Saida</Text>
+          <Text style={estilo.horario}>Saida</Text>
           <Text>{saida.toLocaleTimeString().substring(0, 5)}</Text>
         </Pressable>
 
@@ -260,19 +250,18 @@ export default function CadastrarContato() {
         />
 
 
-      </ContainerInputInline>
+      </View>
 
-      <BotaoPrincipal
-        onPress={CriarVendedores}
-        style={{ marginVertical: 50 }}
-        background={app.tema}
+      <Pressable
+        onPress={CriaContato}
+        style={[estilo.btn_cadastrar, { backgroundColor: app.tema }]}
       >
 
-        <TextBtn cor={'#fff'}>
-          Cadastrar Vendedor
-        </TextBtn>
+        <Text style={estilo.txt_botao}>
+          Cadastrar Contato
+        </Text>
 
-      </BotaoPrincipal>
+      </Pressable>
 
     </View>
   );

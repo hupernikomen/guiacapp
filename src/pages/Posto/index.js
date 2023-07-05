@@ -9,7 +9,7 @@ import { useTheme } from '@react-navigation/native';
 
 export default function Posto() {
 
-  const {app} = useTheme()
+  const { app } = useTheme()
   const [tabela, setTabela] = useState([])
   const [posto, setPosto] = useState([])
 
@@ -63,6 +63,7 @@ export default function Posto() {
           flex: 1,
           textAlign: 'right'
         }}
+          keyboardType='numeric'
           value={tabela.Gasolina}
           onChangeText={e => setTabela({ ...tabela, Gasolina: e })}
         />
@@ -91,6 +92,7 @@ export default function Posto() {
           flex: 1,
           textAlign: 'right'
         }}
+          keyboardType='numeric'
           value={tabela.Etanol}
           onChangeText={e => setTabela({ ...tabela, Etanol: e })}
         />
@@ -120,6 +122,7 @@ export default function Posto() {
           flex: 1,
           textAlign: 'right'
         }}
+          keyboardType='numeric'
           value={tabela.Diesel}
           onChangeText={e => setTabela({ ...tabela, Diesel: e })}
         />
@@ -138,7 +141,7 @@ export default function Posto() {
         backgroundColor: app.tema
       }}>
         <Text style={{
-          color:'#fff'
+          color: '#fff'
         }}>Atualizar</Text>
       </Pressable>
     </View>

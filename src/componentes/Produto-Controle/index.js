@@ -16,10 +16,11 @@ const WIDTH = Dimensions.get('window').width
 
 function ProdutoControle({ item }) {
 
-  const { preco, oferta, campanha, imagens, nome } = item
+  const { preco, oferta, imagens, nome, campanha } = item
   const navigation = useNavigation();
 
 
+  // Transforma texto em formato Capitalize ( Primeira Maiuscula e restante minuscula )
   function Capitalize(nome) {
     novonome = nome.trim().toLowerCase().split(" ")
 
@@ -30,6 +31,8 @@ function ProdutoControle({ item }) {
     return novonome.join(" ")
   }
 
+  
+  // Recebe valor e converte no formato de moeda
   const formateValor = (valor) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -38,18 +41,23 @@ function ProdutoControle({ item }) {
   }
 
   return (
-
     <Pressable
       style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 6 }]}
       onPress={() => navigation.navigate("EditaProduto", item)}>
-      {!!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />}
+
       <View>
+
         <Image
           style={estilo.foto}
           source={{ uri: imagens[0]?.location }} />
 
-        {campanha?.nome &&
-          <Text style={[estilo.tag_campanha, { backgroundColor: campanha?.tema }]}>{campanha?.nome}</Text>
+        {campanha?.nome ?
+          <View style={{ flexDirection: 'row', position: "absolute", bottom: 0 }}>
+            <Text style={[estilo.tag_campanha, { backgroundColor: campanha?.tema }]}>{campanha?.nome}</Text>
+            <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />
+          </View> :
+          !!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />
+
         }
       </View>
 

@@ -7,7 +7,6 @@ import {
   Pressable
 } from "react-native";
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Feather from 'react-native-vector-icons/Feather'
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Off from "../Off";
@@ -23,8 +22,10 @@ function ProdutoFeed({ item }) {
   const { name } = useRoute()
 
 
+
+  // Transforma texto em formato Capitalize ( Primeira Maiuscula e restante minuscula )
   function Capitalize(nome) {
-    let novonome = nome.trim().toLowerCase().split(" ")
+    novonome = nome.trim().toLowerCase().split(" ")
 
     for (let i = 0; i < novonome.length; i++) {
       novonome[i] = novonome[i][0]?.toUpperCase() + novonome[i].substr(1);
@@ -33,6 +34,8 @@ function ProdutoFeed({ item }) {
     return novonome.join(" ")
   }
 
+
+  // Recebe valor e converte no formato de moeda
   const formateValor = (valor) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -42,55 +45,49 @@ function ProdutoFeed({ item }) {
 
   return (
 
-    <Pressable
-      style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 6 }]}
+    <Pressable style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 6 }]}
       onPress={() => navigation.navigate("DetalheProduto", { id })}>
 
       <View>
 
-        <Image
-          style={estilo.foto}
-          source={{ uri: imagens[0]?.location }} />
+        <Image style={estilo.foto} source={{ uri: imagens[0]?.location }} />
 
         {campanha?.nome ?
           <View style={{ flexDirection: 'row', position: "absolute", bottom: 0 }}>
+
             <Text style={[estilo.tag_campanha, { backgroundColor: campanha?.tema }]}>{campanha?.nome}</Text>
             <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />
+
           </View> :
+
           !!oferta && <Off valor={(((preco - oferta) / preco) * 100).toFixed(0)} />
 
         }
       </View>
 
-      <View
-        style={estilo.informacoes_do_produto}>
-        <Text
-          style={estilo.nome_produto}
-          numberOfLines={1}
-          ellipsizeMode={"tail"}>
+      <View style={estilo.informacoes_do_produto}>
+        <Text style={estilo.nome_produto} numberOfLines={1} ellipsizeMode={"tail"}>
           {Capitalize(nome)}
         </Text>
 
-        <Text
-          style={estilo.preco}>
+        <Text style={estilo.preco}>
           {formateValor(!!oferta ? oferta : preco)}
         </Text>
 
-        <View
-          style={estilo.container_loja}>
+        <View style={estilo.container_loja}>
+
           {name !== "Loja" &&
-            <Text
-              style={estilo.nome_loja}
-              numberOfLines={1} lineBreakMode="tail">{loja?.nome}</Text>}
+            <Text style={estilo.nome_loja} numberOfLines={1} lineBreakMode="tail">
+              {loja?.nome}
+            </Text>
+          }
+
           {loja?.delivery &&
-            <Feather
-              name='truck'
-              size={16}
-              color={'#333'} />}
+            <Feather name='truck' size={16} color={'#333'} />
+          }
+
         </View>
-
       </View>
-
     </Pressable>
   );
 }

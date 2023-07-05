@@ -1,43 +1,27 @@
 import { useContext } from 'react';
 import { Image, Linking, View, Text } from 'react-native';
+import estilo from './estilo';
 
 import { useNavigation } from '@react-navigation/native'
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
-
 
 import { LojaContext } from '../../contexts/lojaContext';
-import estilo from './estilo';
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 
 export default function DrawerCustom(props) {
 
-  const { autenticado, credenciais, signIn } = useContext(LojaContext)
-
+  const { autenticado } = useContext(LojaContext)
   const navigation = useNavigation()
 
   return (
     <DrawerContentScrollView {...props}>
+      <View style={estilo.container_topo_guia}>
 
-      <View
-        style={{ height: 100, padding: 15 }}>
+        <Image
+          source={require('../../../assets/imagem/ic_launcher_round.png')} />
 
-        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-
-          <Image
-            source={require('../../../assets/imagem/ic_launcher_round.png')} />
-          <View>
-            <Text style={{
-              color: '#fff',
-              marginLeft: 15,
-              fontSize: 18,
-              fontFamily: 'Roboto-Bold'
-            }}>Guia Comercial</Text>
-            <Text style={{
-              color: '#fff',
-              marginLeft: 15,
-              fontSize: 14,
-              fontFamily: 'Roboto-Light'
-            }}>Grande Dirceu</Text>
-          </View>
+        <View>
+          <Text style={estilo.nome_guia}>Guia Comercial</Text>
+          <Text style={estilo.sub_nome}>Grande Dirceu</Text>
         </View>
 
       </View>
@@ -73,16 +57,13 @@ export default function DrawerCustom(props) {
 
       </View>
 
-
-
-
-
       <DrawerItem
         labelStyle={estilo.fonte}
         label="Fale com o Guia"
         inactiveTintColor='#fff'
-        onPress={() => Linking.openURL(`https://api.whatsapp.com/send?phone=${86994773403}`)}
+        onPress={() => Linking.openURL(`https://wa.me/${558694773403}`)}
       />
+
     </DrawerContentScrollView>
   );
 }

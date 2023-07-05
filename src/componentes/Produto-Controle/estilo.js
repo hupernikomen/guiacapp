@@ -6,27 +6,27 @@ export default estilo = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 2,
     borderRadius: 6,
-    marginHorizontal: 2,
+
   },
-  foto: { 
+  foto: {
     aspectRatio:1,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6
   },
-  tag_campanha:{
-    position: 'absolute',
-    bottom: -1,
+  tag_campanha: {
+    opacity:.9,
     left:0,
     borderRadius: 2,
     paddingVertical: 4,
     paddingHorizontal: 4,
     color: '#fff',
-    fontSize: 11
+    fontSize: 11,
+    height:22
   },
   informacoes_do_produto: {
     paddingHorizontal: 8,
     paddingTop: 5,
-    paddingBottom: 8,
+    paddingBottom: 10,
   },
   nome_produto: {
     fontFamily: 'Roboto-Regular',

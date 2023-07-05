@@ -25,8 +25,8 @@ export default function HomeControle() {
     <>
       <FlatList
         data={loja?.produtos}
-        columnWrapperStyle={{ marginVertical: 2 }}
-        contentContainerStyle={{ padding: 2 }}
+        columnWrapperStyle={{ marginVertical: 2, gap: 4 }}
+        contentContainerStyle={{ padding: 4 }}
         renderItem={({ item }) => <ProdutoControle item={item} />}
         numColumns={2}
         keyExtractor={(item) => item.id}

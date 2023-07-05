@@ -12,6 +12,7 @@ import api from '../../servicos/api';
 
 export default function Feed() {
 
+  const [load, setLoad] = useState(false)
   const { app } = useTheme()
   const navigation = useNavigation()
 
@@ -54,13 +55,17 @@ export default function Feed() {
   }
 
   async function BuscaPosto() {
+
+    setLoad(true)
+
     await api.get('/postos')
       .then((response) => {
         setPostos(shuffle(response.data))
-
+        setLoad(false)
       })
       .catch((error) => {
         console.log("Erro Postos Feed", error)
+        setLoad(false)
       })
   }
 
@@ -85,27 +90,30 @@ export default function Feed() {
 
         <Animated.View entering={FadeInRight.duration(800)} style={{
           minWidth: 150,
+          height: 80,
+          justifyContent: 'space-between',
           backgroundColor: '#fff',
           paddingVertical: 10,
           paddingHorizontal: 10,
           borderRadius: 6
         }}>
+          <View>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
 
-            <Text style={{ fontFamily: 'Roboto-Regular', color: '#000', fontSize: 13 }}>{data.nome}</Text>
-            <Image source={{ uri: data.avatar?.location }} style={{
-              width: 18, aspectRatio: 1
-            }} />
+              <Text style={{ fontFamily: 'Roboto-Regular', color: '#000', fontSize: 13 }}>{data.nome}</Text>
+              <Image source={{ uri: data.avatar?.location }} style={{
+                width: 18, aspectRatio: 1
+              }} />
+            </View>
+            <Text style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>R$ {preco}</Text>
           </View>
-          <Text style={{ fontFamily: 'Roboto-Bold', color: '#000', fontSize: 18 }}>R$ {preco}</Text>
 
-          <Text style={{
-            fontSize: 12,
+          <View style={{
             alignSelf: 'flex-end',
-            fontFamily: 'Roboto-Light',
-            color: '#000'
-          }}>Ver Mapa</Text>
+          }}>
+            <Feather name='map' />
+          </View>
         </Animated.View>
 
       </Pressable>
@@ -190,25 +198,26 @@ export default function Feed() {
         <View style={{
           flexDirection: 'row',
           alignSelf: 'flex-end',
-          marginRight:10,
-          marginVertical:10,
-          gap:10
+          marginRight: 10,
+          marginVertical: 10,
+          gap: 5
         }}>
 
           {combustiveis.map((item, index) => {
             return (
 
-              <Pressable key={index} onPress={() => SelecaoCombustivel(index)} style={{
+              !load && <Pressable key={index} onPress={() => SelecaoCombustivel(index)} style={{
                 backgroundColor: selecaoCombustivel == index ? item.cor : 'transparent',
                 flexDirection: 'row',
                 borderRadius: 8,
                 paddingHorizontal: 10,
-                paddingVertical: 3,
-                
-                
+                paddingVertical: 4,
+
+
               }}><Text style={{
-                color:selecaoCombustivel == index ?'#fff' : '#222',
+                color: selecaoCombustivel == index ? '#fff' : '#222',
                 fontSize: 12,
+                fontFamily: 'Roboto-Regular'
               }}>{item.tipo}</Text>
               </Pressable>
             )
