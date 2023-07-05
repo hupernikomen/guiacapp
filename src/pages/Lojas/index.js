@@ -119,7 +119,7 @@ export default function Lojas() {
     <FlatList
       data={busca ? lojas : listaLojas}
       renderItem={({ item }) => <RenderItem item={item} />}
-      contentContainerStyle={{ paddingHorizontal: 10, gap: 5 }}
+      contentContainerStyle={{ padding: 5, gap:5 }}
       refreshControl={
         <RefreshControl
           refreshing={carregando}

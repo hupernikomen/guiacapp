@@ -47,12 +47,12 @@ export default function TabBarFeed({ state, descriptors, navigation, options }) 
                 backgroundColor: isFocused ? app.tema : '#fff',
                 padding: 5,
                 borderRadius: 99,
-                padding: 16,
+                padding: 14,
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
 
-                <Feather name={options.tabBarIcon} size={18} color={isFocused ? '#fff' : '#000'} />
+                <Feather name={options.tabBarIcon} size={app.icone} color={isFocused ? '#fff' : '#000'} />
                 
               </Animated.View>
             </Pressable>

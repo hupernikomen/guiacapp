@@ -72,7 +72,7 @@ export default function Produtos() {
           width: 58
         }}
           onPress={() => navigation.openDrawer()}>
-          <Feather name='menu' size={24} color={app.texto} />
+          <Feather name='menu' size={app.icone} color={app.texto} />
         </Pressable>
 
         <Text style={{
@@ -91,7 +91,7 @@ export default function Produtos() {
             width: 58
           }}
           onPress={() => navigation.navigate("Search")}>
-          <Feather name='search' size={24} color={app.texto} />
+          <Feather name='search' size={app.icone} color={app.texto} />
         </Pressable>
 
       </View>

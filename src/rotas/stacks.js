@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Pressable } from 'react-native';
 
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Feather from 'react-native-vector-icons/Feather'
 
 import DetalheProduto from '../pages/Detalhes/produto';
@@ -81,7 +80,7 @@ export default function RotasStack() {
               <Pressable
                 style={{ padding: 10, marginLeft: -10, marginRight: 10 }}
                 onPress={() => navigation.openDrawer()}>
-                <Material name='menu' size={24} color={app.texto} />
+                <Feather name='menu' size={app.icone} color={app.texto} />
               </Pressable>
 
             )
@@ -91,7 +90,7 @@ export default function RotasStack() {
               <Pressable
                 lado={'center'}
                 onPress={signOut}>
-                <Feather name='log-out' size={22} color={app.texto} />
+                <Feather name='log-out' size={app.icone} color={app.texto} />
               </Pressable>
             )
           },
@@ -149,7 +148,7 @@ export default function RotasStack() {
                 lado={'center'}
                 style={{ marginRight: 25 }}
                 onPress={() => navigation.openDrawer()}>
-                <Material name='menu' size={22} color={'#fff'} />
+                <Feather name='menu' size={app.icone} color={'#fff'} />
               </Pressable>
             )
           },
@@ -158,7 +157,7 @@ export default function RotasStack() {
               <Pressable
                 lado={'center'}
                 onPress={signOut}>
-                <Feather name='log-out' size={22} color={'#fff'} />
+                <Feather name='log-out' size={app.icone} color={'#fff'} />
               </Pressable>
             )
           },
@@ -310,7 +309,7 @@ export default function RotasStack() {
           headerLeft: () => {
             return (
               <Pressable style={{ marginRight: 25 }} onPress={() => navigation.openDrawer()}>
-                <Material name='menu' size={22} color={'#fff'} />
+                <Feather name='menu' size={app.icone} color={'#fff'} />
               </Pressable>
             )
           },
@@ -321,13 +320,13 @@ export default function RotasStack() {
                 gap: 25
               }}>
                 <Pressable onPress={() => navigation.navigate("CadastrarDados")}>
-                  <Feather name='edit' size={20} color={'#fff'} />
+                  <Feather name='edit' size={app.icone} color={'#fff'} />
                 </Pressable>
                 <Pressable onPress={() => navigation.navigate("VendedoresControle")}>
-                  <Feather name='message-circle' size={20} color={'#fff'} />
+                  <Feather name='message-circle' size={app.icone} color={'#fff'} />
                 </Pressable>
                 <Pressable onPress={signOut}>
-                  <Feather name='log-out' size={20} color={'#fff'} />
+                  <Feather name='log-out' size={app.icone} color={'#fff'} />
                 </Pressable>
               </View>
             )

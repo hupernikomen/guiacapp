@@ -98,8 +98,8 @@ export default function Search() {
 
   return (
     <FlatList
-      columnWrapperStyle={{ marginVertical: 2 }}
-      contentContainerStyle={{padding:2}}
+      columnWrapperStyle={{ marginVertical: 2, gap: 4, paddingHorizontal: 4 }}
+      contentContainerStyle={{ paddingBottom: 75 }}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={<ListaVazia />}
       data={produtos}

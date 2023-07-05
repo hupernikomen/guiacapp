@@ -101,8 +101,8 @@ export default function Loja() {
 
       <FlatList
         showsVerticalScrollIndicator={false}
-        columnWrapperStyle={{ marginVertical: 2 }}
-        contentContainerStyle={{ padding: 2 }}
+        columnWrapperStyle={{ marginVertical: 2, gap: 4, paddingHorizontal: 4 }}
+        contentContainerStyle={{ paddingBottom: 75 }}
         data={loja?.produtos}
         renderItem={({ item }) => <Produto item={item} />}
         numColumns={2}
