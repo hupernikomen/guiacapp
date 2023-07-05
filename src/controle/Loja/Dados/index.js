@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, Switch, ScrollView, Pressable, Image, ActivityIndicator } from 'react-native';
 import { LojaContext } from "../../../contexts/lojaContext"
 
@@ -18,12 +18,12 @@ export default function CadastrarDados() {
   const selecaoEntrega = e => SetLoja({ ...loja, delivery: e });
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     BuscaLoja()
 
   }, [])
 
-
+  console.log("RENDER DADOS");
 
   const options = {
     options: {

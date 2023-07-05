@@ -153,7 +153,7 @@ export default function Feed() {
           fontFamily: 'Roboto-Medium',
           marginLeft: 10,
           color: '#fff',
-          fontSize: 22
+          fontSize: 20
         }}>Guia Comercial</Text>
 
 

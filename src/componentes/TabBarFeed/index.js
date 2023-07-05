@@ -5,11 +5,11 @@ import { useTheme } from '@react-navigation/native'
 import Feather from 'react-native-vector-icons/Feather'
 import estilo from './estilo';
 
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
 
 // TabBar Personalizada para a tela PRINCIPAL do app 
 
-export default function TabBarFeed({ state, descriptors, navigation }) {
+export default function TabBarFeed({ state, descriptors, navigation, options }) {
 
   const { app } = useTheme()
   return (
@@ -19,7 +19,7 @@ export default function TabBarFeed({ state, descriptors, navigation }) {
 
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key]
-
+          
           const isFocused = state.index == index
 
           const onPress = () => {
@@ -43,7 +43,7 @@ export default function TabBarFeed({ state, descriptors, navigation }) {
               onPress={onPress}
 
             >
-              <Animated.View entering={FadeIn.duration(800).delay(300)} style={{
+              <Animated.View entering={SlideInDown.duration(800)} style={{
                 backgroundColor: isFocused ? app.tema : '#fff',
                 padding: 5,
                 borderRadius: 99,

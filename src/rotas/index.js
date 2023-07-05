@@ -20,19 +20,15 @@ export default function Rotas() {
       initialRouteName='HomeScreen'
       screenOptions={{
         headerShown: false,
-        unmountOnBlur: true,
 
         headerStyle: {
-          backgroundColor: app.tema
         },
         headerTintColor: '#fff',
 
         drawerStyle: {
-          width: WIDTH - 65,
+          width: WIDTH - 80,
           backgroundColor: app.tema,
         },
-        drawerActiveTintColor: '#fff',
-        drawerInactiveTintColor: '#fff',
         drawerType: 'back',
 
       }}

@@ -16,9 +16,10 @@ export default function Tabs() {
 
   return (
     <Tab.Navigator
-      initialRouteName='Feed'
+      initialRouteName='Produtos'
       tabBar={props => <TabBarFeed {...props} />}
       screenOptions={{
+        unmountOnBlur:true,
         headerShown:false,
         tabBarActiveTintColor: '#fff',
         tabBarStyle: {
@@ -30,16 +31,11 @@ export default function Tabs() {
         tabBarInactiveTintColor: '#ffffff80',
       }}>
 
-      <Tab.Screen name="Feed" component={Feed} options={{
-         tabBarIcon:'umbrella'
-      }} />
-      <Tab.Screen name="Produtos" component={Produtos} options={{ 
-        tabBarIcon:'tag'
-        }} />
+      <Tab.Screen name="Feed" component={Feed} options={{ tabBarIcon:'umbrella' }} />
 
-      <Tab.Screen name="Servicos" component={Servicos} options={{ 
-        tabBarIcon:'user'
-        }} />
+      <Tab.Screen name="Produtos" component={Produtos} options={{  tabBarIcon:'tag' }} />
+
+      <Tab.Screen name="Servicos" component={Servicos} options={{  tabBarIcon:'user' }} />
 
     </Tab.Navigator>
   );

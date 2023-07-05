@@ -23,6 +23,7 @@ import CategoriasFavoritas from '../pages/CategoriasFavoritas';
 import Signin from '../pages/Signin'
 import Redireciona from '../pages/Redireciona';
 
+import HomeControle from '../controle/Loja/Home';
 import Profissional from '../controle/Profissional';
 import CadastrarProduto from '../controle/Loja/Produto';
 import EditaProduto from '../controle/Loja/EditaProduto';
@@ -32,7 +33,6 @@ import VendedoresControle from '../controle/Loja/Contato';
 
 import { LojaContext } from '../contexts/lojaContext';
 
-import Tabs_Controle from './tabs-controle';
 import Tabs_App from './tabs-app'
 
 
@@ -51,6 +51,7 @@ export default function RotasStack() {
     <Stack.Navigator
       initialRouteName={'Feed'}
       screenOptions={{
+        
         headerTintColor: "#fff",
         orientation: 'portrait'
 
@@ -69,9 +70,6 @@ export default function RotasStack() {
           },
         }}
       />
-
-
-
 
 
       <Stack.Screen
@@ -277,12 +275,12 @@ export default function RotasStack() {
             backgroundColor: app.tema,
           },
         }}
-        />
+      />
 
-        {/* ----------------------------------------------- */}
+      {/* ----------------------------------------------- */}
 
 
-        <Stack.Screen
+      <Stack.Screen
         name='Redireciona'
         component={Redireciona}
         options={{
@@ -291,7 +289,7 @@ export default function RotasStack() {
             backgroundColor: app.tema,
           },
         }}
-        />
+      />
 
 
       {/* ----------------------------------------------- */}
@@ -303,30 +301,35 @@ export default function RotasStack() {
 
       <Stack.Screen
         name={'HomeControle'}
-        component={Tabs_Controle}
+        component={HomeControle}
         options={{
           title: loja?.nome || "",
-          headerTintColor: admin.texto,
           headerStyle: {
-            backgroundColor: admin.tema,
+            backgroundColor: app.tema,
           },
           headerLeft: () => {
             return (
-              <Pressable
-                lado={'center'}
-                style={{ marginRight: 25 }}
-                onPress={() => navigation.openDrawer()}>
-                <Material name='menu' size={22} color={admin.texto} />
+              <Pressable style={{ marginRight: 25 }} onPress={() => navigation.openDrawer()}>
+                <Material name='menu' size={22} color={'#fff'} />
               </Pressable>
             )
           },
           headerRight: () => {
             return (
-              <Pressable
-                lado={'center'}
-                onPress={signOut}>
-                <Feather name='log-out' size={22} color={admin.texto} />
-              </Pressable>
+              <View style={{
+                flexDirection:'row',
+                gap: 25
+              }}>
+                <Pressable onPress={() => navigation.navigate("CadastrarDados")}>
+                  <Feather name='edit' size={20} color={'#fff'} />
+                </Pressable>
+                <Pressable onPress={() => navigation.navigate("VendedoresControle")}>
+                  <Feather name='message-circle' size={20} color={'#fff'} />
+                </Pressable>
+                <Pressable onPress={signOut}>
+                  <Feather name='log-out' size={20} color={'#fff'} />
+                </Pressable>
+              </View>
             )
           },
 

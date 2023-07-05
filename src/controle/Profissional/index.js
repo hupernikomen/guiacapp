@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, ActivityIndicator, Pressable,Image } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator, Pressable, Image } from 'react-native';
 
 import { useTheme } from '@react-navigation/native';
 
@@ -12,6 +12,7 @@ import {
   BotaoPrincipal,
   TextBtn,
 } from "../../styles";
+
 import api from '../../servicos/api';
 
 export default function Profissional() {
@@ -73,7 +74,7 @@ export default function Profissional() {
 
     formData.append('avatar', {
       uri: result.uri,
-      type: 'image/jpeg', // ou 'image/png', dependendo do tipo de imagem
+      type: 'image/jpeg',
       name: result.name
     });
 
@@ -118,94 +119,94 @@ export default function Profissional() {
   return (
     <View style={estilo.tela}>
 
-<View style={{marginTop: 15}}>
-  
+      <View style={{ marginTop: 15 }}>
 
-      <Pressable
-        style={{
-          flexDirection: 'row',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: 25
-        }}
-        onPress={Avatar}>
-        <Text
+
+        <Pressable
           style={{
-            fontFamily: 'Roboto-Regular',
-            fontSize: 13,
-            backgroundColor: '#fff',
-            borderRadius: 10,
-            marginLeft: 15,
-            color: '#000',
-            paddingHorizontal: 10,
-          }}>Foto</Text>
+            flexDirection: 'row',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 25
+          }}
+          onPress={Avatar}>
+          <Text
+            style={{
+              fontFamily: 'Roboto-Regular',
+              fontSize: 13,
+              backgroundColor: '#fff',
+              borderRadius: 10,
+              marginLeft: 15,
+              color: '#000',
+              paddingHorizontal: 10,
+            }}>Foto</Text>
 
-        <View style={{
-          width: 60,
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          aspectRatio: 1,
-          borderRadius: 60 / 2,
-          borderColor: '#fff',
-          borderWidth: 4
-        }}>
+          <View style={{
+            width: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            aspectRatio: 1,
+            borderRadius: 60 / 2,
+            borderColor: '#fff',
+            borderWidth: 4
+          }}>
 
-          {profissional?.avatar && <Image
+            {profissional?.avatar && <Image
               source={{ uri: profissional?.avatar?.location }}
               style={{ width: 52, aspectRatio: 1 }}
             />}
+          </View>
+        </Pressable>
+
+
+        <View style={estilo.container_input}>
+
+          <Text style={estilo.titulo_input}>
+            Nome
+          </Text>
+
+          <TextInput
+            style={estilo.inputs}
+            value={profissional.nome}
+            onChangeText={e => setProfissional({ ...profissional, nome: e })}
+          />
         </View>
-      </Pressable>
+        <View style={estilo.container_input}>
 
+          <Text style={estilo.titulo_input}>
+            Sobre
+          </Text>
 
-      <View style={estilo.container_input}>
+          <TextInput
+            style={estilo.inputs}
+            multiline
+            value={profissional.bio}
+            onChangeText={e => setProfissional({ ...profissional, bio: e })}
+          />
+        </View>
+        <View style={estilo.container_input}>
 
-        <Text style={estilo.titulo_input}>
-          Nome
-        </Text>
+          <Text style={estilo.titulo_input}>
+            Endereço
+          </Text>
 
-        <TextInput
-          style={estilo.inputs}
-          value={profissional.nome}
-          onChangeText={e => setProfissional({ ...profissional, nome: e })}
-        />
+          <TextInput
+            style={estilo.inputs}
+            value={profissional.endereco}
+            onChangeText={e => setProfissional({ ...profissional, endereco: e })}
+          />
+        </View>
+
+        <BotaoPrincipal
+          activeOpacity={1}
+          background={admin.botao}
+          onPress={Atualizar}>
+          {load ? <ActivityIndicator color={'#fff'} /> : <TextBtn cor={'#fff'}>Atualizar</TextBtn>}
+        </BotaoPrincipal>
+
       </View>
-      <View style={estilo.container_input}>
-
-        <Text style={estilo.titulo_input}>
-          Sobre
-        </Text>
-
-        <TextInput
-          style={estilo.inputs}
-          multiline
-          value={profissional.bio}
-          onChangeText={e => setProfissional({ ...profissional, bio: e })}
-        />
-      </View>
-      <View style={estilo.container_input}>
-
-        <Text style={estilo.titulo_input}>
-          Endereço
-        </Text>
-
-        <TextInput
-          style={estilo.inputs}
-          value={profissional.endereco}
-          onChangeText={e => setProfissional({ ...profissional, endereco: e })}
-        />
-      </View>
-
-      <BotaoPrincipal
-        activeOpacity={1}
-        background={admin.botao}
-        onPress={Atualizar}>
-        {load ? <ActivityIndicator color={'#fff'} /> : <TextBtn cor={'#fff'}>Atualizar</TextBtn>}
-      </BotaoPrincipal>
-
-</View>
 
     </View >
   );

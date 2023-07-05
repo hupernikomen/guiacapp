@@ -11,7 +11,7 @@ import {
   FlatList,
 } from 'react-native'
 import Animated, { SlideInUp } from 'react-native-reanimated';
-import { Input, TituloInput, ContainerInput, BtnIcone, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela } from "../../../styles";
+import { Input, TituloInput, ContainerInput, SimulaInput, CurrencyInputs, BotaoPrincipal, TextBtn, Tela } from "../../../styles";
 
 import estilo from "./estilo";
 
@@ -54,6 +54,8 @@ export default function CadastrarProduto() {
     CarregaCategorias()
   }, [])
 
+
+
   function SizesFormatted(tams) {
     const sizesDefault = arrTamanhos;
     const array = tams;
@@ -67,6 +69,8 @@ export default function CadastrarProduto() {
     return array;
   };
 
+
+
   const Fotografar = () => {
     ImagePicker.openCamera({
       width: 700, height: 900, cropping: true,
@@ -76,9 +80,11 @@ export default function CadastrarProduto() {
     }).then(image => {
       setPreview(img => [...img, image])
 
-    }).catch(() => {
-      return
-    });
+    })
+      .catch((error) => {
+        console.log("Erro ao fotografar um produto", error.response);
+        return
+      });
   }
 
   const BuscarImagem = () => {
@@ -92,7 +98,7 @@ export default function CadastrarProduto() {
       setPreview(img => [...img, image])
 
     }).catch((error) => {
-      console.log(error);
+      console.log("Erro ao buscar uma imagem de produto", error.response);
       return
     });
   }
@@ -102,6 +108,9 @@ export default function CadastrarProduto() {
     await api.get('/categorias')
       .then(({ data }) => {
         setListaCategorias(data)
+      })
+      .catch((error) => {
+        console.log("Erro ao carregar Categorias en CriaProduto", error.response);
       })
   }
 
@@ -137,7 +146,7 @@ export default function CadastrarProduto() {
           700,
           900,
           'JPEG',
-          100,  //verificar a qualidade da foto e mudar se necessario
+          100,
         );
         formData.append('files', {
           uri: result.uri,
@@ -146,8 +155,8 @@ export default function CadastrarProduto() {
         });
       }
       catch (error) {
-        console.log("Erro ao postar foto", error.response);
-      } // Caso nao tenha sido possivel redimensionar imagem
+        console.log("Erro ao redimensionar foto", error.response);
+      }
 
     }
 
@@ -167,6 +176,7 @@ export default function CadastrarProduto() {
 
       .catch((error) => {
         Toast('Ops.. Algo, deu errado!')
+        console.log("Erro ao postar foto", error.response);
         setLoad(false)
       })
   }
@@ -256,23 +266,21 @@ export default function CadastrarProduto() {
 
 
         <ContainerInput>
+
           <TituloInput>
             Cod. Produto
           </TituloInput>
-          <Input
-            maxLength={10}
-            onChangeText={setCod}
-            value={cod} />
+
+          <Input maxLength={10} onChangeText={setCod} value={cod} />
         </ContainerInput>
 
         <ContainerInput>
+
           <TituloInput>
             Produto
           </TituloInput>
-          <Input
-            maxLength={100}
-            onChangeText={setNome}
-            value={nome} />
+
+          <Input maxLength={100} onChangeText={setNome} value={nome} />
         </ContainerInput>
 
         <ContainerInput>
@@ -280,20 +288,18 @@ export default function CadastrarProduto() {
           <TituloInput>
             Preço
           </TituloInput>
-          <CurrencyInputs
-            value={preco}
-            onChangeValue={setPreco} />
+
+          <CurrencyInputs value={preco} onChangeValue={setPreco} />
 
         </ContainerInput>
 
         <ContainerInput>
+
           <TituloInput>
             Descrição
           </TituloInput>
-          <Input
-            onChangeText={setDescricao}
-            multiline
-            value={descricao} />
+
+          <Input onChangeText={setDescricao} multiline value={descricao} />
 
         </ContainerInput>
 
@@ -337,44 +343,44 @@ export default function CadastrarProduto() {
 
 
         <Modal
-        transparent={true}
-        visible={modalVisible}
-        statusBarTranslucent
-        onRequestClose={() => setModalVisible(false)}
+          transparent={true}
+          visible={modalVisible}
+          statusBarTranslucent
+          onRequestClose={() => setModalVisible(false)}
 
-      >
+        >
 
-        <Animated.View
-          entering={SlideInUp}
-          style={{ flex: 1 }}>
+          <Animated.View
+            entering={SlideInUp}
+            style={{ flex: 1 }}>
 
-          <Pressable
-            activeOpacity={1}
-            onPress={() => setModalVisible(false)}
-            style={{ flex: 1, backgroundColor: '#00000070' }}>
+            <Pressable
+              activeOpacity={1}
+              onPress={() => setModalVisible(false)}
+              style={{ flex: 1, backgroundColor: '#00000070' }}>
 
-          </Pressable>
+            </Pressable>
 
-          <View style={{ backgroundColor: "#fff" }}>
+            <View style={{ backgroundColor: "#fff" }}>
 
-            <FlatList
-              contentContainerStyle={{ padding: 20, alignItems: 'center' }}
-              numColumns={6}
-              data={arrTamanhos}
-              renderItem={({ item }) => <BotoesTamanhos data={item} />}
+              <FlatList
+                contentContainerStyle={{ padding: 20, alignItems: 'center' }}
+                numColumns={6}
+                data={arrTamanhos}
+                renderItem={({ item }) => <BotoesTamanhos data={item} />}
 
-            />
+              />
 
-          </View>
+            </View>
 
 
-        </Animated.View>
-      </Modal>
-       
+          </Animated.View>
+        </Modal>
 
         <SimulaInput>
 
           <TituloInput>Tamanhos Disponiveis</TituloInput>
+
           <FlatList
             ItemSeparatorComponent={<Text style={{ marginHorizontal: 4 }}>-</Text>}
             horizontal
@@ -382,18 +388,13 @@ export default function CadastrarProduto() {
             renderItem={({ item }) => <Text style={{ fontSize: 16, fontFamily: 'Roboto-Regular', color: "#000" }} >{item}</Text>}
           />
 
-          <Pressable
-            onPress={() => setModalVisible(true)}>
+          <Pressable onPress={() => setModalVisible(true)}>
             <Text style={{ color: '#000', fontFamily: 'Roboto-Medium' }}>{tamanho.length > 0 ? 'Editar' : 'Inserir'}</Text>
           </Pressable>
         </SimulaInput>
 
 
-        <BotaoPrincipal
-          disabled={load}
-          background={admin.botao}
-          activeOpacity={1}
-          onPress={Postar}>
+        <BotaoPrincipal disabled={load} background={admin.botao} activeOpacity={1} onPress={Postar}>
           {load ? <ActivityIndicator color='#fff' /> :
             <TextBtn
               cor={'#fff'}>

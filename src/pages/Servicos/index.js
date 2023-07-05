@@ -95,7 +95,7 @@ export default function Servicos() {
           fontFamily: 'Roboto-Medium',
           marginLeft: 10,
           color: '#fff',
-          fontSize: 22
+          fontSize: 20
         }}>Serviços</Text>
 
 

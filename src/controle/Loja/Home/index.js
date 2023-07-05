@@ -1,25 +1,34 @@
-import { useContext, useLayoutEffect } from 'react';
+import { useContext, useEffect, useState,useCallback, useMemo, useRef } from 'react';
 import { FlatList, Pressable } from 'react-native';
 
 import { useNavigation, useTheme } from '@react-navigation/native'
 
 import { LojaContext } from '../../../contexts/lojaContext';
+
 import ProdutoControle from '../../../componentes/Produto-Controle';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import Animated, { SlideInDown } from 'react-native-reanimated';
 
+import Load from '../../../componentes/Load'
+
 export default function HomeControle() {
 
-  const { loja, BuscaLoja, load } = useContext(LojaContext)
   const navigation = useNavigation()
   const { admin } = useTheme()
 
+  const { BuscaLoja, load, loja } = useContext(LojaContext)
 
-  useLayoutEffect(() => {
-    BuscaLoja()
+
+  useEffect(() => {
+    BuscaLoja() 
 
   }, [])
 
+
+  if (load) {
+    return <Load />
+  }
+  
 
   return (
     <>

@@ -79,7 +79,7 @@ export default function Produtos() {
           fontFamily: 'Roboto-Medium',
           marginLeft: 10,
           color: '#fff',
-          fontSize: 22
+          fontSize: 20
         }}>Produtos</Text>
 
 
