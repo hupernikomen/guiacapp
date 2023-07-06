@@ -5,6 +5,8 @@ import { useTheme } from '@react-navigation/native'
 import Feather from 'react-native-vector-icons/Feather'
 import estilo from './estilo';
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
 
 // TabBar Personalizada para a tela PRINCIPAL do app 
@@ -19,6 +21,7 @@ export default function TabBarFeed({ state, descriptors, navigation, options }) 
 
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key]
+
           
           const isFocused = state.index == index
 
@@ -33,6 +36,21 @@ export default function TabBarFeed({ state, descriptors, navigation, options }) 
               navigation.navigate({ name: route.name, merge: true });
             }
           };
+
+          const onLongPress = async () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate({ name: route.name, merge: true });
+            }
+            await AsyncStorage.setItem('@telaInicial', route.name)
+          };
+
+
           return (
             <Pressable
               key={index}
@@ -41,7 +59,7 @@ export default function TabBarFeed({ state, descriptors, navigation, options }) 
               accessibilityLabel={options.tabBarAccessibilityLabel}
               testID={options.tabBarTestID}
               onPress={onPress}
-
+              onLongPress={onLongPress}
             >
               <Animated.View entering={SlideInDown.duration(800)} style={{
                 backgroundColor: isFocused ? app.tema : '#fff',

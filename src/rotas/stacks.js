@@ -18,6 +18,7 @@ import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
 import ErroNaoEncontrado from '../pages/ErroNaoEncontrado'
 import CategoriasFavoritas from '../pages/CategoriasFavoritas';
+import Feed from '../pages/Feed';
 
 import Signin from '../pages/Signin'
 import Redireciona from '../pages/Redireciona';
@@ -111,6 +112,7 @@ export default function RotasStack() {
       />
 
 
+
       <Stack.Screen
         name='Profissionais'
         component={Profissionais}
@@ -121,6 +123,8 @@ export default function RotasStack() {
           },
         }}
       />
+
+
 
       <Stack.Screen
         name='Lojas'

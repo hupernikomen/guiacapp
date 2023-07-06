@@ -42,7 +42,7 @@ export default function Feed() {
   }, [])
 
   async function BuscaCombustivel() {
-    await AsyncStorage.getItem('@combustivelGuiaComercial')
+    await AsyncStorage.getItem('@combustivelgc')
       .then((response) => {
 
         if (response == null) {
@@ -124,7 +124,7 @@ export default function Feed() {
 
     setSelecaoCombustivel(index)
 
-    await AsyncStorage.setItem('@combustivelGuiaComercial', JSON.stringify(index))
+    await AsyncStorage.setItem('@combustivelgc', JSON.stringify(index))
   }
 
 
@@ -154,7 +154,7 @@ export default function Feed() {
           marginLeft: 10,
           color: '#fff',
           fontSize: 20
-        }}>Guia Comercial</Text>
+        }}>Feed</Text>
 
 
         <Pressable
@@ -216,7 +216,7 @@ export default function Feed() {
 
               }}><Text style={{
                 color: selecaoCombustivel == index ? '#fff' : '#222',
-                fontSize: 12,
+                fontSize: 13,
                 fontFamily: 'Roboto-Regular'
               }}>{item.tipo}</Text>
               </Pressable>

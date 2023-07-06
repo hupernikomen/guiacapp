@@ -221,16 +221,16 @@ export default function Detalhes() {
                 color: '#000',
                 fontSize: 18,
                 marginTop: 30,
-                marginLeft: 10,
-                marginBottom: 15
+                marginLeft: 20,
+                marginVertical: 15
               }}>Outros itens desta categoria</Text>
             }
 
           </View>
         }
         showsVerticalScrollIndicator={false}
-        columnWrapperStyle={{ marginVertical: 2 }}
-        contentContainerStyle={{ padding: 2 }}
+        contentContainerStyle={{ paddingHorizontal: 2 }}
+        columnWrapperStyle={{ marginVertical: 2, gap: 4, paddingHorizontal: 4 }}
         data={produtosPorCategoria}
         renderItem={({ item }) => <ProdutoFeed item={item} />}
         numColumns={2}

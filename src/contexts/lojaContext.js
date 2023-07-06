@@ -64,7 +64,7 @@ export function LojaProvider({ children }) {
       .catch((error) => console.log("Erro ao atualizar loja", error.response))
   }
 
-  
+
 
   async function BuscaLoja() {
 
@@ -111,7 +111,7 @@ export function LojaProvider({ children }) {
       })
 
     } else {
-      AsyncStorage.clear()
+      AsyncStorage.removeItem('@authGuiaComercial')
     }
 
   }
@@ -160,7 +160,7 @@ export function LojaProvider({ children }) {
 
   async function signOut() {
 
-    await AsyncStorage.clear()
+    await AsyncStorage.removeItem('@authGuiaComercial')
       .then(() => {
         setCredenciais({
           id: '',

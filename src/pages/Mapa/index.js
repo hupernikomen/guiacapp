@@ -1,12 +1,12 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import {
   View,
   Dimensions,
   PermissionsAndroid,
-  ToastAndroid
 } from 'react-native';
 
 const { width, height } = Dimensions.get("window")
+
 
 import api from '../../servicos/api';
 
@@ -30,6 +30,11 @@ export default function Mapa() {
     longitude: -42.7516067,
     ...delta
   })
+
+
+  useEffect(() => {
+    permissaoLocalizacao()
+  }, [])
 
 
   useFocusEffect(
@@ -70,17 +75,6 @@ export default function Mapa() {
 
 
 
-  const Toast = (mensagem) => {
-    ToastAndroid.showWithGravityAndOffset(
-      mensagem,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50,
-    );
-  };
-
-
 
   async function CarregaLocUsuario() {
 
@@ -105,6 +99,7 @@ export default function Mapa() {
     <View>
 
       <MapView
+        showsUserLocation={true}
         maxZoomLevel={20}
         loadingEnabled={true}
         minZoomLevel={12}
