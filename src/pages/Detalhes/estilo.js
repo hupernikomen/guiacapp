@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export default estilo = StyleSheet.create({
+  slide_imagens: {
+    aspectRatio: 7 / 9,
+    backgroundColor: '#f1f1f1'
+  },
   pagina: {
     flex: 1,
     backgroundColor: '#fff'
@@ -16,7 +20,7 @@ export default estilo = StyleSheet.create({
   nome_loja: {
     fontFamily: 'Roboto-Medium',
     fontSize: 16,
-    color:'#000'
+    color: '#000'
   },
   info_botao_loja: {
     fontSize: 12,
@@ -27,15 +31,15 @@ export default estilo = StyleSheet.create({
     fontFamily: 'Roboto-Bold',
     fontSize: 26,
     marginTop: -5,
-    color:'#000'
+    color: '#000'
   },
-  avista:{
-    fontSize:16,
-    fontFamily:'Roboto-Regular'
+  avista: {
+    fontSize: 16,
+    fontFamily: 'Roboto-Regular'
   },
-  preco_antigo:{
-    marginLeft:2,
-    textDecorationLine:'line-through',
+  preco_antigo: {
+    marginLeft: 2,
+    textDecorationLine: 'line-through',
   },
 
   //Serviço

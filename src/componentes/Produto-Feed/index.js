@@ -16,6 +16,7 @@ const { width: WIDTH } = Dimensions.get('window')
 import estilo from './estilo';
 
 function ProdutoFeed({ item }) {
+
   const { preco, oferta, campanha, imagens, nome, loja, id } = item
 
   const navigation = useNavigation();
