@@ -10,17 +10,22 @@ import { ProdutoProvider } from './src/contexts/produtoContext'
 const Theme = {
   dark: true,
   ...DefaultTheme,
+  colors: {
+
+    background: '#f5f5f5',
+    primeira: '#a82424',
+    segunda: '#0071bc',
+    terceira: '#f77c1e'
+  },
   app: {
     icone: 21,
     tema: '#a82424',
     texto: '#fff',
-    background: '#f5f5f5',
   },
   admin: {
     tema: '#fff',
     texto: "#000",
     botao: '#a82424',
-    background: '#f5f5f5',
   },
 };
 

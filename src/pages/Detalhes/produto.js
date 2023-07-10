@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { View, Text, Dimensions, ScrollView, Image, Pressable, FlatList } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute,CommonActions } from '@react-navigation/native';
 
 import Pinchable from 'react-native-pinchable';
 
@@ -45,14 +45,19 @@ export default function Detalhes() {
 
 
   async function PegaItem() {
+
     await api.get(`/detalhe/produto?produtoID=${route.params?.id}`)
       .then((response) => {
         if (response.data == null) {
           navigation.navigate("ErroNaoEncontrado")
           return
         }
+
         setProduto(response.data);
         BuscaProdutoPorCategoria(response.data)
+      })
+      .catch((error) => {
+        console.log('Error Busca Produto Detalhes', error);
       })
 
   }
@@ -61,15 +66,18 @@ export default function Detalhes() {
 
   async function BuscaProdutoPorCategoria(item) {
     setLoad(true)
+
     await api.get(`/produtos/categoria?categoriaID=${item?.categoria?.id}`)
       .then((response) => {
         let arr = response.data?.filter((item) => item.id != route.params?.id)
         setProdutosPorCategoria(arr)
         setLoad(false)
+
       })
       .catch((error) => {
         console.log('Error BuscaProdutoPorCategoria', error);
         setLoad(false)
+
       })
   }
 
@@ -126,7 +134,19 @@ export default function Detalhes() {
 
         <Pressable
           style={estilo.container_loja}
-          onPress={() => navigation.navigate("Loja", produto?.loja?.usuarioID)}>
+          onPress={() => navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [
+                { name: 'Produtos' },
+                {
+                  name: 'Loja',
+                  params: produto?.loja?.usuarioID,
+                },
+              ],
+            })
+          )}>
+            
 
           {
             produto?.loja?.avatar &&
@@ -147,6 +167,7 @@ export default function Detalhes() {
 
         <View style={{
           paddingHorizontal: 20,
+          marginVertical: 10,
         }}>
 
 
@@ -162,7 +183,8 @@ export default function Detalhes() {
               fontSize: 22,
               fontFamily: 'Roboto-Bold',
               textTransform: 'uppercase',
-              color: '#000'
+              color: '#000',
+              
             }}>{produto.nome?.trim()}</Animated.Text>
 
           <Animated.View
@@ -208,7 +230,7 @@ export default function Detalhes() {
 
           <View style={{ marginVertical: 15 }}>
 
-            <Text style={{ fontFamily: 'Roboto-Medium', color: '#000' }}>Descrição do Produto</Text>
+            <Text style={{ fontFamily: 'Roboto-Medium', color: '#000', fontSize:18, marginBottom:5 }}>Descrição do Produto</Text>
             <Text style={{ fontFamily: 'Roboto-Light', color: '#000' }}>
               {produto.descricao}
             </Text>

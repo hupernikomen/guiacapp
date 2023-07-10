@@ -18,7 +18,8 @@ import Anuncie from '../pages/Anuncie';
 import ErroConexao from '../pages/ErroConexao';
 import ErroNaoEncontrado from '../pages/ErroNaoEncontrado'
 import CategoriasFavoritas from '../pages/CategoriasFavoritas';
-import Feed from '../pages/Feed';
+import Feed from '../pages/Postos';
+import Produtos from '../pages/Produtos';
 
 import Signin from '../pages/Signin'
 import Redireciona from '../pages/Redireciona';
@@ -49,9 +50,10 @@ export default function RotasStack() {
 
   return (
     <Stack.Navigator
-      initialRouteName={'Feed'}
+      initialRouteName={'Produtos'}
       screenOptions={{
         
+        headerShown:false,
         headerTintColor: "#fff",
         orientation: 'portrait'
 
@@ -60,8 +62,10 @@ export default function RotasStack() {
 
       <Stack.Screen
         name='HomeFeed'
-        component={Tabs_App}
+        component={Feed}
+        
         options={{
+          
           title: 'Guia Comercial',
           headerShown: false,
           headerTintColor: app.texto,
@@ -113,6 +117,16 @@ export default function RotasStack() {
 
 
 
+      <Stack.Screen
+        name='Produtos'
+        component={Produtos}
+        options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: app.tema,
+          },
+        }}
+      />
       <Stack.Screen
         name='Profissionais'
         component={Profissionais}
@@ -173,6 +187,7 @@ export default function RotasStack() {
         component={CategoriasFavoritas}
         options={{
           title: 'Categorias Favoritas',
+          headerShown:true,
           headerStyle: {
             backgroundColor: app.tema,
           },
@@ -201,6 +216,7 @@ export default function RotasStack() {
         name='Loja'
         component={Loja}
         options={{
+          headerShown:false,
           title: '',
           headerStyle: {
             backgroundColor: app.tema,
@@ -244,6 +260,7 @@ export default function RotasStack() {
         name='Search'
         component={Search}
         options={{
+          headerShown:true,
           title: "",
           headerStyle: {
             backgroundColor: app.tema,
@@ -306,34 +323,9 @@ export default function RotasStack() {
         name={'HomeControle'}
         component={HomeControle}
         options={{
-          title: loja?.nome || "",
+          title: "",
           headerStyle: {
             backgroundColor: app.tema,
-          },
-          headerLeft: () => {
-            return (
-              <Pressable style={{ marginRight: 25 }} onPress={() => navigation.openDrawer()}>
-                <Feather name='menu' size={app.icone} color={'#fff'} />
-              </Pressable>
-            )
-          },
-          headerRight: () => {
-            return (
-              <View style={{
-                flexDirection:'row',
-                gap: 25
-              }}>
-                <Pressable onPress={() => navigation.navigate("CadastrarDados")}>
-                  <Feather name='edit' size={app.icone} color={'#fff'} />
-                </Pressable>
-                <Pressable onPress={() => navigation.navigate("VendedoresControle")}>
-                  <Feather name='message-circle' size={app.icone} color={'#fff'} />
-                </Pressable>
-                <Pressable onPress={signOut}>
-                  <Feather name='log-out' size={app.icone} color={'#fff'} />
-                </Pressable>
-              </View>
-            )
           },
 
         }}
@@ -357,6 +349,7 @@ export default function RotasStack() {
         component={VendedoresControle}
         options={{
           title: "Contato",
+          headerShown:true,
           headerShadowVisible: false,
           headerStyle: {
             backgroundColor: admin.tema,
@@ -369,6 +362,7 @@ export default function RotasStack() {
         name='CadastrarVendedor'
         component={CadastrarContato}
         options={{
+          headerShown:true,
           title: "Cadastrar Vendedor",
           headerShadowVisible: false,
           headerStyle: {
@@ -398,6 +392,7 @@ export default function RotasStack() {
         name="CadastrarDados"
         component={CadastrarDados}
         options={{
+          headerShown:true,
           title: "Dados",
           headerStyle: {
             backgroundColor: admin.tema,

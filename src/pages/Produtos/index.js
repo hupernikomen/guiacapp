@@ -6,9 +6,10 @@ import Produto from '../../componentes/Produto-Feed';
 import { useNavigation, useTheme } from '@react-navigation/native'
 import api from '../../servicos/api';
 import Load from '../../componentes/Load';
+import Postos from '../Postos';
 
 import Feather from 'react-native-vector-icons/Feather'
-
+import Banners from '../../componentes/Carroussel-Banners'
 
 export default function Produtos() {
   const navigation = useNavigation()
@@ -23,6 +24,7 @@ export default function Produtos() {
     BuscaProdutos()
 
   }, [])
+
 
 
   if (load) {
@@ -55,64 +57,131 @@ export default function Produtos() {
 
   function Header() {
     return (
-      <View style={{
-        height: 58,
-        backgroundColor: app.tema,
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        alignItems: 'center',
-        elevation: 5
-      }}>
-
-
-        <Pressable style={{
+      <>
+        <View style={{
+          flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'center',
-          height: 58,
-          width: 58
-        }}
-          onPress={() => navigation.openDrawer()}>
-          <Feather name='menu' size={app.icone} color={app.texto} />
-        </Pressable>
-
-        <Text style={{
-          fontFamily: 'Roboto-Medium',
-          marginLeft: 10,
-          color: '#fff',
-          fontSize: 20
-        }}>Produtos</Text>
-
-
-        <Pressable
-          style={{
+          justifyContent: 'space-between',
+          height: 60,
+          backgroundColor: app.tema,
+        }}>
+          <View style={{
+            flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
-            height: 58,
-            width: 58
-          }}
-          onPress={() => navigation.navigate("Search")}>
-          <Feather name='search' size={app.icone} color={app.texto} />
-        </Pressable>
+            flex: 1
+          }}>
 
-      </View>
+            <Pressable onPress={() => navigation.openDrawer()} style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingLeft: 10,
+              width: 45,
+              aspectRatio: 1,
+            }}>
+
+              <Feather name='menu' size={24} color={'#fff'} />
+
+            </Pressable>
+
+            <View style={{
+              flex: 1,
+              marginRight: 5,
+              marginLeft: 10
+            }}>
+
+              <Text numberOfLines={1} lineBreakMode='tail' style={{
+                fontFamily: 'Roboto-Medium',
+                color: '#fff',
+                fontSize: 20,
+              }}>
+                Guia Comercial
+              </Text>
+
+            </View>
+
+          </View>
+          <View>
+            <View style={{ flexDirection: 'row', gap: 2 }}>
+
+              <Pressable onPress={() => navigation.navigate("CategoriasFavoritas")} style={{
+                width: 45,
+                aspectRatio: 1,
+                alignItems: 'center',
+                justifyContent: "center"
+              }}>
+
+              </Pressable>
+              <Pressable onPress={() => navigation.navigate("Search")} style={{
+                width: 45,
+                aspectRatio: 1,
+                alignItems: 'center',
+                justifyContent: "center"
+              }}>
+
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </>
+
+    )
+  }
+
+  function Topo() {
+    return (
+      <>
+        <Header />
+        <Banners />
+        <Postos />
+
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: 10,
+        }}>
+
+          <Text style={{
+            fontFamily: "Roboto-Bold",
+            fontSize: 20,
+            color: '#000',
+          }}>
+            Produtos
+          </Text>
+          <View style={{ flexDirection: 'row', gap: 5 }}>
+
+            <Pressable onPress={() => navigation.navigate("CategoriasFavoritas")} style={{
+              width: 40,
+              aspectRatio: 1,
+              alignItems: 'center',
+              justifyContent: "center"
+            }}>
+              <Feather name='filter' size={app.icone} color={'#000'} />
+            </Pressable>
+            <Pressable onPress={() => navigation.navigate("Search")} style={{
+              width: 40,
+              aspectRatio: 1,
+              alignItems: 'center',
+              justifyContent: "center"
+            }}>
+              <Feather name='search' size={app.icone} color={'#000'} />
+            </Pressable>
+          </View>
+        </View>
+      </>
     )
   }
 
 
   return (
     <FlatList
-
-      ListHeaderComponent={<Header />}
+    
+      ListHeaderComponent={<Topo />}
       showsVerticalScrollIndicator={false}
-      columnWrapperStyle={{ marginVertical: 2, gap: 4, paddingHorizontal: 4 }}
-      contentContainerStyle={{ paddingBottom: 75 }}
+      columnWrapperStyle={{ marginBottom: 4, gap: 4, paddingHorizontal: 4 }}
       data={produtos}
       renderItem={({ item }) => <Produto item={item} />}
       numColumns={2}
-
-      stickyHeaderHiddenOnScroll={true}
-      stickyHeaderIndices={[0]}
-
       refreshControl={
         <RefreshControl
           refreshing={load}
@@ -122,7 +191,6 @@ export default function Produtos() {
           }}
         />
       }
-
     />
   )
 }

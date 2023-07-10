@@ -8,7 +8,7 @@ import {
 } from "react-native";
 
 import Feather from 'react-native-vector-icons/Feather'
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute,CommonActions  } from "@react-navigation/native";
 import Off from "../Off";
 
 const { width: WIDTH } = Dimensions.get('window')
@@ -47,7 +47,13 @@ function ProdutoFeed({ item }) {
   return (
 
     <Pressable style={[estilo.container_produto, { maxWidth: (WIDTH / 2) - 6 }]}
-      onPress={() => navigation.navigate("DetalheProduto", { id })}>
+      // onPress={() => navigation.navigate("DetalheProduto", { id })}>
+      onPress={() => navigation.dispatch(
+        CommonActions.navigate({
+          name: 'DetalheProduto',
+          params: {id},
+        })
+      )}>
 
       <View>
 

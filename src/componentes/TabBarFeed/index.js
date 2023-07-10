@@ -2,14 +2,12 @@ import { View, Pressable } from 'react-native';
 
 import { useTheme } from '@react-navigation/native'
 
-import Feather from 'react-native-vector-icons/Feather'
+import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import estilo from './estilo';
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
-
-// TabBar Personalizada para a tela PRINCIPAL do app 
+import Animated, { SlideInDown } from 'react-native-reanimated';
 
 export default function TabBarFeed({ state, descriptors, navigation, options }) {
 
@@ -20,9 +18,8 @@ export default function TabBarFeed({ state, descriptors, navigation, options }) 
       <View style={estilo.conteudo}>
 
         {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key]
 
-          
+          const { options } = descriptors[route.key]
           const isFocused = state.index == index
 
           const onPress = () => {
@@ -65,13 +62,13 @@ export default function TabBarFeed({ state, descriptors, navigation, options }) 
                 backgroundColor: isFocused ? app.tema : '#fff',
                 padding: 5,
                 borderRadius: 99,
-                padding: 14,
+                padding: 10,
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
 
-                <Feather name={options.tabBarIcon} size={app.icone} color={isFocused ? '#fff' : '#000'} />
-                
+                <Material name={ options.tabBarIcon} size={25} color={isFocused ? '#fff' : '#000'} />
+
               </Animated.View>
             </Pressable>
           )

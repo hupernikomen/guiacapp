@@ -45,16 +45,13 @@ export function LojaProvider({ children }) {
     setLoja(params)
   }
 
-
   async function Atualizar() {
-
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
     }
 
     setLoad(true)
-
     await api.put(`/loja?usuarioID=${credenciais.id}`, loja, { headers })
       .then(() => {
         Toast('Dados Atualizados')
@@ -67,14 +64,12 @@ export function LojaProvider({ children }) {
 
 
   async function BuscaLoja() {
-
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${credenciais.token}`
     }
 
     setLoad(true)
-
     await api.get(`/loja/logado?usuarioID=${credenciais.id}`, { headers })
       .then((response) => {
 
@@ -86,6 +81,7 @@ export function LojaProvider({ children }) {
         setLoja(response.data)
         setLoad(false)
       })
+      
       .catch((error) => {
         console.log("Erro ao buscar informações de loja/logada", error.response);
         setLoad(false)
@@ -169,7 +165,7 @@ export function LojaProvider({ children }) {
           conta:''
         })
 
-        navigation.reset({ index: 0, routes: [{ name: 'HomeFeed' }] })
+        navigation.reset({ index: 0, routes: [{ name: 'Produtos' }] })
         Toast(('Você foi deslogado'))
       })
   }

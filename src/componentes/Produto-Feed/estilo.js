@@ -4,7 +4,7 @@ export default estilo = StyleSheet.create({
   container_produto: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 2,
+    padding: 1,
     borderRadius: 6,
 
   },

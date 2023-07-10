@@ -19,11 +19,11 @@ export default estilo = StyleSheet.create({
   },
   nome_loja: {
     fontFamily: 'Roboto-Medium',
-    fontSize: 16,
+    fontSize: 18,
     color: '#000'
   },
   info_botao_loja: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: 'Roboto-Light',
     color: '#455A64'
   },

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text, FlatList, Pressable, Image } from 'react-native';
 
 import api from '../../servicos/api';
 
@@ -7,9 +7,8 @@ import Load from '../../componentes/Load';
 import Produto from '../../componentes/Produto-Feed';
 
 
-import Material from "react-native-vector-icons/MaterialCommunityIcons"
+import Feather from "react-native-vector-icons/Feather"
 import { useRoute, useNavigation, useTheme } from '@react-navigation/native';
-import Animated, { SlideInDown } from 'react-native-reanimated';
 
 export default function Loja() {
 
@@ -35,30 +34,7 @@ export default function Loja() {
   useEffect(() => {
     BuscaLoja()
 
-    
   }, [])
-
-  useEffect(() => {
-    navigation.setOptions({
-      title: loja?.nome,
-      headerRight: () => {
-        return (
-          <View style={{ flexDirection: 'row', gap: 20 }}>
-
-            <Pressable
-              onPress={() => navigation.navigate("Contato", loja?.usuario?.id)}>
-              <Material name='whatsapp' size={26} color='#fff' />
-            </Pressable>
-            {loja?.usuario?.mapa && <Pressable
-              onPress={() => navigation.navigate('Mapa', loja?.usuario?.id)}>
-              <Material name='google-maps' size={26} color={app.texto} />
-            </Pressable>}
-          </View>
-
-        )
-      }
-    })
-  },[loja])
 
 
   if (load) {
@@ -71,7 +47,6 @@ export default function Loja() {
       .then(({ data }) => {
         setLoja(data)
 
-
         setLoad(false)
       })
       .catch(() => {
@@ -80,33 +55,101 @@ export default function Loja() {
       })
   }
 
-  function Bio() {
+  function Header() {
     return (
       <View style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: 60,
         backgroundColor: app.tema,
-        padding: 15,
-        alignItems: "flex-start",
-        gap: 15,
       }}>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          flex:1
+        }}>
 
+          <Pressable onPress={() => navigation.goBack()} style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingLeft: 10
+          }}>
+
+            <Feather name='arrow-left' size={24} color={'#fff'} />
+
+
+            {
+              loja?.avatar && <Image source={{ uri: loja?.avatar?.location }} style={{
+                width: 40,
+                marginHorizontal: 10,
+                aspectRatio: 1,
+                borderRadius: 99
+              }} />
+            }
+
+          </Pressable>
+
+          <View style={{
+            flex:1,
+            marginRight:5
+          }}>
+
+
+            <Text numberOfLines={1} lineBreakMode='tail' style={{
+              fontFamily: 'Roboto-Medium',
+              color: '#fff',
+              fontSize: 18,
+            }}>
+              {loja.nome}
+            </Text>
+            <Text style={{
+              fontFamily: 'Roboto-Light',
+              color: '#fff',
+              fontSize: 11,
+            }}>
+              {loja?.produtos?.length} produto{loja?.produtos?.length > 1 ? 's' : ''}
+            </Text>
+          </View>
+
+        </View>
         <View>
-          <Text style={{ fontFamily: 'Roboto-Medium', color: '#fff', fontSize: 18 }}>Sobre nós</Text>
-          <Text style={{ fontFamily: 'Roboto-Light', color: '#fff' }}>{loja.bio}</Text>
+          <View style={{ flexDirection: 'row', gap: 2 }}>
+
+            <Pressable onPress={() => navigation.navigate("Contato", loja?.usuario?.id)} style={{
+              width: 45,
+              aspectRatio: 1,
+              alignItems: 'center',
+              justifyContent: "center"
+            }}>
+              <Feather name='message-circle' size={app.icone} color='#fff' />
+            </Pressable>
+            {loja?.usuario?.mapa && <Pressable onPress={() => navigation.navigate('Mapa', loja?.usuario?.id)} style={{
+              width: 45,
+              aspectRatio: 1,
+              alignItems: 'center',
+              justifyContent: "center"
+            }}>
+              <Feather name='map' size={app.icone} color={app.texto} />
+            </Pressable>}
+          </View>
         </View>
       </View>
     )
   }
 
   return (
+    <>
+      <Header />
 
       <FlatList
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{ marginVertical: 2, gap: 4, paddingHorizontal: 4 }}
-        contentContainerStyle={{ paddingBottom: 75 }}
         data={loja?.produtos}
         renderItem={({ item }) => <Produto item={item} />}
         numColumns={2}
       />
+    </>
 
   )
 }

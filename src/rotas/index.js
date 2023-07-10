@@ -20,7 +20,7 @@ export default function Rotas() {
       initialRouteName='HomeScreen'
       screenOptions={{
         headerShown: false,
-
+        unmountOnBlur: true,
         headerStyle: {
         },
         headerTintColor: '#fff',
